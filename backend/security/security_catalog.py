@@ -3,6 +3,7 @@ from typing import Dict, List, Any, Optional
 SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     "Authentication": {
         "name": "Authentication",
+        "risk_level": "critical",
         "category": "Identity and Access Management",
         "risk_if_missing": "Unauthorized access to applications and sensitive data.",
         "required_for": ["web_app", "api", "mobile_app", "admin_panel"],
@@ -10,6 +11,7 @@ SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     },
     "RBAC": {
         "name": "RBAC",
+        "risk_level": "critical",
         "category": "Identity and Access Management",
         "risk_if_missing": "Privilege escalation and unauthorized data modification.",
         "required_for": ["web_app", "api", "admin_panel"],
@@ -17,6 +19,7 @@ SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     },
     "API Gateway": {
         "name": "API Gateway",
+        "risk_level": "high",
         "category": "Network Security",
         "risk_if_missing": "Direct exposure of backend services, lack of throttling, and DoS attacks.",
         "required_for": ["microservices", "api", "serverless"],
@@ -24,6 +27,7 @@ SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     },
     "Audit Logging": {
         "name": "Audit Logging",
+        "risk_level": "high",
         "category": "Observability and Compliance",
         "risk_if_missing": "Inability to investigate security incidents and failure to meet compliance standards.",
         "required_for": ["core", "financial", "healthcare", "admin_panel"],
@@ -31,6 +35,7 @@ SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     },
     "Monitoring": {
         "name": "Monitoring",
+        "risk_level": "medium",
         "category": "Observability and Compliance",
         "risk_if_missing": "Delayed detection of service degradation, system outages, or ongoing attacks.",
         "required_for": ["infrastructure", "microservices", "web_app"],
@@ -38,6 +43,7 @@ SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     },
     "Secrets Manager": {
         "name": "Secrets Manager",
+        "risk_level": "critical",
         "category": "Data Security",
         "risk_if_missing": "Hardcoded credentials in code leading to complete application compromise.",
         "required_for": ["backend", "microservices", "cicd_pipeline"],
@@ -45,6 +51,7 @@ SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     },
     "SIEM": {
         "name": "SIEM",
+        "risk_level": "high",
         "category": "Security Operations",
         "risk_if_missing": "Failure to correlate cross-system security events and detect complex breaches.",
         "required_for": ["enterprise", "infrastructure"],
@@ -52,6 +59,7 @@ SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     },
     "WAF": {
         "name": "WAF",
+        "risk_level": "high",
         "category": "Network Security",
         "risk_if_missing": "Application layer attacks such as SQL Injection (SQLi), XSS, and CSRF.",
         "required_for": ["web_app", "api"],
@@ -59,6 +67,7 @@ SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     },
     "IDS": {
         "name": "IDS",
+        "risk_level": "medium",
         "category": "Network Security",
         "risk_if_missing": "Unnoticed malicious activities and policy violations silently traversing the network.",
         "required_for": ["infrastructure", "enterprise", "on_prem"],
@@ -66,6 +75,7 @@ SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     },
     "IPS": {
         "name": "IPS",
+        "risk_level": "high",
         "category": "Network Security",
         "risk_if_missing": "Inability to proactively drop malicious traffic before it reaches internal targets.",
         "required_for": ["infrastructure", "enterprise", "on_prem"],
@@ -73,6 +83,7 @@ SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     },
     "Encryption Service": {
         "name": "Encryption Service",
+        "risk_level": "critical",
         "category": "Data Security",
         "risk_if_missing": "Exposure of sensitive data at rest or in transit.",
         "required_for": ["database", "storage", "microservices", "financial"],
@@ -80,6 +91,7 @@ SECURITY_CATALOG: Dict[str, Dict[str, Any]] = {
     },
     "MFA": {
         "name": "MFA",
+        "risk_level": "critical",
         "category": "Identity and Access Management",
         "risk_if_missing": "Account compromise through credential stuffing, phishing, or password spraying.",
         "required_for": ["web_app", "mobile_app", "admin_panel"],
