@@ -44,12 +44,13 @@ def generate_recommendations(missing_components: List[Dict[str, Any]]) -> List[s
     return recommendations
 
 
-def generate_security_report(nodes: List[Dict[str, Any]], edges: List[Dict[str, Any]]) -> Dict[str, Any]:
+def generate_security_report(nodes: List[Dict[str, Any]], edges: List[Dict[str, Any]], validation_result: Dict[str, Any] = None) -> Dict[str, Any]:
     """
     Generate a full security report containing validation results,
     security score, risk level, and recommendations.
     """
-    validation_result = validate_architecture_security(nodes, edges)
+    if validation_result is None:
+        validation_result = validate_architecture_security(nodes, edges)
     
     security_score = calculate_security_score(validation_result)
     
