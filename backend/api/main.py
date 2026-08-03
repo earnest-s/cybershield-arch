@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
+import logging
 import os
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.core.inference import generate_architecture, preload_model, run_startup_smoke_test
+from backend.security.security_analyzer import analyze_architecture_security
+from backend.security.threat_detector import calculate_attack_surface, detect_threats
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -52,4 +57,33 @@ async def explain(payload: dict):
     except Exception as exc:  # noqa: BLE001
         raise HTTPException(status_code=500, detail=f"Model inference failed: {exc}") from exc
 
-    return {"architecture": architecture, "raw_model_output": raw_output}
+    # Security analysis integration
+    security_result = None
+    try:
+        nodes = architecture.get("nodes", [])
+        edges = architecture.get("edges", [])
+
+        # Run security analysis
+        analysis = analyze_architecture_security(nodes, edges)
+
+        # Run threat detection
+        threats_result = detect_threats(nodes, edges)
+
+        # Calculate attack surface
+        attack_surface = calculate_attack_surface(nodes, edges)
+
+        # Assemble security response object
+        security_result = {
+            "security_score": analysis["security_score"],
+            "risk_level": analysis["risk_level"],
+            "missing_components": analysis["missing_components"],
+            "recommendations": analysis["recommendations"],
+            "threats": threats_result["threats"],
+            "attack_surface": attack_surface,
+            "security_summary": analysis["security_summary"],
+        }
+    except Exception as exc:  # noqa: BLE001
+        logger.exception("Security analysis failed: %s", exc)
+        security_result = None
+
+    return {"architecture": architecture, "raw_model_output": raw_output, "security": security_result}
