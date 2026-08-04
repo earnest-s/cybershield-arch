@@ -1,0 +1,84 @@
+"""Shared helpers for the dataset pipeline scripts.
+
+Provides path conventions, logging setup, JSON I/O with resume support, and
+the vocabulary constants that keep the pipeline aligned with the application
+(backend/core/inference.py and backend/security/*).
+"""
+
+from __future__ import annotations
+
+import json
+import logging
+import sys
+from pathlib import Path
+from typing import Any
+
+ROOT = Path(__file__).resolve().parents[2]
+DATASET_DIR = ROOT / "dataset"
+LOGS_DIR = DATASET_DIR / "logs"
+
+ALLOWED_NODE_TYPES: set[str] = {"ui", "service", "database", "cache", "queue", "container"}
+ALLOWED_EDGE_LABELS: set[str] = {"HTTP", "DB Query", "Async", "Cache"}
+
+ID_PREFIX = "CSA"
+
+
+def setup_logger(name: str) -> logging.Logger:
+    """Create a logger writing to both logs/<name>.log and the console."""
+    logger = logging.getLogger(f"dataset.{name}")
+    if logger.handlers:
+        return logger
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter("%(asctime)s %(levelname)-7s %(name)s: %(message)s")
+
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    file_handler = logging.FileHandler(LOGS_DIR / f"{name}.log", encoding="utf-8")
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+
+    console = logging.StreamHandler(sys.stdout)
+    console.setFormatter(formatter)
+    logger.addHandler(console)
+    return logger
+
+
+def load_json(path: Path) -> Any:
+    with path.open("r", encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def write_json(path: Path, payload: Any, *, pretty: bool = True) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    indent = 2 if pretty else None
+    with path.open("w", encoding="utf-8") as fh:
+        json.dump(payload, fh, indent=indent, ensure_ascii=False)
+
+
+def sample_paths(directory: Path) -> list[Path]:
+    """Return sorted *.json sample paths in a directory."""
+    if not directory.exists():
+        return []
+    return sorted(directory.glob("*.json"))
+
+
+def existing_ids(directory: Path) -> set[str]:
+    """Ids already processed in a directory, for resume support."""
+    ids: set[str] = set()
+    for path in sample_paths(directory):
+        try:
+            payload = load_json(path)
+        except (json.JSONDecodeError, OSError):
+            continue
+        if isinstance(payload, dict) and isinstance(payload.get("id"), str):
+            ids.add(payload["id"])
+    return ids
+
+
+def canonical_architecture(architecture: dict[str, Any]) -> str:
+    """Order-invariant serialization used to detect duplicate architectures."""
+    nodes = sorted((node.get("id"), node.get("type")) for node in architecture.get("nodes", []))
+    edges = sorted(
+        (edge.get("source"), edge.get("target"), edge.get("label"))
+        for edge in architecture.get("edges", [])
+    )
+    return json.dumps({"nodes": nodes, "edges": edges}, sort_keys=True)
