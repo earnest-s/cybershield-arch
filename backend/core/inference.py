@@ -416,7 +416,7 @@ ONLY return JSON. No explanation.
         for attempt in range(1, attempt_count + 1):
             inputs = _tokenize_prompt(prompt_text)
             generation_kwargs = {
-                "max_new_tokens": 300,
+                "max_new_tokens": 512,
                 "do_sample": not deterministic,
                 "eos_token_id": _TOKENIZER.eos_token_id,
                 "pad_token_id": _TOKENIZER.eos_token_id,
@@ -459,3 +459,39 @@ ONLY return JSON. No explanation.
         return connected_result
 
     raise ValueError(f"Architecture generation failed after {attempts + 1} attempts: {last_error}. Last output: {last_result[:300]}")
+
+
+def generate_explanation(architecture: dict) -> str:
+    """Explain an architecture using the same prompt format as LoRA training
+    and evaluation, so a fine-tuned adapter at checkpoints/gemma_lora applies
+    consistently. Uses plain tokenization to match the training script."""
+    _load_model_once()
+    if not isinstance(architecture, dict):
+        raise ValueError("architecture must be a dict")
+
+    prompt = (
+        "You are an AI architecture assistant. Explain clearly using exactly these sections:\n"
+        "Components:\n"
+        "Data flow:\n"
+        "Architecture type:\n"
+        f"Architecture JSON: {json.dumps(architecture, ensure_ascii=True)}\n"
+        "Explanation:"
+    )
+
+    inputs = _TOKENIZER(prompt, return_tensors="pt").to(_MODEL_DEVICE)
+    with torch.inference_mode():
+        outputs = _MODEL.generate(
+            **inputs,
+            max_new_tokens=150,
+            do_sample=False,
+            eos_token_id=_TOKENIZER.eos_token_id,
+            pad_token_id=_TOKENIZER.eos_token_id,
+        )
+
+    input_len = inputs.input_ids.shape[1]
+    generated_ids = outputs[:, input_len:]
+    result = _TOKENIZER.decode(generated_ids[0], skip_special_tokens=True).strip()
+    for prefix in ("Explanation:", "Answer:"):
+        if result.startswith(prefix):
+            result = result[len(prefix):].strip()
+    return result
