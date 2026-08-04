@@ -1,6 +1,6 @@
 import { ChangeEvent, DragEvent, KeyboardEvent as ReactKeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
-import { FiMoon, FiMousePointer, FiPlusCircle, FiSun } from "react-icons/fi";
+import { FiAlertTriangle, FiMoon, FiMousePointer, FiPlusCircle, FiSun } from "react-icons/fi";
 import { FaAws } from "react-icons/fa";
 import { Box, Database, GitBranch, Monitor, Server, Zap } from "lucide-react";
 import ReactFlow, {
@@ -24,6 +24,7 @@ import ReactFlow, {
   useReactFlow,
 } from "reactflow";
 import "reactflow/dist/style.css";
+import { NodeThreat, SecurityData } from "../types";
 
 type ArchitectureNode = {
   id: string;
@@ -54,6 +55,7 @@ type DiagramViewProps = {
   command?: EditorCommand | null;
   theme: "light" | "dark";
   onToggleTheme: () => void;
+  security?: SecurityData | null;
 };
 
 type FlowNodeKind = "ui" | "service" | "database" | "cache" | "container" | "gateway" | "queue";
@@ -71,6 +73,7 @@ type NodeData = {
     borderColor?: string;
     textColor?: string;
   };
+  threats?: NodeThreat[];
   editing?: boolean;
   onStartEdit?: (nodeId: string) => void;
   onCommitLabel?: (nodeId: string, label: string) => void;
@@ -81,6 +84,7 @@ type EdgeData = {
   label?: string;
   edgeType: EdgeProtocol;
   lineStyle: EdgeLine;
+  threats?: NodeThreat[];
   style?: {
     stroke?: string;
     width?: number;
@@ -606,10 +610,61 @@ function TechnologyIcon({ label, kind, type, icon }: { label: string; kind: Flow
 }
 
 function nodeInlineStyle(data: NodeData): React.CSSProperties {
-  return {
+  const style: React.CSSProperties = {
     background: data.style?.background || "var(--node-default-bg)",
     borderColor: data.style?.borderColor || "var(--node-default-border)",
     color: data.style?.textColor || "var(--node-default-text)",
+  };
+  const severityClass = threatSeverityClass(data.threats);
+  if (severityClass) {
+    style.borderColor = `var(--threat-${severityClass}-border)`;
+    style.boxShadow = `var(--threat-${severityClass}-shadow)`;
+  }
+  return style;
+}
+
+function threatSeverityClass(threats: NodeThreat[] | undefined): "danger" | "warning" | "info" | null {
+  if (!threats || threats.length === 0) return null;
+  let worst: "danger" | "warning" | "info" = "info";
+  threats.forEach((threat) => {
+    const severity = threat.severity.toUpperCase();
+    if (severity === "CRITICAL") worst = "danger";
+    else if (severity === "HIGH" && worst !== "danger") worst = "warning";
+  });
+  return worst;
+}
+
+function applyNodeThreats(node: Node<NodeData>, nodeThreats: Record<string, NodeThreat[]>): Node<NodeData> {
+  const threats = nodeThreats[node.id] ?? [];
+  if (threats.length === 0) return node;
+  const severityClass = threatSeverityClass(threats);
+  return {
+    ...node,
+    data: {
+      ...node.data,
+      threats,
+    },
+    className: severityClass ? `threat-node threat-${severityClass}` : "threat-node",
+  };
+}
+
+function applyEdgeThreats(edge: Edge<EdgeData>, edgeThreats: Record<string, NodeThreat[]>): Edge<EdgeData> {
+  const key = `${edge.source}->${edge.target}`;
+  const threats = edgeThreats[key] ?? [];
+  if (threats.length === 0) return edge;
+  const severityClass = threatSeverityClass(threats);
+  const base = edge.className ?? "";
+  const threatClass = severityClass ? `threat-edge threat-${severityClass}` : "threat-edge";
+  const data: EdgeData = {
+    edgeType: edge.data?.edgeType ?? "request",
+    lineStyle: edge.data?.lineStyle ?? (edge.data?.edgeType === "Async" ? "async" : "sync"),
+    ...edge.data,
+    threats,
+  };
+  return {
+    ...edge,
+    className: base.includes("threat-edge") ? base : `${base} ${threatClass}`.trim(),
+    data,
   };
 }
 
@@ -622,8 +677,14 @@ function NodeShell({ id, data, selected }: NodeProps<NodeData>) {
     data.onCommitLabel?.(id, draft);
   };
 
+  const severityClass = threatSeverityClass(data.threats);
+
   return (
-    <div className={`arch-node ${selected ? "selected" : ""}`} style={nodeInlineStyle(data)} onDoubleClick={() => data.onStartEdit?.(id)}>
+    <div
+      className={`arch-node ${selected ? "selected" : ""} ${severityClass ? `has-threat threat-${severityClass}` : ""}`}
+      style={nodeInlineStyle(data)}
+      onDoubleClick={() => data.onStartEdit?.(id)}
+    >
       <Handle type="target" position={Position.Top} />
       <TechnologyIcon label={data.label} kind={data.kind} type={data.type} icon={data.icon} />
       {data.editing ? (
@@ -654,7 +715,18 @@ function NodeShell({ id, data, selected }: NodeProps<NodeData>) {
           autoFocus
         />
       ) : (
-        <div className="arch-node-label">{data.label}</div>
+        <>
+          <div className="arch-node-label">{data.label}</div>
+          {data.threats && data.threats.length > 0 ? (
+            <span
+              className={`threat-badge threat-badge-${severityClass ?? "info"}`}
+              title={data.threats.map((threat) => `${threat.threat} (${threat.severity})`).join("\n")}
+            >
+              <FiAlertTriangle size={11} />
+              {data.threats.length}
+            </span>
+          ) : null}
+        </>
       )}
       <Handle type="source" position={Position.Bottom} />
     </div>
@@ -716,7 +788,7 @@ const nodeTypes = {
   containerNode: ContainerNode,
 };
 
-function DiagramViewInner({ architecture, command, theme, onToggleTheme }: DiagramViewProps) {
+function DiagramViewInner({ architecture, command, theme, onToggleTheme, security }: DiagramViewProps) {
   const reactFlow = useReactFlow<NodeData, EdgeData>();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const importInputRef = useRef<HTMLInputElement | null>(null);
@@ -732,6 +804,9 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
   const futureRef = useRef<GraphState[]>([]);
   const graphRef = useRef<GraphState>(initialGraph);
   const hasInitializedRef = useRef(false);
+
+  const nodeThreats = useMemo(() => security?.node_threats ?? {}, [security]);
+  const edgeThreats = useMemo(() => security?.edge_threats ?? {}, [security]);
 
   useEffect(() => {
     graphRef.current = { nodes, edges };
@@ -791,10 +866,10 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
         onStartEdit,
         onCommitLabel,
         onCancelEdit
-      ),
-      edges: state.edges,
+      ).map((node) => applyNodeThreats(node, nodeThreats)),
+      edges: state.edges.map((edge) => applyEdgeThreats(edge, edgeThreats)),
     }),
-    [editingNodeId, onCancelEdit, onCommitLabel, onStartEdit]
+    [editingNodeId, edgeThreats, nodeThreats, onCancelEdit, onCommitLabel, onStartEdit]
   );
 
   const applyGraphChange = useCallback(
@@ -1523,10 +1598,10 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
   );
 }
 
-export default function DiagramView({ architecture, command, theme, onToggleTheme }: DiagramViewProps) {
+export default function DiagramView({ architecture, command, theme, onToggleTheme, security }: DiagramViewProps) {
   return (
     <ReactFlowProvider>
-      <DiagramViewInner architecture={architecture} command={command} theme={theme} onToggleTheme={onToggleTheme} />
+      <DiagramViewInner architecture={architecture} command={command} theme={theme} onToggleTheme={onToggleTheme} security={security} />
     </ReactFlowProvider>
   );
 }

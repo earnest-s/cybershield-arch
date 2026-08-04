@@ -79,6 +79,8 @@ async def explain(payload: dict):
             "missing_components": analysis["missing_components"],
             "recommendations": analysis["recommendations"],
             "threats": threats_result["threats"],
+            "node_threats": threats_result.get("node_threats", {}),
+            "edge_threats": threats_result.get("edge_threats", {}),
             "attack_surface": attack_surface,
             "security_summary": analysis["security_summary"],
         }

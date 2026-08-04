@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Set
 from backend.security.security_catalog import SECURITY_CATALOG
 from backend.security.security_validator import validate_architecture_security
 from backend.security.security_report import generate_security_report
@@ -29,6 +29,124 @@ THREAT_MAPPING: Dict[str, List[str]] = {
     "MFA": ["Credential Stuffing", "Unauthorized Access"],
     "SIEM": ["Lateral Movement"]
 }
+
+CONTROL_TO_NODE_TYPES: Dict[str, List[str]] = {
+    "WAF": ["api", "gateway", "service"],
+    "API Gateway": ["api", "gateway", "service"],
+    "Authentication": ["frontend", "ui", "client", "api", "service"],
+    "MFA": ["frontend", "ui", "client", "api", "service"],
+    "RBAC": ["api", "service", "admin"],
+    "Encryption Service": ["database", "db", "storage", "postgres", "mysql", "mongo"],
+    "Audit Logging": ["api", "service", "database", "db"],
+    "Secrets Manager": ["api", "service", "backend"],
+    "Monitoring": ["api", "service", "database", "db", "frontend", "ui"],
+    "IDS": ["api", "service", "gateway"],
+    "IPS": ["api", "service", "gateway"],
+    "SIEM": ["api", "service", "database", "db"],
+}
+
+THREAT_SEVERITY_COLORS: Dict[str, str] = {
+    "CRITICAL": "danger",
+    "HIGH": "warning",
+    "MEDIUM": "info",
+    "LOW": "success"
+}
+
+def get_affected_node_ids(nodes: List[Dict[str, Any]], missing_control: str) -> List[str]:
+    """Get node IDs affected by a specific missing security control."""
+    affected: List[str] = []
+    target_keywords = CONTROL_TO_NODE_TYPES.get(missing_control, [])
+    
+    if not target_keywords:
+        return affected
+    
+    for node in nodes:
+        node_id = node.get("id", "")
+        node_type = node.get("type", "")
+        try:
+            node_str = (node_id + " " + node_type).lower()
+        except:
+            node_str = str(node).lower()
+        
+        if any(kw in node_str for kw in target_keywords):
+            affected.append(node_id)
+    
+    return affected
+
+def get_affected_edge_ids(edges: List[Dict[str, Any]], missing_control: str, nodes: List[Dict[str, Any]]) -> List[str]:
+    """Get edge IDs affected by a specific missing security control."""
+    affected: List[str] = []
+    target_keywords = CONTROL_TO_NODE_TYPES.get(missing_control, [])
+    
+    if not target_keywords:
+        return affected
+    
+    node_types: Dict[str, str] = {}
+    for node in nodes:
+        node_id = node.get("id", "")
+        node_type = node.get("type", "")
+        node_types[node_id] = (node_id + " " + node_type).lower()
+    
+    for edge in edges:
+        source_id = edge.get("source", "")
+        target_id = edge.get("target", "")
+        
+        source_type = node_types.get(source_id, "")
+        target_type = node_types.get(target_id, "")
+        
+        if any(kw in source_type for kw in target_keywords) or any(kw in target_type for kw in target_keywords):
+            edge_id = edge.get("id", f"{source_id}->{target_id}")
+            affected.append(edge_id)
+    
+    return affected
+
+def build_threat_node_mapping(nodes: List[Dict[str, Any]], edges: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Build a mapping of threats to affected node/edge IDs for visualization.
+    Returns a dict with threats, node_threats, and edge_threats.
+    """
+    analysis = analyze_architecture_security(nodes, edges)
+    missing_controls = [comp.get("name") for comp in analysis.get("missing_components", [])]
+    
+    detected_threats: Dict[str, Dict[str, Any]] = {}
+    node_threats: Dict[str, List[Dict[str, Any]]] = {}
+    edge_threats: Dict[str, List[Dict[str, Any]]] = {}
+    
+    for comp in missing_controls:
+        threat_names = THREAT_MAPPING.get(comp, [])
+        affected_nodes = get_affected_node_ids(nodes, comp)
+        affected_edges = get_affected_edge_ids(edges, comp, nodes)
+        
+        for t_name in threat_names:
+            if t_name not in detected_threats and t_name in THREAT_KNOWLEDGE_BASE:
+                threat_info = THREAT_KNOWLEDGE_BASE[t_name].copy()
+                threat_info["missing_control"] = comp
+                threat_info["severity"] = THREAT_KNOWLEDGE_BASE[t_name]["severity"]
+                detected_threats[t_name] = threat_info
+                
+                for node_id in affected_nodes:
+                    if node_id not in node_threats:
+                        node_threats[node_id] = []
+                    node_threats[node_id].append({
+                        "threat": t_name,
+                        "severity": threat_info["severity"],
+                        "missing_control": comp
+                    })
+                
+                for edge_id in affected_edges:
+                    if edge_id not in edge_threats:
+                        edge_threats[edge_id] = []
+                    edge_threats[edge_id].append({
+                        "threat": t_name,
+                        "severity": threat_info["severity"],
+                        "missing_control": comp
+                    })
+    
+    return {
+        "threats": list(detected_threats.values()),
+        "node_threats": node_threats,
+        "edge_threats": edge_threats
+    }
 
 def calculate_attack_surface(nodes: List[Dict[str, Any]], edges: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
@@ -61,23 +179,12 @@ def calculate_attack_surface(nodes: List[Dict[str, Any]], edges: List[Dict[str, 
         "services": services
     }
 
-def detect_threats(nodes: List[Dict[str, Any]], edges: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, str]]]:
+def detect_threats(nodes: List[Dict[str, Any]], edges: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
     Infers threats from the missing security controls identified by architecture analysis.
+    Returns threats with node/edge mappings for visualization.
     """
-    analysis = analyze_architecture_security(nodes, edges)
-    missing_controls = [comp.get("name") for comp in analysis.get("missing_components", [])]
-    
-    detected_threats = {}
-    for comp in missing_controls:
-        threat_names = THREAT_MAPPING.get(comp, [])
-        for t_name in threat_names:
-            if t_name not in detected_threats and t_name in THREAT_KNOWLEDGE_BASE:
-                detected_threats[t_name] = THREAT_KNOWLEDGE_BASE[t_name]
-                
-    return {
-        "threats": list(detected_threats.values())
-    }
+    return build_threat_node_mapping(nodes, edges)
 
 def generate_threat_summary(threats: List[Dict[str, str]]) -> str:
     """

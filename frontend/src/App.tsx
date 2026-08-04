@@ -1,5 +1,6 @@
 import { ChangeEvent, DragEvent, useEffect, useRef, useState } from "react";
 import DiagramView from "./components/DiagramView";
+import { SecurityData } from "./types";
 
 const API_URL = "http://127.0.0.1:8000/explain";
 const STORAGE_ARCH = "architectai-last-architecture";
@@ -55,6 +56,7 @@ function App() {
     }
     return null;
   });
+  const [security, setSecurity] = useState<SecurityData | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [editorCommand, setEditorCommand] = useState<EditorCommand | null>(null);
@@ -91,6 +93,7 @@ function App() {
   const onGenerate = async () => {
     setError("");
     setArchitecture(null);
+    setSecurity(null);
 
     const text = input.trim();
     if (!text) {
@@ -125,7 +128,7 @@ function App() {
         throw new Error(backendMessage);
       }
 
-      const data = (await response.json()) as { architecture?: unknown; raw_model_output?: string };
+      const data = (await response.json()) as { architecture?: unknown; raw_model_output?: string; security?: unknown };
       console.log("API RESPONSE:", data);
 
       const arch = data.architecture as { nodes?: unknown; edges?: unknown } | undefined;
@@ -140,6 +143,11 @@ function App() {
         const nextArchitecture = data.architecture as Architecture;
         setArchitecture(nextArchitecture);
         localStorage.setItem(STORAGE_ARCH, JSON.stringify(nextArchitecture));
+        
+        if (data.security) {
+          setSecurity(data.security as SecurityData);
+        }
+        
         sendEditorCommand("reset");
       } else {
         throw new Error("Backend response did not include a valid architecture graph.");
@@ -200,6 +208,7 @@ function App() {
           command={editorCommand}
           theme={theme}
           onToggleTheme={() => setTheme((current) => (current === "light" ? "dark" : "light"))}
+          security={security}
         />
       </section>
     </main>
