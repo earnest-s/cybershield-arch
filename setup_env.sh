@@ -20,7 +20,7 @@ rm -rf "$ROOT_DIR/.cache"/*
 rm -rf "$HOME/.cache/huggingface"
 rm -rf "$HOME/.cache/torch"
 
-uv venv
+uv venv --python 3.12
 source .venv/bin/activate
 uv pip install -r requirements.txt --no-cache
 
