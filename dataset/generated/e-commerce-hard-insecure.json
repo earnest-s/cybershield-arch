@@ -1,0 +1,230 @@
+{
+  "id": "e-commerce-hard-insecure",
+  "domain": "e-commerce",
+  "difficulty": "hard",
+  "instruction": "You are a senior software architect.\n\nConvert the following system description into a CLEAN architecture graph.\n\nRULES:\n- Use only meaningful components\n- No duplicate edges\n- No redundant connections\n- Keep architecture minimal and logical\n\nFORMAT:\n{{\n    \"nodes\": [\n        {{\"id\": \"frontend\", \"type\": \"ui\"}},\n        {{\"id\": \"api\", \"type\": \"service\"}}\n    ],\n    \"edges\": [\n        {{\"source\": \"frontend\", \"target\": \"api\", \"label\": \"HTTP\"}}\n    ]\n}}\n\nCONSTRAINTS:\n- Each edge must be unique\n- Do NOT repeat the same connection\n- Use proper labels: HTTP, DB Query, Async, Cache\n- Node types limited to: ui, service, database, cache, queue, container\n- Max nodes: 8\n- Max edges: 10\n\nDescription:\nDesign the initial, unprotected version of the following system.\nDesign a e-commerce system where catalog-service, cart-service, orders work together, backed by product-db, order-db, with a user-facing entry point.\nDo not add any security appliances to this version.\n\nONLY return JSON. No explanation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "catalog_service",
+        "type": "service"
+      },
+      {
+        "id": "cart_service",
+        "type": "service"
+      },
+      {
+        "id": "orders",
+        "type": "service"
+      },
+      {
+        "id": "payments",
+        "type": "service"
+      },
+      {
+        "id": "shipping",
+        "type": "service"
+      },
+      {
+        "id": "product_db",
+        "type": "database"
+      },
+      {
+        "id": "order_db",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "catalog_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "catalog_service",
+        "target": "product_db",
+        "label": "DB Query"
+      },
+      {
+        "source": "catalog_service",
+        "target": "order_db",
+        "label": "DB Query"
+      },
+      {
+        "source": "web",
+        "target": "cart_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "cart_service",
+        "target": "product_db",
+        "label": "DB Query"
+      },
+      {
+        "source": "cart_service",
+        "target": "order_db",
+        "label": "DB Query"
+      },
+      {
+        "source": "web",
+        "target": "orders",
+        "label": "HTTP"
+      },
+      {
+        "source": "orders",
+        "target": "product_db",
+        "label": "DB Query"
+      },
+      {
+        "source": "orders",
+        "target": "order_db",
+        "label": "DB Query"
+      },
+      {
+        "source": "web",
+        "target": "payments",
+        "label": "HTTP"
+      },
+      {
+        "source": "payments",
+        "target": "product_db",
+        "label": "DB Query"
+      },
+      {
+        "source": "payments",
+        "target": "order_db",
+        "label": "DB Query"
+      },
+      {
+        "source": "web",
+        "target": "shipping",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipping",
+        "target": "product_db",
+        "label": "DB Query"
+      },
+      {
+        "source": "shipping",
+        "target": "order_db",
+        "label": "DB Query"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "threats": [
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging"
+      },
+      {
+        "name": "SQL Injection",
+        "severity": "CRITICAL",
+        "description": "Attackers can execute malicious SQL statements that control a web application's database server.",
+        "missing_control": "WAF"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "WAF"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway"
+      }
+    ],
+    "recommendations": [
+      "Implement role-based access control.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add Authentication service to protect user access.",
+      "Add monitoring and observability.",
+      "Enable centralized audit logging.",
+      "Deploy a Web Application Firewall.",
+      "Require Multi-Factor Authentication for user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0
+  },
+  "metadata": {
+    "source": "synthetic",
+    "generated_by": "template-v1",
+    "reviewed": false,
+    "version": "1.0"
+  }
+}

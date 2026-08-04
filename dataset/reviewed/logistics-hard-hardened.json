@@ -1,0 +1,115 @@
+{
+  "id": "logistics-hard-hardened",
+  "domain": "logistics",
+  "difficulty": "hard",
+  "instruction": "You are a senior software architect.\n\nConvert the following system description into a CLEAN architecture graph.\n\nRULES:\n- Use only meaningful components\n- No duplicate edges\n- No redundant connections\n- Keep architecture minimal and logical\n\nFORMAT:\n{{\n    \"nodes\": [\n        {{\"id\": \"frontend\", \"type\": \"ui\"}},\n        {{\"id\": \"api\", \"type\": \"service\"}}\n    ],\n    \"edges\": [\n        {{\"source\": \"frontend\", \"target\": \"api\", \"label\": \"HTTP\"}}\n    ]\n}}\n\nCONSTRAINTS:\n- Each edge must be unique\n- Do NOT repeat the same connection\n- Use proper labels: HTTP, DB Query, Async, Cache\n- Node types limited to: ui, service, database, cache, queue, container\n- Max nodes: 8\n- Max edges: 10\n\nDescription:\nDesign a fully secured version of the following system.\nDesign a logistics system where tracking, warehouse, route-optimiser work together, backed by shipment-db, inventory-db, with a user-facing entry point.\nEmbed the required security controls directly into the architecture.\n\nONLY return JSON. No explanation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "tracking",
+        "type": "service"
+      },
+      {
+        "id": "warehouse",
+        "type": "service"
+      },
+      {
+        "id": "shipment_db",
+        "type": "database"
+      },
+      {
+        "id": "authentication",
+        "type": "service"
+      },
+      {
+        "id": "encryption service",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "audit logging",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "authentication",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "encryption service",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "audit logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "tracking",
+        "label": "HTTP"
+      },
+      {
+        "source": "tracking",
+        "target": "shipment_db",
+        "label": "DB Query"
+      },
+      {
+        "source": "web",
+        "target": "warehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "warehouse",
+        "target": "shipment_db",
+        "label": "DB Query"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "missing_controls": [
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability."
+    ],
+    "risk_level": "LOW",
+    "security_score": 95
+  },
+  "metadata": {
+    "source": "synthetic",
+    "generated_by": "template-v1",
+    "reviewed": true,
+    "version": "1.0"
+  }
+}

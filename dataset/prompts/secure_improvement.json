@@ -1,0 +1,13 @@
+{
+  "name": "secure-improvement",
+  "task": "secure_improvement",
+  "purpose": "Take a vulnerable architecture and return an improved, hardened architecture as strict JSON.",
+  "defaults": {
+    "temperature": 0.3,
+    "top_p": 0.9,
+    "max_new_tokens": 512,
+    "deterministic": true
+  },
+  "placeholders": ["architecture"],
+  "template": "You are a senior security architect.\n\nImprove the following architecture by adding the missing security controls it needs.\n\nVULNERABLE ARCHITECTURE JSON:\n{{architecture}}\n\nRULES:\n- Add missing security controls as new nodes (e.g. a node with id \"waf\", \"api-gateway\", or \"auth\" and type \"service\")\n- Keep all existing meaningful nodes\n- Connect added controls with appropriate edges\n- No duplicate edges\n\nRETURN ONLY the improved architecture JSON with EXACTLY this shape:\n{{\n    \"architecture\": {{\n        \"nodes\": [{{\"id\": \"string\", \"type\": \"ui | service | database | cache | queue | container\"}}],\n        \"edges\": [{{\"source\": \"string\", \"target\": \"string\", \"label\": \"HTTP | DB Query | Async | Cache\"}}]\n    }},\n    \"applied_controls\": [\"string\"]\n}}\n\nONLY return JSON. No explanation."
+}

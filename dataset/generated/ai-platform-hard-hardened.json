@@ -1,0 +1,124 @@
+{
+  "id": "ai-platform-hard-hardened",
+  "domain": "ai-platform",
+  "difficulty": "hard",
+  "instruction": "You are a senior software architect.\n\nConvert the following system description into a CLEAN architecture graph.\n\nRULES:\n- Use only meaningful components\n- No duplicate edges\n- No redundant connections\n- Keep architecture minimal and logical\n\nFORMAT:\n{{\n    \"nodes\": [\n        {{\"id\": \"frontend\", \"type\": \"ui\"}},\n        {{\"id\": \"api\", \"type\": \"service\"}}\n    ],\n    \"edges\": [\n        {{\"source\": \"frontend\", \"target\": \"api\", \"label\": \"HTTP\"}}\n    ]\n}}\n\nCONSTRAINTS:\n- Each edge must be unique\n- Do NOT repeat the same connection\n- Use proper labels: HTTP, DB Query, Async, Cache\n- Node types limited to: ui, service, database, cache, queue, container\n- Max nodes: 8\n- Max edges: 10\n\nDescription:\nDesign a fully secured version of the following system.\nDesign a ai-platform system where model-serving, training-job, feature-store work together, backed by feature-db, artifact-db, with a user-facing entry point.\nEmbed the required security controls directly into the architecture.\n\nONLY return JSON. No explanation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "model_serving",
+        "type": "service"
+      },
+      {
+        "id": "training_job",
+        "type": "service"
+      },
+      {
+        "id": "feature_db",
+        "type": "database"
+      },
+      {
+        "id": "authentication",
+        "type": "service"
+      },
+      {
+        "id": "encryption service",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "secrets manager",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "authentication",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "encryption service",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "secrets manager",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "model_serving",
+        "label": "HTTP"
+      },
+      {
+        "source": "model_serving",
+        "target": "feature_db",
+        "label": "DB Query"
+      },
+      {
+        "source": "web",
+        "target": "training_job",
+        "label": "HTTP"
+      },
+      {
+        "source": "training_job",
+        "target": "feature_db",
+        "label": "DB Query"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "Secrets Manager"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "LOW",
+    "security_score": 85
+  },
+  "metadata": {
+    "source": "synthetic",
+    "generated_by": "template-v1",
+    "reviewed": false,
+    "version": "1.0"
+  }
+}

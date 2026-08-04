@@ -1,0 +1,87 @@
+{
+  "id": "cloud-easy-hardened",
+  "domain": "cloud",
+  "difficulty": "easy",
+  "instruction": "You are a senior software architect.\n\nConvert the following system description into a CLEAN architecture graph.\n\nRULES:\n- Use only meaningful components\n- No duplicate edges\n- No redundant connections\n- Keep architecture minimal and logical\n\nFORMAT:\n{{\n    \"nodes\": [\n        {{\"id\": \"frontend\", \"type\": \"ui\"}},\n        {{\"id\": \"api\", \"type\": \"service\"}}\n    ],\n    \"edges\": [\n        {{\"source\": \"frontend\", \"target\": \"api\", \"label\": \"HTTP\"}}\n    ]\n}}\n\nCONSTRAINTS:\n- Each edge must be unique\n- Do NOT repeat the same connection\n- Use proper labels: HTTP, DB Query, Async, Cache\n- Node types limited to: ui, service, database, cache, queue, container\n- Max nodes: 8\n- Max edges: 10\n\nDescription:\nDesign a fully secured version of the following system.\nDesign a cloud system where compute-service, object-storage, key-management work together, backed by metadata-db, backup-db, with a user-facing entry point.\nEmbed the required security controls directly into the architecture.\n\nONLY return JSON. No explanation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "compute_service",
+        "type": "service"
+      },
+      {
+        "id": "authentication",
+        "type": "service"
+      },
+      {
+        "id": "encryption service",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "authentication",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "encryption service",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "compute_service",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "missing_controls": [
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Implement role-based access control."
+    ],
+    "risk_level": "MEDIUM",
+    "security_score": 75
+  },
+  "metadata": {
+    "source": "synthetic",
+    "generated_by": "template-v1",
+    "reviewed": false,
+    "version": "1.0"
+  }
+}
