@@ -129,7 +129,7 @@ Successful response shape:
 
 - Backend startup fails with GPU/CUDA errors:
 	- Verify CUDA visibility and PyTorch GPU support.
-	- Confirm your model checkpoint path exists: `checkpoints/qwen_lora`.
+	- Confirm your model checkpoint path exists: `checkpoints/gemma_lora`.
 
 - Frontend cannot reach backend:
 	- Ensure backend runs on `127.0.0.1:8000`.

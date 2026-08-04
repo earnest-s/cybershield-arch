@@ -56,10 +56,10 @@ class TextDataset(Dataset):
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="LoRA training for Qwen2.5-1.5B.")
+    parser = argparse.ArgumentParser(description="LoRA training for Gemma 3 4B.")
     parser.add_argument("--dataset", default="data/synthetic/dataset.jsonl")
-    parser.add_argument("--output", default="checkpoints/qwen_lora")
-    parser.add_argument("--model-id", default="Qwen/Qwen2.5-1.5B-Instruct")
+    parser.add_argument("--output", default="checkpoints/gemma_lora")
+    parser.add_argument("--model-id", default="unsloth/gemma-3-4b-it-bnb-4bit")
     parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--grad-accum", type=int, default=8)
     parser.add_argument("--epochs", type=int, default=2)
@@ -86,7 +86,7 @@ def main() -> None:
     args = parse_args()
     os.environ.setdefault("HF_HOME", "./.cache/huggingface")
 
-    print("[STEP 2/3] Qwen LoRA training started")
+    print("[STEP 2/3] Gemma LoRA training started")
     print(f"[INFO] model={args.model_id} 4bit=True batch_size={max(1, min(args.batch_size, 2))} grad_accum={args.grad_accum} epochs={args.epochs}")
 
     if not torch.cuda.is_available():
@@ -101,7 +101,7 @@ def main() -> None:
         raise RuntimeError("Dataset is empty.")
     print(f"[INFO] Loaded {len(rows)} training samples from {dataset_path}")
 
-    tokenizer = AutoTokenizer.from_pretrained(args.model_id)
+    tokenizer = AutoTokenizer.from_pretrained(args.model_id, local_files_only=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
@@ -115,6 +115,7 @@ def main() -> None:
         args.model_id,
         device_map="auto",
         quantization_config=bnb_cfg,
+        local_files_only=True,
     )
 
     model.gradient_checkpointing_enable()
@@ -162,7 +163,7 @@ def main() -> None:
     if readme.exists():
         readme.unlink()
     print(f"Saved LoRA adapter to {output_dir}")
-    print("[STEP 2/3] Qwen LoRA training completed")
+    print("[STEP 2/3] Gemma LoRA training completed")
 
 
 if __name__ == "__main__":

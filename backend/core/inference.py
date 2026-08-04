@@ -3,6 +3,7 @@ import json
 import os
 import re
 import time
+from pathlib import Path
 
 import torch
 from peft import PeftModel
@@ -270,10 +271,11 @@ def _load_model_once() -> None:
 
     os.environ.setdefault("HF_HOME", "./.cache/huggingface")
 
-    model_id = "Qwen/Qwen2.5-1.5B-Instruct"
+    model_id = os.getenv("MODEL_ID", "unsloth/gemma-3-4b-it-bnb-4bit")
+    adapter_path = Path(os.getenv("LORA_ADAPTER_PATH", "checkpoints/gemma_lora"))
 
     print("Loading tokenizer...")
-    _TOKENIZER = AutoTokenizer.from_pretrained(model_id)
+    _TOKENIZER = AutoTokenizer.from_pretrained(model_id, local_files_only=True)
     if _TOKENIZER.pad_token is None:
         _TOKENIZER.pad_token = _TOKENIZER.eos_token
 
@@ -288,14 +290,21 @@ def _load_model_once() -> None:
         model_id,
         device_map="auto",
         quantization_config=bnb_cfg,
+        local_files_only=True,
     )
 
-    print("Loading LoRA adapter...")
-    _MODEL = PeftModel.from_pretrained(base_model, "checkpoints/qwen_lora")
+    if adapter_path.exists():
+        print("Loading LoRA adapter...")
+        _MODEL = PeftModel.from_pretrained(base_model, adapter_path)
+    else:
+        print(f"LoRA adapter not found at {adapter_path}; using base Gemma model")
+        _MODEL = base_model
     _MODEL.eval()
 
-    adapter_names = list(_MODEL.peft_config.keys())
-    print(f"LoRA adapters loaded: {adapter_names}")
+    adapter_config = getattr(_MODEL, "peft_config", None)
+    adapter_names = list(adapter_config.keys()) if adapter_config else []
+    if adapter_names:
+        print(f"LoRA adapters loaded: {adapter_names}")
 
     _MODEL_DEVICE = next(_MODEL.parameters()).device
     print("CUDA AVAILABLE:", torch.cuda.is_available())

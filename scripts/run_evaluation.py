@@ -93,7 +93,7 @@ def main() -> None:
     print("[STEP 3/3] Evaluation started")
 
     dataset_path = Path("data/synthetic/dataset.jsonl")
-    adapter_path = Path("checkpoints/qwen_lora")
+    adapter_path = Path(os.getenv("LORA_ADAPTER_PATH", "checkpoints/gemma_lora"))
     report_path = Path("reports/evaluation.json")
 
     if not torch.cuda.is_available():
@@ -111,8 +111,8 @@ def main() -> None:
         raise RuntimeError("Dataset is empty.")
     print(f"[INFO] Loaded {len(rows)} evaluation samples from {dataset_path}")
 
-    model_id = "Qwen/Qwen2.5-1.5B-Instruct"
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    model_id = os.getenv("MODEL_ID", "unsloth/gemma-3-4b-it-bnb-4bit")
+    tokenizer = AutoTokenizer.from_pretrained(model_id, local_files_only=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
@@ -126,6 +126,7 @@ def main() -> None:
         model_id,
         device_map="auto",
         quantization_config=bnb_cfg,
+        local_files_only=True,
     )
     model = PeftModel.from_pretrained(base, adapter_path)
     model.eval()
