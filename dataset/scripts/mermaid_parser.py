@@ -1,8 +1,8 @@
 """Mermaid flowchart parser -> CyberShield architecture JSON.
 
 Converts a subset of Mermaid diagram syntax into the application's node/edge
-contract (`{"nodes": [{"id", "type"}], "edges": [{"source", "target",
-"label"}]}`) used by `backend/core/inference.py`.
+contract (``{"nodes": [{"id", "type"}], "edges": [{"source", "target",
+"label"}]}``) used by ``backend/core/inference.py``.
 
 Supported:
 - headers: flowchart LR / TB / TD / RL / BT and legacy graph LR / TB
@@ -11,7 +11,7 @@ Supported:
 - bare node references (implicit node creation)
 - edges: -->, ---, ==> , -.->, --x, --o, <--> with |label| or " -- label --"
   inline labels, and chained arrows (A --> B --> C)
-- subgraph blocks (title becomes a container node if referenced by edges)
+- subgraph blocks (title recorded; subgraph ids become nodes if referenced)
 - comment lines (%%), classDef/style/class/linkStyle/click directives
 
 Unsupported diagram types (sequenceDiagram, pie, etc.) raise
@@ -24,76 +24,42 @@ import re
 from dataclasses import dataclass, field
 from typing import Any
 
-from dataset.scripts.common import ALLOWED_EDGE_LABELS
-
-# Header regexes -------------------------------------------------------------
+_ID = r"[A-Za-z0-9_][A-Za-z0-9_-]*"
 
 _HEADER_FLOWCHART = re.compile(r"^\s*(?:flowchart|graph)\s+(LR|RL|TB|BT|TD)\s*$", re.IGNORECASE)
 _HEADER_OTHER = re.compile(r"^\s*([A-Za-z]+)\s*$")
 
-# Node definition regexes ----------------------------------------------------
-# id followed by a bracketed/quoted label. Order matters: longest brackets first.
 _NODE_DEF = re.compile(
-    r"([A-Za-z0-9_][A-Za-z0-9_-]*)\s*"
-    r"(\[\[.+?\]\]|\[\(.+?\)\]|\(\(.+?\)\)|\[[^\[\]]*?\]|\{.+?\}|\(\[.+?\]\)|>.+?\]|\[/.+?/\]|\[\\\\.+?\\\\\])"
+    rf"({_ID})\s*"
+    r"(\[\[.+?\]\]|\(\(.+?\)\)|\[\(.+?\)\]|\(\[.+?\]\)|\{.+?\}|>.+?\]|\[/.+?/\]|\[\\\.+?\\\]|\[[^\[\]]*?\])"
 )
-_BARE_ID = re.compile(r"(?<![\w-])([A-Za-z0-9_][A-Za-z0-9_-]*)(?![\w-])")
 
-# Edge regexes (progressive: label-on-arrow, label-after-dash, no label) -----
-_EDGE = re.compile(
-    r"(?P<a>[A-Za-z0-9_][A-Za-z0-9_-]*)\s*"
-    r"(?P<link>-->|---|-\.->|\.->|==>|--x|--o|<-->|<--|-->|<-->|--->)"
-    r"(?:\|(?P<label>[^|]*)\|)?\s*"
-    r"(?P<b>[A-Za-z0-9_][A-Za-z0-9_-]*)"
+_ARROW_TOKEN = re.compile(r"-->|---|-\.->|==>|--x|--o|<-->|<--")
+_DASH_LABEL_EDGE = re.compile(
+    rf"({_ID})\s*--\s*([^|<>=-]+?)\s*(?:-->|\.->|==>)\s*({_ID})"
 )
-_EDGE_DASH_LABEL = re.compile(
-    r"(?P<a>[A-Za-z0-9_][A-Za-z0-9_-]*)\s*"
-    r"(--|==|-\.)\s*(?P<label>[^|^<>=\-]+?)\s*(-->|==>|\.->)\s*"
-    r"(?P<b>[A-Za-z0-9_][A-Za-z0-9_-]*)"
-)
+_BARE_ID = re.compile(rf"(?<![\w-])({_ID})(?![\w-])")
 
 _LABEL_ALIASES: dict[str, str] = {
-    "http": "HTTP",
-    "https": "HTTP",
-    "rest": "HTTP",
-    "request": "HTTP",
-    "api": "HTTP",
-    "grpc": "HTTP",
-    "tcp": "HTTP",
-    "db": "DB Query",
-    "sql": "DB Query",
-    "query": "DB Query",
-    "database": "DB Query",
-    "async": "Async",
-    "message": "Async",
-    "event": "Async",
-    "queue": "Async",
-    "kafka": "Async",
-    "cache": "Cache",
-    "redis": "Cache",
+    "http": "HTTP", "https": "HTTP", "rest": "HTTP", "request": "HTTP",
+    "api": "HTTP", "grpc": "HTTP", "tcp": "HTTP",
+    "db": "DB Query", "sql": "DB Query", "query": "DB Query",
+    "database": "DB Query", "select": "DB Query",
+    "async": "Async", "message": "Async", "event": "Async",
+    "queue": "Async", "kafka": "Async", "publish": "Async", "subscribe": "Async",
+    "cache": "Cache", "redis": "Cache", "cached": "Cache",
 }
 
 _TYPE_KEYWORDS: list[tuple[str, str]] = [
-    ("ui", "ui"),
-    ("web", "ui"),
-    ("frontend", "ui"),
-    ("client", "ui"),
-    ("portal", "ui"),
-    ("dashboard", "ui"),
-    ("database", "database"),
-    ("db", "database"),
-    ("postgres", "database"),
-    ("mysql", "database"),
-    ("mongodb", "database"),
-    ("redis", "cache"),
-    ("cache", "cache"),
-    ("kafka", "queue"),
-    ("queue", "queue"),
-    ("rabbitmq", "queue"),
-    ("message", "queue"),
-    ("container", "container"),
-    ("dock", "container"),
-    ("kubernetes", "container"),
+    ("ui", "ui"), ("web", "ui"), ("frontend", "ui"), ("client", "ui"),
+    ("portal", "ui"), ("dashboard", "ui"),
+    ("database", "database"), ("db", "database"), ("postgres", "database"),
+    ("mysql", "database"), ("mongodb", "database"), ("storage", "database"),
+    ("redis", "cache"), ("cache", "cache"),
+    ("kafka", "queue"), ("queue", "queue"), ("rabbitmq", "queue"),
+    ("message", "queue"), ("broker", "queue"),
+    ("container", "container"), ("docker", "container"), ("kubernetes", "container"),
+    ("cluster", "container"),
 ]
 
 
@@ -120,7 +86,6 @@ class MermaidGraph:
     nodes: list[ParsedNode] = field(default_factory=list)
     edges: list[ParsedEdge] = field(default_factory=list)
     subgraphs: list[str] = field(default_factory=list)
-    warnings: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -132,7 +97,7 @@ class MermaidGraph:
 
 
 def _normalize_label(raw: str) -> str:
-    text = (raw or "").strip().strip('"').lower()
+    text = (raw or "").strip().strip('"').strip("'").lower()
     if not text:
         return "HTTP"
     for needle, normalized in _LABEL_ALIASES.items():
@@ -149,149 +114,121 @@ def _infer_type(node_id: str, label_text: str) -> str:
     return "service"
 
 
-_BRACKET_GRAMMAR: dict[str, str] = {
-    "[[": "container",
-    "([": "container",  # stadium ([label])
-    ">(": "service",  # asymmetric >label]
-    "[/": "service",  # parallelogram /label/
-    "[\\": "service",
-    "[(": "database",  # cylinder [(label)]
-    "((": "service",  # circle ((label))
-    "{": "service",  # rhombus {label}
-    "[": "service",  # rectangle [label]
-}
-
-
-def _bracket_kind(bracket: str) -> str:
-    lowered = bracket.lower()
-    if lowered.startswith("("):
-        if lowered.startswith("(("):
-            return "service"
-        if lowered.startswith("(["):
-            return "container"
-        return "database" if lowered.startswith("((") else "service"
-    if lowered.startswith("[["):
-        return "container"
-    if lowered.startswith("(["):
-        return "container"
-    if lowered.startswith(">"):
-        return "service"
-    if lowered.startswith("[\\") or lowered.startswith("[/"):
-        return "service"
-    if lowered.startswith("[("):
+def _node_type_from_bracket(bracket: str) -> str | None:
+    if bracket.startswith("[("):
         return "database"
-    if lowered.startswith("{"):
-        return "service"
-    return "service"
+    if bracket.startswith("[[") or bracket.startswith("(["):
+        return "container"
+    return None
 
 
 def _clean_label(raw: str) -> str:
-    cleaned = raw.replace("#quot;", '"').replace("#amp;", "&").replace("#39;", "'")
-    return cleaned.strip()
+    return (
+        raw.replace("#quot;", '"')
+        .replace("#amp;", "&")
+        .replace("#39;", "'")
+        .strip()
+    )
 
 
 def _is_directive(line: str) -> bool:
-    return bool(re.match(r"^\s*(classDef|class |style |linkStyle|click |direction )", line, re.IGNORECASE))
+    return bool(
+        re.match(
+            r"^\s*(classDef|class |style |linkStyle|click |direction )", line, re.IGNORECASE
+        )
+    )
+
+
+def _extract_edges(line: str, edges: list[ParsedEdge], nodes_by_id: dict[str, ParsedNode]) -> bool:
+    """Extract edges from a line, handling labels and chained arrows."""
+    found = False
+
+    # A -- label --> B
+    for match in _DASH_LABEL_EDGE.finditer(line):
+        _ensure_node(nodes_by_id, match.group(1))
+        _ensure_node(nodes_by_id, match.group(3))
+        edges.append(ParsedEdge(match.group(1), match.group(3), _normalize_label(match.group(2))))
+        found = True
+        line = line[: match.start()] + " " * (match.end() - match.start()) + line[match.end():]
+
+    # A -->|label| B and plain arrows (chains resolve because each arrow is
+    # scanned independently and the token before an arrow is its source)
+    for arrow in _ARROW_TOKEN.finditer(line):
+        prefix = line[: arrow.start()]
+        suffix = line[arrow.end():]
+        source_match = re.search(rf"({_ID})\s*$", prefix)
+        target_match = re.match(rf"\s*(?:\|([^|]*)\|)?\s*({_ID})", suffix)
+        if not source_match or not target_match:
+            continue
+        source, label_raw, target = source_match.group(1), target_match.group(1), target_match.group(2)
+        _ensure_node(nodes_by_id, source)
+        _ensure_node(nodes_by_id, target)
+        edges.append(ParsedEdge(source, target, _normalize_label(label_raw)))
+        found = True
+    return found
+
+
+def _ensure_node(nodes_by_id: dict[str, ParsedNode], node_id: str, force_type: str | None = None) -> ParsedNode:
+    existing = nodes_by_id.get(node_id)
+    if existing is None:
+        node = ParsedNode(id=node_id, type=force_type or "service")
+        nodes_by_id[node_id] = node
+        return node
+    if force_type and existing.type == "service":
+        existing.type = force_type
+    return existing
 
 
 def parse_mermaid(text: str) -> MermaidGraph:
-    """Parse a Mermaid flowchart into a MermaidGraph; raises UnsupportedMermaidError."""
+    """Parse a Mermaid flowchart; raises UnsupportedMermaidError otherwise."""
     graph = MermaidGraph()
     if not text or not text.strip():
         raise UnsupportedMermaidError("empty diagram")
 
-    # Diagram header check
     first_line = text.strip().splitlines()[0]
     header = _HEADER_FLOWCHART.match(first_line)
     if header:
-        graph.diagram_type = " ".join(("flowchart", header.group(1).upper()))
+        graph.diagram_type = f"flowchart {header.group(1).upper()}"
     else:
         other = _HEADER_OTHER.match(first_line)
         if other and other.group(1).lower() not in {"flowchart", "graph"}:
             raise UnsupportedMermaidError(f"unsupported diagram type: {other.group(1)!r}")
-        if other is None:
-            # try to locate a flowchart header anywhere in the doc
-            for line in text.splitlines():
-                m = _HEADER_FLOWCHART.match(line)
-                if m:
-                    graph.diagram_type = " ".join(("flowchart", m.group(1).upper()))
-                    break
-            else:
-                raise UnsupportedMermaidError("no flowchart or graph directive found")
+        for line in text.splitlines():
+            m = _HEADER_FLOWCHART.match(line)
+            if m:
+                graph.diagram_type = f"flowchart {m.group(1).upper()}"
+                break
+        else:
+            raise UnsupportedMermaidError("no flowchart or graph directive found")
 
     nodes_by_id: dict[str, ParsedNode] = {}
     edges: list[ParsedEdge] = []
-    inside_subgraph = False
-    subgraph_title = ""
-
-    def ensure_node(node_id: str, force_type: str | None = None) -> ParsedNode:
-        existing = nodes_by_id.get(node_id)
-        if existing is None:
-            node = ParsedNode(id=node_id, type=force_type or "service")
-            nodes_by_id[node_id] = node
-            return node
-        if force_type and existing.type == "service":
-            existing.type = force_type
-        return existing
 
     for raw_line in text.splitlines():
         line = raw_line.split("%%", 1)[0]
-        if not line.strip():
+        if not line.strip() or _is_directive(line):
             continue
-        if _is_directive(line):
-            continue
-
-        sub_match = re.match(r"^\s*subgraph\s+([A-Za-z0-9_][A-Za-z0-9_-]*)?\s*(?:\[([^\]]*)\])?\s*$", line)
-        if sub_match:
-            inside_subgraph = True
-            subgraph_title = sub_match.group(2) or sub_match.group(1) or f"subgraph{len(graph.subgraphs) + 1}"
-            graph.subgraphs.append(subgraph_title)
-            # Reserve the subgraph id as a container node only when referenced; handled in edges.
+        if re.match(r"^\s*subgraph\b", line):
+            title_match = re.match(rf"^\s*subgraph\s+(?:{_ID}\s+)?\[([^\]]*)\]\s*$", line)
+            bare_match = re.match(rf"^\s*subgraph\s+(?:(?:{_ID})|([A-Za-z0-9_ -]+?))\s*$", line)
+            graph.subgraphs.append((title_match.group(1) if title_match else (bare_match.group(1) if bare_match else "subgraph")).strip())
             continue
         if re.match(r"^\s*end\s*$", line):
-            inside_subgraph = False
             continue
 
-        # Extract edges first
-        found_edges = False
-        for match in _EDGE_DASH_LABEL.finditer(line):
-            a, label, b = match.group("a"), match.group("label"), match.group("b")
-            ensure_node(a)
-            ensure_node(b)
-            edges.append(ParsedEdge(source=a, target=b, label=_normalize_label(label)))
-            found_edges = True
-        for match in _EDGE.finditer(line):
-            a, link, label, b = match.group("a"), match.group("link"), match.group("label"), match.group("b")
-            label_text = label or _edge_link_label(link)
-            ensure_node(a)
-            ensure_node(b)
-            edges.append(ParsedEdge(source=a, target=b, label=_normalize_label(label_text)))
-            found_edges = True
-        if found_edges:
-            # Node definitions may share the line with an edge; process them too.
-            pass
+        _extract_edges(line, edges, nodes_by_id)
 
-        # Extract node definitions (remaining text)
         for match in _NODE_DEF.finditer(line):
             node_id, bracket = match.group(1), match.group(2)
             label_text = _clean_label(bracket[1:-1])
-            kind = _bracket_kind(bracket)
-            node_type = _infer_type(node_id, label_text)
-            # bracket grammar override for explicit database/container shapes
-            if bracket.startswith("[("):
-                node_type = "database"
-            elif bracket.startswith("[[") or bracket.startswith("(["):
-                node_type = "container"
-            ensure_node(node_id, force_type=node_type)
+            node_type = _node_type_from_bracket(bracket) or _infer_type(node_id, label_text)
+            _ensure_node(nodes_by_id, node_id, force_type=node_type)
 
-        # Bare node ids on a line with no defs/edges already covered by edges.
-        # Node def-only lines were covered above; catch bare ids without labels:
         for match in _BARE_ID.finditer(line):
             node_id = match.group(1)
-            if node_id not in nodes_by_id and not found_edges:
-                ensure_node(node_id)
+            if node_id not in nodes_by_id:
+                _ensure_node(nodes_by_id, node_id)
 
-    # Deduplicate edges, drop self-loops
     seen: set[tuple[str, str]] = set()
     final_edges: list[ParsedEdge] = []
     for edge in edges:
@@ -303,25 +240,11 @@ def parse_mermaid(text: str) -> MermaidGraph:
         seen.add(key)
         final_edges.append(edge)
 
-    # Promote subgraph titles referenced by edges into explicit container nodes
-    referenced = {edge.source for edge in final_edges} | {edge.target for edge in final_edges}
-    for title, node in list(nodes_by_id.items()):
-        _ = title, node
-    # Ensure every edge endpoint exists in the node set
-    for edge in final_edges:
-        ensure_node(edge.source)
-        ensure_node(edge.target)
-
     graph.nodes = list(nodes_by_id.values())
     graph.edges = final_edges
     return graph
 
 
-def _edge_link_label(link: str) -> str:
-    return "HTTP"
-
-
 def parse_to_json(text: str) -> dict[str, Any]:
-    """Parse Mermaid and return application-compatible {nodes, edges}."""
-    graph = parse_mermaid(text)
-    return graph.to_dict()
+    """Parse Mermaid text into application-compatible {nodes, edges}."""
+    return parse_mermaid(text).to_dict()
