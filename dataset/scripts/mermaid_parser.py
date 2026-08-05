@@ -204,30 +204,43 @@ def parse_mermaid(text: str) -> MermaidGraph:
     nodes_by_id: dict[str, ParsedNode] = {}
     edges: list[ParsedEdge] = []
 
-    for raw_line in text.splitlines():
+    lines = text.splitlines()
+    header_index = -1
+    for idx, raw_line in enumerate(lines):
+        if _HEADER_FLOWCHART.match(raw_line):
+            header_index = idx
+            break
+
+    for idx, raw_line in enumerate(lines):
+        if idx == header_index:
+            continue
         line = raw_line.split("%%", 1)[0]
         if not line.strip() or _is_directive(line):
             continue
-        if re.match(r"^\s*subgraph\b", line):
-            title_match = re.match(rf"^\s*subgraph\s+(?:{_ID}\s+)?\[([^\]]*)\]\s*$", line)
-            bare_match = re.match(rf"^\s*subgraph\s+(?:(?:{_ID})|([A-Za-z0-9_ -]+?))\s*$", line)
-            graph.subgraphs.append((title_match.group(1) if title_match else (bare_match.group(1) if bare_match else "subgraph")).strip())
+
+        sub_match = re.match(r"^\s*subgraph\b", line)
+        if sub_match:
+            rest = line[sub_match.end():].strip().strip('"')
+            bracketed = re.search(r"\[([^\]]*)\]$", rest)
+            graph.subgraphs.append((bracketed.group(1) if bracketed else rest).strip())
             continue
         if re.match(r"^\s*end\s*$", line):
             continue
 
-        _extract_edges(line, edges, nodes_by_id)
-
+        has_edges = _extract_edges(line, edges, nodes_by_id)
+        has_defs = False
         for match in _NODE_DEF.finditer(line):
             node_id, bracket = match.group(1), match.group(2)
             label_text = _clean_label(bracket[1:-1])
             node_type = _node_type_from_bracket(bracket) or _infer_type(node_id, label_text)
             _ensure_node(nodes_by_id, node_id, force_type=node_type)
+            has_defs = True
 
-        for match in _BARE_ID.finditer(line):
-            node_id = match.group(1)
-            if node_id not in nodes_by_id:
-                _ensure_node(nodes_by_id, node_id)
+        if not has_edges and not has_defs:
+            for match in _BARE_ID.finditer(line):
+                node_id = match.group(1)
+                if node_id not in nodes_by_id:
+                    _ensure_node(nodes_by_id, node_id)
 
     seen: set[tuple[str, str]] = set()
     final_edges: list[ParsedEdge] = []
