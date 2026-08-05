@@ -10,6 +10,7 @@ from pathlib import Path
 # and causes "does not appear to have a file named ..." startup failures when
 # the env var is not already exported. Use an absolute, CWD-independent path.
 _HF_CACHE_DIR = Path(__file__).resolve().parents[2] / ".cache" / "huggingface"
+_HF_HUB_DIR = _HF_CACHE_DIR / "hub"
 os.environ.setdefault("HF_HOME", str(_HF_CACHE_DIR))
 
 import torch
@@ -281,7 +282,7 @@ def _load_model_once() -> None:
 
     print("Loading tokenizer...")
     _TOKENIZER = AutoTokenizer.from_pretrained(
-        model_id, local_files_only=True, cache_dir=_HF_CACHE_DIR
+        model_id, local_files_only=True, cache_dir=_HF_HUB_DIR
     )
     if _TOKENIZER.pad_token is None:
         _TOKENIZER.pad_token = _TOKENIZER.eos_token
@@ -298,7 +299,7 @@ def _load_model_once() -> None:
         device_map="auto",
         quantization_config=bnb_cfg,
         local_files_only=True,
-        cache_dir=_HF_CACHE_DIR,
+        cache_dir=_HF_HUB_DIR,
     )
 
     if adapter_path.exists():
