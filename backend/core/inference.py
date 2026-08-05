@@ -5,6 +5,13 @@ import re
 import time
 from pathlib import Path
 
+# Set HF_HOME before importing transformers: huggingface_hub freezes the cache
+# path at import time, so setting it later inside _load_model_once is too late
+# and causes "does not appear to have a file named ..." startup failures when
+# the env var is not already exported. Use an absolute, CWD-independent path.
+_HF_CACHE_DIR = Path(__file__).resolve().parents[2] / ".cache" / "huggingface"
+os.environ.setdefault("HF_HOME", str(_HF_CACHE_DIR))
+
 import torch
 from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
