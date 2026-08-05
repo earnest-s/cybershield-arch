@@ -276,13 +276,13 @@ def _load_model_once() -> None:
     if not torch.cuda.is_available():
         raise RuntimeError("GPU is required for inference")
 
-    os.environ.setdefault("HF_HOME", "./.cache/huggingface")
-
     model_id = os.getenv("MODEL_ID", "unsloth/gemma-3-4b-it-bnb-4bit")
     adapter_path = Path(os.getenv("LORA_ADAPTER_PATH", "checkpoints/gemma_lora"))
 
     print("Loading tokenizer...")
-    _TOKENIZER = AutoTokenizer.from_pretrained(model_id, local_files_only=True)
+    _TOKENIZER = AutoTokenizer.from_pretrained(
+        model_id, local_files_only=True, cache_dir=_HF_CACHE_DIR
+    )
     if _TOKENIZER.pad_token is None:
         _TOKENIZER.pad_token = _TOKENIZER.eos_token
 
@@ -298,6 +298,7 @@ def _load_model_once() -> None:
         device_map="auto",
         quantization_config=bnb_cfg,
         local_files_only=True,
+        cache_dir=_HF_CACHE_DIR,
     )
 
     if adapter_path.exists():
