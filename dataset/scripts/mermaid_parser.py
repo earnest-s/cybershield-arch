@@ -46,28 +46,6 @@ _DASH_LABEL_EDGE = re.compile(
 )
 _BARE_ID = re.compile(rf"(?<![\w-])({_ID})(?![\w-])")
 
-_LABEL_ALIASES: dict[str, str] = {
-    "http": "HTTP", "https": "HTTP", "rest": "HTTP", "request": "HTTP",
-    "api": "HTTP", "grpc": "HTTP", "tcp": "HTTP",
-    "db": "DB Query", "sql": "DB Query", "query": "DB Query",
-    "database": "DB Query", "select": "DB Query",
-    "async": "Async", "message": "Async", "event": "Async",
-    "queue": "Async", "kafka": "Async", "publish": "Async", "subscribe": "Async",
-    "cache": "Cache", "redis": "Cache", "cached": "Cache",
-}
-
-_TYPE_KEYWORDS: list[tuple[str, str]] = [
-    ("ui", "ui"), ("web", "ui"), ("frontend", "ui"), ("client", "ui"),
-    ("portal", "ui"), ("dashboard", "ui"),
-    ("database", "database"), ("db", "database"), ("postgres", "database"),
-    ("mysql", "database"), ("mongodb", "database"), ("storage", "database"),
-    ("redis", "cache"), ("cache", "cache"),
-    ("kafka", "queue"), ("queue", "queue"), ("rabbitmq", "queue"),
-    ("message", "queue"), ("broker", "queue"),
-    ("container", "container"), ("docker", "container"), ("kubernetes", "container"),
-    ("cluster", "container"),
-]
-
 
 class UnsupportedMermaidError(ValueError):
     """Raised when a diagram uses an unsupported top-level syntax."""
@@ -102,25 +80,13 @@ class MermaidGraph:
         }
 
 
-def _normalize_label(raw: str) -> str:
-    text = (raw or "").strip().strip('"').strip("'").lower()
-    if not text:
-        return "HTTP"
-    for needle, normalized in _LABEL_ALIASES.items():
-        if needle in text:
-            return normalized
-    return "HTTP"
-
-
-def _infer_type(node_id: str, label_text: str) -> str:
-    combined = f"{node_id} {label_text}".lower()
-    for keyword, node_type in _TYPE_KEYWORDS:
-        if keyword in combined:
-            return node_type
-    return "service"
-
-
-def _node_type_from_bracket(bracket: str) -> str | None:
+def _clean_label(raw: str) -> str:
+    return (
+        raw.replace("#quot;", '"')
+        .replace("#amp;", "&")
+        .replace("#39;", "'")
+        .strip()
+    )
     if bracket.startswith("[("):
         return "database"
     if bracket.startswith("[[") or bracket.startswith("(["):
