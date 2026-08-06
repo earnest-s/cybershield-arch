@@ -72,6 +72,7 @@ def build_security_data(nodes: list[dict[str, Any]], edges: list[dict[str, Any]]
             severity=str(threat.get("severity", "")),
             description=str(threat.get("description", "")),
             missing_control=str(threat.get("missing_control", "")) or None,
+            severity_level=str(threat.get("severity_level", "")),
         )
         for threat in threats_result.get("threats", [])
     ]
