@@ -1,8 +1,9 @@
 """Security enrichment for parsed architectures.
 
-Uses the production security engine (backend/security/*) to compute
-required_controls, missing_controls, threats, recommendations, risk_level,
-security_score, attack_surface, and security_summary.
+Uses the canonical security layer (backend.core.architecture_enricher /
+response_builder) to compute required_controls, missing_controls, threats,
+recommendations, risk_level, security_score, attack_surface, and
+security_summary.
 
 Output written to dataset/enriched/CSA-######.json.
 """
@@ -21,20 +22,8 @@ ENRICHED_DIR = DATASET_DIR / "enriched"
 
 LOG = setup_logger("enrich_dataset")
 
-# Import the production security engine
-from backend.security.security_analyzer import analyze_architecture_security
-from backend.security.threat_detector import detect_threats, calculate_attack_surface
-from backend.security.security_catalog import SECURITY_CATALOG
-
-
-def _controls_present(nodes: list[dict]) -> set[str]:
-    present = set()
-    for node in nodes:
-        text = " ".join(str(v).lower() for v in node.values())
-        for control in SECURITY_CATALOG:
-            if control.lower() in text:
-                present.add(control)
-    return present
+# Canonical security enrichment shared with the runtime pipeline.
+from backend.core.response_builder import build_security_dict
 
 
 def enrich(limit: int = 0, force: bool = False) -> int:
@@ -75,29 +64,23 @@ def enrich(limit: int = 0, force: bool = False) -> int:
             failed += 1
             continue
 
-        # Compute security using the production engine
+        # Compute security using the canonical engine layer
         try:
-            analysis = analyze_architecture_security(nodes, edges)
-            threats_result = detect_threats(nodes, edges)
-            attack_surface = calculate_attack_surface(nodes, edges)
-
-            missing_controls = [c["name"] for c in analysis.get("missing_components", [])]
-            present = _controls_present(nodes)
-            required = sorted(present | set(missing_controls))
+            security = build_security_dict(nodes, edges)
 
             enriched_sample = {
                 "id": sample["id"],
                 "instruction": sample["instruction"],
                 "architecture": architecture,
                 "security": {
-                    "required_controls": required,
-                    "missing_controls": missing_controls,
-                    "threats": threats_result.get("threats", []),
-                    "recommendations": analysis.get("recommendations", []),
-                    "risk_level": analysis.get("risk_level", "HIGH"),
-                    "security_score": analysis.get("security_score", 0),
-                    "attack_surface": attack_surface,
-                    "security_summary": analysis.get("security_summary", ""),
+                    "required_controls": security.get("required_controls", []),
+                    "missing_controls": security.get("missing_controls", []),
+                    "threats": security.get("threats", []),
+                    "recommendations": security.get("recommendations", []),
+                    "risk_level": security.get("risk_level", "HIGH"),
+                    "security_score": security.get("security_score", 0),
+                    "attack_surface": security.get("attack_surface", {}),
+                    "security_summary": security.get("security_summary", ""),
                 },
                 "metadata": sample["metadata"],
             }
