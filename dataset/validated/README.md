@@ -1,3 +1,3 @@
 # Validated
 
-Samples that passed backend/dataset/dataset_validator.py (schema + semantic checks). Approved for human review. Move forward via backend/dataset/review_dataset.py.
+Samples that passed the canonical validation gates (dataset/scripts/validate_dataset.py). Approved for human review via dataset/scripts/review_dataset.py.
