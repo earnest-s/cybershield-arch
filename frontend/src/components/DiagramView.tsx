@@ -978,8 +978,8 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
   const onDrop = useCallback(
     (event: DragEvent<HTMLDivElement>) => {
       event.preventDefault();
-      const raw = event.dataTransfer.getData("application/x-arch-node") as EditorNodeType;
-      if (!raw) return;
+      const raw = event.dataTransfer.getData("application/x-arch-node") as NodeType;
+      if (!NODE_TYPES.includes(raw)) return;
 
       const position = reactFlow.screenToFlowPosition({ x: event.clientX, y: event.clientY });
       const id = `${raw}-${Date.now()}`;
