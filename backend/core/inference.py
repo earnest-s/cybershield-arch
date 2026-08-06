@@ -17,234 +17,15 @@ import torch
 from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
+from backend.core.architecture_parser import (
+    extract_json_object_comments,
+    parse_architecture,
+)
+from backend.core.architecture_validator import is_structurally_weak, raise_if_invalid
+
 _MODEL = None
 _TOKENIZER = None
 _MODEL_DEVICE = None
-_ALLOWED_NODE_TYPES = {"ui", "service", "database", "cache", "queue", "container"}
-_NODE_TYPE_ALIASES = {
-    "data": "database",
-    "db": "database",
-    "worker": "service",
-}
-_LABEL_ALIASES = {
-    "request": "HTTP",
-    "http": "HTTP",
-    "https": "HTTP",
-    "db": "DB Query",
-    "db query": "DB Query",
-    "sql": "DB Query",
-    "async": "Async",
-    "cache": "Cache",
-    "redis": "Cache",
-}
-
-
-def _derive_type_from_id(node_id: str) -> str | None:
-    normalized = node_id.strip().lower()
-    if normalized in _ALLOWED_NODE_TYPES:
-        return normalized
-    if "cache" in normalized or "redis" in normalized:
-        return "cache"
-    if "queue" in normalized or "kafka" in normalized or "rabbit" in normalized:
-        return "queue"
-    if "db" in normalized or "postgres" in normalized or "database" in normalized or "mysql" in normalized:
-        return "database"
-    if "front" in normalized or "ui" in normalized or "client" in normalized:
-        return "ui"
-    if "container" in normalized or "docker" in normalized:
-        return "container"
-    if "api" in normalized or "service" in normalized or "backend" in normalized:
-        return "service"
-    return None
-
-
-def _extract_json_object(raw_text: str) -> dict:
-    cleaned = raw_text.strip()
-    cleaned = cleaned.replace("```json", "").replace("```JSON", "").replace("```", "").strip()
-    cleaned = _strip_json_line_comments(cleaned)
-
-    decoder = json.JSONDecoder()
-    for start in (idx for idx, ch in enumerate(cleaned) if ch == "{"):
-        try:
-            parsed, _ = decoder.raw_decode(cleaned[start:])
-        except json.JSONDecodeError:
-            continue
-        if isinstance(parsed, dict):
-            if "nodes" in parsed and "edges" in parsed:
-                return parsed
-    raise ValueError("Model output did not contain a complete architecture JSON object")
-
-
-def _strip_json_line_comments(text: str) -> str:
-    # Remove // comments outside of JSON strings.
-    out: list[str] = []
-    in_string = False
-    escape = False
-    i = 0
-    while i < len(text):
-        ch = text[i]
-
-        if in_string:
-            out.append(ch)
-            if escape:
-                escape = False
-            elif ch == "\\":
-                escape = True
-            elif ch == '"':
-                in_string = False
-            i += 1
-            continue
-
-        if ch == '"':
-            in_string = True
-            out.append(ch)
-            i += 1
-            continue
-
-        if ch == "/" and i + 1 < len(text) and text[i + 1] == "/":
-            i += 2
-            while i < len(text) and text[i] != "\n":
-                i += 1
-            continue
-
-        out.append(ch)
-        i += 1
-
-    return re.sub(r",\s*([}\]])", r"\1", "".join(out))
-
-
-def _normalize_label(label: str | None) -> str | None:
-    if not isinstance(label, str) or not label.strip():
-        return None
-    lowered = label.strip().lower()
-    for key, normalized in _LABEL_ALIASES.items():
-        if key in lowered:
-            return normalized
-    return label.strip()
-
-
-def _infer_edge_label(source_type: str, target_type: str, current: str | None) -> str:
-    normalized = _normalize_label(current)
-    if normalized:
-        return normalized
-    if source_type == "ui" and target_type == "service":
-        return "HTTP"
-    if source_type == "service" and target_type == "database":
-        return "DB Query"
-    if source_type == "service" and target_type == "queue":
-        return "Async"
-    if source_type == "service" and target_type == "cache":
-        return "Cache"
-    return "HTTP"
-
-
-def _validate_architecture(payload: dict) -> dict:
-    nodes = payload.get("nodes")
-    edges = payload.get("edges")
-    if not isinstance(nodes, list) or not isinstance(edges, list):
-        raise ValueError("Architecture JSON must contain 'nodes' and 'edges' arrays")
-    if len(nodes) == 0 or len(edges) == 0:
-        raise ValueError("Architecture JSON must include at least one node and one edge")
-
-    normalized_nodes: list[dict[str, str]] = []
-    node_types_by_id: dict[str, str] = {}
-    for node in nodes:
-        node_id = None
-        node_type = None
-
-        if isinstance(node, dict):
-            node_id = node.get("id")
-            node_type = node.get("type")
-        elif isinstance(node, str):
-            compact = node.strip()
-            if compact:
-                node_id = compact
-                inferred_from_id = _derive_type_from_id(compact)
-                node_type = inferred_from_id if inferred_from_id is not None else "service"
-
-        if not isinstance(node_id, str) or not node_id.strip():
-            raise ValueError("Each node must include a non-empty string 'id'")
-        normalized_id = node_id.strip()
-
-        if isinstance(node_type, str):
-            candidate_type = _NODE_TYPE_ALIASES.get(node_type.strip().lower(), node_type.strip().lower())
-            if candidate_type == "component":
-                inferred = _derive_type_from_id(normalized_id)
-                candidate_type = inferred if inferred is not None else "service"
-        else:
-            inferred = _derive_type_from_id(normalized_id)
-            candidate_type = inferred if inferred is not None else "service"
-
-        normalized_type = candidate_type
-        if normalized_type not in _ALLOWED_NODE_TYPES:
-            inferred_fallback = _derive_type_from_id(normalized_id)
-            normalized_type = inferred_fallback if inferred_fallback is not None else "service"
-
-        # Remove duplicate nodes by id (keep first occurrence).
-        if normalized_id in node_types_by_id:
-            continue
-        node_types_by_id[normalized_id] = normalized_type
-        normalized_nodes.append({"id": normalized_id, "type": normalized_type})
-
-    normalized_nodes = normalized_nodes[:8]
-    allowed_ids = {node["id"] for node in normalized_nodes}
-    node_types_by_id = {node["id"]: node["type"] for node in normalized_nodes}
-
-    normalized_edges: list[dict[str, str]] = []
-    seen_edges: set[tuple[str, str]] = set()
-    for edge in edges:
-        source = None
-        target = None
-        label = None
-
-        if isinstance(edge, dict):
-            source = edge.get("source") if edge.get("source") is not None else edge.get("from")
-            target = edge.get("target") if edge.get("target") is not None else edge.get("to")
-            label = edge.get("label") if edge.get("label") is not None else edge.get("protocol")
-        elif isinstance(edge, list) and len(edge) >= 2:
-            source = edge[0]
-            target = edge[1]
-            if len(edge) >= 3:
-                label = edge[2]
-
-        if not isinstance(source, str) or not isinstance(target, str):
-            raise ValueError("Each edge must include string 'source' and 'target'")
-
-        source_id = source.strip()
-        target_id = target.strip()
-
-        # Remove self-loops.
-        if source_id == target_id:
-            continue
-
-        # Drop edges that reference missing nodes.
-        if source_id not in allowed_ids or target_id not in allowed_ids:
-            continue
-
-        # Remove duplicate edges by (source, target).
-        edge_key = (source_id, target_id)
-        if edge_key in seen_edges:
-            continue
-        seen_edges.add(edge_key)
-
-        edge_label = _infer_edge_label(
-            node_types_by_id[source_id],
-            node_types_by_id[target_id],
-            label if isinstance(label, str) else None,
-        )
-        normalized_edges.append({"source": source_id, "target": target_id, "label": edge_label})
-
-        if len(normalized_edges) >= 10:
-            break
-
-    if len(normalized_edges) == 0:
-        raise ValueError("Architecture JSON must include at least one valid edge")
-
-    # Performance guardrails.
-    if len(normalized_nodes) > 10 or len(normalized_edges) > 15:
-        raise ValueError("Generated graph exceeds production limits")
-
-    return {"nodes": normalized_nodes, "edges": normalized_edges}
 
 
 def _tokenize_prompt(prompt: str) -> object:
@@ -443,8 +224,10 @@ ONLY return JSON. No explanation.
             print(f"RAW MODEL OUTPUT [attempt {attempt}/{attempt_count}]:", result[:500])
 
             try:
-                architecture = _validate_architecture(_extract_json_object(result))
-                if _is_structurally_weak_graph(architecture):
+                raw_json = extract_json_object_comments(result)
+                architecture = parse_architecture(raw_json)
+                raise_if_invalid(architecture)
+                if is_structurally_weak(architecture):
                     raise ValueError("Generated graph is structurally weak")
 
                 elapsed_ms = int((time.perf_counter() - started_at) * 1000)
