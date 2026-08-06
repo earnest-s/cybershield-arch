@@ -166,8 +166,6 @@ function buildEdgeStyle(style: EdgeData["style"] | undefined, lineStyle: EdgeLin
   };
 }
 
-function toFlowNodeType(kind: NodeType): "uiNode" | "serviceNode" | "dataNode" | "cacheNode" | "queueNode" | "containerNode" {
-
 function getNodeSize(node: Node<NodeData>): { width: number; height: number } {
   if (node.type === "containerNode") return { width: CONTAINER_WIDTH, height: CONTAINER_HEIGHT };
   return { width: DEFAULT_NODE_WIDTH, height: DEFAULT_NODE_HEIGHT };
