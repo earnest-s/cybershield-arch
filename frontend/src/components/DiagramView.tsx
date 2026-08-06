@@ -117,104 +117,19 @@ function getIconUrl(iconName: string | undefined): string | null {
   return `https://cdn.simpleicons.org/${slug}`;
 }
 
-function inferIconFromLabel(label: string): IconOption | null {
-  const normalized = normalizeLabel(label);
-  if (normalized.includes("postgres")) return "postgres";
-  if (normalized.includes("redis")) return "redis";
-  if (normalized.includes("kafka") || normalized.includes("queue") || normalized.includes("broker")) return "kafka";
-  if (normalized.includes("docker") || normalized.includes("container")) return "docker";
-  if (normalized.includes("nginx") || normalized.includes("gateway") || normalized.includes("proxy")) return "nginx";
-  if (normalized.includes("react") || normalized.includes("frontend") || normalized.includes("ui")) return "react";
-  if (normalized.includes("node") || normalized.includes("api") || normalized.includes("service")) return "node";
-  if (normalized.includes("aws")) return "aws";
-  return null;
-}
-
-function detectKindFromLabel(label: string, fallbackType?: string): FlowNodeKind {
-  const normalized = normalizeLabel(label);
-  const normalizedType = normalizeLabel(fallbackType ?? "");
-  if (normalized.includes("docker") || normalized.includes("container")) return "container";
-  if (
-    normalized.includes("postgres") ||
-    normalized.includes("mysql") ||
-    normalized.includes("mongo") ||
-    normalized.includes("db") ||
-    normalized.includes("database")
-  ) {
-    return "database";
-  }
-  if (normalized.includes("redis") || normalized.includes("cache")) return "cache";
-  if (normalized.includes("nginx") || normalized.includes("gateway")) return "gateway";
-  if (normalized.includes("queue") || normalized.includes("rabbitmq") || normalized.includes("kafka")) return "queue";
-  if (normalized.includes("frontend") || normalized.includes("ui") || normalized.includes("client")) return "ui";
-
-  if (
-    normalizedType === "ui" ||
-    normalizedType.includes("frontend") ||
-    normalizedType.includes("client") ||
-    normalizedType.includes("web")
-  ) {
-    return "ui";
-  }
-  if (
-    normalizedType === "database" ||
-    normalizedType === "data" ||
-    normalizedType.includes("db") ||
-    normalizedType.includes("database") ||
-    normalizedType.includes("postgres") ||
-    normalizedType.includes("mysql") ||
-    normalizedType.includes("mongo")
-  ) {
-    return "database";
-  }
-  if (normalizedType.includes("cache") || normalizedType.includes("redis") || normalizedType.includes("memcached")) {
-    return "cache";
-  }
-  if (
-    normalizedType.includes("queue") ||
-    normalizedType.includes("broker") ||
-    normalizedType.includes("kafka") ||
-    normalizedType.includes("rabbit") ||
-    normalizedType.includes("sqs")
-  ) {
-    return "queue";
-  }
-  if (
-    normalizedType.includes("gateway") ||
-    normalizedType.includes("proxy") ||
-    normalizedType.includes("ingress") ||
-    normalizedType.includes("nginx")
-  ) {
-    return "gateway";
-  }
-  if (
-    normalizedType.includes("container") ||
-    normalizedType.includes("docker") ||
-    normalizedType.includes("k8s") ||
-    normalizedType.includes("kubernetes") ||
-    normalizedType.includes("pod")
-  ) {
-    return "container";
-  }
-  return "service";
-}
-
-function toLayer(kind: FlowNodeKind): LayerType {
+function toLayer(kind: NodeType): LayerType {
   if (kind === "ui") return "ui";
   if (kind === "database" || kind === "cache") return "data";
   return "service";
 }
 
-function toCanonicalCategory(kind: FlowNodeKind): "ui" | "service" | "database" | "cache" {
-  if (kind === "ui") return "ui";
-  if (kind === "database") return "database";
-  if (kind === "cache") return "cache";
-  return "service";
-}
-
-function categoryForKind(kind: FlowNodeKind): "ui" | "service" | "database" | "cache" | "queue" {
-  if (kind === "queue") return "queue";
-  return toCanonicalCategory(kind);
+function toFlowNodeType(kind: NodeType): "uiNode" | "serviceNode" | "dataNode" | "cacheNode" | "queueNode" | "containerNode" {
+  if (kind === "ui") return "uiNode";
+  if (kind === "database") return "dataNode";
+  if (kind === "cache") return "cacheNode";
+  if (kind === "queue") return "queueNode";
+  if (kind === "container") return "containerNode";
+  return "serviceNode";
 }
 
 function getProtocolVisual(_edgeType: EdgeProtocol, lineStyle: EdgeLine): {
