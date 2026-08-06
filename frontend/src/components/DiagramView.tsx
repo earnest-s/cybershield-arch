@@ -919,7 +919,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
         if (!connection.source || !connection.target) return current;
         const sourceNode = current.nodes.find((n) => n.id === connection.source);
         const targetNode = current.nodes.find((n) => n.id === connection.target);
-        if (!isAllowedHierarchyEdge(sourceNode, targetNode)) return current;
+        if (!isAllowedHierarchyEdge(sourceNode, targetNode) || !sourceNode || !targetNode) return current;
 
         const exists = current.edges.some((e) => e.source === connection.source && e.target === connection.target);
         if (exists) return current;
