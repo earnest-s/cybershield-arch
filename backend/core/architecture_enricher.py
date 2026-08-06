@@ -2,11 +2,9 @@
 
 Wraps the production security engine (backend/security/*) behind one function
 so the runtime /explain endpoint, the dataset pipeline, and the response
-builder all compute identical security data. Replaces the duplicated assembly
-that previously lived in:
-- backend/api/main.py (manual security_result dict)
-- dataset/scripts/enrich_dataset.py (_controls_present + security dict)
-- backend/dataset/security.py (CONTROL_SUBSTRINGS + SecuritySection builder)
+builder all compute identical security data. This is the only security
+assembly point; legacy duplicate modules (backend/dataset/security.py and
+manual per-endpoint dict construction) have been removed.
 """
 
 from __future__ import annotations
