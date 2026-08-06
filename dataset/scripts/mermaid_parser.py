@@ -97,13 +97,9 @@ def _node_type_from_bracket(bracket: str) -> str | None:
     return None
 
 
-def _clean_label(raw: str) -> str:
-    return (
-        raw.replace("#quot;", '"')
-        .replace("#amp;", "&")
-        .replace("#39;", "'")
-        .strip()
-    )
+def _label(raw: str) -> str:
+    """Canonical label with the mermaid default fallback."""
+    return normalize_label(raw) or DEFAULT_EDGE_LABEL
 
 
 def _is_directive(line: str) -> bool:
@@ -122,7 +118,7 @@ def _extract_edges(line: str, edges: list[ParsedEdge], nodes_by_id: dict[str, Pa
     for match in _DASH_LABEL_EDGE.finditer(line):
         _ensure_node(nodes_by_id, match.group(1))
         _ensure_node(nodes_by_id, match.group(3))
-        edges.append(ParsedEdge(match.group(1), match.group(3), _normalize_label(match.group(2))))
+        edges.append(ParsedEdge(match.group(1), match.group(3), _label(match.group(2))))
         found = True
         line = line[: match.start()] + " " * (match.end() - match.start()) + line[match.end():]
 
@@ -138,7 +134,7 @@ def _extract_edges(line: str, edges: list[ParsedEdge], nodes_by_id: dict[str, Pa
         source, label_raw, target = source_match.group(1), target_match.group(1), target_match.group(2)
         _ensure_node(nodes_by_id, source)
         _ensure_node(nodes_by_id, target)
-        edges.append(ParsedEdge(source, target, _normalize_label(label_raw)))
+        edges.append(ParsedEdge(source, target, _label(label_raw)))
         found = True
     return found
 
