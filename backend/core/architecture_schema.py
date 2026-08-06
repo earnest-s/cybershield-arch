@@ -28,13 +28,14 @@ NODE_TYPE_ALIASES: dict[str, str] = {
 
 # Ordered (keyword, node_type) pairs used to infer a node type from an id or
 # label. First match wins; this merges the keyword tables previously kept in
-# backend/core/inference.py and dataset/scripts/mermaid_parser.py.
+# backend/core/inference.py and dataset/scripts/mermaid_parser.py. The rare
+# substring "front" is intentionally excluded: labels like "Azure Front Door"
+# must not flip a node to "ui".
 NODE_TYPE_KEYWORDS: tuple[tuple[str, str], ...] = (
     # ui
     ("ui", "ui"),
     ("web", "ui"),
     ("frontend", "ui"),
-    ("front", "ui"),
     ("client", "ui"),
     ("portal", "ui"),
     ("dashboard", "ui"),
