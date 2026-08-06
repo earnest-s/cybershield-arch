@@ -87,6 +87,9 @@ def _clean_label(raw: str) -> str:
         .replace("#39;", "'")
         .strip()
     )
+
+
+def _node_type_from_bracket(bracket: str) -> str | None:
     if bracket.startswith("[("):
         return "database"
     if bracket.startswith("[[") or bracket.startswith("(["):
