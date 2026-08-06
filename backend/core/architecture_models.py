@@ -20,6 +20,8 @@ class ArchitectureNode(BaseModel):
 
     id: str
     type: str
+    icon: str | None = None
+    layer: str | None = None
 
 
 class ArchitectureEdge(BaseModel):
@@ -28,6 +30,7 @@ class ArchitectureEdge(BaseModel):
     source: str
     target: str
     label: str = "HTTP"
+    dashed: bool | None = None
 
 
 class ArchitectureGraph(BaseModel):
@@ -52,6 +55,7 @@ class ThreatInfo(BaseModel):
     severity: str
     description: str = ""
     missing_control: str | None = None
+    severity_level: str = ""
 
 
 class NodeThreat(BaseModel):
@@ -62,6 +66,7 @@ class NodeThreat(BaseModel):
     threat: str
     severity: str
     missing_control: str
+    severity_level: str = ""
 
 
 class AttackSurface(BaseModel):
