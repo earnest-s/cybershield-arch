@@ -920,7 +920,13 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
         const exists = current.edges.some((e) => e.source === connection.source && e.target === connection.target);
         if (exists) return current;
 
-        const chosen = protocolFromKinds(sourceNode, targetNode);
+        const chosen: EdgeProtocol = targetNode.data.kind === "database"
+          ? "DB Query"
+          : targetNode.data.kind === "queue"
+            ? "Async"
+            : targetNode.data.kind === "cache"
+              ? "Cache"
+              : "HTTP";
         const lineStyle: EdgeLine = chosen === "Async" ? "async" : "sync";
 
         const edge = createEdge(`e${Date.now()}`, connection.source, connection.target, chosen, lineStyle);
