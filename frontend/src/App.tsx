@@ -6,8 +6,6 @@ const API_URL = "http://127.0.0.1:8000/explain";
 const STORAGE_ARCH = "architectai-last-architecture";
 const STORAGE_INPUT = "architectai-last-input";
 
-const defaultText = "A frontend app calls an API service, which writes to postgres and publishes jobs to a queue.";
-
 const EMPTY_ARCHITECTURE: Architecture = {
   nodes: [],
   edges: [],
@@ -16,7 +14,7 @@ const EMPTY_ARCHITECTURE: Architecture = {
 type ThemeMode = "light" | "dark";
 
 function App() {
-  const [input, setInput] = useState(() => localStorage.getItem(STORAGE_INPUT) || defaultText);
+  const [input, setInput] = useState(() => localStorage.getItem(STORAGE_INPUT) ?? "");
   const [architecture, setArchitecture] = useState<Architecture | null>(() => {
     const raw = localStorage.getItem(STORAGE_ARCH);
     if (!raw) return null;
