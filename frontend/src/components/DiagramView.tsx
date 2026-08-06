@@ -693,7 +693,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
       ...current,
       nodes: current.nodes.map((node) => {
         if (node.id !== nodeId) return node;
-        const kind = detectKindFromLabel(clean, node.type);
+        const kind: NodeType = NODE_TYPES.includes(node.data.kind) ? node.data.kind : "service";
         return {
           ...node,
           type: toFlowNodeType(kind),
