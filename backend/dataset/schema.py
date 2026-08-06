@@ -14,6 +14,7 @@ from typing import Any
 
 from jsonschema import Draft7Validator
 
+from backend.core.architecture_schema import ALLOWED_NODE_TYPES, ALLOWED_EDGE_LABELS
 from backend.security.security_catalog import SECURITY_CATALOG
 from backend.security.threat_detector import THREAT_KNOWLEDGE_BASE
 
@@ -30,8 +31,6 @@ DOCS_DIR = ROOT / "dataset" / "docs"
 
 CONTROLS: set[str] = set(SECURITY_CATALOG.keys())
 THREAT_NAMES: set[str] = set(THREAT_KNOWLEDGE_BASE.keys())
-ALLOWED_NODE_TYPES: set[str] = {"ui", "service", "database", "cache", "queue", "container"}
-ALLOWED_EDGE_LABELS: set[str] = {"HTTP", "DB Query", "Async", "Cache"}
 DIFFICULTIES: set[str] = {"easy", "medium", "hard"}
 RISK_LEVELS: set[str] = {"LOW", "MEDIUM", "HIGH"}
 SOURCES: set[str] = {"synthetic", "human", "model", "adapted"}
