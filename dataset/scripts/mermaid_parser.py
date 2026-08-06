@@ -203,7 +203,7 @@ def parse_mermaid(text: str) -> MermaidGraph:
         for match in _NODE_DEF.finditer(line):
             node_id, bracket = match.group(1), match.group(2)
             label_text = _clean_label(bracket[1:-1])
-            node_type = _node_type_from_bracket(bracket) or _infer_type(node_id, label_text)
+            node_type = _node_type_from_bracket(bracket) or derive_node_type(node_id, label_text)
             _ensure_node(nodes_by_id, node_id, force_type=node_type)
             has_defs = True
 
