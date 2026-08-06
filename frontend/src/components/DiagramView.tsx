@@ -436,14 +436,10 @@ function FallbackIcon({ type }: { type: string }) {
   return <Server className="arch-node-icon" size={16} />;
 }
 
-function TechnologyIcon({ label, kind, type, icon }: { label: string; kind: FlowNodeKind; type: string; icon?: string }) {
+function TechnologyIcon({ label, kind, type, icon }: { label: string; kind: NodeType; type: string; icon?: string }) {
   const [hasImageError, setHasImageError] = useState(false);
-  const hasExplicitIcon = Boolean(icon && icon !== "auto");
-  const explicitIconName = hasExplicitIcon ? normalizeLabel(icon ?? "") : null;
-  const explicitUrl = explicitIconName ? getIconUrl(explicitIconName) : null;
-  const inferred = hasExplicitIcon ? null : inferIconFromLabel(label);
-  const resolvedIconName = explicitIconName || inferred || undefined;
-  const iconUrl = explicitUrl || getIconUrl(inferred ?? undefined);
+  const resolvedIconName = typeof icon === "string" && icon && icon !== "auto" ? icon : undefined;
+  const iconUrl = resolvedIconName ? getIconUrl(resolvedIconName) : null;
 
   useEffect(() => {
     setHasImageError(false);
