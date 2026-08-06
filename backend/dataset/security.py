@@ -1,46 +1,17 @@
 """Ground-truth security computation for dataset samples.
 
-Runs the application's own security engine (backend/security) over an
-architecture so that dataset labels are identical to what the production
-/explain endpoint would produce. Nothing here modifies the engine.
+Thin wrapper around the canonical security layer (backend/core/architecture_
+enricher) so dataset labels are identical to what the production /explain
+endpoint produces. Nothing here re-implements the engine.
 """
 
 from __future__ import annotations
 
 from typing import Any
 
+from backend.core.architecture_enricher import build_security_data, detect_present_controls
 from backend.dataset.models import SecuritySection, Threat
 from backend.dataset.schema import CONTROLS
-from backend.security.security_analyzer import analyze_architecture_security
-from backend.security.threat_detector import detect_threats
-
-CONTROL_SUBSTRINGS: dict[str, str] = {
-    "Authentication": "authentication",
-    "RBAC": "rbac",
-    "API Gateway": "api gateway",
-    "Audit Logging": "audit logging",
-    "Monitoring": "monitoring",
-    "Secrets Manager": "secrets manager",
-    "SIEM": "siem",
-    "WAF": "waf",
-    "IDS": "ids",
-    "IPS": "ips",
-    "Encryption Service": "encryption service",
-    "MFA": "mfa",
-}
-
-
-def _controls_present_in_architecture(nodes: list[dict[str, Any]]) -> set[str]:
-    present: set[str] = set()
-    for node in nodes:
-        try:
-            node_text = " ".join(str(value).lower() for value in node.values())
-        except (TypeError, AttributeError):
-            node_text = str(node).lower()
-        for control, needle in CONTROL_SUBSTRINGS.items():
-            if needle in node_text:
-                present.add(control)
-    return present
 
 
 def compute_security_section(
@@ -48,30 +19,23 @@ def compute_security_section(
     edges: list[dict[str, Any]],
 ) -> SecuritySection:
     """Compute the full security section for a sample using the app engine."""
-    analysis = analyze_architecture_security(nodes, edges)
-    threats_result = detect_threats(nodes, edges)
-
-    missing_controls = sorted(c["name"] for c in analysis.get("missing_components", []))
-    present_controls = _controls_present_in_architecture(nodes)
-    required_controls = sorted(present_controls | set(missing_controls))
-
-    threats = [
-        Threat(
-            name=str(threat.get("name", "")),
-            severity=str(threat.get("severity", "")),
-            description=str(threat.get("description", "")),
-            missing_control=str(threat.get("missing_control", "")) or None,
-        )
-        for threat in threats_result.get("threats", [])
-    ]
+    security = build_security_data(nodes, edges)
 
     return SecuritySection(
-        required_controls=[c for c in sorted(CONTROLS) if c in required_controls],
-        missing_controls=missing_controls,
-        threats=threats,
-        recommendations=list(analysis.get("recommendations", [])),
-        risk_level=str(analysis.get("risk_level", "HIGH")),
-        security_score=int(analysis.get("security_score", 0)),
+        required_controls=[c for c in sorted(CONTROLS) if c in security.required_controls],
+        missing_controls=security.missing_controls,
+        threats=[
+            Threat(
+                name=threat.name,
+                severity=threat.severity,
+                description=threat.description,
+                missing_control=threat.missing_control,
+            )
+            for threat in security.threats
+        ],
+        recommendations=security.recommendations,
+        risk_level=security.risk_level,
+        security_score=security.security_score,
     )
 
 
