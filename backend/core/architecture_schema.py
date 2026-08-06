@@ -122,7 +122,7 @@ NODE_ICON_KEYWORDS: tuple[tuple[str, str], ...] = (
 # connector. Mirrors the Async/label treatment previously hardcoded in the UI.
 EDGE_DASHED_LABELS: frozenset[str] = frozenset({"Async"})
 
-# Production guardrails enforced by the parser/parser/validator.
+# Production guardrails enforced by the parser/validator.
 MAX_NODES = 8
 MAX_EDGES = 10
 HARD_NODE_LIMIT = 10
