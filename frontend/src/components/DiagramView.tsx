@@ -358,9 +358,10 @@ function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Archi
       const targetNode = byId.get(edge.target);
       if (!sourceNode || !targetNode) return null;
 
-      const label = typeof edge.label === "string" ? edge.label : undefined;
-      const edgeType = normalizeProtocol(label ?? protocolFromKinds(sourceNode, targetNode));
-      const lineStyle: EdgeLine = edgeType === "Async" ? "async" : "sync";
+      const edgeType: EdgeProtocol = edge.label === "DB Query" || edge.label === "Async" || edge.label === "Cache"
+        ? edge.label
+        : "HTTP";
+      const lineStyle: EdgeLine = edge.dashed === true || edgeType === "Async" ? "async" : "sync";
       return createEdge(`e${index + 1}`, edge.source, edge.target, edgeType, lineStyle);
     })
     .filter((edge): edge is Edge<EdgeData> => edge !== null)
