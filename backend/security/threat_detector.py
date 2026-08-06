@@ -122,6 +122,7 @@ def build_threat_node_mapping(nodes: List[Dict[str, Any]], edges: List[Dict[str,
                 threat_info = THREAT_KNOWLEDGE_BASE[t_name].copy()
                 threat_info["missing_control"] = comp
                 threat_info["severity"] = THREAT_KNOWLEDGE_BASE[t_name]["severity"]
+                threat_info["severity_level"] = THREAT_SEVERITY_COLORS.get(threat_info["severity"], "")
                 detected_threats[t_name] = threat_info
                 
                 for node_id in affected_nodes:
@@ -130,7 +131,8 @@ def build_threat_node_mapping(nodes: List[Dict[str, Any]], edges: List[Dict[str,
                     node_threats[node_id].append({
                         "threat": t_name,
                         "severity": threat_info["severity"],
-                        "missing_control": comp
+                        "missing_control": comp,
+                        "severity_level": threat_info["severity_level"]
                     })
                 
                 for edge_id in affected_edges:
@@ -139,7 +141,8 @@ def build_threat_node_mapping(nodes: List[Dict[str, Any]], edges: List[Dict[str,
                     edge_threats[edge_id].append({
                         "threat": t_name,
                         "severity": threat_info["severity"],
-                        "missing_control": comp
+                        "missing_control": comp,
+                        "severity_level": threat_info["severity_level"]
                     })
     
     return {
