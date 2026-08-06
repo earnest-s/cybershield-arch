@@ -1235,7 +1235,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
 
   const updateSelectedEdgeType = (value: string) => {
     if (!selectedEdge) return;
-    const edgeType = normalizeProtocol(value);
+    const edgeType = canonicalEdgeLabel(value);
     const lineStyle: EdgeLine = edgeType === "Async" ? "async" : "sync";
     applyGraphChange((current) => ({
       ...current,
@@ -1255,7 +1255,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
           ...(edge.data?.style || {}),
           [key]: value,
         } as EdgeData["style"];
-        const nextType = edge.data?.edgeType ?? "request";
+        const nextType = edge.data?.edgeType ?? "HTTP";
         const nextLineStyle = edge.data?.lineStyle ?? (nextType === "Async" ? "async" : "sync");
         return createEdge(edge.id, edge.source, edge.target, nextType, nextLineStyle, nextStyle);
       }),
@@ -1269,7 +1269,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
       setEdgeEditor(null);
       return;
     }
-    const edgeType = normalizeProtocol(clean);
+    const edgeType = canonicalEdgeLabel(clean);
     const lineStyle: EdgeLine = edgeType === "Async" ? "async" : "sync";
     applyGraphChange((current) => ({
       ...current,
