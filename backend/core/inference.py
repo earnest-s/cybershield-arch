@@ -127,30 +127,6 @@ def run_startup_smoke_test() -> None:
         raise RuntimeError("Startup smoke inference returned empty output")
 
 
-def _is_structurally_weak_graph(architecture: dict) -> bool:
-    nodes = architecture.get("nodes", [])
-    edges = architecture.get("edges", [])
-    if len(nodes) == 0 or len(edges) == 0:
-        return True
-
-    degrees: dict[str, int] = {
-        node["id"]: 0
-        for node in nodes
-        if isinstance(node, dict) and isinstance(node.get("id"), str)
-    }
-    for edge in edges:
-        if not isinstance(edge, dict):
-            continue
-        src = edge.get("source")
-        dst = edge.get("target")
-        if isinstance(src, str) and src in degrees:
-            degrees[src] += 1
-        if isinstance(dst, str) and dst in degrees:
-            degrees[dst] += 1
-
-    return any(degree == 0 for degree in degrees.values())
-
-
 def generate_architecture(text: str, deterministic: bool = False) -> tuple[dict, str]:
     _load_model_once()
     clean_text = text.strip()
