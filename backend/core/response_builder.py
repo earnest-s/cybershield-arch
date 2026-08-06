@@ -20,10 +20,40 @@ from backend.core.architecture_models import (
     ArchitectureGraph,
     ArchitectureMetadata,
     ArchitectureResponse,
+    ExplainResponse,
     SecurityData,
     ValidationResult,
 )
+from backend.core.architecture_schema import (
+    EDGE_DASHED_LABELS,
+    NODE_TYPE_LAYERS,
+    derive_node_icon,
+)
 from backend.core.architecture_validator import validate_architecture
+
+
+def _apply_visual_metadata(architecture: dict[str, Any]) -> dict[str, Any]:
+    """Attach canonical presentation metadata (icon/layer/dashed).
+
+    The renderer consumes these fields instead of re-inferring node kinds or
+    edge styling; the same tables in architecture_schema.py are the single
+    source of truth.
+    """
+    nodes: list[dict[str, Any]] = []
+    for node in architecture.get("nodes", []):
+        node_type = str(node.get("type", "service"))
+        annotated = dict(node)
+        annotated["icon"] = derive_node_icon(str(node.get("id", "")))
+        annotated["layer"] = NODE_TYPE_LAYERS.get(node_type, "service")
+        nodes.append(annotated)
+
+    edges: list[dict[str, Any]] = []
+    for edge in architecture.get("edges", []):
+        edge = dict(edge)
+        edge["dashed"] = edge.get("label") in EDGE_DASHED_LABELS
+        edges.append(edge)
+
+    return {**architecture, "nodes": nodes, "edges": edges}
 
 
 def build_response(
@@ -36,6 +66,7 @@ def build_response(
     run_security: bool = True,
 ) -> ArchitectureResponse:
     """Build the canonical response: parse -> validate -> enrich -> assemble."""
+    architecture = _apply_visual_metadata(architecture)
     graph = ArchitectureGraph.model_validate(architecture)
     validation = validate_architecture(architecture)
 
