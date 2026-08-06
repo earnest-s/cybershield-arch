@@ -24,26 +24,7 @@ import ReactFlow, {
   useReactFlow,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { NodeThreat, SecurityData } from "../types";
-
-type ArchitectureNode = {
-  id: string;
-  type?: string;
-  [key: string]: unknown;
-};
-
-type ArchitectureEdge = {
-  source: string;
-  target: string;
-  [key: string]: unknown;
-};
-
-type Architecture = {
-  nodes: ArchitectureNode[];
-  edges: ArchitectureEdge[];
-};
-
-type EditorNodeType = "ui" | "service" | "data" | "cache" | "queue" | "container";
+import { Architecture, NODE_TYPES, NodeThreat, NodeType, SecurityData } from "../types";
 
 type EditorCommand = {
   id: number;
@@ -58,8 +39,7 @@ type DiagramViewProps = {
   security?: SecurityData | null;
 };
 
-type FlowNodeKind = "ui" | "service" | "database" | "cache" | "container" | "gateway" | "queue";
-type EdgeProtocol = "request" | "HTTP" | "gRPC" | "Async" | "Cache" | "DB Query";
+type EdgeProtocol = "HTTP" | "DB Query" | "Async" | "Cache";
 type EdgeLine = "sync" | "async";
 type ToolMode = "select" | "connect";
 
