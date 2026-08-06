@@ -29,35 +29,13 @@ from dataset.scripts.common import (
     setup_logger,
     write_json,
 )
+from backend.core.architecture_validator import is_weakly_connected
 
 ENRICHED_DIR = DATASET_DIR / "enriched"
 VALIDATED_DIR = DATASET_DIR / "validated"
 LOGS_DIR = DATASET_DIR / "logs"
 
 LOG = setup_logger("validate_dataset")
-
-
-def _is_connected(nodes: list[dict], edges: list[dict]) -> bool:
-    """Check if the graph is weakly connected."""
-    if not nodes:
-        return False
-    node_ids = {n["id"] for n in nodes}
-    adj: defaultdict[str, set[str]] = defaultdict(set)
-    for e in edges:
-        s, t = e.get("source"), e.get("target")
-        if s in node_ids and t in node_ids:
-            adj[s].add(t)
-            adj[t].add(s)
-    start = next(iter(node_ids))
-    visited = {start}
-    stack = [start]
-    while stack:
-        u = stack.pop()
-        for v in adj[u]:
-            if v not in visited:
-                visited.add(v)
-                stack.append(v)
-    return visited == node_ids
 
 
 def validate(limit: int = 0, force: bool = False) -> int:
@@ -144,7 +122,7 @@ def validate(limit: int = 0, force: bool = False) -> int:
                 continue
 
             # Connectedness
-            if not _is_connected(nodes, edges):
+            if not is_weakly_connected(nodes, edges):
                 LOG.warning("%s: disconnected graph", sample_id)
                 rejected += 1
                 continue
