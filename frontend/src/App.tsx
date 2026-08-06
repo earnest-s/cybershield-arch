@@ -1,12 +1,17 @@
 import { ChangeEvent, DragEvent, useEffect, useRef, useState } from "react";
 import DiagramView from "./components/DiagramView";
-import { Architecture, EditorCommand, SecurityData } from "./types";
+import { Architecture, EditorCommand, NodeType, SecurityData } from "./types";
 
 const API_URL = "http://127.0.0.1:8000/explain";
 const STORAGE_ARCH = "architectai-last-architecture";
 const STORAGE_INPUT = "architectai-last-input";
 
 const defaultText = "A frontend app calls an API service, which writes to postgres and publishes jobs to a queue.";
+
+const EMPTY_ARCHITECTURE: Architecture = {
+  nodes: [],
+  edges: [],
+};
 
 type ThemeMode = "light" | "dark";
 
@@ -54,7 +59,7 @@ function App() {
     }
   };
 
-  const onDragNodeTemplate = (event: DragEvent<HTMLButtonElement>, nodeType: EditorNodeType) => {
+  const onDragNodeTemplate = (event: DragEvent<HTMLButtonElement>, nodeType: NodeType) => {
     event.dataTransfer.setData("application/x-arch-node", nodeType);
     event.dataTransfer.effectAllowed = "move";
   };
