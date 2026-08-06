@@ -93,11 +93,54 @@ LABEL_ALIASES: dict[str, str] = {
     "cached": "Cache",
 }
 
-# Production guardrails enforced by the parser/validator.
+# Canonical presentation metadata consumed by renderers. The UI must not
+# redefine these tables; it reads ``icon`` / ``layer`` / ``dashed`` from the
+# response produced by response_builder.build_response.
+NODE_TYPE_LAYERS: dict[str, str] = {
+    "ui": "ui",
+    "service": "service",
+    "database": "data",
+    "cache": "data",
+    "queue": "service",
+    "container": "service",
+}
+
+# Canonical brand/technology icon names recognized from a node id. Merges the
+# icon inference previously duplicated in frontend DiagramView.inferIconFromLabel.
+NODE_ICON_KEYWORDS: tuple[tuple[str, str], ...] = (
+    ("postgres", "postgres"),
+    ("redis", "redis"),
+    ("kafka", "kafka"),
+    ("docker", "docker"),
+    ("nginx", "nginx"),
+    ("react", "react"),
+    ("node", "node"),
+    ("aws", "aws"),
+)
+
+# Canonical edge-label presentation: which labels render as a dashed (async)
+# connector. Mirrors the Async/label treatment previously hardcoded in the UI.
+EDGE_DASHED_LABELS: frozenset[str] = frozenset({"Async"})
+
+# Production guardrails enforced by the parser/parser/validator.
 MAX_NODES = 8
 MAX_EDGES = 10
 HARD_NODE_LIMIT = 10
 HARD_EDGE_LIMIT = 15
+
+
+def derive_node_icon(node_id: str) -> str | None:
+    """Infer a canonical technology icon name from a node id.
+
+    Returns a member of the canonical icon vocabulary (postgres/redis/kafka/
+    docker/nginx/react/node/aws) or None when no brand is recognizable; the
+    renderer falls back to its type-based presentation icon.
+    """
+    lowered = node_id.lower()
+    for keyword, icon in NODE_ICON_KEYWORDS:
+        if keyword in lowered:
+            return icon
+    return None
 
 
 def canonical_architecture(architecture: dict[str, Any]) -> str:
