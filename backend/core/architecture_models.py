@@ -133,3 +133,21 @@ class ArchitectureResponse(BaseModel):
     security: SecurityData | None = None
     metadata: ArchitectureMetadata = Field(default_factory=ArchitectureMetadata)
     validation: ValidationResult = Field(default_factory=ValidationResult)
+
+
+class ExplainResponse(ArchitectureResponse):
+    """Wire contract served by /explain.
+
+    Adds the top-level ``raw_model_output`` the frontend reads; every other
+    field is inherited from the canonical ``ArchitectureResponse``.
+    """
+
+    raw_model_output: str | None = None
+
+
+class HealthResponse(BaseModel):
+    """Canonical health probe; no free-form dicts from endpoints."""
+
+    model_config = ConfigDict(extra="ignore")
+
+    status: str = "ok"
