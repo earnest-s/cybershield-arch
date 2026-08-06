@@ -1,43 +1,12 @@
 import { ChangeEvent, DragEvent, useEffect, useRef, useState } from "react";
 import DiagramView from "./components/DiagramView";
-import { SecurityData } from "./types";
+import { Architecture, EditorCommand, SecurityData } from "./types";
 
 const API_URL = "http://127.0.0.1:8000/explain";
 const STORAGE_ARCH = "architectai-last-architecture";
 const STORAGE_INPUT = "architectai-last-input";
 
 const defaultText = "A frontend app calls an API service, which writes to postgres and publishes jobs to a queue.";
-
-type ArchitectureNode = {
-  id: string;
-  type: "ui" | "service" | "database" | "cache" | "queue" | "container";
-  [key: string]: unknown;
-};
-
-type ArchitectureEdge = {
-  source: string;
-  target: string;
-  label?: string;
-  [key: string]: unknown;
-};
-
-type Architecture = {
-  nodes: ArchitectureNode[];
-  edges: ArchitectureEdge[];
-  [key: string]: unknown;
-};
-
-const EMPTY_ARCHITECTURE: Architecture = {
-  nodes: [],
-  edges: [],
-};
-
-type EditorNodeType = "ui" | "service" | "data" | "cache" | "queue" | "container";
-
-type EditorCommand = {
-  id: number;
-  action: "reset" | "clear";
-};
 
 type ThemeMode = "light" | "dark";
 
