@@ -1135,10 +1135,13 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
         parsed.edges
           .map((item, index) => {
             if (!item || typeof item !== "object") return null;
-            const edge = item as { source?: unknown; target?: unknown; data?: { edgeType?: unknown; lineStyle?: unknown } };
+            const edge = item as { source?: unknown; target?: unknown; label?: unknown; data?: { edgeType?: unknown; lineStyle?: unknown } };
             if (typeof edge.source !== "string" || typeof edge.target !== "string") return null;
             if (!nodeSet.has(edge.source) || !nodeSet.has(edge.target)) return null;
-            const edgeType = normalizeProtocol(typeof edge.data?.edgeType === "string" ? edge.data.edgeType : "request");
+            const edgeLabel = typeof edge.data?.edgeType === "string" ? edge.data.edgeType
+              : typeof edge.label === "string" ? edge.label
+              : "HTTP";
+            const edgeType: EdgeProtocol = edgeLabel === "DB Query" || edgeLabel === "Async" || edgeLabel === "Cache" ? edgeLabel : "HTTP";
             const lineStyle: EdgeLine = edgeType === "Async" ? "async" : "sync";
             const style = typeof (edge as { data?: { style?: unknown } }).data?.style === "object" && (edge as { data?: { style?: unknown } }).data?.style !== null
               ? (edge as { data?: { style?: { stroke?: string; width?: number; dashed?: boolean } } }).data?.style
