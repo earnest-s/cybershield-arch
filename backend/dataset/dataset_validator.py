@@ -26,7 +26,6 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -62,15 +61,6 @@ class ValidationIssue:
 class ValidationResult:
     valid: list[Path] = field(default_factory=list)
     issues: list[ValidationIssue] = field(default_factory=list)
-
-
-def _canonical_architecture(sample: dict[str, Any]) -> str:
-    nodes = sorted((n.get("id"), n.get("type")) for n in sample.get("architecture", {}).get("nodes", []))
-    edges = sorted(
-        (e.get("source"), e.get("target"), e.get("label"))
-        for e in sample.get("architecture", {}).get("edges", [])
-    )
-    return json.dumps({"nodes": nodes, "edges": edges}, sort_keys=True)
 
 
 def validate_sample(sample: dict[str, Any]) -> list[ValidationIssue]:
@@ -143,7 +133,7 @@ def validate_samples(argv: list[str] | None = None) -> int:
             continue
         seen_ids.add(sample_id)
 
-        canonical = _canonical_architecture(sample)
+        canonical = canonical_architecture(sample.get("architecture", {}))
         if canonical in seen_architectures:
             result.issues.append(
                 ValidationIssue(sample_id, "batch", f"duplicate architecture with {seen_architectures[canonical]}")
