@@ -54,14 +54,18 @@ def normalize_node_type(raw_type: Any, node_id: str = "") -> str:
 
 
 def normalize_label(label: str | None) -> str | None:
-    """Map a raw edge label to a canonical label; None if empty/unknown."""
+    """Map a raw edge label to a canonical label; None if unmapped/empty.
+
+    Unmapped labels return None so callers can apply a type-pair heuristic or
+    the default edge label (preserving mermaid's fallback-to-HTTP behavior).
+    """
     if not isinstance(label, str) or not label.strip():
         return None
     lowered = label.strip().lower()
     for alias, canonical in LABEL_ALIASES.items():
         if alias in lowered:
             return canonical
-    return label.strip()
+    return None
 
 
 def infer_edge_label(
