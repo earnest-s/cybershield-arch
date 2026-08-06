@@ -1,8 +1,8 @@
 """Shared helpers for the dataset pipeline scripts.
 
 Provides path conventions, logging setup, JSON I/O with resume support, and
-the vocabulary constants that keep the pipeline aligned with the application
-(backend/core/inference.py and backend/security/*).
+re-exports the canonical vocabulary from backend.core.architecture_schema so
+the pipeline stays aligned with the runtime (backend/core/*).
 """
 
 from __future__ import annotations
@@ -13,12 +13,15 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from backend.core.architecture_schema import (
+    ALLOWED_EDGE_LABELS,
+    ALLOWED_NODE_TYPES,
+    canonical_architecture,
+)
+
 ROOT = Path(__file__).resolve().parents[2]
 DATASET_DIR = ROOT / "dataset"
 LOGS_DIR = DATASET_DIR / "logs"
-
-ALLOWED_NODE_TYPES: set[str] = {"ui", "service", "database", "cache", "queue", "container"}
-ALLOWED_EDGE_LABELS: set[str] = {"HTTP", "DB Query", "Async", "Cache"}
 
 ID_PREFIX = "CSA"
 
