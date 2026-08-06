@@ -162,7 +162,7 @@ function App() {
           <div className="tool-grid">
             <button type="button" draggable className="tool-btn draggable" onDragStart={(event) => onDragNodeTemplate(event, "ui")}>UI</button>
             <button type="button" draggable className="tool-btn draggable" onDragStart={(event) => onDragNodeTemplate(event, "service")}>Service</button>
-            <button type="button" draggable className="tool-btn draggable" onDragStart={(event) => onDragNodeTemplate(event, "data")}>Database</button>
+            <button type="button" draggable className="tool-btn draggable" onDragStart={(event) => onDragNodeTemplate(event, "database")}>Database</button>
             <button type="button" draggable className="tool-btn draggable" onDragStart={(event) => onDragNodeTemplate(event, "cache")}>Cache</button>
             <button type="button" draggable className="tool-btn draggable" onDragStart={(event) => onDragNodeTemplate(event, "queue")}>Queue</button>
             <button type="button" draggable className="tool-btn draggable" onDragStart={(event) => onDragNodeTemplate(event, "container")}>Container</button>

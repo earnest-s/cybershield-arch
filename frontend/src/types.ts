@@ -24,6 +24,11 @@ export type Architecture = {
   [key: string]: unknown;
 };
 
+export type EditorCommand = {
+  id: number;
+  action: "reset" | "clear";
+};
+
 export type ThreatInfo = {
   name: string;
   severity: string;
