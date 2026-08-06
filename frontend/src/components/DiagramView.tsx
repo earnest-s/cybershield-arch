@@ -233,10 +233,8 @@ function buildNodeFromTemplate(template: NodeType, id: string, position: { x: nu
 
 function isAllowedHierarchyEdge(source: Node<NodeData> | undefined, target: Node<NodeData> | undefined): boolean {
   if (!source || !target) return false;
-  const sourceKind: "ui" | "service" = source.data.kind === "queue" || source.data.kind === "container"
-    ? "service"
-    : source.data.kind;
-  const targetKind: "ui" | "service" | "database" | "cache" = target.data.kind;
+  const sourceKind: NodeType = source.data.kind;
+  const targetKind: NodeType = target.data.kind;
   if (sourceKind === "ui" && targetKind === "service") return true;
   if (sourceKind === "service" && (targetKind === "database" || targetKind === "cache")) return true;
   return false;
