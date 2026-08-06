@@ -1176,7 +1176,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
     onCommitLabel(selectedNode.id, label);
   };
 
-  const updateSelectedNodeKind = (kind: FlowNodeKind) => {
+  const updateSelectedNodeKind = (kind: NodeType) => {
     if (!selectedNode) return;
     applyGraphChange((current) => ({
       ...current,
