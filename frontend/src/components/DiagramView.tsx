@@ -492,9 +492,9 @@ function threatSeverityClass(threats: NodeThreat[] | undefined): "danger" | "war
   if (!threats || threats.length === 0) return null;
   let worst: "danger" | "warning" | "info" = "info";
   threats.forEach((threat) => {
-    const severity = threat.severity.toUpperCase();
-    if (severity === "CRITICAL") worst = "danger";
-    else if (severity === "HIGH" && worst !== "danger") worst = "warning";
+    const level = threat.severity_level;
+    if (level === "danger") worst = "danger";
+    else if (level === "warning" && worst !== "danger") worst = "warning";
   });
   return worst;
 }
