@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 
 from backend.core.inference import generate_architecture, preload_model, run_startup_smoke_test
 from backend.core.response_builder import build_response, response_to_explain_payload
+from backend.core.architecture_models import ExplainResponse, HealthResponse
 
 logger = logging.getLogger(__name__)
 
@@ -41,13 +42,13 @@ async def preload_inference_model() -> None:
     print("MODEL READY")
 
 
-@app.get("/healthz")
-async def healthz() -> dict:
-    return {"status": "ok"}
+@app.get("/healthz", response_model=HealthResponse)
+async def healthz() -> HealthResponse:
+    return HealthResponse(status="ok")
 
 
-@app.post("/explain")
-async def explain(request: ExplainRequest):
+@app.post("/explain", response_model=ExplainResponse)
+async def explain(request: ExplainRequest) -> ExplainResponse:
     text = request.text.strip()
     if not text:
         raise HTTPException(status_code=400, detail="Provide non-empty 'text' in request body")
