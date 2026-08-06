@@ -47,6 +47,7 @@ labels are computed by `backend/security/*` — the same engine the production
 
 ## Related tooling
 
-An earlier template-based generator lives in `backend/dataset/` (outputs in
-`generated/`, `templates/`, `prompts/`); its artifacts feed the same
-validated/reviewed/final stages.
+The legacy template-based generator (`backend/dataset/`, `dataset/templates/`,
+`dataset/prompts/`, `dataset/generated/`) has been removed. All records in
+validated/reviewed/final originate from the HuggingFace pipeline in
+`dataset/scripts/`.
