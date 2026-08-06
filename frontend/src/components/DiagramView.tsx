@@ -1385,13 +1385,10 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
             <label>Label</label>
             <input className="prop-input" value={selectedNode.data.label} onChange={(event) => updateSelectedNodeLabel(event.target.value)} />
             <label>Type</label>
-            <select className="prop-input" value={selectedNode.data.kind} onChange={(event) => updateSelectedNodeKind(event.target.value as FlowNodeKind)}>
-              <option value="ui">ui</option>
-              <option value="service">service</option>
-              <option value="database">db</option>
-              <option value="cache">cache</option>
-              <option value="queue">queue</option>
-              <option value="container">container</option>
+            <select className="prop-input" value={selectedNode.data.kind} onChange={(event) => updateSelectedNodeKind(event.target.value as NodeType)}>
+              {NODE_TYPES.map((nodeType) => (
+                <option key={nodeType} value={nodeType}>{nodeType === "database" ? "db" : nodeType}</option>
+              ))}
             </select>
             <label>Icon</label>
             <select className="prop-input" value={selectedNode.data.icon ?? "auto"} onChange={(event) => updateSelectedNodeIcon(event.target.value)}>
