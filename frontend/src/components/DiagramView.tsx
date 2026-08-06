@@ -521,7 +521,7 @@ function applyEdgeThreats(edge: Edge<EdgeData>, edgeThreats: Record<string, Node
   const base = edge.className ?? "";
   const threatClass = severityClass ? `threat-edge threat-${severityClass}` : "threat-edge";
   const data: EdgeData = {
-    edgeType: edge.data?.edgeType ?? "request",
+    edgeType: edge.data?.edgeType ?? "HTTP",
     lineStyle: edge.data?.lineStyle ?? (edge.data?.edgeType === "Async" ? "async" : "sync"),
     ...edge.data,
     threats,
