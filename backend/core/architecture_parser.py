@@ -15,6 +15,7 @@ backend/core/inference.py and dataset/scripts/mermaid_parser.py:
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 from backend.core.architecture_schema import (
@@ -29,42 +30,18 @@ from backend.core.architecture_schema import (
 DEFAULT_NODE_TYPE = "service"
 DEFAULT_EDGE_LABEL = "HTTP"
 
-_FALLBACK_REMAP = {
-    "kafka": "queue",
-    "rabbitmq": "queue",
-    "cache": "cache",
-    "redis": "cache",
-    "db": "database",
-    "postgres": "database",
-    "database": "database",
-    "mysql": "database",
-    "front": "ui",
-    "ui": "ui",
-    "client": "ui",
-    "container": "container",
-    "docker": "container",
-}
-
 
 def derive_node_type(node_id: str, label_text: str = "") -> str:
     """Infer a canonical node type from an id and optional label text."""
-    combined = f"{node_id} {label_text} {label_text}".lower()
+    combined = f"{node_id} {label_text}".lower()
     for keyword, node_type in NODE_TYPE_KEYWORDS:
         if keyword in combined:
             return node_type
     return DEFAULT_NODE_TYPE
 
 
-def merge_type_maps(*maps: dict[str, str]) -> dict[str, str]:
-    """Merge type mappings (leftmost wins)."""
-    merged: dict[str, str] = {}
-    for mapping in maps:
-        merged.update(mapping)
-    return merged
-
-
 def normalize_node_type(raw_type: Any, node_id: str = "") -> str:
-    """A return canonical type for a raw type string (with id fallback)."""
+    """Return a canonical node type for a raw type string (id fallback)."""
     if not isinstance(raw_type, str) or not raw_type.strip():
         return derive_node_type(node_id)
     normalized = raw_type.strip().lower()
@@ -104,10 +81,10 @@ def infer_edge_label(
         return "Async"
     if source_type == "service" and target_type == "cache":
         return "Cache"
-    return "HTTP"
+    return DEFAULT_EDGE_LABEL
 
 
-def _split_edge_shape(edge: Any) -> tuple[Any, Any, Any]:
+def _split_edge(edge: Any) -> tuple[Any, Any, Any]:
     """Return (source, target, label) from dict or positional-list edge."""
     if isinstance(edge, dict):
         source = edge.get("source") if edge.get("source") is not None else edge.get("from")
@@ -118,44 +95,6 @@ def _split_edge_shape(edge: Any) -> tuple[Any, Any, Any]:
         label = edge[2] if len(edge) >= 3 else None
         return edge[0], edge[1], label
     return None, None, None
-
-
-def _clean_json(text: str) -> str:
-    """Strip comments and JSON language fences, leaving a bare object."""
-    cleaned = text.strip()
-    cleaned = cleaned.replace("```json", "").replace("```JSON", "").replace("```", "").strip()
-
-    out: list[str] = []
-    in_string = False
-    escape = False
-    i = 0
-    while i < len(cleaned):
-        ch = cleaned[i]
-        if in_string:
-            out.append(ch)
-            if escape:
-                escape = False
-            elif ch == "\\":
-                escape = True
-            elif ch == '"':
-                in_string = False
-            i += 1
-            continue
-        if ch == '"':
-            in_string = True
-            out.append(ch)
-            i += 1
-            continue
-        if ch == "/" and i + 1 < len(cleaned) and cleaned[i + 1] == "/":
-            i += 2
-            while i < len(cleaned) and cleaned[i] != "\n":
-                i += 1
-            continue
-        out.append(ch)
-        i += 1
-
-    stripped = re_allow_comma_sup("".join(out))
-    return stripped
 
 
 def extract_json_object(raw_text: str) -> dict:
@@ -174,11 +113,58 @@ def extract_json_object(raw_text: str) -> dict:
     raise ValueError("Model output did not contain a complete architecture JSON object")
 
 
-def parse_architecture(raw_payload: Any) -> dict[str, Any]:
-    """Normalize raw model/JSON output into the canonical {nodes, edges} dict.
+def _strip_json_line_comments(text: str) -> str:
+    """Remove // comments outside of JSON strings and trailing commas."""
+    out: list[str] = []
+    in_string = False
+    escape = False
+    i = 0
+    while i < len(text):
+        ch = text[i]
+        if in_string:
+            out.append(ch)
+            if escape:
+                escape = False
+            elif ch == "\\":
+                escape = True
+            elif ch == '"':
+                in_string = False
+            i += 1
+            continue
+        if ch == '"':
+            in_string = True
+            out.append(ch)
+            i += 1
+            continue
+        if ch == "/" and i + 1 < len(text) and text[i + 1] == "/":
+            i += 2
+            while i < len(text) and text[i] != "\n":
+                i += 1
+            continue
+        out.append(ch)
+        i += 1
+    return re.sub(r",\s*([}\]])", r"\1", "".join(out))
 
-    Raises  ValueError when the payload is missing the required structure or
-    yields an empty/oversized graph (preserves legacy inference retry flow).
+
+def extract_json_object_comments(raw_text: str) -> dict:
+    """Like extract_json_object but tolerant of // comments and trailing commas."""
+    cleaned = _strip_json_line_comments(raw_text)
+    decoder = json.JSONDecoder()
+    for start in (idx for idx, ch in enumerate(cleaned) if ch == "{"):
+        try:
+            parsed, _ = decoder.raw_decode(cleaned[start:])
+        except json.JSONDecodeError:
+            continue
+        if isinstance(parsed, dict) and "nodes" in parsed and "edges" in parsed:
+            return parsed
+    raise ValueError("Model output did not contain a complete architecture JSON object")
+
+
+def parse_architecture(raw_payload: Any) -> dict[str, Any]:
+    """Normalize raw JSON output into the canonical {nodes, edges} dict.
+
+    Raises ValueError when the payload is missing the required structure or
+    yields an empty graph (preserves the legacy inference retry flow).
     """
     if not isinstance(raw_payload, dict):
         raise ValueError("Architecture JSON must be an object")
@@ -205,15 +191,13 @@ def parse_architecture(raw_payload: Any) -> dict[str, Any]:
         if not isinstance(node_id, str) or not node_id.strip():
             raise ValueError("Each node must include a non-empty string 'id'")
         normalized_id = node_id.strip()
-
-        normalized_type = normalize_node_type(node_type, normalized_id)
-        if len(normalized_id) > 64 or len(normalized_type) > 32:
-            raise ValueError("Node id or type exceeds limits")
+        if len(normalized_id) > 64:
+            raise ValueError("Node id exceeds limits")
 
         if normalized_id in node_types_by_id:
             continue
-        node_types_by_id[normalized_id] = normalized_type
-        normalized_nodes.append({"id": normalized_id, "type": normalized_type})
+        node_types_by_id[normalized_id] = normalize_node_type(node_type, normalized_id)
+        normalized_nodes.append({"id": normalized_id, "type": node_types_by_id[normalized_id]})
 
     normalized_nodes = normalized_nodes[:MAX_NODES]
     allowed_ids = {node["id"] for node in normalized_nodes}
@@ -222,7 +206,7 @@ def parse_architecture(raw_payload: Any) -> dict[str, Any]:
     normalized_edges: list[dict[str, str]] = []
     seen: set[tuple[str, str]] = set()
     for edge in edges:
-        source, target, label = _split_edge_nodes(edge)
+        source, target, label = _split_edge(edge)
         if not isinstance(source, str) or not isinstance(target, str):
             raise ValueError("Each edge must include string 'source' and 'target'")
 
@@ -254,7 +238,4 @@ def parse_architecture(raw_payload: Any) -> dict[str, Any]:
     if len(normalized_edges) == 0:
         raise ValueError("Architecture JSON must include at least one valid edge")
 
-    result = {"nodes": normalized_nodes, "edges": normalized_edges}
-    if _validate_rules(result):
-        return result
-    return result
+    return {"nodes": normalized_nodes, "edges": normalized_edges}
