@@ -24,6 +24,12 @@ import re
 from dataclasses import dataclass, field
 from typing import Any
 
+from backend.core.architecture_parser import (
+    DEFAULT_EDGE_LABEL,
+    derive_node_type,
+    normalize_label,
+)
+
 _ID = r"[A-Za-z0-9_][A-Za-z0-9_-]*"
 
 _HEADER_FLOWCHART = re.compile(r"^\s*(?:flowchart|graph)\s+(LR|RL|TB|BT|TD)\s*$", re.IGNORECASE)

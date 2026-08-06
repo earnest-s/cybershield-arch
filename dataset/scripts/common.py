@@ -75,13 +75,3 @@ def existing_ids(directory: Path) -> set[str]:
         if isinstance(payload, dict) and isinstance(payload.get("id"), str):
             ids.add(payload["id"])
     return ids
-
-
-def canonical_architecture(architecture: dict[str, Any]) -> str:
-    """Order-invariant serialization used to detect duplicate architectures."""
-    nodes = sorted((node.get("id"), node.get("type")) for node in architecture.get("nodes", []))
-    edges = sorted(
-        (edge.get("source"), edge.get("target"), edge.get("label"))
-        for edge in architecture.get("edges", [])
-    )
-    return json.dumps({"nodes": nodes, "edges": edges}, sort_keys=True)
