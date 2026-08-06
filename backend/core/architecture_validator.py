@@ -13,8 +13,6 @@ retry loop); quality violations are reported as ValidationIssues.
 
 from __future__ import annotations
 
-from typing import Any
-
 from backend.core.architecture_models import ValidationIssue, ValidationResult
 from backend.core.architecture_schema import (
     ALLOWED_EDGE_LABELS,

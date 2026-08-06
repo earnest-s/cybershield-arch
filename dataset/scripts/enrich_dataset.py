@@ -13,7 +13,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
 
 from dataset.scripts.common import DATASET_DIR, existing_ids, sample_paths, setup_logger, write_json
 

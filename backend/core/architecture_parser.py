@@ -19,7 +19,6 @@ import re
 from typing import Any
 
 from backend.core.architecture_schema import (
-    ALLOWED_EDGE_LABELS,
     MAX_EDGES,
     MAX_NODES,
     NODE_TYPE_ALIASES,

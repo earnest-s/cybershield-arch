@@ -16,7 +16,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
 
 from dataset.scripts.common import (
     ALLOWED_EDGE_LABELS,
@@ -26,7 +25,6 @@ from dataset.scripts.common import (
     existing_ids,
     sample_paths,
     setup_logger,
-    write_json,
 )
 from backend.core.architecture_validator import is_weakly_connected
 

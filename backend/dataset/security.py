@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from backend.core.architecture_enricher import build_security_data, detect_present_controls
+from backend.core.architecture_enricher import build_security_data
 from backend.dataset.models import SecuritySection, Threat
 from backend.dataset.schema import CONTROLS
 

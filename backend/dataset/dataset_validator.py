@@ -32,7 +32,6 @@ from pathlib import Path
 from typing import Any
 
 from backend.core.architecture_schema import canonical_architecture
-from backend.dataset.models import Sample
 from backend.dataset.schema import (
     ALLOWED_EDGE_LABELS,
     ALLOWED_NODE_TYPES,
