@@ -1106,8 +1106,9 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
           const node = item as { id?: unknown; type?: unknown; data?: { label?: unknown }; position?: { x?: unknown; y?: unknown } };
           if (typeof node.id !== "string") return null;
           const label = typeof node.data?.label === "string" ? node.data.label : node.id;
-          const kind = detectKindFromLabel(label, typeof node.type === "string" ? node.type : undefined);
-          const built = buildNodeFromTemplate(kind === "database" ? "data" : (kind as EditorNodeType), node.id, {
+          const rawType = typeof node.type === "string" ? node.type : "";
+          const kind: NodeType = NODE_TYPES.includes(rawType as NodeType) ? (rawType as NodeType) : "service";
+          const built = buildNodeFromTemplate(kind, node.id, {
             x: typeof node.position?.x === "number" ? node.position.x : index * 40,
             y: typeof node.position?.y === "number" ? node.position.y : layerY[toLayer(kind)],
           });
