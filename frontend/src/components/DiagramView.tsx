@@ -279,7 +279,7 @@ function dedupeEdges(edges: Edge<EdgeData>[]): Edge<EdgeData>[] {
     const key = `${edge.source}->${edge.target}`;
     if (edge.source === edge.target || seen.has(key)) return;
     seen.add(key);
-    const edgeType = edge.data?.edgeType ?? "request";
+    const edgeType = edge.data?.edgeType ?? "HTTP";
     const lineStyle = edge.data?.lineStyle ?? (edgeType === "Async" ? "async" : "sync");
     out.push(createEdge(edge.id, edge.source, edge.target, edgeType, lineStyle, edge.data?.style));
   });
@@ -291,13 +291,16 @@ function buildNodesFromArchitecture(architecture: Architecture): Node<NodeData>[
 
   architecture.nodes.forEach((node) => {
     if (typeof node.id !== "string" || !node.id) return;
-    const kind = detectKindFromLabel(node.id, typeof node.type === "string" ? node.type : undefined);
-    const layer = toLayer(kind);
+    const kind: NodeType = NODE_TYPES.includes(node.type as NodeType) ? (node.type as NodeType) : "service";
+    const layer = node.layer === "ui" || node.layer === "data" || node.layer === "service"
+      ? node.layer
+      : toLayer(kind);
+    const icon = typeof node.icon === "string" && node.icon ? node.icon : undefined;
 
     grouped[layer].push({
       id: node.id,
       type: toFlowNodeType(kind),
-      data: { label: node.id, kind, type: kind, style: {} },
+      data: { label: node.id, kind, type: kind, icon, style: {} },
       position: { x: 0, y: layerY[layer] },
       draggable: true,
       selectable: true,
@@ -319,10 +322,10 @@ function buildNodesFromArchitecture(architecture: Architecture): Node<NodeData>[
 }
 
 function buildHierarchyEdges(nodes: Node<NodeData>[]): Edge<EdgeData>[] {
-  const ui = nodes.filter((node) => toCanonicalCategory(node.data.kind) === "ui");
-  const services = nodes.filter((node) => toCanonicalCategory(node.data.kind) === "service");
-  const databases = nodes.filter((node) => toCanonicalCategory(node.data.kind) === "database");
-  const caches = nodes.filter((node) => toCanonicalCategory(node.data.kind) === "cache");
+  const ui = nodes.filter((node) => node.data.kind === "ui");
+  const services = nodes.filter((node) => node.data.kind === "service" || node.data.kind === "queue" || node.data.kind === "container");
+  const databases = nodes.filter((node) => node.data.kind === "database");
+  const caches = nodes.filter((node) => node.data.kind === "cache");
   const queues = nodes.filter((node) => node.data.kind === "queue");
 
   const edges: Edge<EdgeData>[] = [];
