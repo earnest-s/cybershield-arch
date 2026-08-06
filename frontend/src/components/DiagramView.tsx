@@ -207,8 +207,8 @@ function attachNodeCallbacks(
   }));
 }
 
-function buildNodeFromTemplate(template: EditorNodeType, id: string, position: { x: number; y: number }): Node<NodeData> {
-  const kind = templateToKind(template);
+function buildNodeFromTemplate(template: NodeType, id: string, position: { x: number; y: number }): Node<NodeData> {
+  const kind = template;
   if (kind === "container") {
     return {
       id,
@@ -233,10 +233,12 @@ function buildNodeFromTemplate(template: EditorNodeType, id: string, position: {
 
 function isAllowedHierarchyEdge(source: Node<NodeData> | undefined, target: Node<NodeData> | undefined): boolean {
   if (!source || !target) return false;
-  const sourceCategory = toCanonicalCategory(source.data.kind);
-  const targetCategory = toCanonicalCategory(target.data.kind);
-  if (sourceCategory === "ui" && targetCategory === "service") return true;
-  if (sourceCategory === "service" && (targetCategory === "database" || targetCategory === "cache")) return true;
+  const sourceKind: "ui" | "service" = source.data.kind === "queue" || source.data.kind === "container"
+    ? "service"
+    : source.data.kind;
+  const targetKind: "ui" | "service" | "database" | "cache" = target.data.kind;
+  if (sourceKind === "ui" && targetKind === "service") return true;
+  if (sourceKind === "service" && (targetKind === "database" || targetKind === "cache")) return true;
   return false;
 }
 
