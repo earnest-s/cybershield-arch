@@ -166,39 +166,7 @@ function buildEdgeStyle(style: EdgeData["style"] | undefined, lineStyle: EdgeLin
   };
 }
 
-function protocolFromKinds(source: Node<NodeData> | undefined, target: Node<NodeData> | undefined): EdgeProtocol {
-  if (!source || !target) return "request";
-  const targetCat = categoryForKind(target.data.kind);
-  if (targetCat === "database") return "DB Query";
-  if (targetCat === "queue") return "Async";
-  if (targetCat === "cache") return "Cache";
-  return "HTTP";
-}
-
-function normalizeProtocol(value: string | null | undefined): EdgeProtocol {
-  const normalized = (value ?? "").trim().toLowerCase();
-  if (normalized === "http") return "HTTP";
-  if (normalized === "grpc") return "gRPC";
-  if (normalized === "queue" || normalized === "async") return "Async";
-  if (normalized === "cache") return "Cache";
-  if (normalized === "db query" || normalized === "db") return "DB Query";
-  if (normalized === "request") return "request";
-  return "request";
-}
-
-function toFlowNodeType(kind: FlowNodeKind): "uiNode" | "serviceNode" | "dataNode" | "cacheNode" | "queueNode" | "containerNode" {
-  if (kind === "ui") return "uiNode";
-  if (kind === "database") return "dataNode";
-  if (kind === "cache") return "cacheNode";
-  if (kind === "queue") return "queueNode";
-  if (kind === "container") return "containerNode";
-  return "serviceNode";
-}
-
-function templateToKind(template: EditorNodeType): FlowNodeKind {
-  if (template === "data") return "database";
-  return template;
-}
+function toFlowNodeType(kind: NodeType): "uiNode" | "serviceNode" | "dataNode" | "cacheNode" | "queueNode" | "containerNode" {
 
 function getNodeSize(node: Node<NodeData>): { width: number; height: number } {
   if (node.type === "containerNode") return { width: CONTAINER_WIDTH, height: CONTAINER_HEIGHT };
