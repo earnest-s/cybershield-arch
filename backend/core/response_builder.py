@@ -90,12 +90,12 @@ def build_response(
     )
 
 
-def response_to_explain_payload(response: ArchitectureResponse) -> dict[str, Any]:
+def response_to_explain_payload(response: ArchitectureResponse) -> ExplainResponse:
     """Wire-compatible payload for the /explain endpoint."""
-    payload = response.model_dump(mode="json")
-    raw_output = response.metadata.raw_output
-    payload["raw_model_output"] = raw_output
-    return payload
+    return ExplainResponse(
+        **response.model_dump(mode="json"),
+        raw_model_output=response.metadata.raw_output,
+    )
 
 
 def build_security_dict(
