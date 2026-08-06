@@ -132,6 +132,12 @@ function toFlowNodeType(kind: NodeType): "uiNode" | "serviceNode" | "dataNode" |
   return "serviceNode";
 }
 
+function canonicalEdgeLabel(value: string | null | undefined): EdgeProtocol {
+  const normalized = (value ?? "").trim();
+  if (normalized === "DB Query" || normalized === "Async" || normalized === "Cache") return normalized;
+  return "HTTP";
+}
+
 function getProtocolVisual(_edgeType: EdgeProtocol, lineStyle: EdgeLine): {
   style: React.CSSProperties;
   labelStyle: React.CSSProperties;
@@ -358,9 +364,7 @@ function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Archi
       const targetNode = byId.get(edge.target);
       if (!sourceNode || !targetNode) return null;
 
-      const edgeType: EdgeProtocol = edge.label === "DB Query" || edge.label === "Async" || edge.label === "Cache"
-        ? edge.label
-        : "HTTP";
+      const edgeType = canonicalEdgeLabel(edge.label);
       const lineStyle: EdgeLine = edge.dashed === true || edgeType === "Async" ? "async" : "sync";
       return createEdge(`e${index + 1}`, edge.source, edge.target, edgeType, lineStyle);
     })
@@ -1141,7 +1145,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
             const edgeLabel = typeof edge.data?.edgeType === "string" ? edge.data.edgeType
               : typeof edge.label === "string" ? edge.label
               : "HTTP";
-            const edgeType: EdgeProtocol = edgeLabel === "DB Query" || edgeLabel === "Async" || edgeLabel === "Cache" ? edgeLabel : "HTTP";
+            const edgeType = canonicalEdgeLabel(edgeLabel);
             const lineStyle: EdgeLine = edgeType === "Async" ? "async" : "sync";
             const style = typeof (edge as { data?: { style?: unknown } }).data?.style === "object" && (edge as { data?: { style?: unknown } }).data?.style !== null
               ? (edge as { data?: { style?: { stroke?: string; width?: number; dashed?: boolean } } }).data?.style
