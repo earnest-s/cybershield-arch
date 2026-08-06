@@ -45,7 +45,7 @@ type ToolMode = "select" | "connect";
 
 type NodeData = {
   label: string;
-  kind: FlowNodeKind;
+  kind: NodeType;
   type: string;
   icon?: string;
   style?: {
