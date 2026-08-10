@@ -1,0 +1,460 @@
+{
+  "id": "CSA-000037",
+  "instruction": "Design a Autonomous Vehicles architecture. using a Microservices style. deployed on GCP. satisfying: Observability Stack, Data Lakehouse Pattern, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "MS1",
+        "type": "service"
+      },
+      {
+        "id": "MS2",
+        "type": "service"
+      },
+      {
+        "id": "MS3",
+        "type": "service"
+      },
+      {
+        "id": "MS4",
+        "type": "service"
+      },
+      {
+        "id": "MS5",
+        "type": "service"
+      },
+      {
+        "id": "MS6",
+        "type": "service"
+      },
+      {
+        "id": "MS7",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PUBSUB",
+        "type": "service"
+      },
+      {
+        "id": "BIGQUERY",
+        "type": "service"
+      },
+      {
+        "id": "CLOUDSQL",
+        "type": "database"
+      },
+      {
+        "id": "GCS",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "MS6",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS6",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC_DB",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "MS7",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS7",
+        "target": "GCS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS7",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS7",
+        "target": "CLOUDSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "MS5",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS5",
+        "target": "GCS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS5",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS6",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS7",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PUBSUB",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 4,
+      "services": 24
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Autonomous Vehicles",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Observability Stack",
+      "Data Lakehouse Pattern",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 49,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

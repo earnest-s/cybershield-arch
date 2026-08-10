@@ -1,0 +1,436 @@
+{
+  "id": "CSA-000348",
+  "instruction": "Design a Multi-Agent Systems architecture. using a Zero-Trust style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, Active-Active Multi-Region, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "PARTNERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IDM",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "AZURE",
+        "type": "service"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "MON",
+        "type": "ui"
+      },
+      {
+        "id": "AGENT_CORE",
+        "type": "service"
+      },
+      {
+        "id": "AGENT_A",
+        "type": "service"
+      },
+      {
+        "id": "AGENT_B",
+        "type": "service"
+      },
+      {
+        "id": "AGENT_C",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "GRPC",
+        "type": "service"
+      },
+      {
+        "id": "REST",
+        "type": "service"
+      },
+      {
+        "id": "MQ",
+        "type": "queue"
+      },
+      {
+        "id": "AUDIT",
+        "type": "database"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "ZT",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PARTNERS",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ZT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT",
+        "target": "IDM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AZURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZURE",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "AGENT_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_CORE",
+        "target": "AGENT_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_CORE",
+        "target": "AGENT_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_CORE",
+        "target": "AGENT_C",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_CORE",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "AGENT_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "AGENT_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "AGENT_C",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_A",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_B",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "AGENT_C",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_CORE",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_CORE",
+        "target": "GRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_CORE",
+        "target": "REST",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPC",
+        "target": "MQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST",
+        "target": "MQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "MON",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "MON",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "EVENT",
+        "label": "Async"
+      },
+      {
+        "source": "COMPLY",
+        "target": "ZT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 5,
+      "services": 22
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Multi-Agent Systems",
+    "style": "Zero-Trust",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Active-Active Multi-Region",
+      "Auto Scaling"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 53,
+    "source_edges": 38,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

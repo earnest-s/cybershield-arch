@@ -1,0 +1,420 @@
+{
+  "id": "CSA-000135",
+  "instruction": "Design a Smart City architecture. using a CQRS style. deployed on GCP. satisfying: GraphRAG Integration, Rate Limiting, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "CmdServiceA",
+        "type": "service"
+      },
+      {
+        "id": "CmdServiceB",
+        "type": "service"
+      },
+      {
+        "id": "QueryServiceA",
+        "type": "service"
+      },
+      {
+        "id": "QueryServiceB",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "CmdDB",
+        "type": "database"
+      },
+      {
+        "id": "QueryDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "GIS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "CmdServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "CmdServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "QueryServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "QueryServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdServiceA",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdServiceB",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "QueryServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "QueryServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdServiceA",
+        "target": "CmdDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdServiceB",
+        "target": "CmdDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryServiceA",
+        "target": "QueryDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryServiceB",
+        "target": "QueryDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryServiceA",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryServiceB",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentGateway",
+        "target": "CmdServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GIS",
+        "target": "QueryServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "GKE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Require Multi-Factor Authentication for user access.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 4,
+      "services": 21
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, MFA and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Rate Limiting",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 51,
+    "source_edges": 37,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}
