@@ -1,0 +1,334 @@
+{
+  "id": "CSA-000281",
+  "instruction": "Design a Government architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Auto Scaling, Blue/Green Deployment, Active-Active Multi-Region, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "DNS",
+        "type": "service"
+      },
+      {
+        "id": "CLIENT",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "AUTH",
+        "type": "service"
+      },
+      {
+        "id": "ModMonolith",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreenCtrl",
+        "type": "service"
+      },
+      {
+        "id": "AutoScale",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "container"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "APP1",
+        "type": "service"
+      },
+      {
+        "id": "DAT1",
+        "type": "database"
+      },
+      {
+        "id": "RED1",
+        "type": "cache"
+      },
+      {
+        "id": "KAF1",
+        "type": "queue"
+      },
+      {
+        "id": "APP2",
+        "type": "service"
+      },
+      {
+        "id": "DAT2",
+        "type": "database"
+      },
+      {
+        "id": "RED2",
+        "type": "cache"
+      },
+      {
+        "id": "KAF2",
+        "type": "queue"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "REGION1",
+        "type": "service"
+      },
+      {
+        "id": "REGION2",
+        "type": "service"
+      },
+      {
+        "id": "Audit",
+        "type": "service"
+      },
+      {
+        "id": "MOD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "DNS",
+        "target": "CLIENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "BlueGreenCtrl",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "AutoScale",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "ModMonolith",
+        "label": "Cache"
+      },
+      {
+        "source": "Elastic",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "ModMonolith",
+        "label": "Async"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP1",
+        "target": "DAT1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP1",
+        "target": "RED1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP1",
+        "target": "KAF1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP2",
+        "target": "DAT2",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP2",
+        "target": "RED2",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP2",
+        "target": "KAF2",
+        "label": "HTTP"
+      },
+      {
+        "source": "DAT1",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "DAT2",
+        "label": "HTTP"
+      },
+      {
+        "source": "RED1",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "RED2",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAF1",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "KAF2",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "REGION1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "REGION2",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "Audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Audit",
+        "label": "Async"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "Blue/Green Deployment",
+      "Active-Active Multi-Region",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 59,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

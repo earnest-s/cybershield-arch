@@ -1,0 +1,317 @@
+{
+  "id": "CSA-000443",
+  "instruction": "Design a DevSecOps architecture. using a CQRS style. deployed on AWS. satisfying: Feature Flags, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "CommandSvc",
+        "type": "service"
+      },
+      {
+        "id": "QuerySvc",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "K8sCluster",
+        "type": "container"
+      },
+      {
+        "id": "CmdTopic",
+        "type": "queue"
+      },
+      {
+        "id": "QueryTopic",
+        "type": "queue"
+      },
+      {
+        "id": "CmdWorker",
+        "type": "service"
+      },
+      {
+        "id": "QryWorker",
+        "type": "service"
+      },
+      {
+        "id": "WriteModel",
+        "type": "database"
+      },
+      {
+        "id": "ReadModel",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "SnapshotStore",
+        "type": "database"
+      },
+      {
+        "id": "SearchIndex",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "CodeRepo",
+        "type": "service"
+      },
+      {
+        "id": "SonarQube",
+        "type": "service"
+      },
+      {
+        "id": "Trivy",
+        "type": "container"
+      },
+      {
+        "id": "GuardDuty",
+        "type": "service"
+      },
+      {
+        "id": "Inspector",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "CLIENT",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "API_LAYER",
+        "type": "service"
+      },
+      {
+        "id": "COMPUTE",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "DEVSECOPS",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "APIGW",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "CmdTopic",
+        "label": "Async"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "QueryTopic",
+        "label": "Async"
+      },
+      {
+        "source": "CmdWorker",
+        "target": "WriteModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "QryWorker",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "QueryTopic",
+        "label": "HTTP"
+      },
+      {
+        "source": "WriteModel",
+        "target": "EventStore",
+        "label": "Async"
+      },
+      {
+        "source": "WriteModel",
+        "target": "SnapshotStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "SearchIndex",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENT",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PERIMETER",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "API_LAYER",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_LAYER",
+        "target": "COMPUTE",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPUTE",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPUTE",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPUTE",
+        "target": "DEVSECOPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVSECOPS",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 56,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

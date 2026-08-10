@@ -1,0 +1,474 @@
+{
+  "id": "CSA-000412",
+  "instruction": "Design a Oil & Gas architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Auto Scaling, Disaster Recovery, Compliance/Audit Logging, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "analyticsPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "svcMeshA",
+        "type": "service"
+      },
+      {
+        "id": "autoScaleA",
+        "type": "container"
+      },
+      {
+        "id": "drA",
+        "type": "service"
+      },
+      {
+        "id": "svcMeshZ",
+        "type": "service"
+      },
+      {
+        "id": "autoScaleZ",
+        "type": "container"
+      },
+      {
+        "id": "drZ",
+        "type": "service"
+      },
+      {
+        "id": "svcMeshG",
+        "type": "service"
+      },
+      {
+        "id": "autoScaleG",
+        "type": "container"
+      },
+      {
+        "id": "drG",
+        "type": "service"
+      },
+      {
+        "id": "prodIngest",
+        "type": "queue"
+      },
+      {
+        "id": "prodRaw",
+        "type": "service"
+      },
+      {
+        "id": "prodDW",
+        "type": "service"
+      },
+      {
+        "id": "prodGraph",
+        "type": "database"
+      },
+      {
+        "id": "expIngest",
+        "type": "queue"
+      },
+      {
+        "id": "expRaw",
+        "type": "database"
+      },
+      {
+        "id": "expDW",
+        "type": "service"
+      },
+      {
+        "id": "expGraph",
+        "type": "database"
+      },
+      {
+        "id": "logIngest",
+        "type": "service"
+      },
+      {
+        "id": "logRaw",
+        "type": "service"
+      },
+      {
+        "id": "logDW",
+        "type": "service"
+      },
+      {
+        "id": "logGraph",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "vectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "graphRAG",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "github",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "argocd",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "svcMeshA",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "svcMeshZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "svcMeshG",
+        "label": "HTTP"
+      },
+      {
+        "source": "prodIngest",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "expIngest",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "logIngest",
+        "target": "eventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "prodRaw",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "expRaw",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBridge",
+        "target": "logRaw",
+        "label": "HTTP"
+      },
+      {
+        "source": "prodRaw",
+        "target": "prodDW",
+        "label": "HTTP"
+      },
+      {
+        "source": "expRaw",
+        "target": "expDW",
+        "label": "HTTP"
+      },
+      {
+        "source": "logRaw",
+        "target": "logDW",
+        "label": "HTTP"
+      },
+      {
+        "source": "prodDW",
+        "target": "prodGraph",
+        "label": "HTTP"
+      },
+      {
+        "source": "expDW",
+        "target": "expGraph",
+        "label": "HTTP"
+      },
+      {
+        "source": "logDW",
+        "target": "logGraph",
+        "label": "HTTP"
+      },
+      {
+        "source": "prodGraph",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "expGraph",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "logGraph",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "vectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorSearch",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "graphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcMeshA",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcMeshZ",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcMeshG",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "github",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "argocd",
+        "label": "HTTP"
+      },
+      {
+        "source": "argocd",
+        "target": "svcMeshA",
+        "label": "HTTP"
+      },
+      {
+        "source": "argocd",
+        "target": "svcMeshZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "argocd",
+        "target": "svcMeshG",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsPortal",
+        "target": "prodGraph",
+        "label": "DB Query"
+      },
+      {
+        "source": "analyticsPortal",
+        "target": "expGraph",
+        "label": "DB Query"
+      },
+      {
+        "source": "analyticsPortal",
+        "target": "logGraph",
+        "label": "DB Query"
+      },
+      {
+        "source": "drA",
+        "target": "drZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "drZ",
+        "target": "drG",
+        "label": "HTTP"
+      },
+      {
+        "source": "drG",
+        "target": "drA",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Auto Scaling",
+      "Disaster Recovery",
+      "Compliance/Audit Logging",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 74,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

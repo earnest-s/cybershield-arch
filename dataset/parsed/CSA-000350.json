@@ -1,0 +1,367 @@
+{
+  "id": "CSA-000350",
+  "instruction": "Design a IoT architecture. using a Serverless style. deployed on On-Premises. satisfying: Blue/Green Deployment, Auto Scaling, Zero Trust Architecture, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ApiGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "ui"
+      },
+      {
+        "id": "Logging",
+        "type": "service"
+      },
+      {
+        "id": "Auditing",
+        "type": "service"
+      },
+      {
+        "id": "FunctionsA",
+        "type": "container"
+      },
+      {
+        "id": "FunctionsB",
+        "type": "container"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "StateStore",
+        "type": "database"
+      },
+      {
+        "id": "TimeseriesDB",
+        "type": "database"
+      },
+      {
+        "id": "ObjectStore",
+        "type": "service"
+      },
+      {
+        "id": "SearchIdx",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "MQTT",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "BG_Route",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ApiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ApiGW",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "FunctionsA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "FunctionsB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA",
+        "target": "MQTT",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB",
+        "target": "MQTT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MQTT",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA",
+        "target": "StateStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB",
+        "target": "StateStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA",
+        "target": "TimeseriesDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB",
+        "target": "TimeseriesDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA",
+        "target": "ObjectStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB",
+        "target": "ObjectStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA",
+        "target": "SearchIdx",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB",
+        "target": "SearchIdx",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "SearchIdx",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "FunctionsA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "FunctionsB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "MQTT",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "FunctionsA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "FunctionsB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitoring",
+        "target": "FunctionsA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitoring",
+        "target": "FunctionsB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logging",
+        "target": "FunctionsA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logging",
+        "target": "FunctionsB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auditing",
+        "target": "FunctionsA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auditing",
+        "target": "FunctionsB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BG_Route",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_Route",
+        "target": "FunctionsA",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_Route",
+        "target": "FunctionsB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "Serverless",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Auto Scaling",
+      "Zero Trust Architecture",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 51,
+    "source_edges": 46,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

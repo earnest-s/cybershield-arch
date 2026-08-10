@@ -1,0 +1,359 @@
+{
+  "id": "CSA-000211",
+  "instruction": "Design a ERP architecture. using a Hexagonal style. deployed on AWS. satisfying: Blue/Green Deployment, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "blueEnv",
+        "type": "service"
+      },
+      {
+        "id": "k8sBlue",
+        "type": "container"
+      },
+      {
+        "id": "greenEnv",
+        "type": "service"
+      },
+      {
+        "id": "k8sGreen",
+        "type": "container"
+      },
+      {
+        "id": "trafficSwitch",
+        "type": "service"
+      },
+      {
+        "id": "coreDomain",
+        "type": "service"
+      },
+      {
+        "id": "inboundAdapters",
+        "type": "service"
+      },
+      {
+        "id": "outboundAdapters",
+        "type": "service"
+      },
+      {
+        "id": "svcOrders",
+        "type": "service"
+      },
+      {
+        "id": "svcInventory",
+        "type": "service"
+      },
+      {
+        "id": "svcFinance",
+        "type": "service"
+      },
+      {
+        "id": "svcHR",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "s3",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      },
+      {
+        "id": "DEPLOYMENT",
+        "type": "service"
+      },
+      {
+        "id": "SERVICES",
+        "type": "service"
+      },
+      {
+        "id": "APP_CORE",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "trafficSwitch",
+        "target": "k8sGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreDomain",
+        "target": "inboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreDomain",
+        "target": "outboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcOrders",
+        "target": "coreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcInventory",
+        "target": "coreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcFinance",
+        "target": "coreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcHR",
+        "target": "coreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "outboundAdapters",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "outboundAdapters",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "outboundAdapters",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "outboundAdapters",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "outboundAdapters",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sBlue",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sGreen",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "outboundAdapters",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "outboundAdapters",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "DEPLOYMENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEPLOYMENT",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "APP_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP_CORE",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 61,
+    "source_edges": 52,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

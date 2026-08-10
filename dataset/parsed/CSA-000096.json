@@ -1,0 +1,325 @@
+{
+  "id": "CSA-000096",
+  "instruction": "Design a IoT architecture. using a Data Mesh style. deployed on Azure. satisfying: Strict Network Segmentation, Rate Limiting, Zero Trust Architecture, Auto Scaling, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ZTA1",
+        "type": "service"
+      },
+      {
+        "id": "ZTA2",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "MESH_CTRL",
+        "type": "service"
+      },
+      {
+        "id": "AUTOSCALE_K8S",
+        "type": "container"
+      },
+      {
+        "id": "SensorSvcA",
+        "type": "service"
+      },
+      {
+        "id": "StorageA",
+        "type": "database"
+      },
+      {
+        "id": "EventHubA",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticSvcB",
+        "type": "service"
+      },
+      {
+        "id": "StorageB",
+        "type": "database"
+      },
+      {
+        "id": "ReportSvcC",
+        "type": "service"
+      },
+      {
+        "id": "StorageC",
+        "type": "database"
+      },
+      {
+        "id": "KafkaCluster",
+        "type": "queue"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Jaeger",
+        "type": "service"
+      },
+      {
+        "id": "LogAgent",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "Jenkins",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "API_LAYER",
+        "type": "service"
+      },
+      {
+        "id": "AUTO_SCALE",
+        "type": "service"
+      },
+      {
+        "id": "DATA_MESH",
+        "type": "service"
+      },
+      {
+        "id": "OBSERV",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "FW",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "MESH_CTRL",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AUTOSCALE_K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "SensorSvcA",
+        "target": "EventHubA",
+        "label": "Async"
+      },
+      {
+        "source": "AnalyticSvcB",
+        "target": "EventHubA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportSvcC",
+        "target": "EventHubA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Jaeger",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Jaeger",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "StorageB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "StorageC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Jenkins",
+        "target": "AUTOSCALE_K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PERIMETER",
+        "target": "API_LAYER",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_LAYER",
+        "target": "AUTO_SCALE",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTO_SCALE",
+        "target": "DATA_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATA_MESH",
+        "target": "OBSERV",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATA_MESH",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "OBSERV",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTOSCALE_K8S",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTOSCALE_K8S",
+        "target": "DEVOPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "ISTIO",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "Data Mesh",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Rate Limiting",
+      "Zero Trust Architecture",
+      "Auto Scaling",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 61,
+    "source_edges": 56,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

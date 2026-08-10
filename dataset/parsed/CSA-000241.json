@@ -1,0 +1,408 @@
+{
+  "id": "CSA-000241",
+  "instruction": "Design a Telecom architecture. using a Serverless style. deployed on GCP. satisfying: Compliance/Audit Logging, Blue/Green Deployment, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "CloudArmor",
+        "type": "service"
+      },
+      {
+        "id": "LoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "container"
+      },
+      {
+        "id": "CloudFunctions",
+        "type": "service"
+      },
+      {
+        "id": "CloudRun",
+        "type": "container"
+      },
+      {
+        "id": "Dataflow",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "RawLake",
+        "type": "database"
+      },
+      {
+        "id": "ProcessedLake",
+        "type": "service"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      },
+      {
+        "id": "Tracing",
+        "type": "service"
+      },
+      {
+        "id": "Logging",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "CloudBuild",
+        "type": "ui"
+      },
+      {
+        "id": "Spinnaker",
+        "type": "service"
+      },
+      {
+        "id": "ArtifactRegistry",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "BigQueryAudit",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CloudArmor",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudArmor",
+        "target": "LoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "LoadBalancer",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "CloudFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "CloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudFunctions",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "Dataflow",
+        "label": "Async"
+      },
+      {
+        "source": "Dataflow",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dataflow",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudFunctions",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "Kafka",
+        "target": "CloudFunctions",
+        "label": "Async"
+      },
+      {
+        "source": "EventBridge",
+        "target": "CloudRun",
+        "label": "Async"
+      },
+      {
+        "source": "ProcessedLake",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudFunctions",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dataflow",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitoring",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudFunctions",
+        "target": "Tracing",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "Tracing",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dataflow",
+        "target": "Tracing",
+        "label": "HTTP"
+      },
+      {
+        "source": "Tracing",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudFunctions",
+        "target": "Logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "Logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logging",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CloudBuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudBuild",
+        "target": "ArtifactRegistry",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArtifactRegistry",
+        "target": "Spinnaker",
+        "label": "HTTP"
+      },
+      {
+        "source": "Spinnaker",
+        "target": "CloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "Spinnaker",
+        "target": "CloudFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "BigQueryAudit",
+        "label": "HTTP"
+      },
+      {
+        "source": "BigQueryAudit",
+        "target": "Compliance",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Blue/Green Deployment",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 51,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

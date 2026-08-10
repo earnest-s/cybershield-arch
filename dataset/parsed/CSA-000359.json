@@ -1,0 +1,324 @@
+{
+  "id": "CSA-000359",
+  "instruction": "Design a GenAI architecture. using a Serverless style. deployed on Azure. satisfying: Strict Network Segmentation, Feature Flags, Blue/Green Deployment, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "blueGreen",
+        "type": "service"
+      },
+      {
+        "id": "funcA",
+        "type": "service"
+      },
+      {
+        "id": "funcB",
+        "type": "service"
+      },
+      {
+        "id": "funcC",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "eventHub",
+        "type": "service"
+      },
+      {
+        "id": "serviceBus",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "kvStore",
+        "type": "database"
+      },
+      {
+        "id": "cosmos",
+        "type": "database"
+      },
+      {
+        "id": "logAnalytics",
+        "type": "database"
+      },
+      {
+        "id": "embModel",
+        "type": "service"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "github",
+        "type": "service"
+      },
+      {
+        "id": "pipelines",
+        "type": "service"
+      },
+      {
+        "id": "aks",
+        "type": "service"
+      },
+      {
+        "id": "compute",
+        "type": "service"
+      },
+      {
+        "id": "policy",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "blueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventHub",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "serviceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "embModel",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcC",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "pipelines",
+        "target": "aks",
+        "label": "HTTP"
+      },
+      {
+        "source": "pipelines",
+        "target": "compute",
+        "label": "HTTP"
+      },
+      {
+        "source": "pipelines",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "policy",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "policy",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "logAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "eventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "embModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcC",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceBus",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "cosmos",
+        "target": "kvStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "kvStore",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "logAnalytics",
+        "target": "otel",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Feature Flags",
+      "Blue/Green Deployment",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart TD",
+    "source_nodes": 54,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

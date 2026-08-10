@@ -1,0 +1,324 @@
+{
+  "id": "CSA-000327",
+  "instruction": "Design a Logistics architecture. using a Hexagonal style. deployed on AWS. satisfying: Compliance/Audit Logging, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "AGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "PORTAL",
+        "type": "ui"
+      },
+      {
+        "id": "ADAPTER_IN",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_OUT",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_LAYER",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_BUS",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "AGW",
+        "target": "PORTAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORTAL",
+        "target": "ADAPTER_IN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "SERVICE_LAYER",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_LAYER",
+        "target": "EVENT_BUS",
+        "label": "Async"
+      },
+      {
+        "source": "SERVICE_LAYER",
+        "target": "ADAPTER_OUT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "POSTGRES",
+        "label": "DB Query"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "SQS",
+        "label": "Async"
+      },
+      {
+        "source": "EVENT_BUS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "NETWORK",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "DEVOPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "CLOUD",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

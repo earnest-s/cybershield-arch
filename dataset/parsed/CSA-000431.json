@@ -1,0 +1,368 @@
+{
+  "id": "CSA-000431",
+  "instruction": "Design a CRM architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Zero Trust Architecture, Blue/Green Deployment, Data Lakehouse Pattern, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "zt",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "queue"
+      },
+      {
+        "id": "crmService",
+        "type": "service"
+      },
+      {
+        "id": "contactSvc",
+        "type": "service"
+      },
+      {
+        "id": "leadSvc",
+        "type": "service"
+      },
+      {
+        "id": "opportunitySvc",
+        "type": "service"
+      },
+      {
+        "id": "analyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "blueDeploy",
+        "type": "service"
+      },
+      {
+        "id": "greenDeploy",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "crmService",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "zt",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt",
+        "target": "crmService",
+        "label": "HTTP"
+      },
+      {
+        "source": "crmService",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "contactSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "leadSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "opportunitySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "contactSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "leadSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "opportunitySvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "crmService",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "crmService",
+        "target": "blueDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "crmService",
+        "target": "greenDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueDeploy",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "greenDeploy",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "crmService",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "contactSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "leadSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "opportunitySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Blue/Green Deployment",
+      "Data Lakehouse Pattern",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 42,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

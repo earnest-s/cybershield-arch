@@ -1,0 +1,296 @@
+{
+  "id": "CSA-000309",
+  "instruction": "Design a ERP architecture. using a CQRS style. deployed on AWS. satisfying: GraphRAG Integration, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "K8SCluster",
+        "type": "container"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "SecurityBus",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "CommandSvc",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "QuerySvc",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "ReadModelUpdater",
+        "type": "service"
+      },
+      {
+        "id": "ReadDB",
+        "type": "database"
+      },
+      {
+        "id": "WriteDB",
+        "type": "database"
+      },
+      {
+        "id": "DomainEvents",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "RAGService",
+        "type": "service"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "AWSRegion",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "container"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CommandSvc",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "ReadModelUpdater",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModelUpdater",
+        "target": "ReadDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "WriteDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "DomainEvents",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainEvents",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGService",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "RAGService",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "ReadDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "RAGService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "ReadModelUpdater",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SecurityBus",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "SNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "AdminPortal",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 47,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

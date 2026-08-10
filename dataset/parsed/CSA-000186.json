@@ -1,0 +1,565 @@
+{
+  "id": "CSA-000186",
+  "instruction": "Design a GenAI architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: Active-Active Multi-Region, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "THIRD_PARTY",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "K8S_US_EAST",
+        "type": "container"
+      },
+      {
+        "id": "K8S_US_WEST",
+        "type": "container"
+      },
+      {
+        "id": "K8S_EU_CENTRAL",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "CUST_MS",
+        "type": "service"
+      },
+      {
+        "id": "CUST_DB",
+        "type": "database"
+      },
+      {
+        "id": "CUST_EVT",
+        "type": "queue"
+      },
+      {
+        "id": "GEN_MS",
+        "type": "service"
+      },
+      {
+        "id": "GEN_DB",
+        "type": "database"
+      },
+      {
+        "id": "GEN_EVT",
+        "type": "queue"
+      },
+      {
+        "id": "ANALYTICS_MS",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS_LAKE",
+        "type": "database"
+      },
+      {
+        "id": "ANALYTICS_EVT",
+        "type": "queue"
+      },
+      {
+        "id": "MODEL_MS",
+        "type": "service"
+      },
+      {
+        "id": "MODEL_STORE",
+        "type": "database"
+      },
+      {
+        "id": "MODEL_EVT",
+        "type": "queue"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "LLM_GATEWAY",
+        "type": "service"
+      },
+      {
+        "id": "AGENT_ORCH",
+        "type": "service"
+      },
+      {
+        "id": "METRICS",
+        "type": "service"
+      },
+      {
+        "id": "TRACES",
+        "type": "service"
+      },
+      {
+        "id": "DASH",
+        "type": "ui"
+      },
+      {
+        "id": "ALERT",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA_Replica_EU",
+        "type": "database"
+      },
+      {
+        "id": "CATALOG",
+        "type": "service"
+      },
+      {
+        "id": "LINEAGE",
+        "type": "service"
+      },
+      {
+        "id": "POLICY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "IAM",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_US_EAST",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_US_WEST",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_EU_CENTRAL",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_US_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_US_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_EU_CENTRAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDING",
+        "target": "VECTOR_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_SEARCH",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "LLM_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM_GATEWAY",
+        "target": "AGENT_ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "METRICS",
+        "target": "DASH",
+        "label": "HTTP"
+      },
+      {
+        "source": "TRACES",
+        "target": "DASH",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALERT",
+        "target": "DASH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CUST_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "GEN_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ANALYTICS_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "MODEL_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CUST_MS",
+        "target": "CUST_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GEN_MS",
+        "target": "GEN_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS_MS",
+        "target": "ANALYTICS_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODEL_MS",
+        "target": "MODEL_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CUST_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "GEN_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "ANALYTICS_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "MODEL_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "CUST_EVT",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "GEN_EVT",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ANALYTICS_EVT",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MODEL_EVT",
+        "label": "HTTP"
+      },
+      {
+        "source": "CUST_EVT",
+        "target": "CUST_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GEN_EVT",
+        "target": "GEN_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS_EVT",
+        "target": "ANALYTICS_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODEL_EVT",
+        "target": "MODEL_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GEN_MS",
+        "target": "EMBEDDING",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDING",
+        "target": "GEN_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_SEARCH",
+        "target": "GEN_DB",
+        "label": "DB Query"
+      },
+      {
+        "source": "RAG",
+        "target": "VECTOR_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_US_EAST",
+        "target": "K8S_US_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_US_EAST",
+        "target": "K8S_EU_CENTRAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "KAFKA_Replica_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S_US_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S_US_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S_EU_CENTRAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "K8S_US_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "K8S_US_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "K8S_EU_CENTRAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "AUDIT",
+        "label": "Async"
+      },
+      {
+        "source": "AUDIT",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATALOG",
+        "target": "CUST_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATALOG",
+        "target": "GEN_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATALOG",
+        "target": "ANALYTICS_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATALOG",
+        "target": "MODEL_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LINEAGE",
+        "target": "CUST_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LINEAGE",
+        "target": "GEN_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LINEAGE",
+        "target": "ANALYTICS_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LINEAGE",
+        "target": "MODEL_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "POLICY",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "POLICY",
+        "target": "ISTIO",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 79,
+    "source_edges": 101,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

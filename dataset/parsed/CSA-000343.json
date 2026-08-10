@@ -1,0 +1,428 @@
+{
+  "id": "CSA-000343",
+  "instruction": "Design a Fraud Detection architecture. using a CQRS style. deployed on Hybrid Cloud. satisfying: Observability Stack, GraphRAG Integration, Active-Active Multi-Region, Disaster Recovery, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "cmd_api",
+        "type": "service"
+      },
+      {
+        "id": "cmd_svc",
+        "type": "service"
+      },
+      {
+        "id": "cmd_evt",
+        "type": "database"
+      },
+      {
+        "id": "qry_api",
+        "type": "service"
+      },
+      {
+        "id": "qry_svc",
+        "type": "service"
+      },
+      {
+        "id": "qry_db",
+        "type": "database"
+      },
+      {
+        "id": "dr_store",
+        "type": "service"
+      },
+      {
+        "id": "cmd_api_b",
+        "type": "service"
+      },
+      {
+        "id": "cmd_svc_b",
+        "type": "service"
+      },
+      {
+        "id": "cmd_evt_b",
+        "type": "database"
+      },
+      {
+        "id": "qry_api_b",
+        "type": "service"
+      },
+      {
+        "id": "qry_svc_b",
+        "type": "service"
+      },
+      {
+        "id": "qry_db_b",
+        "type": "database"
+      },
+      {
+        "id": "dr_store_b",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rl",
+        "type": "cache"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "vecdb",
+        "type": "database"
+      },
+      {
+        "id": "embed",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "rl",
+        "label": "HTTP"
+      },
+      {
+        "source": "rl",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "cmd_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "cmd_api_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "qry_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "qry_api_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_api",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "cmd_evt",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_api_b",
+        "target": "cmd_svc_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc_b",
+        "target": "cmd_evt_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_evt",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_evt_b",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "cmd_svc_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_api",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_svc",
+        "target": "qry_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_api_b",
+        "target": "qry_svc_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_svc_b",
+        "target": "qry_db_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_db",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_db_b",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vecdb",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "cmd_svc_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "qry_svc_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "graf",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_evt",
+        "target": "dr_store",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_evt_b",
+        "target": "dr_store_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_db",
+        "target": "dr_store",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_db_b",
+        "target": "dr_store_b",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "CQRS",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Observability Stack",
+      "GraphRAG Integration",
+      "Active-Active Multi-Region",
+      "Disaster Recovery",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 59,
+    "source_edges": 52,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

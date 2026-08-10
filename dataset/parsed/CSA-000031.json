@@ -1,0 +1,395 @@
+{
+  "id": "CSA-000031",
+  "instruction": "Design a Gaming architecture. using a Data Mesh style. deployed on GCP. satisfying: Feature Flags, Observability Stack, Data Lakehouse Pattern, Strict Network Segmentation, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "thirdParty",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "microSvcB",
+        "type": "service"
+      },
+      {
+        "id": "microSvcC",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "featureFlag",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "microSvcA",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "queue"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "notification",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "securityOps",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "dr",
+        "type": "service"
+      },
+      {
+        "id": "segPublic",
+        "type": "service"
+      },
+      {
+        "id": "segDMZ",
+        "type": "service"
+      },
+      {
+        "id": "segApp",
+        "type": "service"
+      },
+      {
+        "id": "segData",
+        "type": "service"
+      },
+      {
+        "id": "segLogging",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "edgeNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "microSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "microSvcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "featureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "featureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "microSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "microSvcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "lakehouse",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "microSvcA",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "microSvcB",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "microSvcC",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "notification",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "securityOps",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "segPublic",
+        "target": "segDMZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "segDMZ",
+        "target": "segApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "segApp",
+        "target": "segData",
+        "label": "HTTP"
+      },
+      {
+        "source": "segData",
+        "target": "segLogging",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "microSvcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "microSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "microSvcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlag",
+        "target": "microSvcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlag",
+        "target": "microSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlag",
+        "target": "microSvcC",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Gaming",
+    "style": "Data Mesh",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Feature Flags",
+      "Observability Stack",
+      "Data Lakehouse Pattern",
+      "Strict Network Segmentation",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 55,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

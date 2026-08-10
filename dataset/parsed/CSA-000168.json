@@ -1,0 +1,432 @@
+{
+  "id": "CSA-000168",
+  "instruction": "Design a Telecom architecture. using a Serverless style. deployed on On-Premises. satisfying: Data Lakehouse Pattern, AI/ML Inference Integration, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "partnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "ztFirewall",
+        "type": "service"
+      },
+      {
+        "id": "authFn",
+        "type": "service"
+      },
+      {
+        "id": "billingFn",
+        "type": "service"
+      },
+      {
+        "id": "provisionFn",
+        "type": "service"
+      },
+      {
+        "id": "usageFn",
+        "type": "service"
+      },
+      {
+        "id": "aiInfer",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rawLake",
+        "type": "service"
+      },
+      {
+        "id": "bronze",
+        "type": "service"
+      },
+      {
+        "id": "silver",
+        "type": "service"
+      },
+      {
+        "id": "gold",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "registry",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "provisioningFn",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "partnerAPI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "authFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "authFn",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "authFn",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "authFn",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "authFn",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "authFn",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "provisioningFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "billingFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "usageFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "provisioningFn",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingFn",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "usageFn",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "usageFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "aiInfer",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInfer",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInfer",
+        "target": "gold",
+        "label": "HTTP"
+      },
+      {
+        "source": "usageFn",
+        "target": "rawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "rawLake",
+        "target": "bronze",
+        "label": "HTTP"
+      },
+      {
+        "source": "bronze",
+        "target": "silver",
+        "label": "HTTP"
+      },
+      {
+        "source": "silver",
+        "target": "gold",
+        "label": "HTTP"
+      },
+      {
+        "source": "gold",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "gold",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "authFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "billingFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "provisioningFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "usageFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "aiInfer",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "registry",
+        "label": "HTTP"
+      },
+      {
+        "source": "registry",
+        "target": "authFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "registry",
+        "target": "billingFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "registry",
+        "target": "provisioningFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "registry",
+        "target": "usageFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "registry",
+        "target": "aiInfer",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "zeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "ztFirewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "rawLake",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Serverless",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "AI/ML Inference Integration",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 65,
+    "source_edges": 51,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

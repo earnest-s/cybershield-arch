@@ -1,0 +1,552 @@
+{
+  "id": "CSA-000302",
+  "instruction": "Design a CRM architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Active-Active Multi-Region, Compliance/Audit Logging, Blue/Green Deployment, Data Lakehouse Pattern, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "Audit",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "ContactSvc",
+        "type": "service"
+      },
+      {
+        "id": "LeadSvc",
+        "type": "service"
+      },
+      {
+        "id": "OpportunitySvc",
+        "type": "service"
+      },
+      {
+        "id": "CampaignSvc",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "AIInference",
+        "type": "service"
+      },
+      {
+        "id": "OLTP",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "AWS_LB1",
+        "type": "service"
+      },
+      {
+        "id": "AWS_API_GW1",
+        "type": "service"
+      },
+      {
+        "id": "AWS_Kafka1",
+        "type": "queue"
+      },
+      {
+        "id": "AWS_Lake1",
+        "type": "service"
+      },
+      {
+        "id": "Azure_LB2",
+        "type": "service"
+      },
+      {
+        "id": "Azure_API_GW2",
+        "type": "service"
+      },
+      {
+        "id": "Azure_EventHub2",
+        "type": "service"
+      },
+      {
+        "id": "Azure_Lake2",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "BI_Tools",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD_AWS",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD_AZURE",
+        "type": "service"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "Mirror",
+        "type": "service"
+      },
+      {
+        "id": "ClientAccess",
+        "type": "ui"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ContactSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LeadSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OpportunitySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CampaignSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AIInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContactSvc",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "LeadSvc",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpportunitySvc",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "CampaignSvc",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInference",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "BI_Tools",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContactSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "LeadSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpportunitySvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "CampaignSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContactSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "LeadSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpportunitySvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CampaignSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInference",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContactSvc",
+        "target": "Audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "LeadSvc",
+        "target": "Audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpportunitySvc",
+        "target": "Audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "CampaignSvc",
+        "target": "Audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "Audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInference",
+        "target": "Audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "AWS_LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "Azure_LB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "CLOUD_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "CLOUD_AZURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS_Lake1",
+        "target": "Replicate",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicate",
+        "target": "Azure_Lake2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS_Kafka1",
+        "target": "Mirror",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mirror",
+        "target": "Azure_EventHub2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClientAccess",
+        "target": "MobileApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClientAccess",
+        "target": "AdminPortal",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Compliance/Audit Logging",
+      "Blue/Green Deployment",
+      "Data Lakehouse Pattern",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 66,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

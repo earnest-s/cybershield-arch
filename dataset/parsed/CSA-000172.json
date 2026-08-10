@@ -1,0 +1,324 @@
+{
+  "id": "CSA-000172",
+  "instruction": "Design a Energy architecture. using a Event-Driven style. deployed on Azure. satisfying: Auto Scaling, Zero Trust Architecture, Observability Stack, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "ACR",
+        "type": "container"
+      },
+      {
+        "id": "ARGO",
+        "type": "service"
+      },
+      {
+        "id": "COSMOS",
+        "type": "database"
+      },
+      {
+        "id": "SQL",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "EVENTHUB",
+        "type": "queue"
+      },
+      {
+        "id": "SERVICEBUS",
+        "type": "service"
+      },
+      {
+        "id": "SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "MON",
+        "type": "service"
+      },
+      {
+        "id": "AI_GW",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "API_IN",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "ACR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "ARGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "SQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "AKS",
+        "target": "EVENTHUB",
+        "label": "Async"
+      },
+      {
+        "source": "AKS",
+        "target": "SERVICEBUS",
+        "label": "Async"
+      },
+      {
+        "source": "AKS",
+        "target": "SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "MON",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_IN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "EVENTHUB",
+        "label": "Async"
+      },
+      {
+        "source": "EVENTHUB",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "AI_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_GW",
+        "target": "SEARCH",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "Event-Driven",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Zero Trust Architecture",
+      "Observability Stack",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 43,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

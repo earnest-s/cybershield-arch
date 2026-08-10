@@ -1,0 +1,333 @@
+{
+  "id": "CSA-000378",
+  "instruction": "Design a ERP architecture. using a Modular Monolith style. deployed on Azure. satisfying: Feature Flags, Zero Trust Architecture, Rate Limiting, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "ModCore",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlag",
+        "type": "service"
+      },
+      {
+        "id": "OrderSvc",
+        "type": "service"
+      },
+      {
+        "id": "InvSvc",
+        "type": "service"
+      },
+      {
+        "id": "FinSvc",
+        "type": "service"
+      },
+      {
+        "id": "HRM",
+        "type": "service"
+      },
+      {
+        "id": "CRM",
+        "type": "service"
+      },
+      {
+        "id": "Subgraph1",
+        "type": "service"
+      },
+      {
+        "id": "Ingest",
+        "type": "queue"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "DataLake",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "GeoRep",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "DRPlan",
+        "type": "service"
+      },
+      {
+        "id": "VNet",
+        "type": "service"
+      },
+      {
+        "id": "NSG",
+        "type": "service"
+      },
+      {
+        "id": "AzureAD",
+        "type": "service"
+      },
+      {
+        "id": "AzureKeyVault",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "ModCore",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModCore",
+        "target": "InvSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModCore",
+        "target": "FinSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModCore",
+        "target": "HRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModCore",
+        "target": "CRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "InvSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "FinSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "HRM",
+        "target": "CRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "ModCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "InvSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "FinSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "HRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "CRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "UI",
+        "target": "CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "ModCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "FeatureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "ModCore",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Modular Monolith",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Zero Trust Architecture",
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 69,
+    "source_edges": 66,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

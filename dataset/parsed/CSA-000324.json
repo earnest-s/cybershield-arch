@@ -1,0 +1,338 @@
+{
+  "id": "CSA-000324",
+  "instruction": "Design a MLOps architecture. using a Serverless style. deployed on Azure. satisfying: Auto Scaling, Data Lakehouse Pattern, Observability Stack, GraphRAG Integration, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "DataSci",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "RateLimit",
+        "type": "service"
+      },
+      {
+        "id": "Trigger",
+        "type": "service"
+      },
+      {
+        "id": "FuncTrain",
+        "type": "service"
+      },
+      {
+        "id": "FuncEval",
+        "type": "service"
+      },
+      {
+        "id": "FuncDeploy",
+        "type": "service"
+      },
+      {
+        "id": "Obs",
+        "type": "service"
+      },
+      {
+        "id": "RawLake",
+        "type": "service"
+      },
+      {
+        "id": "CuratedLake",
+        "type": "service"
+      },
+      {
+        "id": "MetaStore",
+        "type": "service"
+      },
+      {
+        "id": "VecDB",
+        "type": "database"
+      },
+      {
+        "id": "GraphDB",
+        "type": "database"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Traces",
+        "type": "service"
+      },
+      {
+        "id": "Repo",
+        "type": "service"
+      },
+      {
+        "id": "Pipeline",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "APIGW",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimit",
+        "label": "HTTP"
+      },
+      {
+        "source": "Trigger",
+        "target": "FuncEval",
+        "label": "HTTP"
+      },
+      {
+        "source": "Trigger",
+        "target": "FuncDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncTrain",
+        "target": "Obs",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncEval",
+        "target": "Obs",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncDeploy",
+        "target": "Obs",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Trigger",
+        "label": "HTTP"
+      },
+      {
+        "source": "RawLake",
+        "target": "CuratedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "CuratedLake",
+        "target": "MetaStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncTrain",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncEval",
+        "target": "CuratedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "VecDB",
+        "target": "GraphDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncDeploy",
+        "target": "VecDB",
+        "label": "Async"
+      },
+      {
+        "source": "EventHub",
+        "target": "FuncTrain",
+        "label": "Async"
+      },
+      {
+        "source": "EventHub",
+        "target": "FuncEval",
+        "label": "Async"
+      },
+      {
+        "source": "FuncDeploy",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Traces",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Obs",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Obs",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Obs",
+        "target": "Traces",
+        "label": "HTTP"
+      },
+      {
+        "source": "Repo",
+        "target": "Pipeline",
+        "label": "HTTP"
+      },
+      {
+        "source": "Pipeline",
+        "target": "Trigger",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetaStore",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "FuncTrain",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "FuncEval",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "FuncDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "FuncDeploy",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "Data Lakehouse Pattern",
+      "Observability Stack",
+      "GraphRAG Integration",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 49,
+    "source_edges": 46,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

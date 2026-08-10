@@ -1,0 +1,268 @@
+{
+  "id": "CSA-000103",
+  "instruction": "Design a Energy architecture. using a Serverless style. deployed on GCP. satisfying: Feature Flags, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPC1",
+        "type": "database"
+      },
+      {
+        "id": "VPC2",
+        "type": "database"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "FUNCS",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "BQ",
+        "type": "service"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "DATAFLOW",
+        "type": "service"
+      },
+      {
+        "id": "FIRESTORE",
+        "type": "service"
+      },
+      {
+        "id": "CLOUDSQL",
+        "type": "database"
+      },
+      {
+        "id": "BUCKET",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "TRACE",
+        "type": "service"
+      },
+      {
+        "id": "REPO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "ui"
+      },
+      {
+        "id": "FLAG",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "SEC_GROUP",
+        "type": "service"
+      },
+      {
+        "id": "PUBSUB",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "VPC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC1",
+        "target": "VPC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNCS",
+        "target": "BQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNCS",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "EVENT",
+        "target": "DATAFLOW",
+        "label": "HTTP"
+      },
+      {
+        "source": "BQ",
+        "target": "FIRESTORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "BQ",
+        "target": "CLOUDSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "BQ",
+        "target": "BUCKET",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNCS",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNCS",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNCS",
+        "target": "TRACE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "FUNCS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "FLAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "SEC_GROUP",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "SEC_GROUP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "SEC_GROUP",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAG",
+        "target": "FUNCS",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "CLOUDSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VPC2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 52,
+    "source_edges": 45,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

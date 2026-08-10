@@ -1,0 +1,453 @@
+{
+  "id": "CSA-000175",
+  "instruction": "Design a Pharma architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: Data Lakehouse Pattern, Compliance/Audit Logging, GraphRAG Integration, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "API_CONS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "EDGE",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "EVENTBRIDGE",
+        "type": "service"
+      },
+      {
+        "id": "CMD_API",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SVC",
+        "type": "service"
+      },
+      {
+        "id": "CMD_DB",
+        "type": "database"
+      },
+      {
+        "id": "QUERY_API",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_SVC",
+        "type": "ui"
+      },
+      {
+        "id": "LAKEHOUSE",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "GRAPH_RAG",
+        "type": "database"
+      },
+      {
+        "id": "AI_GATEWAY",
+        "type": "service"
+      },
+      {
+        "id": "ERP",
+        "type": "service"
+      },
+      {
+        "id": "LAB",
+        "type": "service"
+      },
+      {
+        "id": "CLINIC",
+        "type": "database"
+      },
+      {
+        "id": "RESEARCH",
+        "type": "service"
+      },
+      {
+        "id": "FIREWALL",
+        "type": "service"
+      },
+      {
+        "id": "Replicates",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "QUERY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_API",
+        "target": "QUERY_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "CMD_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_DB",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKEHOUSE",
+        "target": "QUERY_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "QUERY_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SVC",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SVC",
+        "target": "GRAPH_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPH_RAG",
+        "target": "AI_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ERP",
+        "target": "LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAB",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLINIC",
+        "target": "LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RESEARCH",
+        "target": "LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTBRIDGE",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_API",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_GATEWAY",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAF",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FIREWALL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "GKE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Compliance/Audit Logging",
+      "GraphRAG Integration",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

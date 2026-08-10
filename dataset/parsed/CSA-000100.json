@@ -1,0 +1,508 @@
+{
+  "id": "CSA-000100",
+  "instruction": "Design a Logistics architecture. using a Data Mesh style. deployed on Azure. satisfying: Auto Scaling, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "partnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkI",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "observability",
+        "type": "ui"
+      },
+      {
+        "id": "orderSrv",
+        "type": "service"
+      },
+      {
+        "id": "inventorySrv",
+        "type": "service"
+      },
+      {
+        "id": "shipmentSrv",
+        "type": "service"
+      },
+      {
+        "id": "routeOptSrv",
+        "type": "service"
+      },
+      {
+        "id": "billingSrv",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpcGateway",
+        "type": "service"
+      },
+      {
+        "id": "eventHub",
+        "type": "service"
+      },
+      {
+        "id": "sagaOrch",
+        "type": "queue"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "serviceBus",
+        "type": "service"
+      },
+      {
+        "id": "redisCache",
+        "type": "cache"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "cosmosDB",
+        "type": "database"
+      },
+      {
+        "id": "mongoDB",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "dataCatalog",
+        "type": "service"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "vectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "carrierAPI",
+        "type": "service"
+      },
+      {
+        "id": "customsSys",
+        "type": "service"
+      },
+      {
+        "id": "paymentProv",
+        "type": "service"
+      },
+      {
+        "id": "securityGroup",
+        "type": "service"
+      },
+      {
+        "id": "autoscale",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "partnerAPI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "securityGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "pkI",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "grpcGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "orderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "inventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "shipmentSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "routeOptSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "billingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpcGateway",
+        "target": "orderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpcGateway",
+        "target": "inventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpcGateway",
+        "target": "shipmentSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSrv",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "inventorySrv",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "shipmentSrv",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "routeOptSrv",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingSrv",
+        "target": "serviceBus",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "sagaOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "sagaOrch",
+        "target": "orderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "sagaOrch",
+        "target": "inventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "sagaOrch",
+        "target": "shipmentSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "sagaOrch",
+        "target": "billingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSrv",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSrv",
+        "target": "redisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "inventorySrv",
+        "target": "cosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipmentSrv",
+        "target": "mongoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "routeOptSrv",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "routeOptSrv",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingSrv",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataCatalog",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataCatalog",
+        "target": "cosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataCatalog",
+        "target": "mongoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataCatalog",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataCatalog",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataCatalog",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "embeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "vectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "embeddingModel",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorSearch",
+        "target": "vectorDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "ragEngine",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "cosmosDB",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "redisCache",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipmentSrv",
+        "target": "carrierAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipmentSrv",
+        "target": "customsSys",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingSrv",
+        "target": "paymentProv",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "Data Mesh",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Auto Scaling",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 68,
+    "source_edges": 67,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

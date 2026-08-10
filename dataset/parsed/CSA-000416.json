@@ -1,0 +1,540 @@
+{
+  "id": "CSA-000416",
+  "instruction": "Design a HR architecture. using a Hexagonal style. deployed on Azure. satisfying: Zero Trust Architecture, Data Lakehouse Pattern, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "EDGE",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_IN",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_OUT",
+        "type": "service"
+      },
+      {
+        "id": "FEATURE_FLAGS",
+        "type": "service"
+      },
+      {
+        "id": "SUBGRAPH_ADAPTER_IN",
+        "type": "service"
+      },
+      {
+        "id": "API_ADAPTER",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_ADAPTER",
+        "type": "queue"
+      },
+      {
+        "id": "SUBGRAPH_ADAPTER_OUT",
+        "type": "service"
+      },
+      {
+        "id": "DB_ADAPTER",
+        "type": "database"
+      },
+      {
+        "id": "SEARCH_ADAPTER",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF_ADAPTER",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "DWH",
+        "type": "service"
+      },
+      {
+        "id": "LAKE",
+        "type": "service"
+      },
+      {
+        "id": "METASTORE",
+        "type": "service"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOGGING",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "AZURE",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "COSMOS",
+        "type": "database"
+      },
+      {
+        "id": "EMAIL",
+        "type": "service"
+      },
+      {
+        "id": "PUSH",
+        "type": "service"
+      },
+      {
+        "id": "FF_SERVICE",
+        "type": "service"
+      },
+      {
+        "id": "POWERBI",
+        "type": "service"
+      },
+      {
+        "id": "ADLS",
+        "type": "service"
+      },
+      {
+        "id": "SYNAPSE",
+        "type": "service"
+      },
+      {
+        "id": "AI_SEARCH",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CORE",
+        "target": "ADAPTER_IN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "ADAPTER_OUT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "API_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "EVENT_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "DB_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "SEARCH_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "NOTIF_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "FEATURE_FLAGS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DWH",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "METASTORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC_DB",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDING",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONSUMERS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "ZERO_TRUST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "API_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_ADAPTER",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_ADAPTER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT_ADAPTER",
+        "label": "Async"
+      },
+      {
+        "source": "CORE",
+        "target": "DB_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_ADAPTER",
+        "target": "POSTGRES",
+        "label": "DB Query"
+      },
+      {
+        "source": "DB_ADAPTER",
+        "target": "COSMOS",
+        "label": "DB Query"
+      },
+      {
+        "source": "CORE",
+        "target": "SEARCH_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEARCH_ADAPTER",
+        "target": "VEC_DB",
+        "label": "DB Query"
+      },
+      {
+        "source": "CORE",
+        "target": "NOTIF_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF_ADAPTER",
+        "target": "EMAIL",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF_ADAPTER",
+        "target": "PUSH",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE_FLAGS",
+        "target": "FF_SERVICE",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "COSMOS",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC_DB",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DWH",
+        "target": "POWERBI",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "WEB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "ADMIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAFANA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOGGING",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZURE",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZURE",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZURE",
+        "target": "SYNAPSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZURE",
+        "target": "AI_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "LOGGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "LOGGING",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Hexagonal",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Data Lakehouse Pattern",
+      "Feature Flags"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 77,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

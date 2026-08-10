@@ -1,0 +1,299 @@
+{
+  "id": "CSA-000310",
+  "instruction": "Design a E-Commerce architecture. using a Serverless style. deployed on GCP. satisfying: Rate Limiting, High Throughput (100k+ TPS), Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "CloudLoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "API_Gateway",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "FrontendFunc",
+        "type": "ui"
+      },
+      {
+        "id": "AuthFunc",
+        "type": "service"
+      },
+      {
+        "id": "OrderFunc",
+        "type": "service"
+      },
+      {
+        "id": "CatalogFunc",
+        "type": "service"
+      },
+      {
+        "id": "PaymentFunc",
+        "type": "service"
+      },
+      {
+        "id": "NotificationFunc",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "Firestore",
+        "type": "service"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "CloudSQL",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      },
+      {
+        "id": "Logging",
+        "type": "service"
+      },
+      {
+        "id": "Trace",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CloudLoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudLoadBalancer",
+        "target": "API_Gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_Gateway",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_Gateway",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_Gateway",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_Gateway",
+        "target": "FrontendFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "CatalogFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "OrderFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "AuthFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFunc",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFunc",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderFunc",
+        "target": "PaymentFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderFunc",
+        "target": "NotificationFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderFunc",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentFunc",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogFunc",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationFunc",
+        "target": "PubSub",
+        "label": "Async"
+      },
+      {
+        "source": "PubSub",
+        "target": "OrderFunc",
+        "label": "Async"
+      },
+      {
+        "source": "PubSub",
+        "target": "NotificationFunc",
+        "label": "Async"
+      },
+      {
+        "source": "CloudSQL",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firestore",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "Logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "Trace",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFunc",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderFunc",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentFunc",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationFunc",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "Monitoring",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 41,
+    "source_edges": 33,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

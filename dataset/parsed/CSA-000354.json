@@ -1,0 +1,510 @@
+{
+  "id": "CSA-000354",
+  "instruction": "Design a Agentic AI architecture. using a CQRS style. deployed on Azure. satisfying: Active-Active Multi-Region, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "idp",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "bgDeploy",
+        "type": "service"
+      },
+      {
+        "id": "regionA",
+        "type": "service"
+      },
+      {
+        "id": "regionB",
+        "type": "service"
+      },
+      {
+        "id": "aks",
+        "type": "container"
+      },
+      {
+        "id": "sqlPrimary",
+        "type": "database"
+      },
+      {
+        "id": "redisCache",
+        "type": "cache"
+      },
+      {
+        "id": "blobStorage",
+        "type": "database"
+      },
+      {
+        "id": "eventHub",
+        "type": "service"
+      },
+      {
+        "id": "cosmos",
+        "type": "database"
+      },
+      {
+        "id": "cmdSrv",
+        "type": "service"
+      },
+      {
+        "id": "qrySrv",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "database"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "promA",
+        "type": "service"
+      },
+      {
+        "id": "grafA",
+        "type": "service"
+      },
+      {
+        "id": "otelA",
+        "type": "service"
+      },
+      {
+        "id": "elkA",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otelCollector",
+        "type": "service"
+      },
+      {
+        "id": "elkStack",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "aksB",
+        "type": "container"
+      },
+      {
+        "id": "sqlReplica",
+        "type": "database"
+      },
+      {
+        "id": "redisCacheB",
+        "type": "cache"
+      },
+      {
+        "id": "blobStorageB",
+        "type": "database"
+      },
+      {
+        "id": "eventHubB",
+        "type": "service"
+      },
+      {
+        "id": "cosmosB",
+        "type": "database"
+      },
+      {
+        "id": "cmdSrvB",
+        "type": "service"
+      },
+      {
+        "id": "qrySrvB",
+        "type": "service"
+      },
+      {
+        "id": "orchestratorB",
+        "type": "service"
+      },
+      {
+        "id": "ragEngineB",
+        "type": "database"
+      },
+      {
+        "id": "aiGatewayB",
+        "type": "service"
+      },
+      {
+        "id": "kafkaB",
+        "type": "queue"
+      },
+      {
+        "id": "promB",
+        "type": "service"
+      },
+      {
+        "id": "grafB",
+        "type": "service"
+      },
+      {
+        "id": "otelB",
+        "type": "service"
+      },
+      {
+        "id": "elkB",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "complianceLink",
+        "type": "service"
+      },
+      {
+        "id": "repo",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "cd",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "bgDeploy",
+        "target": "regionA",
+        "label": "HTTP"
+      },
+      {
+        "source": "bgDeploy",
+        "target": "regionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "aks",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks",
+        "target": "cmdSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks",
+        "target": "qrySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSrv",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "cmdSrv",
+        "target": "sqlPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "eventHub",
+        "label": "Async"
+      },
+      {
+        "source": "eventHub",
+        "target": "qrySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "qrySrv",
+        "target": "redisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "qrySrv",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "promA",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "grafA",
+        "label": "HTTP"
+      },
+      {
+        "source": "otelCollector",
+        "target": "otelA",
+        "label": "HTTP"
+      },
+      {
+        "source": "elkStack",
+        "target": "elkA",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "aksB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aksB",
+        "target": "cmdSrvB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aksB",
+        "target": "qrySrvB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aksB",
+        "target": "orchestratorB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aksB",
+        "target": "ragEngineB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aksB",
+        "target": "aiGatewayB",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSrvB",
+        "target": "kafkaB",
+        "label": "Async"
+      },
+      {
+        "source": "cmdSrvB",
+        "target": "sqlReplica",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestratorB",
+        "target": "kafkaB",
+        "label": "Async"
+      },
+      {
+        "source": "kafkaB",
+        "target": "eventHubB",
+        "label": "Async"
+      },
+      {
+        "source": "eventHubB",
+        "target": "qrySrvB",
+        "label": "HTTP"
+      },
+      {
+        "source": "qrySrvB",
+        "target": "redisCacheB",
+        "label": "HTTP"
+      },
+      {
+        "source": "qrySrvB",
+        "target": "ragEngineB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngineB",
+        "target": "cosmosB",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqlPrimary",
+        "target": "sqlReplica",
+        "label": "HTTP"
+      },
+      {
+        "source": "redisCache",
+        "target": "redisCacheB",
+        "label": "HTTP"
+      },
+      {
+        "source": "cosmos",
+        "target": "cosmosB",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "kafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventHub",
+        "target": "eventHubB",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "complianceLink",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceLink",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceLink",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceLink",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceLink",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "repo",
+        "target": "ci",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "cd",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "bgDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "vault",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Agentic AI",
+    "style": "CQRS",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 97,
+    "source_edges": 78,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

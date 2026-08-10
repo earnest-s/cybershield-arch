@@ -1,0 +1,423 @@
+{
+  "id": "CSA-000119",
+  "instruction": "Design a DevSecOps architecture. using a CQRS style. deployed on GCP. satisfying: GraphRAG Integration, Active-Active Multi-Region, Feature Flags, Auto Scaling, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "CMD",
+        "type": "service"
+      },
+      {
+        "id": "QRY",
+        "type": "service"
+      },
+      {
+        "id": "CMD_API",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SRV",
+        "type": "service"
+      },
+      {
+        "id": "EVENTBK",
+        "type": "queue"
+      },
+      {
+        "id": "EVENTSTORE",
+        "type": "service"
+      },
+      {
+        "id": "WRITE_DB",
+        "type": "database"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "ORCH",
+        "type": "service"
+      },
+      {
+        "id": "SUBS",
+        "type": "service"
+      },
+      {
+        "id": "READ_DB",
+        "type": "database"
+      },
+      {
+        "id": "QRY_API",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "GRAGR",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "service"
+      },
+      {
+        "id": "AuthSrv",
+        "type": "service"
+      },
+      {
+        "id": "UserSrv",
+        "type": "service"
+      },
+      {
+        "id": "OrderSrv",
+        "type": "service"
+      },
+      {
+        "id": "PaymentSrv",
+        "type": "service"
+      },
+      {
+        "id": "InventorySrv",
+        "type": "service"
+      },
+      {
+        "id": "NotificationSrv",
+        "type": "service"
+      },
+      {
+        "id": "AuditSrv",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AgentOrch",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "LOGS",
+        "type": "service"
+      },
+      {
+        "id": "Tracing",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "ui"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "BLUE",
+        "type": "service"
+      },
+      {
+        "id": "GREEN",
+        "type": "service"
+      },
+      {
+        "id": "Autoscale",
+        "type": "service"
+      },
+      {
+        "id": "GitOps",
+        "type": "service"
+      },
+      {
+        "id": "GCP_Resources",
+        "type": "service"
+      },
+      {
+        "id": "ALL",
+        "type": "service"
+      },
+      {
+        "id": "EXTERNAL",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "LB",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SRV",
+        "target": "EVENTBK",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTBK",
+        "target": "EVENTSTORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SRV",
+        "target": "WRITE_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SRV",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SRV",
+        "target": "ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "SUBS",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_API",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR",
+        "target": "GRAGR",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGR",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthSrv",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserSrv",
+        "target": "WRITE_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSrv",
+        "target": "WRITE_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentSrv",
+        "target": "WRITE_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventorySrv",
+        "target": "WRITE_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSrv",
+        "target": "EVENTBK",
+        "label": "Async"
+      },
+      {
+        "source": "AuditSrv",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QRY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "CMD_SRV",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTBK",
+        "target": "SUBS",
+        "label": "Async"
+      },
+      {
+        "source": "READ_DB",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGR",
+        "target": "QRY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "SOC2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "GraphRAG Integration",
+      "Active-Active Multi-Region",
+      "Feature Flags",
+      "Auto Scaling",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 78,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

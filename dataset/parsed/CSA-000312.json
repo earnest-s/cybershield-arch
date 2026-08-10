@@ -1,0 +1,514 @@
+{
+  "id": "CSA-000312",
+  "instruction": "Design a OTT architecture. using a Serverless style. deployed on GCP. satisfying: Compliance/Audit Logging, Disaster Recovery, AI/ML Inference Integration, Feature Flags, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "TVApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LoadBal",
+        "type": "database"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Audit",
+        "type": "service"
+      },
+      {
+        "id": "Comp",
+        "type": "service"
+      },
+      {
+        "id": "FrontendFS",
+        "type": "ui"
+      },
+      {
+        "id": "AuthFS",
+        "type": "service"
+      },
+      {
+        "id": "VideoProcFS",
+        "type": "service"
+      },
+      {
+        "id": "MetadataFS",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlagFS",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "DWH",
+        "type": "service"
+      },
+      {
+        "id": "Lake",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "Search",
+        "type": "service"
+      },
+      {
+        "id": "Events",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Scheduler",
+        "type": "service"
+      },
+      {
+        "id": "Metrics",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "Traces",
+        "type": "service"
+      },
+      {
+        "id": "Dashboard",
+        "type": "ui"
+      },
+      {
+        "id": "CI",
+        "type": "ui"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "Repo",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "MultiRegion",
+        "type": "service"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "BI",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "TVApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "LoadBal",
+        "label": "HTTP"
+      },
+      {
+        "source": "LoadBal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FrontendFS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthFS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FeatureFlagFS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFS",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFS",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFS",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFS",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFS",
+        "target": "Cache",
+        "label": "Cache"
+      },
+      {
+        "source": "FrontendFS",
+        "target": "Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "VideoProcFS",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "VideoProcFS",
+        "target": "Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "VideoProcFS",
+        "target": "MetadataFS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetadataFS",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetadataFS",
+        "target": "Events",
+        "label": "Async"
+      },
+      {
+        "source": "FeatureFlagFS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "Audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "Events",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scheduler",
+        "target": "VideoProcFS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DWH",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lake",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "BI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "FrontendFS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Search",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFS",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFS",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "VideoProcFS",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetadataFS",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFS",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFS",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "VideoProcFS",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetadataFS",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFS",
+        "target": "Traces",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFS",
+        "target": "Traces",
+        "label": "HTTP"
+      },
+      {
+        "source": "VideoProcFS",
+        "target": "Traces",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetadataFS",
+        "target": "Traces",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "Traces",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metrics",
+        "target": "Dashboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logs",
+        "target": "Dashboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "Traces",
+        "target": "Dashboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "Repo",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "FrontendFS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "AuthFS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "VideoProcFS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "MetadataFS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "FeatureFlagFS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "DWH",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lake",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "MultiRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "MultiRegion",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MultiRegion",
+        "target": "Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "Comp",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logs",
+        "target": "Comp",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "OTT",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Disaster Recovery",
+      "AI/ML Inference Integration",
+      "Feature Flags",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 55,
+    "source_edges": 75,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

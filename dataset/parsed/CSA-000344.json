@@ -1,0 +1,747 @@
+{
+  "id": "CSA-000344",
+  "instruction": "Design a Smart City architecture. using a Microservices style. deployed on On-Premises. satisfying: Strict Network Segmentation, Observability Stack, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "iot",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGwA",
+        "type": "service"
+      },
+      {
+        "id": "lbA",
+        "type": "service"
+      },
+      {
+        "id": "envoyA",
+        "type": "service"
+      },
+      {
+        "id": "apiGwB",
+        "type": "service"
+      },
+      {
+        "id": "lbB",
+        "type": "service"
+      },
+      {
+        "id": "envoyB",
+        "type": "service"
+      },
+      {
+        "id": "EDGE_NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "EDGE_NETWORK_B",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "istioA",
+        "type": "service"
+      },
+      {
+        "id": "k8sA",
+        "type": "service"
+      },
+      {
+        "id": "istioB",
+        "type": "service"
+      },
+      {
+        "id": "k8sB",
+        "type": "service"
+      },
+      {
+        "id": "traffic",
+        "type": "service"
+      },
+      {
+        "id": "parking",
+        "type": "service"
+      },
+      {
+        "id": "lighting",
+        "type": "service"
+      },
+      {
+        "id": "waste",
+        "type": "service"
+      },
+      {
+        "id": "env",
+        "type": "service"
+      },
+      {
+        "id": "transport",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "trafficB",
+        "type": "service"
+      },
+      {
+        "id": "parkingB",
+        "type": "service"
+      },
+      {
+        "id": "lightingB",
+        "type": "service"
+      },
+      {
+        "id": "wasteB",
+        "type": "service"
+      },
+      {
+        "id": "envB",
+        "type": "service"
+      },
+      {
+        "id": "transportB",
+        "type": "service"
+      },
+      {
+        "id": "analyticsB",
+        "type": "service"
+      },
+      {
+        "id": "aiGatewayB",
+        "type": "service"
+      },
+      {
+        "id": "kafkaA",
+        "type": "queue"
+      },
+      {
+        "id": "kafkaB",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "pgA",
+        "type": "database"
+      },
+      {
+        "id": "mongoA",
+        "type": "database"
+      },
+      {
+        "id": "redisA",
+        "type": "cache"
+      },
+      {
+        "id": "esA",
+        "type": "service"
+      },
+      {
+        "id": "vecA",
+        "type": "database"
+      },
+      {
+        "id": "pgB",
+        "type": "database"
+      },
+      {
+        "id": "mongoB",
+        "type": "database"
+      },
+      {
+        "id": "redisB",
+        "type": "cache"
+      },
+      {
+        "id": "esB",
+        "type": "service"
+      },
+      {
+        "id": "vecB",
+        "type": "database"
+      },
+      {
+        "id": "prometheusA",
+        "type": "service"
+      },
+      {
+        "id": "grafanaA",
+        "type": "service"
+      },
+      {
+        "id": "lokiA",
+        "type": "service"
+      },
+      {
+        "id": "tempoA",
+        "type": "service"
+      },
+      {
+        "id": "otelA",
+        "type": "service"
+      },
+      {
+        "id": "prometheusB",
+        "type": "service"
+      },
+      {
+        "id": "grafanaB",
+        "type": "service"
+      },
+      {
+        "id": "lokiB",
+        "type": "service"
+      },
+      {
+        "id": "tempoB",
+        "type": "service"
+      },
+      {
+        "id": "otelB",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "servicesA",
+        "type": "service"
+      },
+      {
+        "id": "servicesB",
+        "type": "service"
+      },
+      {
+        "id": "drStorageA",
+        "type": "database"
+      },
+      {
+        "id": "drStorageB",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "EDGE_NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "EDGE_NETWORK_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "otelA",
+        "target": "lokiA",
+        "label": "HTTP"
+      },
+      {
+        "source": "otelA",
+        "target": "tempoA",
+        "label": "HTTP"
+      },
+      {
+        "source": "otelB",
+        "target": "lokiB",
+        "label": "HTTP"
+      },
+      {
+        "source": "otelB",
+        "target": "tempoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "iot",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGwA",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGwB",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGwA",
+        "target": "lbA",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGwB",
+        "target": "lbB",
+        "label": "HTTP"
+      },
+      {
+        "source": "lbA",
+        "target": "envoyA",
+        "label": "HTTP"
+      },
+      {
+        "source": "lbB",
+        "target": "envoyB",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyA",
+        "target": "traffic",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyA",
+        "target": "parking",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyA",
+        "target": "lighting",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyA",
+        "target": "waste",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyA",
+        "target": "env",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyA",
+        "target": "transport",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyA",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyA",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyB",
+        "target": "trafficB",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyB",
+        "target": "parkingB",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyB",
+        "target": "lightingB",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyB",
+        "target": "wasteB",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyB",
+        "target": "envB",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyB",
+        "target": "transportB",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyB",
+        "target": "analyticsB",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoyB",
+        "target": "aiGatewayB",
+        "label": "HTTP"
+      },
+      {
+        "source": "traffic",
+        "target": "kafkaA",
+        "label": "Async"
+      },
+      {
+        "source": "parking",
+        "target": "kafkaA",
+        "label": "Async"
+      },
+      {
+        "source": "lighting",
+        "target": "kafkaA",
+        "label": "Async"
+      },
+      {
+        "source": "waste",
+        "target": "kafkaA",
+        "label": "Async"
+      },
+      {
+        "source": "env",
+        "target": "kafkaA",
+        "label": "Async"
+      },
+      {
+        "source": "transport",
+        "target": "kafkaA",
+        "label": "Async"
+      },
+      {
+        "source": "analytics",
+        "target": "pgA",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "vecA",
+        "label": "HTTP"
+      },
+      {
+        "source": "trafficB",
+        "target": "kafkaB",
+        "label": "Async"
+      },
+      {
+        "source": "parkingB",
+        "target": "kafkaB",
+        "label": "Async"
+      },
+      {
+        "source": "lightingB",
+        "target": "kafkaB",
+        "label": "Async"
+      },
+      {
+        "source": "wasteB",
+        "target": "kafkaB",
+        "label": "Async"
+      },
+      {
+        "source": "envB",
+        "target": "kafkaB",
+        "label": "Async"
+      },
+      {
+        "source": "transportB",
+        "target": "kafkaB",
+        "label": "Async"
+      },
+      {
+        "source": "analyticsB",
+        "target": "pgB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGatewayB",
+        "target": "vecB",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaA",
+        "target": "kafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "pgA",
+        "target": "pgB",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongoA",
+        "target": "mongoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "redisA",
+        "target": "redisB",
+        "label": "Cache"
+      },
+      {
+        "source": "esA",
+        "target": "esB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vecA",
+        "target": "vecB",
+        "label": "HTTP"
+      },
+      {
+        "source": "traffic",
+        "target": "otelA",
+        "label": "HTTP"
+      },
+      {
+        "source": "parking",
+        "target": "otelA",
+        "label": "HTTP"
+      },
+      {
+        "source": "lighting",
+        "target": "otelA",
+        "label": "HTTP"
+      },
+      {
+        "source": "waste",
+        "target": "otelA",
+        "label": "HTTP"
+      },
+      {
+        "source": "env",
+        "target": "otelA",
+        "label": "HTTP"
+      },
+      {
+        "source": "transport",
+        "target": "otelA",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "otelA",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "otelA",
+        "label": "HTTP"
+      },
+      {
+        "source": "trafficB",
+        "target": "otelB",
+        "label": "HTTP"
+      },
+      {
+        "source": "parkingB",
+        "target": "otelB",
+        "label": "HTTP"
+      },
+      {
+        "source": "lightingB",
+        "target": "otelB",
+        "label": "HTTP"
+      },
+      {
+        "source": "wasteB",
+        "target": "otelB",
+        "label": "HTTP"
+      },
+      {
+        "source": "envB",
+        "target": "otelB",
+        "label": "HTTP"
+      },
+      {
+        "source": "transportB",
+        "target": "otelB",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsB",
+        "target": "otelB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGatewayB",
+        "target": "otelB",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGwA",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGwB",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "servicesA",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "servicesB",
+        "label": "HTTP"
+      },
+      {
+        "source": "servicesA",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "servicesB",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "kafkaA",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "kafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "istioA",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "istioB",
+        "label": "HTTP"
+      },
+      {
+        "source": "pgA",
+        "target": "drStorageA",
+        "label": "HTTP"
+      },
+      {
+        "source": "pgB",
+        "target": "drStorageB",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongoA",
+        "target": "drStorageA",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongoB",
+        "target": "drStorageB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "Microservices",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Observability Stack",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 87,
+    "source_edges": 113,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

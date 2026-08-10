@@ -1,0 +1,349 @@
+{
+  "id": "CSA-000274",
+  "instruction": "Design a Media architecture. using a CQRS style. deployed on AWS. satisfying: AI/ML Inference Integration, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "third_party",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "cmd_svc",
+        "type": "service"
+      },
+      {
+        "id": "event_bus",
+        "type": "queue"
+      },
+      {
+        "id": "pg_write",
+        "type": "database"
+      },
+      {
+        "id": "redis_cache",
+        "type": "cache"
+      },
+      {
+        "id": "ai_inf",
+        "type": "service"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "query_api",
+        "type": "service"
+      },
+      {
+        "id": "pg_read",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "flink",
+        "type": "service"
+      },
+      {
+        "id": "saga_mgr",
+        "type": "service"
+      },
+      {
+        "id": "raw_zone",
+        "type": "service"
+      },
+      {
+        "id": "s3_ingest",
+        "type": "service"
+      },
+      {
+        "id": "refined_zone",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "ml_training",
+        "type": "service"
+      },
+      {
+        "id": "model_registry",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "logs",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "LAKEHOUSE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cmd_svc",
+        "target": "pg_write",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "redis_cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "ai_inf",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_inf",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "query_api",
+        "target": "redis_cache",
+        "label": "Cache"
+      },
+      {
+        "source": "query_api",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "query_api",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bus",
+        "target": "flink",
+        "label": "HTTP"
+      },
+      {
+        "source": "flink",
+        "target": "pg_read",
+        "label": "HTTP"
+      },
+      {
+        "source": "flink",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "flink",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "flink",
+        "target": "saga_mgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "raw_zone",
+        "target": "refined_zone",
+        "label": "HTTP"
+      },
+      {
+        "source": "refined_zone",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "ml_training",
+        "label": "HTTP"
+      },
+      {
+        "source": "ml_training",
+        "target": "model_registry",
+        "label": "Async"
+      },
+      {
+        "source": "model_registry",
+        "target": "ai_inf",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_inf",
+        "target": "query_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "query_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "ai_inf",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "query_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "query_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bus",
+        "target": "LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "flink",
+        "target": "ml_training",
+        "label": "HTTP"
+      },
+      {
+        "source": "query_api",
+        "target": "logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "prom",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Media",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 65,
+    "source_edges": 55,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,448 @@
+{
+  "id": "CSA-000019",
+  "instruction": "Design a Supply Chain architecture. using a Modular Monolith style. deployed on Hybrid Cloud. satisfying: High Throughput (100k+ TPS), Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "ORDER",
+        "type": "service"
+      },
+      {
+        "id": "INVENTORY",
+        "type": "service"
+      },
+      {
+        "id": "SHIPPING",
+        "type": "service"
+      },
+      {
+        "id": "PAYMENTS",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "GIT",
+        "type": "service"
+      },
+      {
+        "id": "BUILD",
+        "type": "ui"
+      },
+      {
+        "id": "BLUE",
+        "type": "service"
+      },
+      {
+        "id": "GREEN",
+        "type": "service"
+      },
+      {
+        "id": "ARGO",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "AZURE",
+        "type": "service"
+      },
+      {
+        "id": "ONPREM",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "SHIPPING",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "PAYMENTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIPPING",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENTS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ORDER",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "INVENTORY",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "SHIPPING",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PAYMENTS",
+        "label": "Async"
+      },
+      {
+        "source": "ORDER",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIPPING",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENTS",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "AZURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "ONPREM",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "AZURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "ONPREM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "AZURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "ONPREM",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "AZURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "ONPREM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "SHIPPING",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "PAYMENTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "SHIPPING",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "PAYMENTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAF",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "SHIPPING",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "PAYMENTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GIT",
+        "target": "BUILD",
+        "label": "HTTP"
+      },
+      {
+        "source": "BUILD",
+        "target": "ARGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ARGO",
+        "target": "BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ARGO",
+        "target": "GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GREEN",
+        "target": "LB",
+        "label": "DB Query"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "Modular Monolith",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 48,
+    "source_edges": 72,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

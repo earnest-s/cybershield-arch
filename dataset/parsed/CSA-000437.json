@@ -1,0 +1,219 @@
+{
+  "id": "CSA-000437",
+  "instruction": "Design a Pharma architecture. using a Hexagonal style. deployed on AWS. satisfying: Blue/Green Deployment, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "svc_blue",
+        "type": "service"
+      },
+      {
+        "id": "db_blue",
+        "type": "database"
+      },
+      {
+        "id": "svc_green",
+        "type": "service"
+      },
+      {
+        "id": "db_green",
+        "type": "database"
+      },
+      {
+        "id": "lb_a",
+        "type": "service"
+      },
+      {
+        "id": "rds_a",
+        "type": "database"
+      },
+      {
+        "id": "svc_b_blue",
+        "type": "service"
+      },
+      {
+        "id": "db_b_blue",
+        "type": "database"
+      },
+      {
+        "id": "svc_b_green",
+        "type": "service"
+      },
+      {
+        "id": "db_b_green",
+        "type": "database"
+      },
+      {
+        "id": "lb_b",
+        "type": "service"
+      },
+      {
+        "id": "rds_b",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "cd",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "rds_a",
+        "target": "rds_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "rds_b",
+        "target": "rds_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "svc_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "svc_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "svc_b_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "svc_b_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb_a",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb_b",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_blue",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_green",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_b_blue",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_b_green",
+        "target": "otel",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 43,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

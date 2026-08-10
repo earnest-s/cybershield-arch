@@ -1,0 +1,239 @@
+{
+  "id": "CSA-000387",
+  "instruction": "Design a GenAI architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: Rate Limiting, Observability Stack, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "apigw",
+        "type": "service"
+      },
+      {
+        "id": "idp",
+        "type": "service"
+      },
+      {
+        "id": "ztproxy",
+        "type": "service"
+      },
+      {
+        "id": "cmd_svc",
+        "type": "container"
+      },
+      {
+        "id": "evt_bus",
+        "type": "queue"
+      },
+      {
+        "id": "sec_store",
+        "type": "service"
+      },
+      {
+        "id": "qry_svc",
+        "type": "container"
+      },
+      {
+        "id": "read_db",
+        "type": "database"
+      },
+      {
+        "id": "llm_gw",
+        "type": "service"
+      },
+      {
+        "id": "embed_model",
+        "type": "service"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "otl",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apigw",
+        "target": "idp",
+        "label": "HTTP"
+      },
+      {
+        "source": "idp",
+        "target": "ztproxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "ztproxy",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "evt_bus",
+        "label": "HTTP"
+      },
+      {
+        "source": "evt_bus",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_svc",
+        "target": "read_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "llm_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm_gw",
+        "target": "embed_model",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed_model",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "apigw",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "apigw",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_svc",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm_gw",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "idp",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "idp",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ztproxy",
+        "target": "qry_svc",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Observability Stack",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 28,
+    "source_edges": 29,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

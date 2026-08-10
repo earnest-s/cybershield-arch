@@ -1,0 +1,499 @@
+{
+  "id": "CSA-000373",
+  "instruction": "Design a Media architecture. using a Serverless style. deployed on Hybrid Cloud. satisfying: Observability Stack, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "client",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "network",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "LambdaAuth",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "LambdaRouter",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "application",
+        "type": "service"
+      },
+      {
+        "id": "S3Videos",
+        "type": "service"
+      },
+      {
+        "id": "VideoProcessor",
+        "type": "service"
+      },
+      {
+        "id": "S3Audios",
+        "type": "service"
+      },
+      {
+        "id": "AudioProcessor",
+        "type": "service"
+      },
+      {
+        "id": "S3Images",
+        "type": "service"
+      },
+      {
+        "id": "ImageProcessor",
+        "type": "service"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "ContentAPI",
+        "type": "service"
+      },
+      {
+        "id": "ES",
+        "type": "container"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "ai_ml",
+        "type": "service"
+      },
+      {
+        "id": "RecLambda",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "SqsQueue1",
+        "type": "queue"
+      },
+      {
+        "id": "SqsQueue2",
+        "type": "queue"
+      },
+      {
+        "id": "SqsQueue3",
+        "type": "queue"
+      },
+      {
+        "id": "BackupDynamo",
+        "type": "service"
+      },
+      {
+        "id": "SnapshotES",
+        "type": "service"
+      },
+      {
+        "id": "RedisPersistence",
+        "type": "cache"
+      },
+      {
+        "id": "observability",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "devops",
+        "type": "service"
+      },
+      {
+        "id": "BuildPipeline",
+        "type": "ui"
+      },
+      {
+        "id": "GithubActions",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreenBlue",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreenGreen",
+        "type": "service"
+      },
+      {
+        "id": "Route53",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "AuditTrail",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "PrivateSubnet",
+        "type": "service"
+      },
+      {
+        "id": "cloud",
+        "type": "service"
+      },
+      {
+        "id": "IGW",
+        "type": "service"
+      },
+      {
+        "id": "PublicSubnet",
+        "type": "service"
+      },
+      {
+        "id": "OnPrem",
+        "type": "service"
+      },
+      {
+        "id": "DirectConnect",
+        "type": "service"
+      },
+      {
+        "id": "TGW",
+        "type": "service"
+      },
+      {
+        "id": "AzureVNet",
+        "type": "service"
+      },
+      {
+        "id": "GCPVPC",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "client",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "network",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "security",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "LambdaAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LambdaRouter",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "application",
+        "target": "S3Videos",
+        "label": "HTTP"
+      },
+      {
+        "source": "application",
+        "target": "S3Audios",
+        "label": "HTTP"
+      },
+      {
+        "source": "application",
+        "target": "S3Images",
+        "label": "HTTP"
+      },
+      {
+        "source": "application",
+        "target": "DynamoDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "ContentAPI",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContentAPI",
+        "target": "SNS",
+        "label": "Async"
+      },
+      {
+        "source": "ai_ml",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecLambda",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecLambda",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "SqsQueue1",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "SqsQueue2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "SqsQueue3",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "RecLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "DynamoDB",
+        "target": "BackupDynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "SnapshotES",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "RedisPersistence",
+        "label": "HTTP"
+      },
+      {
+        "source": "observability",
+        "target": "LambdaRouter",
+        "label": "HTTP"
+      },
+      {
+        "source": "observability",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "observability",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "devops",
+        "target": "BuildPipeline",
+        "label": "HTTP"
+      },
+      {
+        "source": "BuildPipeline",
+        "target": "BlueGreenBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "BuildPipeline",
+        "target": "BlueGreenGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreenBlue",
+        "target": "Route53",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreenGreen",
+        "target": "Route53",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "AuditTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "PrivateSubnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "cloud",
+        "target": "IGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cloud",
+        "target": "OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "TGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "TGW",
+        "target": "AzureVNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "TGW",
+        "target": "GCPVPC",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Media",
+    "style": "Serverless",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Observability Stack",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 94,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

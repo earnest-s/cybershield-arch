@@ -1,0 +1,637 @@
+{
+  "id": "CSA-000199",
+  "instruction": "Design a Pharma architecture. using a Microservices style. deployed on Multi-Cloud. satisfying: Rate Limiting, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "loadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "observability",
+        "type": "ui"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "agentOrch",
+        "type": "service"
+      },
+      {
+        "id": "trialSvc",
+        "type": "service"
+      },
+      {
+        "id": "patientSvc",
+        "type": "service"
+      },
+      {
+        "id": "dataIngest",
+        "type": "service"
+      },
+      {
+        "id": "mlSvc",
+        "type": "service"
+      },
+      {
+        "id": "simSvc",
+        "type": "service"
+      },
+      {
+        "id": "compoundSvc",
+        "type": "service"
+      },
+      {
+        "id": "inventorySvc",
+        "type": "service"
+      },
+      {
+        "id": "orderSvc",
+        "type": "service"
+      },
+      {
+        "id": "logisticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "complianceSvc",
+        "type": "service"
+      },
+      {
+        "id": "auditSvc",
+        "type": "service"
+      },
+      {
+        "id": "billingSvc",
+        "type": "service"
+      },
+      {
+        "id": "invoiceSvc",
+        "type": "service"
+      },
+      {
+        "id": "notifSvc",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "loadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "trialSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "patientSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "dataIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "mlSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "simSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "compoundSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "logisticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "complianceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "auditSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "billingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "invoiceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "notifSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "loadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "trialSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataIngest",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "simSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "compoundSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "logisticsSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "invoiceSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "notifSvc",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "eventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "trialSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataIngest",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlSvc",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "simSvc",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "compoundSvc",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySvc",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "logisticsSvc",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "invoiceSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "notifSvc",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlSvc",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlSvc",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "agentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentOrch",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongo",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "auditSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditSvc",
+        "target": "compliance",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Microservices",
+    "cloud": "Multi-Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Rate Limiting",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 73,
+    "source_edges": 98,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

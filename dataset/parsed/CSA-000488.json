@@ -1,0 +1,284 @@
+{
+  "id": "CSA-000488",
+  "instruction": "Design a Retail architecture. using a Modular Monolith style. deployed on Azure. satisfying: Auto Scaling, Disaster Recovery, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MOD_MONO",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "DR_Postgres",
+        "type": "database"
+      },
+      {
+        "id": "DR_Redis",
+        "type": "cache"
+      },
+      {
+        "id": "DR_Elastic",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region1",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region2",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "INTEGRATION",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "MOD_MONO",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "Postgres",
+        "label": "DB Query"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "DR_Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "DR_Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "DR_Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region1",
+        "target": "DR_Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region2",
+        "target": "DR_Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region1",
+        "target": "DR_Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "DR_Region2",
+        "target": "DR_Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "DR_Region1",
+        "target": "DR_Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region2",
+        "target": "DR_Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "INTEGRATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "DATA",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Retail",
+    "style": "Modular Monolith",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Auto Scaling",
+      "Disaster Recovery",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 58,
+    "source_edges": 51,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,558 @@
+{
+  "id": "CSA-000317",
+  "instruction": "Design a Fraud Detection architecture. using a Modular Monolith style. deployed on AWS. satisfying: Auto Scaling, Data Lakehouse Pattern, Disaster Recovery, AI/ML Inference Integration, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkI",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "federation",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "fraudSvc",
+        "type": "service"
+      },
+      {
+        "id": "userSvc",
+        "type": "service"
+      },
+      {
+        "id": "alertSvc",
+        "type": "service"
+      },
+      {
+        "id": "reportingSvc",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "sidecars",
+        "type": "service"
+      },
+      {
+        "id": "rawLake",
+        "type": "service"
+      },
+      {
+        "id": "curatedLake",
+        "type": "service"
+      },
+      {
+        "id": "metadata",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "embedding",
+        "type": "service"
+      },
+      {
+        "id": "vectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "regionA",
+        "type": "service"
+      },
+      {
+        "id": "regionB",
+        "type": "service"
+      },
+      {
+        "id": "dr",
+        "type": "service"
+      },
+      {
+        "id": "rdsPrimary",
+        "type": "service"
+      },
+      {
+        "id": "rdsReplica",
+        "type": "service"
+      },
+      {
+        "id": "s3Bucket",
+        "type": "service"
+      },
+      {
+        "id": "sns",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "fraudSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "fraudSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudSvc",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "fraudSvc",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudSvc",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudSvc",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "fraudSvc",
+        "target": "eventBridge",
+        "label": "Async"
+      },
+      {
+        "source": "userSvc",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "userSvc",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "userSvc",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "userSvc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "alertSvc",
+        "target": "sns",
+        "label": "HTTP"
+      },
+      {
+        "source": "reportingSvc",
+        "target": "curatedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "fraudSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "alertSvc",
+        "label": "Async"
+      },
+      {
+        "source": "embedding",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorSearch",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "splunk",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "sidecars",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "sidecars",
+        "label": "HTTP"
+      },
+      {
+        "source": "regionA",
+        "target": "rdsPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "regionB",
+        "target": "rdsReplica",
+        "label": "HTTP"
+      },
+      {
+        "source": "rdsPrimary",
+        "target": "rdsReplica",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "rdsReplica",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "s3Bucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "pkI",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "fraudSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "fraudSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "fraudSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "fraudSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "fraudSvc",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Auto Scaling",
+      "Data Lakehouse Pattern",
+      "Disaster Recovery",
+      "AI/ML Inference Integration",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 94,
+    "source_edges": 55,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

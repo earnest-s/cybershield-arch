@@ -1,0 +1,419 @@
+{
+  "id": "CSA-000497",
+  "instruction": "Design a Retail architecture. using a Microservices style. deployed on GCP. satisfying: High Throughput (100k+ TPS), Zero Trust Architecture, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "Cart",
+        "type": "service"
+      },
+      {
+        "id": "Catalog",
+        "type": "service"
+      },
+      {
+        "id": "Order",
+        "type": "service"
+      },
+      {
+        "id": "Payment",
+        "type": "service"
+      },
+      {
+        "id": "Inventory",
+        "type": "service"
+      },
+      {
+        "id": "Recommendation",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "Notification",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "ShippingAPI",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Cart",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Catalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Order",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Payment",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Recommendation",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cart",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Order",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Payment",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Inventory",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Recommendation",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cart",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Catalog",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Order",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Payment",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Inventory",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Notification",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "PG",
+        "label": "Cache"
+      },
+      {
+        "source": "Payment",
+        "target": "PaymentGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Order",
+        "target": "ShippingAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "Cart",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "Catalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "Order",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "Payment",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "Inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "Recommendation",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Retail",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Zero Trust Architecture",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 48,
+    "source_edges": 50,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

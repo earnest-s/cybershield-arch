@@ -1,0 +1,363 @@
+{
+  "id": "CSA-000104",
+  "instruction": "Design a Oil & Gas architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Compliance/Audit Logging, Rate Limiting, High Throughput (100k+ TPS), Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "IoT",
+        "type": "service"
+      },
+      {
+        "id": "Partner",
+        "type": "service"
+      },
+      {
+        "id": "network",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "AudLog",
+        "type": "service"
+      },
+      {
+        "id": "CompEngine",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "IA",
+        "type": "service"
+      },
+      {
+        "id": "ExpGP",
+        "type": "service"
+      },
+      {
+        "id": "GeoDB",
+        "type": "database"
+      },
+      {
+        "id": "ProdGP",
+        "type": "service"
+      },
+      {
+        "id": "SCADADB",
+        "type": "database"
+      },
+      {
+        "id": "MaintGP",
+        "type": "service"
+      },
+      {
+        "id": "CMMSDB",
+        "type": "database"
+      },
+      {
+        "id": "MarketGP",
+        "type": "service"
+      },
+      {
+        "id": "ExtLake",
+        "type": "database"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OT",
+        "type": "service"
+      },
+      {
+        "id": "K8sAWS",
+        "type": "container"
+      },
+      {
+        "id": "K8sAzure",
+        "type": "container"
+      },
+      {
+        "id": "K8sGCP",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "DR1",
+        "type": "service"
+      },
+      {
+        "id": "DR2",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "network",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "network",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AudLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AudLog",
+        "target": "CompEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "IA",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "UI",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Partner",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ExpGP",
+        "target": "GeoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProdGP",
+        "target": "SCADADB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MaintGP",
+        "target": "CMMSDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MarketGP",
+        "target": "ExtLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ExpGP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ProdGP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MaintGP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MarketGP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ExpGP",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProdGP",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "MaintGP",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "MarketGP",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "ExpGP",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAzure",
+        "target": "ProdGP",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sGCP",
+        "target": "MaintGP",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sGCP",
+        "target": "MarketGP",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sAWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sAzure",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sGCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "DR1",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAzure",
+        "target": "DR2",
+        "label": "HTTP"
+      },
+      {
+        "source": "UI",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IoT",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Partner",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 48,
+    "source_edges": 42,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

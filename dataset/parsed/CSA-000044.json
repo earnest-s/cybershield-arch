@@ -1,0 +1,445 @@
+{
+  "id": "CSA-000044",
+  "instruction": "Design a Knowledge Graph architecture. using a Data Mesh style. deployed on Azure. satisfying: Compliance/Audit Logging, Blue/Green Deployment, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "KGNode",
+        "type": "service"
+      },
+      {
+        "id": "IngestNode",
+        "type": "queue"
+      },
+      {
+        "id": "SearchNode",
+        "type": "database"
+      },
+      {
+        "id": "AnalyticsNode",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Neo4j",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "Metrics",
+        "type": "service"
+      },
+      {
+        "id": "Traces",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "AD",
+        "type": "service"
+      },
+      {
+        "id": "KeyVault",
+        "type": "service"
+      },
+      {
+        "id": "Monitor",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "KGNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "IngestNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "SearchNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AnalyticsNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGNode",
+        "target": "IngestNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGNode",
+        "target": "SearchNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "SearchNode",
+        "target": "AnalyticsNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "IngestNode",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "SearchNode",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsNode",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "IngestNode",
+        "target": "Neo4j",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGNode",
+        "target": "Neo4j",
+        "label": "HTTP"
+      },
+      {
+        "source": "SearchNode",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsNode",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "Neo4j",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AD",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "AD",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "AD",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "KeyVault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KeyVault",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "FeatureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "KGNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "IngestNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "SearchNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "AnalyticsNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "KGNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "IngestNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "SearchNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "AnalyticsNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metrics",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Traces",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logs",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "KGNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "IngestNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "SearchNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "AnalyticsNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "KGNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "IngestNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "SearchNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "AnalyticsNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "KGNode",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Knowledge Graph",
+    "style": "Data Mesh",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Blue/Green Deployment",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

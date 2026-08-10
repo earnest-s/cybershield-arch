@@ -1,0 +1,261 @@
+{
+  "id": "CSA-000033",
+  "instruction": "Design a Fraud Detection architecture. using a Hexagonal style. deployed on On-Premises. satisfying: Blue/Green Deployment, GraphRAG Integration, Observability Stack, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "PORT_IN",
+        "type": "database"
+      },
+      {
+        "id": "ADAP_ADM",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN",
+        "type": "service"
+      },
+      {
+        "id": "GRAPH_RAG",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "BLUE",
+        "type": "service"
+      },
+      {
+        "id": "GREEN",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "EDGE",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "KAF9A",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "EDGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EDGE",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "RL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE",
+        "target": "ADAP_ADM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GREEN",
+        "target": "ADAP_ADM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAP_ADM",
+        "target": "PORT_IN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORT_IN",
+        "target": "DOMAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "GRAPH_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "POSTGRES",
+        "label": "Async"
+      },
+      {
+        "source": "KAF9A",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORT_IN",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAP_ADM",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAP_ADM",
+        "target": "OTEL",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "GraphRAG Integration",
+      "Observability Stack",
+      "Rate Limiting"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 45,
+    "source_edges": 23,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

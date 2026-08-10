@@ -1,0 +1,350 @@
+{
+  "id": "CSA-000340",
+  "instruction": "Design a Retail architecture. using a CQRS style. deployed on Hybrid Cloud. satisfying: Feature Flags, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "POS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AUTHZ",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "FEATURE",
+        "type": "service"
+      },
+      {
+        "id": "RATE_LIMIT",
+        "type": "service"
+      },
+      {
+        "id": "COMMANDS",
+        "type": "service"
+      },
+      {
+        "id": "CMD_BUS",
+        "type": "service"
+      },
+      {
+        "id": "QUERIES",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_BUS",
+        "type": "service"
+      },
+      {
+        "id": "ORDER_CMD",
+        "type": "service"
+      },
+      {
+        "id": "INVENTORY_CMD",
+        "type": "service"
+      },
+      {
+        "id": "PAYMENT_CMD",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_STORE",
+        "type": "service"
+      },
+      {
+        "id": "PROJECTION",
+        "type": "service"
+      },
+      {
+        "id": "READ_DB",
+        "type": "database"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CMD_BUS",
+        "target": "ORDER_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_BUS",
+        "target": "INVENTORY_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_BUS",
+        "target": "PAYMENT_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_CMD",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY_CMD",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT_CMD",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "PROJECTION",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROJECTION",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_BUS",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AUTHZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "FEATURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "COMMANDS",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "QUERIES",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMMANDS",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERIES",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "LOG",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Retail",
+    "style": "CQRS",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 54,
+    "source_edges": 52,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

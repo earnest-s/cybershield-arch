@@ -1,0 +1,278 @@
+{
+  "id": "CSA-000252",
+  "instruction": "Design a Defense architecture. using a Serverless style. deployed on AWS. satisfying: Observability Stack, High Throughput (100k+ TPS), Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AuthFn",
+        "type": "service"
+      },
+      {
+        "id": "IngestFn",
+        "type": "service"
+      },
+      {
+        "id": "ProcessFn",
+        "type": "service"
+      },
+      {
+        "id": "StoreFn",
+        "type": "service"
+      },
+      {
+        "id": "NotifyFn",
+        "type": "service"
+      },
+      {
+        "id": "Kinesis",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "CW",
+        "type": "service"
+      },
+      {
+        "id": "XRay",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "GuardDuty",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AuthFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "IngestFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "IngestFn",
+        "target": "Kinesis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kinesis",
+        "target": "ProcessFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcessFn",
+        "target": "StoreFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "StoreFn",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "StoreFn",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcessFn",
+        "target": "NotifyFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotifyFn",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotifyFn",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcessFn",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcessFn",
+        "target": "XRay",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "CW",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "XRay",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "GuardDuty",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Defense",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Observability Stack",
+      "High Throughput (100k+ TPS)",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 39,
+    "source_edges": 37,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

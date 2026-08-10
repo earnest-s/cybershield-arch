@@ -1,0 +1,353 @@
+{
+  "id": "CSA-000442",
+  "instruction": "Design a Banking architecture. using a Hexagonal style. deployed on Azure. satisfying: High Throughput (100k+ TPS), Observability Stack, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "POS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "MS",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_IN",
+        "type": "service"
+      },
+      {
+        "id": "PORTS",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_OUT",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN",
+        "type": "service"
+      },
+      {
+        "id": "REPO",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "VAULT",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "AAD",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "PAYMENT",
+        "type": "service"
+      },
+      {
+        "id": "CREDIT",
+        "type": "service"
+      },
+      {
+        "id": "AML",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "GW",
+        "target": "MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "PORTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORTS",
+        "target": "DOMAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "ADAPTER_OUT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS",
+        "target": "ADAPTER_IN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "REPO",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPO",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPO",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPO",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ADAPTER_OUT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "AAD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AAD",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "PAYMENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "CREDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "AML",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Hexagonal",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Observability Stack",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 57,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

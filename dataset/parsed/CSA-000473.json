@@ -1,0 +1,366 @@
+{
+  "id": "CSA-000473",
+  "instruction": "Design a Autonomous Vehicles architecture. using a Hexagonal style. deployed on Multi-Cloud. satisfying: Rate Limiting, High Throughput (100k+ TPS), Compliance/Audit Logging, GraphRAG Integration, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "Telemetry",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "AudLog",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "VehicleCmd",
+        "type": "service"
+      },
+      {
+        "id": "SensorProc",
+        "type": "service"
+      },
+      {
+        "id": "RouteOpt",
+        "type": "service"
+      },
+      {
+        "id": "FleetMgr",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "RESTIn",
+        "type": "service"
+      },
+      {
+        "id": "MQTTIn",
+        "type": "service"
+      },
+      {
+        "id": "DBOut",
+        "type": "database"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "CacheOut",
+        "type": "cache"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "VectorOut",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "Inference",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WAF",
+        "target": "Firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "AudLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "VehicleCmd",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "SensorProc",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "RouteOpt",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "FleetMgr",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "AudLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Inference",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CORE",
+        "label": "Async"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RESTIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MQTTIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "RESTIn",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "MQTTIn",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "DBOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "CacheOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "VectorOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AudLog",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CORE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Autonomous Vehicles",
+    "style": "Hexagonal",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)",
+      "Compliance/Audit Logging",
+      "GraphRAG Integration",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

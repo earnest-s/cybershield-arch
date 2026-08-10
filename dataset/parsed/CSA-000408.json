@@ -1,0 +1,681 @@
+{
+  "id": "CSA-000408",
+  "instruction": "Design a Pharma architecture. using a Zero-Trust style. deployed on Hybrid Cloud. satisfying: High Throughput (100k+ TPS), Disaster Recovery, Compliance/Audit Logging, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "K8s_OnPrem",
+        "type": "container"
+      },
+      {
+        "id": "ServiceMesh_OnPrem",
+        "type": "service"
+      },
+      {
+        "id": "K8s_AWS",
+        "type": "container"
+      },
+      {
+        "id": "K8s_Azure",
+        "type": "container"
+      },
+      {
+        "id": "ServiceMesh_Cloud",
+        "type": "container"
+      },
+      {
+        "id": "Connectivity",
+        "type": "service"
+      },
+      {
+        "id": "OrderSvc",
+        "type": "service"
+      },
+      {
+        "id": "InventorySvc",
+        "type": "service"
+      },
+      {
+        "id": "PrescriptionSvc",
+        "type": "service"
+      },
+      {
+        "id": "BillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "SchemaReg",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RAGProcessor",
+        "type": "service"
+      },
+      {
+        "id": "LLMGateway",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Mongo",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "DataLake",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "ui"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "PolicyEngine",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "AuditTrail",
+        "type": "service"
+      },
+      {
+        "id": "DR_K8s_EKS",
+        "type": "container"
+      },
+      {
+        "id": "DR_S3",
+        "type": "database"
+      },
+      {
+        "id": "DR_DB",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "Connectivity",
+        "label": "HTTP"
+      },
+      {
+        "source": "Connectivity",
+        "target": "K8s_OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "Connectivity",
+        "target": "K8s_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Connectivity",
+        "target": "K8s_Azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_OnPrem",
+        "target": "ServiceMesh_OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_AWS",
+        "target": "ServiceMesh_Cloud",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_Azure",
+        "target": "ServiceMesh_Cloud",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh_OnPrem",
+        "target": "ServiceMesh_Cloud",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "InventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "PrescriptionSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventorySvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "PrescriptionSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "SchemaReg",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "PrescriptionSvc",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventorySvc",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "PrescriptionSvc",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "RAGProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGProcessor",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGProcessor",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGProcessor",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventorySvc",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "PrescriptionSvc",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "K8s_OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "K8s_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "K8s_Azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "PolicyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "PrescriptionSvc",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "AuditTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditTrail",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditTrail",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditTrail",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditTrail",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Splunk",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Splunk",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Splunk",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Splunk",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "DR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mongo",
+        "target": "DR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataLake",
+        "target": "DR_S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "DR_K8s_EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "DR_K8s_EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_K8s_EKS",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_K8s_EKS",
+        "target": "InventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_K8s_EKS",
+        "target": "PrescriptionSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_K8s_EKS",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_K8s_EKS",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Zero-Trust",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Disaster Recovery",
+      "Compliance/Audit Logging",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 98,
+    "source_edges": 87,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

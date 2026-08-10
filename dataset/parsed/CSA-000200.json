@@ -1,0 +1,329 @@
+{
+  "id": "CSA-000200",
+  "instruction": "Design a Insurance architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Disaster Recovery, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "AGENT",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "MS1",
+        "type": "service"
+      },
+      {
+        "id": "MS2",
+        "type": "service"
+      },
+      {
+        "id": "MS3",
+        "type": "service"
+      },
+      {
+        "id": "MS4",
+        "type": "service"
+      },
+      {
+        "id": "EVNT",
+        "type": "queue"
+      },
+      {
+        "id": "DB",
+        "type": "database"
+      },
+      {
+        "id": "DL",
+        "type": "database"
+      },
+      {
+        "id": "K8S",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OT",
+        "type": "service"
+      },
+      {
+        "id": "SIEM",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "database"
+      },
+      {
+        "id": "DR_DB",
+        "type": "database"
+      },
+      {
+        "id": "DR_DL",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVNT",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVNT",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVNT",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVNT",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "EVNT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "EVNT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "EVNT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "EVNT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB",
+        "target": "EVNT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVNT",
+        "target": "DL",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "SIEM",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB",
+        "target": "DR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DL",
+        "target": "DR_DL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "SIEM",
+        "target": "Graf",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 39,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

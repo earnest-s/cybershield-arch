@@ -1,0 +1,449 @@
+{
+  "id": "CSA-000469",
+  "instruction": "Design a Banking architecture. using a Event-Driven style. deployed on GCP. satisfying: GraphRAG Integration, Strict Network Segmentation, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "client",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "EdgeProxy",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "DataLake",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "AccountSvc",
+        "type": "service"
+      },
+      {
+        "id": "TransactionSvc",
+        "type": "service"
+      },
+      {
+        "id": "NotificationSvc",
+        "type": "service"
+      },
+      {
+        "id": "FraudDetectionSvc",
+        "type": "service"
+      },
+      {
+        "id": "ReportingSvc",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "GraphQL",
+        "type": "service"
+      },
+      {
+        "id": "AccountGRPC",
+        "type": "service"
+      },
+      {
+        "id": "TransactionGRPC",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "MongoDB",
+        "type": "database"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Autoscale",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "client",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "EdgeProxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeProxy",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeProxy",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeProxy",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeProxy",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeProxy",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeProxy",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "UI",
+        "target": "GraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "GraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "GraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQL",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AccountSvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "TransactionSvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "FraudDetectionSvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ReportingSvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "TransactionSvc",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudDetectionSvc",
+        "target": "VectorSearch",
+        "label": "DB Query"
+      },
+      {
+        "source": "ReportingSvc",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AccountGRPC",
+        "target": "AccountSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "TransactionGRPC",
+        "target": "TransactionSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AccountSvc",
+        "target": "AccountGRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "TransactionSvc",
+        "target": "TransactionGRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AccountSvc",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "TransactionSvc",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "FraudDetectionSvc",
+        "target": "MongoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingSvc",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataLake",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AccountSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "TransactionSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudDetectionSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "GKE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "GraphRAG Integration",
+      "Strict Network Segmentation",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 54,
+    "source_edges": 95,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

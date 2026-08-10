@@ -1,0 +1,455 @@
+{
+  "id": "CSA-000131",
+  "instruction": "Design a E-Commerce architecture. using a Hexagonal style. deployed on Hybrid Cloud. satisfying: Rate Limiting, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ZTA",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "OrderService",
+        "type": "service"
+      },
+      {
+        "id": "CatalogService",
+        "type": "service"
+      },
+      {
+        "id": "PaymentService",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "OrderPort",
+        "type": "service"
+      },
+      {
+        "id": "CatalogPort",
+        "type": "service"
+      },
+      {
+        "id": "PaymentPort",
+        "type": "service"
+      },
+      {
+        "id": "AuthPort",
+        "type": "service"
+      },
+      {
+        "id": "OrderAdapter",
+        "type": "service"
+      },
+      {
+        "id": "CatalogAdapter",
+        "type": "service"
+      },
+      {
+        "id": "PaymentAdapter",
+        "type": "service"
+      },
+      {
+        "id": "AuthAdapter",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ZTA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "AuthPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthPort",
+        "target": "AuthAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthAdapter",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "OrderPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogService",
+        "target": "CatalogPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentService",
+        "target": "PaymentPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderPort",
+        "target": "OrderAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogPort",
+        "target": "CatalogAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentPort",
+        "target": "PaymentAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderAdapter",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogAdapter",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentAdapter",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogService",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogService",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentService",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Redis",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Hexagonal",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 46,
+    "source_edges": 58,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

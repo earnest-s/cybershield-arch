@@ -1,0 +1,311 @@
+{
+  "id": "CSA-000285",
+  "instruction": "Design a Smart City architecture. using a CQRS style. deployed on GCP. satisfying: Active-Active Multi-Region, High Throughput (100k+ TPS), Disaster Recovery, Auto Scaling, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "IoTDevices",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "MQTTBroker",
+        "type": "queue"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "CmdIngress",
+        "type": "service"
+      },
+      {
+        "id": "CmdQueue",
+        "type": "queue"
+      },
+      {
+        "id": "CmdService",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "AuditLog",
+        "type": "database"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "ProjectionSvc",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "GraphQL",
+        "type": "service"
+      },
+      {
+        "id": "NotificationSrv",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      },
+      {
+        "id": "MLModel",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "GKE1",
+        "type": "container"
+      },
+      {
+        "id": "GKE2",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "ui"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "DRStorage",
+        "type": "database"
+      },
+      {
+        "id": "Services",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CmdQueue",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "ProjectionSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProjectionSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProjectionSvc",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProjectionSvc",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "GraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "GraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "GraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQL",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "NotificationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "MLModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "GKE2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "GKE2",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRStorage",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRStorage",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRStorage",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GKE1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GKE2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "Logs",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "High Throughput (100k+ TPS)",
+      "Disaster Recovery",
+      "Auto Scaling",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 53,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

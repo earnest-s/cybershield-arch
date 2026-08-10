@@ -1,0 +1,553 @@
+{
+  "id": "CSA-000278",
+  "instruction": "Design a MLOps architecture. using a Microservices style. deployed on Azure. satisfying: Zero Trust Architecture, High Throughput (100k+ TPS), Feature Flags, Disaster Recovery, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "DDoSProtection",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "AKS_EU",
+        "type": "container"
+      },
+      {
+        "id": "AKS_US",
+        "type": "container"
+      },
+      {
+        "id": "AKS_AP",
+        "type": "container"
+      },
+      {
+        "id": "GitOps",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "ModelRegistry",
+        "type": "service"
+      },
+      {
+        "id": "ExperimentTracking",
+        "type": "service"
+      },
+      {
+        "id": "DataIngestion",
+        "type": "service"
+      },
+      {
+        "id": "TrainingOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "BatchInference",
+        "type": "service"
+      },
+      {
+        "id": "RealTimeInference",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      },
+      {
+        "id": "Scheduler",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "CosmosDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "BlobStorage",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "ArtifactStore",
+        "type": "service"
+      },
+      {
+        "id": "Trainer",
+        "type": "service"
+      },
+      {
+        "id": "HyperparamTuner",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "AlertManager",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "PolicyEngine",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "BackupSvc",
+        "type": "service"
+      },
+      {
+        "id": "GeoReplica",
+        "type": "database"
+      },
+      {
+        "id": "FailoverMgr",
+        "type": "service"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "BI_Tools",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "SERVICES",
+        "type": "service"
+      },
+      {
+        "id": "Services",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GlobalLoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLoadBalancer",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "ZERO_TRUST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "AKS_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "AKS_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "AKS_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_EU",
+        "target": "GitOps",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_US",
+        "target": "GitOps",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_AP",
+        "target": "GitOps",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitOps",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "FeatureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_EU",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_US",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_AP",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "SERVICES",
+        "target": "EventHub",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "SERVICES",
+        "target": "BlobStorage",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "ArtifactStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "TrainingOrchestrator",
+        "target": "Trainer",
+        "label": "HTTP"
+      },
+      {
+        "source": "Trainer",
+        "target": "HyperparamTuner",
+        "label": "HTTP"
+      },
+      {
+        "source": "Trainer",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RealTimeInference",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "AlertManager",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_EU",
+        "target": "AKS_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_US",
+        "target": "AKS_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_AP",
+        "target": "AKS_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "BackupSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "BackupSvc",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BackupSvc",
+        "target": "BlobStorage",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoReplica",
+        "target": "BlobStorage",
+        "label": "HTTP"
+      },
+      {
+        "source": "FailoverMgr",
+        "target": "GlobalLoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "PolicyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicyEngine",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "ThirdPartyAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "BI_Tools",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Microservices",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Zero Trust Architecture",
+      "High Throughput (100k+ TPS)",
+      "Feature Flags",
+      "Disaster Recovery",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 95,
+    "source_edges": 58,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

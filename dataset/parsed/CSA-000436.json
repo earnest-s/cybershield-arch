@@ -1,0 +1,406 @@
+{
+  "id": "CSA-000436",
+  "instruction": "Design a Defense architecture. using a Event-Driven style. deployed on GCP. satisfying: Zero Trust Architecture, Compliance/Audit Logging, Observability Stack, High Throughput (100k+ TPS), Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "apiCons",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "ingress",
+        "type": "service"
+      },
+      {
+        "id": "msOrders",
+        "type": "service"
+      },
+      {
+        "id": "msInventory",
+        "type": "service"
+      },
+      {
+        "id": "msBilling",
+        "type": "service"
+      },
+      {
+        "id": "msNotify",
+        "type": "service"
+      },
+      {
+        "id": "msAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "queue"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "bigtable",
+        "type": "service"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "falco",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "git",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ingress",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiCons",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingress",
+        "target": "msOrders",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingress",
+        "target": "msInventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingress",
+        "target": "msBilling",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingress",
+        "target": "msNotify",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingress",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "msOrders",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "msInventory",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "msBilling",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "msNotify",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAnalytics",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "msOrders",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "msInventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "msBilling",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "msNotify",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "msOrders",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "msBilling",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "msInventory",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAnalytics",
+        "target": "bigtable",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAnalytics",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "falco",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "git",
+        "target": "ci",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ingress",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "compliance",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Defense",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Compliance/Audit Logging",
+      "Observability Stack",
+      "High Throughput (100k+ TPS)",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 49,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

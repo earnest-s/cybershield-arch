@@ -1,0 +1,510 @@
+{
+  "id": "CSA-000085",
+  "instruction": "Design a Pharma architecture. using a Data Mesh style. deployed on Azure. satisfying: Disaster Recovery, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "THIRD",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "VNET",
+        "type": "service"
+      },
+      {
+        "id": "NSG",
+        "type": "service"
+      },
+      {
+        "id": "FIREWALL",
+        "type": "service"
+      },
+      {
+        "id": "DMD1",
+        "type": "service"
+      },
+      {
+        "id": "MQ1",
+        "type": "queue"
+      },
+      {
+        "id": "DMD2",
+        "type": "service"
+      },
+      {
+        "id": "MQ2",
+        "type": "service"
+      },
+      {
+        "id": "DMD3",
+        "type": "service"
+      },
+      {
+        "id": "MQ3",
+        "type": "service"
+      },
+      {
+        "id": "DMD4",
+        "type": "service"
+      },
+      {
+        "id": "MQ4",
+        "type": "cache"
+      },
+      {
+        "id": "DMD5",
+        "type": "service"
+      },
+      {
+        "id": "MQ5",
+        "type": "service"
+      },
+      {
+        "id": "PG1",
+        "type": "database"
+      },
+      {
+        "id": "BLOB1",
+        "type": "database"
+      },
+      {
+        "id": "COSMOS1",
+        "type": "database"
+      },
+      {
+        "id": "LAKE1",
+        "type": "database"
+      },
+      {
+        "id": "ES1",
+        "type": "database"
+      },
+      {
+        "id": "MONGO1",
+        "type": "database"
+      },
+      {
+        "id": "SQL1",
+        "type": "database"
+      },
+      {
+        "id": "REDIS1",
+        "type": "database"
+      },
+      {
+        "id": "VECT1",
+        "type": "database"
+      },
+      {
+        "id": "DL1",
+        "type": "database"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "AGENT",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "ALERT",
+        "type": "service"
+      },
+      {
+        "id": "OPS",
+        "type": "ui"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "CONFIG",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "SEC",
+        "type": "service"
+      },
+      {
+        "id": "DR_K8S",
+        "type": "container"
+      },
+      {
+        "id": "DR_VNET",
+        "type": "service"
+      },
+      {
+        "id": "DR_BLOB",
+        "type": "service"
+      },
+      {
+        "id": "DR_DATALAKE",
+        "type": "service"
+      },
+      {
+        "id": "DR_SQL",
+        "type": "service"
+      },
+      {
+        "id": "MSG",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VNET",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNET",
+        "target": "NSG",
+        "label": "HTTP"
+      },
+      {
+        "source": "NSG",
+        "target": "FIREWALL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MQ2",
+        "target": "MQ3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MQ3",
+        "target": "MQ4",
+        "label": "HTTP"
+      },
+      {
+        "source": "MQ4",
+        "target": "MQ5",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMD1",
+        "target": "PG1",
+        "label": "DB Query"
+      },
+      {
+        "source": "DMD1",
+        "target": "BLOB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMD2",
+        "target": "COSMOS1",
+        "label": "DB Query"
+      },
+      {
+        "source": "DMD2",
+        "target": "LAKE1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMD3",
+        "target": "ES1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMD3",
+        "target": "MONGO1",
+        "label": "DB Query"
+      },
+      {
+        "source": "DMD4",
+        "target": "SQL1",
+        "label": "DB Query"
+      },
+      {
+        "source": "DMD4",
+        "target": "REDIS1",
+        "label": "Cache"
+      },
+      {
+        "source": "DMD5",
+        "target": "VECT1",
+        "label": "DB Query"
+      },
+      {
+        "source": "DMD5",
+        "target": "DL1",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "SEC",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNET",
+        "target": "DMD1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNET",
+        "target": "DMD2",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNET",
+        "target": "DMD3",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNET",
+        "target": "DMD4",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNET",
+        "target": "DMD5",
+        "label": "HTTP"
+      },
+      {
+        "source": "MSG",
+        "target": "DMD1",
+        "label": "Async"
+      },
+      {
+        "source": "MSG",
+        "target": "DMD2",
+        "label": "Async"
+      },
+      {
+        "source": "MSG",
+        "target": "DMD3",
+        "label": "Async"
+      },
+      {
+        "source": "MSG",
+        "target": "DMD4",
+        "label": "Async"
+      },
+      {
+        "source": "MSG",
+        "target": "DMD5",
+        "label": "Async"
+      },
+      {
+        "source": "AI_ML",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ML",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "DMD1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "DMD2",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "DMD3",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "DMD4",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "DMD5",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "BLOB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "DL1",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Data Mesh",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "graph TD",
+    "source_nodes": 86,
+    "source_edges": 96,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

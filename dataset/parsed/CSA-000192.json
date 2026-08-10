@@ -1,0 +1,341 @@
+{
+  "id": "CSA-000192",
+  "instruction": "Design a SCM architecture. using a Microservices style. deployed on On-Premises. satisfying: Strict Network Segmentation, Data Lakehouse Pattern, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "MS1",
+        "type": "service"
+      },
+      {
+        "id": "MS2",
+        "type": "service"
+      },
+      {
+        "id": "MS3",
+        "type": "service"
+      },
+      {
+        "id": "MS4",
+        "type": "service"
+      },
+      {
+        "id": "MS5",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "queue"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "DL",
+        "type": "service"
+      },
+      {
+        "id": "DB",
+        "type": "database"
+      },
+      {
+        "id": "CACHE",
+        "type": "cache"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "GW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS5",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "DL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB",
+        "target": "CACHE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MS5",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS5",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS5",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "VAULT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "Microservices",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Data Lakehouse Pattern",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 40,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

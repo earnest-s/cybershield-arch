@@ -1,0 +1,353 @@
+{
+  "id": "CSA-000218",
+  "instruction": "Design a Insurance architecture. using a Event-Driven style. deployed on AWS. satisfying: Feature Flags, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "EdgeLB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlag",
+        "type": "service"
+      },
+      {
+        "id": "ALB",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "K8sCluster",
+        "type": "container"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventStore",
+        "type": "service"
+      },
+      {
+        "id": "SchemaReg",
+        "type": "service"
+      },
+      {
+        "id": "PolicySvc",
+        "type": "service"
+      },
+      {
+        "id": "BillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "ClaimsSvc",
+        "type": "service"
+      },
+      {
+        "id": "UnderwritingSvc",
+        "type": "service"
+      },
+      {
+        "id": "CustomerMgmt",
+        "type": "service"
+      },
+      {
+        "id": "FraudDetection",
+        "type": "service"
+      },
+      {
+        "id": "NotificationSvc",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "DataLake",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "ThirdPartyData",
+        "type": "service"
+      },
+      {
+        "id": "RatingEngine",
+        "type": "service"
+      },
+      {
+        "id": "Writes",
+        "type": "service"
+      },
+      {
+        "id": "to",
+        "type": "service"
+      },
+      {
+        "id": "Transactions",
+        "type": "service"
+      },
+      {
+        "id": "br",
+        "type": "service"
+      },
+      {
+        "id": "Acct",
+        "type": "service"
+      },
+      {
+        "id": "Info",
+        "type": "service"
+      },
+      {
+        "id": "Billing",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "FeatureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlag",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "K8sCluster",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "K8sCluster",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicySvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClaimsSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "UnderwritingSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "CustomerMgmt",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudDetection",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicySvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Event-Driven",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Feature Flags",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 76,
+    "source_edges": 28,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

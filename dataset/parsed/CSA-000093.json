@@ -1,0 +1,498 @@
+{
+  "id": "CSA-000093",
+  "instruction": "Design a Warehouse architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: Auto Scaling, High Throughput (100k+ TPS), Blue/Green Deployment, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "pkis",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "k8sCluster1",
+        "type": "container"
+      },
+      {
+        "id": "k8sCluster2",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "autoScale",
+        "type": "container"
+      },
+      {
+        "id": "invDomain",
+        "type": "service"
+      },
+      {
+        "id": "ordDomain",
+        "type": "service"
+      },
+      {
+        "id": "shipDomain",
+        "type": "service"
+      },
+      {
+        "id": "analyticsDomain",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "pgInv",
+        "type": "database"
+      },
+      {
+        "id": "mongoOrd",
+        "type": "database"
+      },
+      {
+        "id": "cassShip",
+        "type": "database"
+      },
+      {
+        "id": "redisCache",
+        "type": "database"
+      },
+      {
+        "id": "esAnalytics",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8nCluster2",
+        "type": "service"
+      },
+      {
+        "id": "blueGreen",
+        "type": "service"
+      },
+      {
+        "id": "elasticsearch",
+        "type": "service"
+      },
+      {
+        "id": "supplierSys",
+        "type": "service"
+      },
+      {
+        "id": "carrierAPI",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "invDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "ordDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "shipDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "analyticsDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "invDomain",
+        "target": "pgInv",
+        "label": "HTTP"
+      },
+      {
+        "source": "invDomain",
+        "target": "redisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "ordDomain",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "shipDomain",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "analyticsDomain",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "eventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBridge",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "invDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "ordDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "shipDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "ordDomain",
+        "target": "mongoOrd",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipDomain",
+        "target": "cassShip",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsDomain",
+        "target": "esAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsDomain",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster1",
+        "target": "invDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster1",
+        "target": "ordDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster1",
+        "target": "shipDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster1",
+        "target": "analyticsDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster2",
+        "target": "invDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster2",
+        "target": "ordDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8nCluster2",
+        "target": "shipDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster2",
+        "target": "analyticsDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster1",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster2",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "invDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ordDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "shipDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "analyticsDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sCluster2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "blueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "autoScale",
+        "target": "k8sCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "autoScale",
+        "target": "k8sCluster2",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "elasticsearch",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "supplierSys",
+        "target": "invDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "carrierAPI",
+        "target": "shipDomain",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "High Throughput (100k+ TPS)",
+      "Blue/Green Deployment",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 70,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

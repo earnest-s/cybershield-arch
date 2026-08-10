@@ -1,0 +1,485 @@
+{
+  "id": "CSA-000260",
+  "instruction": "Design a Telecom architecture. using a Hexagonal style. deployed on GCP. satisfying: Zero Trust Architecture, Active-Active Multi-Region, Strict Network Segmentation, Disaster Recovery, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "client",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "LB1",
+        "type": "service"
+      },
+      {
+        "id": "LB2",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA1",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA2",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "SM1",
+        "type": "service"
+      },
+      {
+        "id": "SM2",
+        "type": "service"
+      },
+      {
+        "id": "APIAdapter",
+        "type": "service"
+      },
+      {
+        "id": "GRPCAdapter",
+        "type": "service"
+      },
+      {
+        "id": "EventAdapter",
+        "type": "service"
+      },
+      {
+        "id": "DomainLogic",
+        "type": "service"
+      },
+      {
+        "id": "Ports",
+        "type": "service"
+      },
+      {
+        "id": "AuthSvc",
+        "type": "service"
+      },
+      {
+        "id": "BillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "ProvisioningSvc",
+        "type": "service"
+      },
+      {
+        "id": "AIInference",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Spanner",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "KafkaCluster",
+        "type": "queue"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "DLP",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "CSPM",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "CloudBuild",
+        "type": "ui"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "Artifact",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "database"
+      },
+      {
+        "id": "Failover",
+        "type": "service"
+      },
+      {
+        "id": "Core",
+        "type": "service"
+      },
+      {
+        "id": "Infra",
+        "type": "service"
+      },
+      {
+        "id": "Data",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "client",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "client",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB1",
+        "target": "ZTNA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB2",
+        "target": "ZTNA2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA1",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA2",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "APIAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIAdapter",
+        "target": "Ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPCAdapter",
+        "target": "Ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventAdapter",
+        "target": "Ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ports",
+        "target": "DomainLogic",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainLogic",
+        "target": "AuthSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainLogic",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainLogic",
+        "target": "ProvisioningSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainLogic",
+        "target": "AIInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInference",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainLogic",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainLogic",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainLogic",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainLogic",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainLogic",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainLogic",
+        "target": "KafkaCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthSvc",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProvisioningSvc",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInference",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "DLP",
+        "label": "HTTP"
+      },
+      {
+        "source": "DLP",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "Spanner",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "BigQuery",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "Failover",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "SM1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "SM2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM1",
+        "target": "Core",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM2",
+        "target": "Core",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "Infra",
+        "label": "HTTP"
+      },
+      {
+        "source": "Infra",
+        "target": "Data",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudBuild",
+        "target": "Artifact",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudBuild",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "GKE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Hexagonal",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Active-Active Multi-Region",
+      "Strict Network Segmentation",
+      "Disaster Recovery",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 77,
+    "source_edges": 58,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

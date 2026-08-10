@@ -1,0 +1,482 @@
+{
+  "id": "CSA-000039",
+  "instruction": "Design a Oil & Gas architecture. using a Event-Driven style. deployed on AWS. satisfying: High Throughput (100k+ TPS), Compliance/Audit Logging, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "Edge",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "KStream",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "OrderSvc",
+        "type": "service"
+      },
+      {
+        "id": "SensorSvc",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "NotificationSvc",
+        "type": "service"
+      },
+      {
+        "id": "BillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "Orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "Sidecars",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "EKS",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "CLIENT",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "SQS",
+        "type": "database"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENT",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "Edge",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Edge",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Edge",
+        "target": "KStream",
+        "label": "HTTP"
+      },
+      {
+        "source": "Edge",
+        "target": "EventBridge",
+        "label": "Async"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "KStream",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "KStream",
+        "target": "SensorSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "NotificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "SensorSvc",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SensorSvc",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "SQS",
+        "label": "Async"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Orchestrator",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Orchestrator",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Orchestrator",
+        "target": "NotificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Sidecars",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sidecars",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sidecars",
+        "target": "SensorSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sidecars",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sidecars",
+        "target": "NotificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sidecars",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "PostgreSQL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "DynamoDB",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Splunk",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Event-Driven",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Compliance/Audit Logging",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 67,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

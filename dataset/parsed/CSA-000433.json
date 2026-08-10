@@ -1,0 +1,449 @@
+{
+  "id": "CSA-000433",
+  "instruction": "Design a Multi-Agent Systems architecture. using a CQRS style. deployed on On-Premises. satisfying: Observability Stack, AI/ML Inference Integration, Data Lakehouse Pattern, Disaster Recovery, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "Mobile",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "CQRS_Command",
+        "type": "service"
+      },
+      {
+        "id": "CQRS_Query",
+        "type": "service"
+      },
+      {
+        "id": "AgentOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "LLM_Gateway",
+        "type": "service"
+      },
+      {
+        "id": "MicroserviceA",
+        "type": "service"
+      },
+      {
+        "id": "MicroserviceB",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Kafka",
+        "type": "database"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "GitOps",
+        "type": "service"
+      },
+      {
+        "id": "DR_Site",
+        "type": "database"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mobile",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "CQRS_Command",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "CQRS_Query",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS_Command",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS_Command",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "CQRS_Query",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS_Query",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS_Query",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrchestrator",
+        "target": "LLM_Gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM_Gateway",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM_Gateway",
+        "target": "MicroserviceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM_Gateway",
+        "target": "MicroserviceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MicroserviceA",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "MicroserviceB",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "DR_Site",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "DR_Site",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CQRS_Command",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CQRS_Query",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AgentOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "LLM_Gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "MicroserviceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "MicroserviceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CQRS_Command",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CQRS_Query",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AgentOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "LLM_Gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitOps",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Security",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Multi-Agent Systems",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Observability Stack",
+      "AI/ML Inference Integration",
+      "Data Lakehouse Pattern",
+      "Disaster Recovery",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 56,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

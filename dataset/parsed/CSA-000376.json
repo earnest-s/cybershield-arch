@@ -1,0 +1,239 @@
+{
+  "id": "CSA-000376",
+  "instruction": "Design a HR architecture. using a Serverless style. deployed on GCP. satisfying: Rate Limiting, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Oauth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "SecretsMgr",
+        "type": "service"
+      },
+      {
+        "id": "Logging",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      },
+      {
+        "id": "Tracing",
+        "type": "service"
+      },
+      {
+        "id": "FuncHRDataIngest",
+        "type": "service"
+      },
+      {
+        "id": "FuncAuth",
+        "type": "service"
+      },
+      {
+        "id": "FuncEmployeeAPI",
+        "type": "service"
+      },
+      {
+        "id": "FuncPayrollAPI",
+        "type": "service"
+      },
+      {
+        "id": "FuncAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "TopicIngest",
+        "type": "service"
+      },
+      {
+        "id": "TopicAuth",
+        "type": "service"
+      },
+      {
+        "id": "TopicEmp",
+        "type": "service"
+      },
+      {
+        "id": "TopicPay",
+        "type": "service"
+      },
+      {
+        "id": "Firestore",
+        "type": "service"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "Spanner",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "CloudArmor",
+        "type": "service"
+      },
+      {
+        "id": "PayrollProvider",
+        "type": "service"
+      },
+      {
+        "id": "BackgroundCheck",
+        "type": "service"
+      },
+      {
+        "id": "Background",
+        "type": "service"
+      },
+      {
+        "id": "Check",
+        "type": "service"
+      },
+      {
+        "id": "Service",
+        "type": "service"
+      },
+      {
+        "id": "API",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "br",
+        "type": "service"
+      },
+      {
+        "id": "checks",
+        "type": "service"
+      },
+      {
+        "id": "b",
+        "type": "service"
+      },
+      {
+        "id": "Func",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "LoadBalancer",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "FuncAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncAuth",
+        "target": "Oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncAuth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "Func",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 16,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

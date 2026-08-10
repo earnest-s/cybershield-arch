@@ -1,0 +1,493 @@
+{
+  "id": "CSA-000375",
+  "instruction": "Design a Pharma architecture. using a Microservices style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, Feature Flags, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "k8sA",
+        "type": "container"
+      },
+      {
+        "id": "k8sB",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "blueGreen",
+        "type": "service"
+      },
+      {
+        "id": "featFlags",
+        "type": "service"
+      },
+      {
+        "id": "patientSvc",
+        "type": "service"
+      },
+      {
+        "id": "orderSvc",
+        "type": "service"
+      },
+      {
+        "id": "inventorySvc",
+        "type": "service"
+      },
+      {
+        "id": "analyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "notificationSvc",
+        "type": "ui"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "service"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "service"
+      },
+      {
+        "id": "br",
+        "type": "service"
+      },
+      {
+        "id": "Catalog",
+        "type": "service"
+      },
+      {
+        "id": "data",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "ordersvc",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sA",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sB",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "patientSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "notificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ordersvc",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySvc",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "elastic",
+        "label": "DB Query"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "lakehouse",
+        "label": "DB Query"
+      },
+      {
+        "source": "aiGateway",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "notificationSvc",
+        "target": "rabbit",
+        "label": "Async"
+      },
+      {
+        "source": "rabbit",
+        "target": "notificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBridge",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "blueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "patientSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "notificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "patientSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "notificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "patientSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "adminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "patientSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "elastic",
+        "target": "elk",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Microservices",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Feature Flags",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 61,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

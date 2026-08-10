@@ -1,0 +1,344 @@
+{
+  "id": "CSA-000485",
+  "instruction": "Design a Agriculture architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: Data Lakehouse Pattern, AI/ML Inference Integration, Zero Trust Architecture, Strict Network Segmentation, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "ui"
+      },
+      {
+        "id": "QUERY",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "IDS",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB_A",
+        "type": "service"
+      },
+      {
+        "id": "CMD_A",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA_A",
+        "type": "queue"
+      },
+      {
+        "id": "KAFKA_G",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES_A",
+        "type": "database"
+      },
+      {
+        "id": "REDIS_A",
+        "type": "database"
+      },
+      {
+        "id": "LB_G",
+        "type": "service"
+      },
+      {
+        "id": "QRY_G",
+        "type": "service"
+      },
+      {
+        "id": "DWH_G",
+        "type": "database"
+      },
+      {
+        "id": "REDIS_G",
+        "type": "database"
+      },
+      {
+        "id": "VEC_G",
+        "type": "database"
+      },
+      {
+        "id": "CLOUD_AWS",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD_GCP",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "ETL",
+        "type": "service"
+      },
+      {
+        "id": "EMB",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "INFER",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "IDS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IDS",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_A",
+        "target": "CMD_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_A",
+        "target": "KAFKA_A",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA_A",
+        "target": "KAFKA_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_A",
+        "target": "POSTGRES_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_A",
+        "target": "REDIS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_G",
+        "target": "QRY_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_G",
+        "target": "DWH_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_G",
+        "target": "REDIS_G",
+        "label": "Cache"
+      },
+      {
+        "source": "QRY_G",
+        "target": "VEC_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "CLOUD_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "CLOUD_GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "CMD_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "QRY_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA_A",
+        "target": "ETL",
+        "label": "Async"
+      },
+      {
+        "source": "ETL",
+        "target": "DWH_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "INFER",
+        "target": "EMB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_G",
+        "target": "INFER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CMD_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "QRY_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "AUDIT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Agriculture",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "AI/ML Inference Integration",
+      "Zero Trust Architecture",
+      "Strict Network Segmentation",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 51,
+    "source_edges": 46,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

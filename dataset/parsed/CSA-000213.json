@@ -1,0 +1,447 @@
+{
+  "id": "CSA-000213",
+  "instruction": "Design a E-Commerce architecture. using a Event-Driven style. deployed on GCP. satisfying: Blue/Green Deployment, High Throughput (100k+ TPS), Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "ThirdParty",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "BLUE_SVC",
+        "type": "service"
+      },
+      {
+        "id": "GREEN_SVC",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "OrderSrv",
+        "type": "service"
+      },
+      {
+        "id": "InventorySrv",
+        "type": "service"
+      },
+      {
+        "id": "PaymentSrv",
+        "type": "service"
+      },
+      {
+        "id": "ShippingSrv",
+        "type": "service"
+      },
+      {
+        "id": "NotificationSrv",
+        "type": "service"
+      },
+      {
+        "id": "RecommendationSrv",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlagSrv",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsSrv",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Argo",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "LB",
+        "target": "BLUE_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GREEN_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE_SVC",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "GREEN_SVC",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OrderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "InventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "PaymentSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ShippingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "NotificationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "RecommendationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "AnalyticsSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "OrderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "InventorySrv",
+        "label": "Cache"
+      },
+      {
+        "source": "Elastic",
+        "target": "RecommendationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "RecommendationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "BigQuery",
+        "target": "AnalyticsSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "RecommendationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "RecommendationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Argo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "BLUE_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "GREEN_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FeatureFlagSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlagSrv",
+        "target": "OrderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSrv",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventorySrv",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentSrv",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShippingSrv",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSrv",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecommendationSrv",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSrv",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSrv",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventorySrv",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecommendationSrv",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecommendationSrv",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSrv",
+        "target": "BigQuery",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Blue/Green Deployment",
+      "High Throughput (100k+ TPS)",
+      "Feature Flags"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 62,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

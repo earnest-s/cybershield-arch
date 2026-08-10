@@ -1,0 +1,471 @@
+{
+  "id": "CSA-000455",
+  "instruction": "Design a MLOps architecture. using a Hexagonal style. deployed on GCP. satisfying: Observability Stack, Feature Flags, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Ingress",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "K8sCluster1",
+        "type": "container"
+      },
+      {
+        "id": "K8sCluster2",
+        "type": "container"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "database"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "CloudBuild",
+        "type": "ui"
+      },
+      {
+        "id": "ModelTrainingPort",
+        "type": "service"
+      },
+      {
+        "id": "ModelServingPort",
+        "type": "service"
+      },
+      {
+        "id": "DataIngestionPort",
+        "type": "service"
+      },
+      {
+        "id": "MonitoringPort",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlagPort",
+        "type": "service"
+      },
+      {
+        "id": "TrainingAdapter",
+        "type": "service"
+      },
+      {
+        "id": "ServingAdapter",
+        "type": "service"
+      },
+      {
+        "id": "IngestionAdapter",
+        "type": "service"
+      },
+      {
+        "id": "ObservabilityAdapter",
+        "type": "service"
+      },
+      {
+        "id": "FFAdapter",
+        "type": "service"
+      },
+      {
+        "id": "ModelOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "DataProcessor",
+        "type": "service"
+      },
+      {
+        "id": "ExperimentTracker",
+        "type": "service"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "CloudStorage",
+        "type": "database"
+      },
+      {
+        "id": "ETL",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "FeatureStore",
+        "type": "service"
+      },
+      {
+        "id": "LAKEHOUSE",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "OpenTelemetry",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO27001",
+        "type": "service"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "MonitoringTool",
+        "type": "service"
+      },
+      {
+        "id": "CORE_HEXAGONAL",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "EXTERNAL",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Ingress",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ZERO_TRUST",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingress",
+        "target": "K8sCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingress",
+        "target": "K8sCluster2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CloudBuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudBuild",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "K8sCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelTrainingPort",
+        "target": "TrainingAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelServingPort",
+        "target": "ServingAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataIngestionPort",
+        "target": "IngestionAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonitoringPort",
+        "target": "ObservabilityAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlagPort",
+        "target": "FFAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "TrainingAdapter",
+        "target": "ModelOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServingAdapter",
+        "target": "ModelOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "IngestionAdapter",
+        "target": "DataProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataProcessor",
+        "target": "ModelOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "ExperimentTracker",
+        "target": "ModelOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "BigQuery",
+        "target": "ETL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ETL",
+        "target": "CloudStorage",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKEHOUSE",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKEHOUSE",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKEHOUSE",
+        "target": "FeatureStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "ModelOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "DataProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "ExperimentTracker",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpenTelemetry",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpenTelemetry",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelOrchestrator",
+        "target": "OpenTelemetry",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataProcessor",
+        "target": "OpenTelemetry",
+        "label": "HTTP"
+      },
+      {
+        "source": "ExperimentTracker",
+        "target": "OpenTelemetry",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ISO27001",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "DataIngestionPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonitoringTool",
+        "target": "MonitoringPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CORE_HEXAGONAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE_HEXAGONAL",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE_HEXAGONAL",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE_HEXAGONAL",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE_HEXAGONAL",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE_HEXAGONAL",
+        "target": "EXTERNAL",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Hexagonal",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Observability Stack",
+      "Feature Flags",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 83,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

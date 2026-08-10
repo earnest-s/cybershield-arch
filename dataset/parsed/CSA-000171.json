@@ -1,0 +1,412 @@
+{
+  "id": "CSA-000171",
+  "instruction": "Design a E-Commerce architecture. using a Microservices style. deployed on GCP. satisfying: Rate Limiting, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "ratelimiter",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "mesh",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "ui"
+      },
+      {
+        "id": "userSrv",
+        "type": "service"
+      },
+      {
+        "id": "catalogSrv",
+        "type": "service"
+      },
+      {
+        "id": "orderSrv",
+        "type": "service"
+      },
+      {
+        "id": "paymentSrv",
+        "type": "service"
+      },
+      {
+        "id": "inventorySrv",
+        "type": "service"
+      },
+      {
+        "id": "notificationSrv",
+        "type": "service"
+      },
+      {
+        "id": "searchSrv",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "bq",
+        "type": "service"
+      },
+      {
+        "id": "firestore",
+        "type": "service"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "stack",
+        "type": "service"
+      },
+      {
+        "id": "firebase",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "ratelimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "ratelimiter",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "userSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "catalogSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "orderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "paymentSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "inventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "notificationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "searchSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "userSrv",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "userSrv",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "userSrv",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "catalogSrv",
+        "target": "bq",
+        "label": "HTTP"
+      },
+      {
+        "source": "catalogSrv",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "catalogSrv",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSrv",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSrv",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSrv",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "paymentSrv",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "paymentSrv",
+        "target": "firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "paymentSrv",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySrv",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySrv",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySrv",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "notificationSrv",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "notificationSrv",
+        "target": "firebase",
+        "label": "HTTP"
+      },
+      {
+        "source": "searchSrv",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "orderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "paymentSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "inventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "notificationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "stack",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "userSrv",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSrv",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "paymentSrv",
+        "target": "audit",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Rate Limiting",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 51,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

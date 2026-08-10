@@ -1,0 +1,326 @@
+{
+  "id": "CSA-000081",
+  "instruction": "Design a Media architecture. using a Hexagonal style. deployed on Multi-Cloud. satisfying: GraphRAG Integration, AI/ML Inference Integration, Compliance/Audit Logging, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "EdgeLB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "container"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "container"
+      },
+      {
+        "id": "MediaAPI",
+        "type": "service"
+      },
+      {
+        "id": "MediaService",
+        "type": "service"
+      },
+      {
+        "id": "MediaAdapter",
+        "type": "service"
+      },
+      {
+        "id": "GraphRAG",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "AIInference",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "HEXAGONAL_CORE",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaAPI",
+        "target": "MediaService",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaService",
+        "target": "MediaAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaAdapter",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaAdapter",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaAdapter",
+        "target": "AIInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaService",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "MediaService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaService",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaService",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaService",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaService",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaService",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "HEXAGONAL_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "HEXAGONAL_CORE",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "HEXAGONAL_CORE",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "AIInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "K8s",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Media",
+    "style": "Hexagonal",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "AI/ML Inference Integration",
+      "Compliance/Audit Logging",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 52,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}
