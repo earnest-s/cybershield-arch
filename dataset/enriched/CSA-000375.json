@@ -1,0 +1,586 @@
+{
+  "id": "CSA-000375",
+  "instruction": "Design a Pharma architecture. using a Microservices style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, Feature Flags, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "k8sA",
+        "type": "container"
+      },
+      {
+        "id": "k8sB",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "blueGreen",
+        "type": "service"
+      },
+      {
+        "id": "featFlags",
+        "type": "service"
+      },
+      {
+        "id": "patientSvc",
+        "type": "service"
+      },
+      {
+        "id": "orderSvc",
+        "type": "service"
+      },
+      {
+        "id": "inventorySvc",
+        "type": "service"
+      },
+      {
+        "id": "analyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "notificationSvc",
+        "type": "ui"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "service"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "service"
+      },
+      {
+        "id": "br",
+        "type": "service"
+      },
+      {
+        "id": "Catalog",
+        "type": "service"
+      },
+      {
+        "id": "data",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "ordersvc",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sA",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sB",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "patientSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "notificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ordersvc",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySvc",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "elastic",
+        "label": "DB Query"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "lakehouse",
+        "label": "DB Query"
+      },
+      {
+        "source": "aiGateway",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "notificationSvc",
+        "target": "rabbit",
+        "label": "Async"
+      },
+      {
+        "source": "rabbit",
+        "target": "notificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBridge",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "blueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "patientSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "notificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "patientSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "featFlags",
+        "target": "notificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "patientSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "adminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "patientSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "elastic",
+        "target": "elk",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 7,
+      "services": 35
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Microservices",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Feature Flags",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 61,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,502 @@
+{
+  "id": "CSA-000332",
+  "instruction": "Design a ERP architecture. using a Serverless style. deployed on AWS. satisfying: Data Lakehouse Pattern, Auto Scaling, Disaster Recovery, Compliance/Audit Logging, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CF",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "SecretsM",
+        "type": "service"
+      },
+      {
+        "id": "GuardDuty",
+        "type": "service"
+      },
+      {
+        "id": "OrderLambda",
+        "type": "service"
+      },
+      {
+        "id": "InvLambda",
+        "type": "service"
+      },
+      {
+        "id": "FinLambda",
+        "type": "service"
+      },
+      {
+        "id": "HRLambda",
+        "type": "service"
+      },
+      {
+        "id": "NotifyLambda",
+        "type": "service"
+      },
+      {
+        "id": "OrchestratorSF",
+        "type": "service"
+      },
+      {
+        "id": "EB",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "S3Raw",
+        "type": "service"
+      },
+      {
+        "id": "S3Proc",
+        "type": "service"
+      },
+      {
+        "id": "Glue",
+        "type": "service"
+      },
+      {
+        "id": "Catalog",
+        "type": "service"
+      },
+      {
+        "id": "Athena",
+        "type": "service"
+      },
+      {
+        "id": "Redshift",
+        "type": "service"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "Aurora",
+        "type": "service"
+      },
+      {
+        "id": "OpenSearch",
+        "type": "service"
+      },
+      {
+        "id": "SageMaker",
+        "type": "service"
+      },
+      {
+        "id": "GraphRAG",
+        "type": "service"
+      },
+      {
+        "id": "CWLogs",
+        "type": "service"
+      },
+      {
+        "id": "XRay",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "CloudTrail",
+        "type": "service"
+      },
+      {
+        "id": "Config",
+        "type": "service"
+      },
+      {
+        "id": "AuditS3",
+        "type": "service"
+      },
+      {
+        "id": "S3CRR",
+        "type": "service"
+      },
+      {
+        "id": "DynamoGlobal",
+        "type": "database"
+      },
+      {
+        "id": "Route53",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CF",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OrderLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "InvLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FinLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "HRLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderLambda",
+        "target": "EB",
+        "label": "HTTP"
+      },
+      {
+        "source": "InvLambda",
+        "target": "EB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FinLambda",
+        "target": "EB",
+        "label": "HTTP"
+      },
+      {
+        "source": "HRLambda",
+        "target": "EB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EB",
+        "target": "NotifyLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "EB",
+        "target": "OrchestratorSF",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotifyLambda",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrchestratorSF",
+        "target": "SageMaker",
+        "label": "HTTP"
+      },
+      {
+        "source": "SageMaker",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAG",
+        "target": "OpenSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderLambda",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "InvLambda",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "FinLambda",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "S3Raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "Aurora",
+        "target": "S3Raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3Raw",
+        "target": "Glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Glue",
+        "target": "Catalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Catalog",
+        "target": "Athena",
+        "label": "HTTP"
+      },
+      {
+        "source": "Athena",
+        "target": "Redshift",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpenSearch",
+        "target": "S3Proc",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3Proc",
+        "target": "Glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3Raw",
+        "target": "S3CRR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "DynamoGlobal",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudTrail",
+        "target": "AuditS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "Config",
+        "target": "AuditS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditS3",
+        "target": "S3CRR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CWLogs",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "XRay",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CWLogs",
+        "target": "S3Raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "GuardDuty",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Route53",
+        "target": "APIGW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 2,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Auto Scaling",
+      "Disaster Recovery",
+      "Compliance/Audit Logging",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 64,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

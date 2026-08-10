@@ -1,0 +1,674 @@
+{
+  "id": "CSA-000489",
+  "instruction": "Design a FinTech architecture. using a Serverless style. deployed on On-Premises. satisfying: AI/ML Inference Integration, Blue/Green Deployment, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "BFF_B",
+        "type": "service"
+      },
+      {
+        "id": "Auth_B",
+        "type": "service"
+      },
+      {
+        "id": "Payments_B",
+        "type": "service"
+      },
+      {
+        "id": "Analytics_B",
+        "type": "service"
+      },
+      {
+        "id": "BFF_G",
+        "type": "service"
+      },
+      {
+        "id": "Auth_G",
+        "type": "service"
+      },
+      {
+        "id": "Payments_G",
+        "type": "service"
+      },
+      {
+        "id": "Analytics_G",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "DNS",
+        "type": "service"
+      },
+      {
+        "id": "LB_US_EAST",
+        "type": "service"
+      },
+      {
+        "id": "APIGW_US_EAST",
+        "type": "service"
+      },
+      {
+        "id": "Serverless_US_EAST_B",
+        "type": "service"
+      },
+      {
+        "id": "Serverless_US_EAST_G",
+        "type": "service"
+      },
+      {
+        "id": "LB_EU_WEST",
+        "type": "service"
+      },
+      {
+        "id": "APIGW_EU_WEST",
+        "type": "service"
+      },
+      {
+        "id": "Serverless_EU_WEST_B",
+        "type": "service"
+      },
+      {
+        "id": "Serverless_EU_WEST_G",
+        "type": "service"
+      },
+      {
+        "id": "SERVERLESS_BLUE",
+        "type": "service"
+      },
+      {
+        "id": "SERVERLESS_GREEN",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "Postgres_EU",
+        "type": "service"
+      },
+      {
+        "id": "Dynamo_EU",
+        "type": "service"
+      },
+      {
+        "id": "Redis_EU",
+        "type": "service"
+      },
+      {
+        "id": "ES_EU",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB_EU",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "SERVERLESS_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "SERVERLESS_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "SERVERLESS_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "SERVERLESS_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "SERVERLESS_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "SERVERLESS_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_BLUE",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_GREEN",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_BLUE",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_GREEN",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_BLUE",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_GREEN",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_BLUE",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_GREEN",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_BLUE",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_GREEN",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_BLUE",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_GREEN",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_BLUE",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_GREEN",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_BLUE",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVERLESS_GREEN",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "SERVERLESS_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "SERVERLESS_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "DNS",
+        "target": "LB_US_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "DNS",
+        "target": "LB_EU_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_US_EAST",
+        "target": "APIGW_US_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_EU_WEST",
+        "target": "APIGW_EU_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_US_EAST",
+        "target": "Serverless_US_EAST_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_US_EAST",
+        "target": "Serverless_US_EAST_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_EU_WEST",
+        "target": "Serverless_EU_WEST_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_EU_WEST",
+        "target": "Serverless_EU_WEST_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Postgres_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "Dynamo_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "Redis_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "ES_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "VectorDB_EU",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 5,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 7,
+      "services": 51
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Serverless",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Blue/Green Deployment",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 71,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

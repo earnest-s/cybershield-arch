@@ -1,0 +1,645 @@
+{
+  "id": "CSA-000239",
+  "instruction": "Design a Pharma architecture. using a Serverless style. deployed on On-Premises. satisfying: Active-Active Multi-Region, Data Lakehouse Pattern, Blue/Green Deployment, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "Mobile",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "FunctionsA1",
+        "type": "service"
+      },
+      {
+        "id": "FunctionsA2",
+        "type": "service"
+      },
+      {
+        "id": "FunctionsA3",
+        "type": "service"
+      },
+      {
+        "id": "KafkaA",
+        "type": "queue"
+      },
+      {
+        "id": "ObjectStoreA",
+        "type": "database"
+      },
+      {
+        "id": "DeltaLakeA",
+        "type": "service"
+      },
+      {
+        "id": "TrinoA",
+        "type": "service"
+      },
+      {
+        "id": "PromA",
+        "type": "service"
+      },
+      {
+        "id": "GrafA",
+        "type": "service"
+      },
+      {
+        "id": "ELKA",
+        "type": "service"
+      },
+      {
+        "id": "JenkinsA",
+        "type": "service"
+      },
+      {
+        "id": "GitRepoA",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreenA",
+        "type": "service"
+      },
+      {
+        "id": "FunctionsB1",
+        "type": "service"
+      },
+      {
+        "id": "FunctionsB2",
+        "type": "service"
+      },
+      {
+        "id": "FunctionsB3",
+        "type": "service"
+      },
+      {
+        "id": "KafkaB",
+        "type": "queue"
+      },
+      {
+        "id": "ObjectStoreB",
+        "type": "database"
+      },
+      {
+        "id": "DeltaLakeB",
+        "type": "service"
+      },
+      {
+        "id": "TrinoB",
+        "type": "service"
+      },
+      {
+        "id": "PromB",
+        "type": "service"
+      },
+      {
+        "id": "GrafB",
+        "type": "service"
+      },
+      {
+        "id": "ELKB",
+        "type": "service"
+      },
+      {
+        "id": "JenkinsB",
+        "type": "service"
+      },
+      {
+        "id": "GitRepoB",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreenB",
+        "type": "service"
+      },
+      {
+        "id": "MirrorKafka",
+        "type": "queue"
+      },
+      {
+        "id": "ReplicateObj",
+        "type": "service"
+      },
+      {
+        "id": "ReplicateMeta",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "Compute_A",
+        "type": "service"
+      },
+      {
+        "id": "Compute_B",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mobile",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FunctionsA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FunctionsA2",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FunctionsA3",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FunctionsB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FunctionsB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FunctionsB3",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA1",
+        "target": "KafkaA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA2",
+        "target": "KafkaA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA3",
+        "target": "KafkaA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB1",
+        "target": "KafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB2",
+        "target": "KafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB3",
+        "target": "KafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaA",
+        "target": "MirrorKafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaB",
+        "target": "MirrorKafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "MirrorKafka",
+        "target": "KafkaA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MirrorKafka",
+        "target": "KafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA1",
+        "target": "ObjectStoreA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA2",
+        "target": "ObjectStoreA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA3",
+        "target": "ObjectStoreA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB1",
+        "target": "ObjectStoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB2",
+        "target": "ObjectStoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB3",
+        "target": "ObjectStoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ObjectStoreA",
+        "target": "ReplicateObj",
+        "label": "HTTP"
+      },
+      {
+        "source": "ObjectStoreB",
+        "target": "ReplicateObj",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReplicateObj",
+        "target": "ObjectStoreA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReplicateObj",
+        "target": "ObjectStoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeltaLakeA",
+        "target": "TrinoA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeltaLakeB",
+        "target": "TrinoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "TrinoA",
+        "target": "ELKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "TrinoB",
+        "target": "ELKB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PromA",
+        "target": "GrafA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PromB",
+        "target": "GrafB",
+        "label": "HTTP"
+      },
+      {
+        "source": "JenkinsA",
+        "target": "GitRepoA",
+        "label": "HTTP"
+      },
+      {
+        "source": "JenkinsB",
+        "target": "GitRepoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepoA",
+        "target": "BlueGreenA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepoB",
+        "target": "BlueGreenB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreenA",
+        "target": "FunctionsA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreenA",
+        "target": "FunctionsA2",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreenA",
+        "target": "FunctionsA3",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreenB",
+        "target": "FunctionsB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreenB",
+        "target": "FunctionsB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreenB",
+        "target": "FunctionsB3",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA1",
+        "target": "Compute_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA2",
+        "target": "Compute_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsA3",
+        "target": "Compute_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB1",
+        "target": "Compute_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB2",
+        "target": "Compute_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionsB3",
+        "target": "Compute_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BlueGreenA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BlueGreenB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 2,
+      "services": 39
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Serverless",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Data Lakehouse Pattern",
+      "Blue/Green Deployment",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 77,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

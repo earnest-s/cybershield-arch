@@ -1,0 +1,493 @@
+{
+  "id": "CSA-000492",
+  "instruction": "Design a Education architecture. using a Modular Monolith style. deployed on AWS. satisfying: Disaster Recovery, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "K8SCluster",
+        "type": "container"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "UserManagement",
+        "type": "service"
+      },
+      {
+        "id": "CourseCatalog",
+        "type": "service"
+      },
+      {
+        "id": "LearningPath",
+        "type": "service"
+      },
+      {
+        "id": "AssessmentEngine",
+        "type": "service"
+      },
+      {
+        "id": "NotificationSvc",
+        "type": "service"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "OLTPDB",
+        "type": "database"
+      },
+      {
+        "id": "Search",
+        "type": "container"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "APP",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Traces",
+        "type": "service"
+      },
+      {
+        "id": "Jaeger",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "BackupS3",
+        "type": "service"
+      },
+      {
+        "id": "DRReplica",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "EmailSrv",
+        "type": "service"
+      },
+      {
+        "id": "SMSSrv",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "K8SCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "UserManagement",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserManagement",
+        "target": "CourseCatalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "CourseCatalog",
+        "target": "LearningPath",
+        "label": "HTTP"
+      },
+      {
+        "source": "LearningPath",
+        "target": "AssessmentEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "AssessmentEngine",
+        "target": "NotificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CourseCatalog",
+        "target": "OLTPDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserManagement",
+        "target": "OLTPDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AssessmentEngine",
+        "target": "OLTPDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LearningPath",
+        "target": "OLTPDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTPDB",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Search",
+        "target": "OLTPDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "OLTPDB",
+        "label": "Cache"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "APP",
+        "label": "Async"
+      },
+      {
+        "source": "IAM",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "EmailSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "SMSSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentGateway",
+        "target": "UserManagement",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "MESSAGING",
+        "label": "Async"
+      },
+      {
+        "source": "APP",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "DEVOPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "DR",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Require Multi-Factor Authentication for user access.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 2,
+      "services": 38
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS, MFA and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Education",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Disaster Recovery",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 66,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

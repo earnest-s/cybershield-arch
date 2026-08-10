@@ -1,0 +1,573 @@
+{
+  "id": "CSA-000046",
+  "instruction": "Design a Blockchain architecture. using a CQRS style. deployed on Azure. satisfying: Strict Network Segmentation, Feature Flags, Compliance/Audit Logging, Rate Limiting, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "DDoS",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "RateLim",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "FFService",
+        "type": "service"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "CommandHandler",
+        "type": "service"
+      },
+      {
+        "id": "QueryHandler",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "queue"
+      },
+      {
+        "id": "ProjectionDB",
+        "type": "database"
+      },
+      {
+        "id": "WriteModelDB",
+        "type": "database"
+      },
+      {
+        "id": "SagaOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "AzureSQL",
+        "type": "service"
+      },
+      {
+        "id": "CosmosDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "GitCI",
+        "type": "service"
+      },
+      {
+        "id": "AKS_A",
+        "type": "container"
+      },
+      {
+        "id": "EventStoreA",
+        "type": "queue"
+      },
+      {
+        "id": "SQL_A",
+        "type": "service"
+      },
+      {
+        "id": "Cosmos_A",
+        "type": "service"
+      },
+      {
+        "id": "AKS_B",
+        "type": "container"
+      },
+      {
+        "id": "EventStoreB",
+        "type": "queue"
+      },
+      {
+        "id": "SQL_B",
+        "type": "service"
+      },
+      {
+        "id": "Cosmos_B",
+        "type": "service"
+      },
+      {
+        "id": "ClientTraffic",
+        "type": "ui"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "RateLim",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "FFService",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AKS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AKS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_A",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_A",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_B",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_B",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "CommandHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QueryHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventStoreA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventStoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "SagaOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "SagaOrchestrator",
+        "target": "CommandHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler",
+        "target": "WriteModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WriteModelDB",
+        "target": "AzureSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureSQL",
+        "target": "SQL_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureSQL",
+        "target": "SQL_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryHandler",
+        "target": "ProjectionDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProjectionDB",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CosmosDB",
+        "target": "Cosmos_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "CosmosDB",
+        "target": "Cosmos_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "AKS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "AKS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_A",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_B",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryHandler",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "FFService",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "FFService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitCI",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "AKS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "AKS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "AKS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "AKS_B",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 4,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Blockchain",
+    "style": "CQRS",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Feature Flags",
+      "Compliance/Audit Logging",
+      "Rate Limiting",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 68,
+    "source_edges": 73,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

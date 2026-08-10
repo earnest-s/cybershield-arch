@@ -1,0 +1,567 @@
+{
+  "id": "CSA-000393",
+  "instruction": "Design a DevSecOps architecture. using a CQRS style. deployed on Azure. satisfying: Active-Active Multi-Region, Auto Scaling, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "CommandBus",
+        "type": "database"
+      },
+      {
+        "id": "QueryBus",
+        "type": "service"
+      },
+      {
+        "id": "CommandHandler1",
+        "type": "service"
+      },
+      {
+        "id": "CommandHandler2",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "EventProcessor",
+        "type": "service"
+      },
+      {
+        "id": "WriteModelDB",
+        "type": "database"
+      },
+      {
+        "id": "Outbox",
+        "type": "queue"
+      },
+      {
+        "id": "QueryHandler1",
+        "type": "service"
+      },
+      {
+        "id": "QueryHandler2",
+        "type": "service"
+      },
+      {
+        "id": "ReadModelCache",
+        "type": "cache"
+      },
+      {
+        "id": "ReadModelDB",
+        "type": "database"
+      },
+      {
+        "id": "EventStream",
+        "type": "queue"
+      },
+      {
+        "id": "ProjectionService",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "Alerting",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Git",
+        "type": "service"
+      },
+      {
+        "id": "AzureRegion1",
+        "type": "service"
+      },
+      {
+        "id": "AzureRegion2",
+        "type": "service"
+      },
+      {
+        "id": "CosmosDB",
+        "type": "database"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "SQLMI",
+        "type": "service"
+      },
+      {
+        "id": "COMMAND_SIDE",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_SIDE",
+        "type": "service"
+      },
+      {
+        "id": "HPA",
+        "type": "service"
+      },
+      {
+        "id": "PDB",
+        "type": "database"
+      },
+      {
+        "id": "SB_Retry",
+        "type": "service"
+      },
+      {
+        "id": "KafkaPartitions",
+        "type": "queue"
+      }
+    ],
+    "edges": [
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "CommandBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "QueryBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandBus",
+        "target": "CommandHandler1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandBus",
+        "target": "CommandHandler2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler1",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler2",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "EventProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventProcessor",
+        "target": "WriteModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventProcessor",
+        "target": "Outbox",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryBus",
+        "target": "QueryHandler1",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryBus",
+        "target": "QueryHandler2",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryHandler1",
+        "target": "ReadModelCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryHandler2",
+        "target": "ReadModelCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModelCache",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Outbox",
+        "target": "EventStream",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStream",
+        "target": "ProjectionService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProjectionService",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStream",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "CommandHandler2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "QueryHandler1",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "QueryHandler2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "EventProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion1",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion2",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion1",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion2",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion1",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion2",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion1",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion2",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion1",
+        "target": "SQLMI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion2",
+        "target": "SQLMI",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandBus",
+        "target": "COMMAND_SIDE",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryBus",
+        "target": "QUERY_SIDE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "AzureRegion1",
+        "label": "Async"
+      },
+      {
+        "source": "WriteModelDB",
+        "target": "AzureRegion1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModelDB",
+        "target": "AzureRegion2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModelCache",
+        "target": "AzureRegion2",
+        "label": "Cache"
+      },
+      {
+        "source": "AKS",
+        "target": "HPA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "PDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "SB_Retry",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStream",
+        "target": "KafkaPartitions",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 6,
+      "services": 36
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "CQRS",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Auto Scaling",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 70,
+    "source_edges": 86,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,498 @@
+{
+  "id": "CSA-000371",
+  "instruction": "Design a ERP architecture. using a Zero-Trust style. deployed on On-Premises. satisfying: Rate Limiting, Feature Flags, Active-Active Multi-Region, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "thirdParty",
+        "type": "service"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "rateLim",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
+        "id": "microsvcGroup",
+        "type": "container"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "saga",
+        "type": "service"
+      },
+      {
+        "id": "eventStore",
+        "type": "service"
+      },
+      {
+        "id": "cqrs",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "activeActiveA",
+        "type": "service"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "activeActiveB",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "dataMesh",
+        "type": "service"
+      },
+      {
+        "id": "dbGroup",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "sqs",
+        "type": "service"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "k8sA",
+        "type": "container"
+      },
+      {
+        "id": "k8sB",
+        "type": "container"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "observability",
+        "type": "service"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      },
+      {
+        "id": "networkSeg",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "apiGateway",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbGroup",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "rateLim",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "pki",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "adminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "security",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "networkSeg",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup",
+        "target": "dbGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "microsvcGroup",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup",
+        "target": "eventBridge",
+        "label": "Async"
+      },
+      {
+        "source": "microsvcGroup",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "pki",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "activeActiveA",
+        "target": "activeActiveB",
+        "label": "HTTP"
+      },
+      {
+        "source": "activeActiveB",
+        "target": "activeActiveA",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 46
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Zero-Trust",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Rate Limiting",
+      "Feature Flags",
+      "Active-Active Multi-Region",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 73,
+    "source_edges": 85,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,420 @@
+{
+  "id": "CSA-000319",
+  "instruction": "Design a Government architecture. using a Modular Monolith style. deployed on GCP. satisfying: Compliance/Audit Logging, AI/ML Inference Integration, Blue/Green Deployment, GraphRAG Integration, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "armor",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "auditLogs",
+        "type": "service"
+      },
+      {
+        "id": "secCmdCenter",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "ui"
+      },
+      {
+        "id": "gke",
+        "type": "container"
+      },
+      {
+        "id": "hpa",
+        "type": "service"
+      },
+      {
+        "id": "modA",
+        "type": "service"
+      },
+      {
+        "id": "modB",
+        "type": "database"
+      },
+      {
+        "id": "modC",
+        "type": "service"
+      },
+      {
+        "id": "modD",
+        "type": "service"
+      },
+      {
+        "id": "sql",
+        "type": "database"
+      },
+      {
+        "id": "firestore",
+        "type": "service"
+      },
+      {
+        "id": "bigquery",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "vertex",
+        "type": "service"
+      },
+      {
+        "id": "graphrag",
+        "type": "service"
+      },
+      {
+        "id": "monitoring",
+        "type": "service"
+      },
+      {
+        "id": "trace",
+        "type": "service"
+      },
+      {
+        "id": "logging",
+        "type": "service"
+      },
+      {
+        "id": "blue",
+        "type": "service"
+      },
+      {
+        "id": "green",
+        "type": "service"
+      },
+      {
+        "id": "APP",
+        "type": "service"
+      },
+      {
+        "id": "highThroughput",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "modA",
+        "target": "modB",
+        "label": "HTTP"
+      },
+      {
+        "source": "modB",
+        "target": "modC",
+        "label": "HTTP"
+      },
+      {
+        "source": "modC",
+        "target": "modD",
+        "label": "HTTP"
+      },
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "armor",
+        "label": "HTTP"
+      },
+      {
+        "source": "armor",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "green",
+        "label": "HTTP"
+      },
+      {
+        "source": "blue",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "green",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "sql",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "bigquery",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "vertex",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "graphrag",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "sql",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vertex",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLogs",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "secCmdCenter",
+        "target": "monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "hpa",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "trace",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "logging",
+        "target": "APP",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "RBAC",
+      "WAF"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "SQL Injection",
+        "severity": "CRITICAL",
+        "description": "Attackers can execute malicious SQL statements that control a web application's database server.",
+        "missing_control": "WAF",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Deploy a Web Application Firewall.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 25
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, WAF, Authentication, Audit Logging and Encryption Service. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Modular Monolith",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "AI/ML Inference Integration",
+      "Blue/Green Deployment",
+      "GraphRAG Integration",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 57,
+    "source_edges": 34,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

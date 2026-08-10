@@ -1,0 +1,414 @@
+{
+  "id": "CSA-000309",
+  "instruction": "Design a ERP architecture. using a CQRS style. deployed on AWS. satisfying: GraphRAG Integration, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "K8SCluster",
+        "type": "container"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "SecurityBus",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "CommandSvc",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "QuerySvc",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "ReadModelUpdater",
+        "type": "service"
+      },
+      {
+        "id": "ReadDB",
+        "type": "database"
+      },
+      {
+        "id": "WriteDB",
+        "type": "database"
+      },
+      {
+        "id": "DomainEvents",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "RAGService",
+        "type": "service"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "AWSRegion",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "container"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CommandSvc",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "ReadModelUpdater",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModelUpdater",
+        "target": "ReadDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "WriteDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "DomainEvents",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainEvents",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGService",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "RAGService",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "ReadDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "RAGService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8SCluster",
+        "target": "ReadModelUpdater",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SecurityBus",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "SNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "AdminPortal",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 47,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

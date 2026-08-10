@@ -1,0 +1,538 @@
+{
+  "id": "CSA-000400",
+  "instruction": "Design a Media architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Observability Stack, Zero Trust Architecture, Rate Limiting, Data Lakehouse Pattern, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "CMS",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "ZT_INGRESS",
+        "type": "service"
+      },
+      {
+        "id": "ZT_EGRESS",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "FN_AUTH",
+        "type": "service"
+      },
+      {
+        "id": "FN_INGEST",
+        "type": "service"
+      },
+      {
+        "id": "FN_PROCESS",
+        "type": "service"
+      },
+      {
+        "id": "FN_API",
+        "type": "service"
+      },
+      {
+        "id": "FN_RAG",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "RAW_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "CURATED",
+        "type": "service"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VSEARCH",
+        "type": "service"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "ORCH",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "AZURE",
+        "type": "service"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "ZERO_TRUST",
+        "target": "ZT_INGRESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "ZT_EGRESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT_INGRESS",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT_EGRESS",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_AUTH",
+        "target": "FN_INGEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_INGEST",
+        "target": "FN_PROCESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_PROCESS",
+        "target": "FN_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_API",
+        "target": "FN_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "FN_INGEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "FN_PROCESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAW_LAKE",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "CURATED",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CURATED",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_INGEST",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_PROCESS",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_RAG",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "VSEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VSEARCH",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM",
+        "target": "ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_AUTH",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_INGEST",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_PROCESS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_API",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_RAG",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AZURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_AUTH",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_INGEST",
+        "target": "AZURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_PROCESS",
+        "target": "GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_API",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN_RAG",
+        "target": "GCP",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 1,
+      "services": 39
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Media",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Observability Stack",
+      "Zero Trust Architecture",
+      "Rate Limiting",
+      "Data Lakehouse Pattern",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 65,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

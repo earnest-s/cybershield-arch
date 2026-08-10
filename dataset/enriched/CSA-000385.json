@@ -1,0 +1,532 @@
+{
+  "id": "CSA-000385",
+  "instruction": "Design a MLOps architecture. using a Hexagonal style. deployed on AWS. satisfying: Blue/Green Deployment, GraphRAG Integration, High Throughput (100k+ TPS), Active-Active Multi-Region, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "serviceMesh",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "regionA",
+        "type": "service"
+      },
+      {
+        "id": "regionB",
+        "type": "service"
+      },
+      {
+        "id": "blueGreenBlue",
+        "type": "service"
+      },
+      {
+        "id": "blueGreenGreen",
+        "type": "service"
+      },
+      {
+        "id": "apiAdapter",
+        "type": "service"
+      },
+      {
+        "id": "eventAdapter",
+        "type": "queue"
+      },
+      {
+        "id": "ragAdapter",
+        "type": "service"
+      },
+      {
+        "id": "mlAdapter",
+        "type": "service"
+      },
+      {
+        "id": "hexCore",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "sqs",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "modelStore",
+        "type": "service"
+      },
+      {
+        "id": "apiAdapterB",
+        "type": "service"
+      },
+      {
+        "id": "eventAdapterB",
+        "type": "queue"
+      },
+      {
+        "id": "ragAdapterB",
+        "type": "service"
+      },
+      {
+        "id": "mlAdapterB",
+        "type": "service"
+      },
+      {
+        "id": "hexCoreB",
+        "type": "service"
+      },
+      {
+        "id": "kafkaB",
+        "type": "queue"
+      },
+      {
+        "id": "sqsB",
+        "type": "service"
+      },
+      {
+        "id": "vectorDBB",
+        "type": "database"
+      },
+      {
+        "id": "modelStoreB",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "kubernetes",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "terraform",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "clientData",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "regionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiAdapter",
+        "target": "hexCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventAdapter",
+        "target": "hexCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragAdapter",
+        "target": "hexCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlAdapter",
+        "target": "hexCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiAdapter",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventAdapter",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragAdapter",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlAdapter",
+        "target": "modelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiAdapterB",
+        "target": "hexCoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventAdapterB",
+        "target": "hexCoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragAdapterB",
+        "target": "hexCoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlAdapterB",
+        "target": "hexCoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiAdapterB",
+        "target": "kafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventAdapterB",
+        "target": "sqsB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragAdapterB",
+        "target": "vectorDBB",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlAdapterB",
+        "target": "modelStoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "kafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "sqsB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "vectorDBB",
+        "label": "HTTP"
+      },
+      {
+        "source": "modelStore",
+        "target": "modelStoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceMesh",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "kubernetes",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceMesh",
+        "target": "hexCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceMesh",
+        "target": "hexCoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "kubernetes",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "clientData",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "clientData",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "clientData",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "clientData",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 3,
+      "services": 37
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Blue/Green Deployment",
+      "GraphRAG Integration",
+      "High Throughput (100k+ TPS)",
+      "Active-Active Multi-Region",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 76,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

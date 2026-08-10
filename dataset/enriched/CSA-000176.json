@@ -1,0 +1,564 @@
+{
+  "id": "CSA-000176",
+  "instruction": "Design a ERP architecture. using a Zero-Trust style. deployed on Multi-Cloud. satisfying: Rate Limiting, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "ztap",
+        "type": "service"
+      },
+      {
+        "id": "k8s_aws",
+        "type": "container"
+      },
+      {
+        "id": "k8s_azure",
+        "type": "container"
+      },
+      {
+        "id": "k8s_gcp",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "finance",
+        "type": "service"
+      },
+      {
+        "id": "hr",
+        "type": "service"
+      },
+      {
+        "id": "inventory",
+        "type": "service"
+      },
+      {
+        "id": "procurement",
+        "type": "service"
+      },
+      {
+        "id": "reporting",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "event_bus",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "data",
+        "type": "service"
+      },
+      {
+        "id": "observability",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ztap",
+        "label": "HTTP"
+      },
+      {
+        "source": "ztap",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "finance",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "hr",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "procurement",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "reporting",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "finance",
+        "target": "event_bus",
+        "label": "HTTP"
+      },
+      {
+        "source": "hr",
+        "target": "event_bus",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "event_bus",
+        "label": "HTTP"
+      },
+      {
+        "source": "procurement",
+        "target": "event_bus",
+        "label": "HTTP"
+      },
+      {
+        "source": "reporting",
+        "target": "event_bus",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bus",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "finance",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "hr",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "procurement",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "reporting",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "finance",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "hr",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "ztap",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "ztap",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "ztap",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws",
+        "target": "k8s_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws",
+        "target": "k8s_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "data",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "observability",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Zero-Trust",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 48,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,513 @@
+{
+  "id": "CSA-000236",
+  "instruction": "Design a AIOps architecture. using a Modular Monolith style. deployed on AWS. satisfying: Feature Flags, Blue/Green Deployment, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "ALB",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPC1",
+        "type": "service"
+      },
+      {
+        "id": "VPC2",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "K8sEast",
+        "type": "container"
+      },
+      {
+        "id": "K8sWest",
+        "type": "container"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "API",
+        "type": "service"
+      },
+      {
+        "id": "ServiceCore",
+        "type": "service"
+      },
+      {
+        "id": "ServiceAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "ServiceAlerting",
+        "type": "service"
+      },
+      {
+        "id": "ServiceDiscovery",
+        "type": "service"
+      },
+      {
+        "id": "Aurora",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Tempo",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WAF",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "VPC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "VPC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "K8sEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "K8sWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceCore",
+        "target": "ServiceAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceCore",
+        "target": "ServiceAlerting",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceAnalytics",
+        "target": "ServiceDiscovery",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceAlerting",
+        "target": "ServiceDiscovery",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "ServiceCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Aurora",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Aurora",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Tempo",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "API",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceAnalytics",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceAlerting",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceDiscovery",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ServiceCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "ServiceCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceCore",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceAnalytics",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceAlerting",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sEast",
+        "target": "K8sWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sEast",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sWest",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "API",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "S3",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 2,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "AIOps",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Blue/Green Deployment",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 52,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

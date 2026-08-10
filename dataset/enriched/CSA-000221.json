@@ -1,0 +1,423 @@
+{
+  "id": "CSA-000221",
+  "instruction": "Design a Manufacturing architecture. using a Event-Driven style. deployed on AWS. satisfying: GraphRAG Integration, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "Mobile",
+        "type": "service"
+      },
+      {
+        "id": "Admin",
+        "type": "ui"
+      },
+      {
+        "id": "Consumer",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ESB",
+        "type": "service"
+      },
+      {
+        "id": "MS1",
+        "type": "service"
+      },
+      {
+        "id": "MS2",
+        "type": "service"
+      },
+      {
+        "id": "MS3",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "AG",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Jaeger",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "Subnet",
+        "type": "service"
+      },
+      {
+        "id": "RDS",
+        "type": "database"
+      },
+      {
+        "id": "DDB",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "EmbModel",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ESB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ESB",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ESB",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ESB",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "AG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AG",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Jaeger",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "Subnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet",
+        "target": "RDS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet",
+        "target": "DDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "AG",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM",
+        "target": "EmbModel",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 5,
+      "services": 28
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "Event-Driven",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 49,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

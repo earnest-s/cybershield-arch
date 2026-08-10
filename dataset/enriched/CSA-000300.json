@@ -1,0 +1,464 @@
+{
+  "id": "CSA-000300",
+  "instruction": "Design a Media architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Feature Flags, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Obs",
+        "type": "service"
+      },
+      {
+        "id": "Log",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "VA",
+        "type": "service"
+      },
+      {
+        "id": "VDB",
+        "type": "database"
+      },
+      {
+        "id": "EventA",
+        "type": "queue"
+      },
+      {
+        "id": "UP",
+        "type": "service"
+      },
+      {
+        "id": "UserDB",
+        "type": "database"
+      },
+      {
+        "id": "EventB",
+        "type": "queue"
+      },
+      {
+        "id": "Rec",
+        "type": "service"
+      },
+      {
+        "id": "RecDB",
+        "type": "database"
+      },
+      {
+        "id": "EventC",
+        "type": "queue"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "Azure",
+        "type": "service"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      },
+      {
+        "id": "Governance",
+        "type": "service"
+      },
+      {
+        "id": "LOGO",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "DATA_MESH",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Log",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "VA",
+        "target": "EventA",
+        "label": "HTTP"
+      },
+      {
+        "source": "UP",
+        "target": "EventB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Rec",
+        "target": "EventC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventC",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventA",
+        "target": "Rec",
+        "label": "Async"
+      },
+      {
+        "source": "EventB",
+        "target": "Rec",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventC",
+        "target": "WebUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventC",
+        "target": "MobileApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "VA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "UP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Rec",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "VA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "UP",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "Rec",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "WebUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "MobileApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "VA",
+        "target": "Obs",
+        "label": "HTTP"
+      },
+      {
+        "source": "UP",
+        "target": "Obs",
+        "label": "HTTP"
+      },
+      {
+        "source": "Rec",
+        "target": "Obs",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Obs",
+        "label": "HTTP"
+      },
+      {
+        "source": "VDB",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserDB",
+        "target": "Azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecDB",
+        "target": "GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Governance",
+        "target": "UserDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Governance",
+        "target": "RecDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Governance",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOGO",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOGO",
+        "target": "DATA_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOGO",
+        "target": "CLOUD",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 24
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Media",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Feature Flags",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 48,
+    "source_edges": 56,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

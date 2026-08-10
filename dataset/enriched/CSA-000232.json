@@ -1,0 +1,647 @@
+{
+  "id": "CSA-000232",
+  "instruction": "Design a Manufacturing architecture. using a Event-Driven style. deployed on GCP. satisfying: Disaster Recovery, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FIREWALL",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "GATEWAY",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO_INGRESS",
+        "type": "service"
+      },
+      {
+        "id": "MESH_CTRL",
+        "type": "service"
+      },
+      {
+        "id": "MESH_DATA",
+        "type": "service"
+      },
+      {
+        "id": "CLUSTER_A",
+        "type": "container"
+      },
+      {
+        "id": "CLUSTER_B",
+        "type": "container"
+      },
+      {
+        "id": "BLUE_SVC",
+        "type": "service"
+      },
+      {
+        "id": "GREEN_SVC",
+        "type": "service"
+      },
+      {
+        "id": "DR_SVC",
+        "type": "service"
+      },
+      {
+        "id": "PLATFORM",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PUBSUB",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_BACKBONE",
+        "type": "service"
+      },
+      {
+        "id": "ORDER_SVC",
+        "type": "service"
+      },
+      {
+        "id": "INVENTORY_SVC",
+        "type": "service"
+      },
+      {
+        "id": "PRODUCTION_SVC",
+        "type": "service"
+      },
+      {
+        "id": "QUALITY_SVC",
+        "type": "service"
+      },
+      {
+        "id": "MAINT_SVC",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS_SVC",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "MONGO",
+        "type": "database"
+      },
+      {
+        "id": "BIGTABLE",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "ELASTIC",
+        "type": "database"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOGGING",
+        "type": "service"
+      },
+      {
+        "id": "IAMP",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "SECRETS",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "ROUTER",
+        "type": "service"
+      },
+      {
+        "id": "DR_TRIGGER",
+        "type": "service"
+      },
+      {
+        "id": "ERP",
+        "type": "service"
+      },
+      {
+        "id": "SCM",
+        "type": "service"
+      },
+      {
+        "id": "IoT",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WAF",
+        "target": "FIREWALL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GATEWAY",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ISTIO_INGRESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO_INGRESS",
+        "target": "MESH_CTRL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH_CTRL",
+        "target": "MESH_DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLUSTER_A",
+        "target": "BLUE_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLUSTER_A",
+        "target": "GREEN_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLUSTER_B",
+        "target": "DR_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO_INGRESS",
+        "target": "PLATFORM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLATFORM",
+        "target": "EVENT_BACKBONE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PRODUCTION_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUALITY_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MAINT_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS_SVC",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BACKBONE",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_SVC",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY_SVC",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "PRODUCTION_SVC",
+        "target": "BIGTABLE",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUALITY_SVC",
+        "target": "ELASTIC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS_SVC",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS_SVC",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS_SVC",
+        "target": "EMBEDDING",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDING",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VECTOR_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_SEARCH",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLATFORM",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLATFORM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLATFORM",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLATFORM",
+        "target": "LOGGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "GATEWAY",
+        "target": "IAMP",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLATFORM",
+        "target": "SECRETS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLATFORM",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLATFORM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "ISO",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ROUTER",
+        "target": "BLUE_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ROUTER",
+        "target": "GREEN_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ROUTER",
+        "target": "DR_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ROUTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_TRIGGER",
+        "target": "DR_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SVC",
+        "target": "BIGTABLE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SVC",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "ERP",
+        "target": "ORDER_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "SCM",
+        "target": "INVENTORY_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IoT",
+        "target": "PRODUCTION_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_SVC",
+        "target": "ERP",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY_SVC",
+        "target": "SCM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PRODUCTION_SVC",
+        "target": "IoT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 6,
+      "services": 47
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Disaster Recovery",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 87,
+    "source_edges": 64,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,340 @@
+{
+  "id": "CSA-000308",
+  "instruction": "Design a Oil & Gas architecture. using a Serverless style. deployed on GCP. satisfying: GraphRAG Integration, Observability Stack, Disaster Recovery, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
+        "id": "loadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "authZ",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "database"
+      },
+      {
+        "id": "funcA",
+        "type": "service"
+      },
+      {
+        "id": "funcB",
+        "type": "service"
+      },
+      {
+        "id": "funcC",
+        "type": "container"
+      },
+      {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
+        "id": "dataIngestion",
+        "type": "service"
+      },
+      {
+        "id": "ragOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "rawLake",
+        "type": "database"
+      },
+      {
+        "id": "curatedLake",
+        "type": "service"
+      },
+      {
+        "id": "vectorStore",
+        "type": "service"
+      },
+      {
+        "id": "metadata",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "sqs",
+        "type": "service"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "aiObservability",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "drBucket",
+        "type": "database"
+      },
+      {
+        "id": "drBackup",
+        "type": "service"
+      },
+      {
+        "id": "computeFailover",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "rawLake",
+        "target": "curatedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "curatedLake",
+        "target": "vectorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorStore",
+        "target": "metadata",
+        "label": "HTTP"
+      },
+      {
+        "source": "drBucket",
+        "target": "drBackup",
+        "label": "HTTP"
+      },
+      {
+        "source": "drBackup",
+        "target": "computeFailover",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "funcB",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "funcC",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "ragOrchestrator",
+        "target": "vectorStore",
+        "label": "DB Query"
+      },
+      {
+        "source": "ragOrchestrator",
+        "target": "metadata",
+        "label": "HTTP"
+      },
+      {
+        "source": "curatedLake",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "rawLake",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "drBackup",
+        "target": "rawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "computeFailover",
+        "target": "apiGateway",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 4,
+      "services": 26
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "GraphRAG Integration",
+      "Observability Stack",
+      "Disaster Recovery",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 53,
+    "source_edges": 43,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

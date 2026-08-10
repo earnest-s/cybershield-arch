@@ -1,0 +1,621 @@
+{
+  "id": "CSA-000189",
+  "instruction": "Design a SCM architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Auto Scaling, Disaster Recovery, Rate Limiting, Compliance/Audit Logging, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "hpa",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "order",
+        "type": "service"
+      },
+      {
+        "id": "inventory",
+        "type": "service"
+      },
+      {
+        "id": "shipping",
+        "type": "service"
+      },
+      {
+        "id": "procurement",
+        "type": "service"
+      },
+      {
+        "id": "notify",
+        "type": "service"
+      },
+      {
+        "id": "reporting",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "llm",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "cass",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vect",
+        "type": "database"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "siem",
+        "type": "service"
+      },
+      {
+        "id": "dr_dc1",
+        "type": "service"
+      },
+      {
+        "id": "dr_dc2",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "rate",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "pk",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "hpa",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "order",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "shipping",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "procurement",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "notify",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "reporting",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "llm",
+        "label": "HTTP"
+      },
+      {
+        "source": "order",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipping",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "procurement",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "notify",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "reporting",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "order",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "procurement",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipping",
+        "target": "cass",
+        "label": "HTTP"
+      },
+      {
+        "source": "notify",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "reporting",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vect",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm",
+        "target": "vect",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "dr_dc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg",
+        "target": "dr_dc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongo",
+        "target": "dr_dc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "cass",
+        "target": "dr_dc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "vect",
+        "target": "dr_dc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_dc1",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_dc2",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "siem",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "rate",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 39
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Auto Scaling",
+      "Disaster Recovery",
+      "Rate Limiting",
+      "Compliance/Audit Logging",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 58,
+    "source_edges": 63,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

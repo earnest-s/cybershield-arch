@@ -1,0 +1,474 @@
+{
+  "id": "CSA-000165",
+  "instruction": "Design a Gaming architecture. using a Serverless style. deployed on AWS. satisfying: Data Lakehouse Pattern, Disaster Recovery, High Throughput (100k+ TPS), Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "console",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "edgeLB",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "pubSubnet",
+        "type": "service"
+      },
+      {
+        "id": "cognito",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "gameLogicVPC",
+        "type": "service"
+      },
+      {
+        "id": "dataLakeVPC",
+        "type": "service"
+      },
+      {
+        "id": "analyticsVPC",
+        "type": "service"
+      },
+      {
+        "id": "lambdaGames",
+        "type": "service"
+      },
+      {
+        "id": "stepFunc",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
+        "id": "glueJobs",
+        "type": "service"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "kinesis",
+        "type": "service"
+      },
+      {
+        "id": "s3Raw",
+        "type": "service"
+      },
+      {
+        "id": "s3Curated",
+        "type": "service"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "container"
+      },
+      {
+        "id": "redisCache",
+        "type": "cache"
+      },
+      {
+        "id": "cw",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "drRegion",
+        "type": "service"
+      },
+      {
+        "id": "drS3",
+        "type": "service"
+      },
+      {
+        "id": "drDynamo",
+        "type": "database"
+      },
+      {
+        "id": "drLambda",
+        "type": "database"
+      },
+      {
+        "id": "dlq",
+        "type": "service"
+      },
+      {
+        "id": "Grant",
+        "type": "service"
+      },
+      {
+        "id": "Access",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "pubSubnet",
+        "target": "edgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeLB",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "gameLogicVPC",
+        "target": "dataLakeVPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataLakeVPC",
+        "target": "analyticsVPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsVPC",
+        "target": "gameLogicVPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "console",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "pubSubnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubSubnet",
+        "target": "lambdaGames",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambdaGames",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "lambdaGames",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambdaGames",
+        "target": "redisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "eventBus",
+        "target": "kinesis",
+        "label": "HTTP"
+      },
+      {
+        "source": "kinesis",
+        "target": "s3Raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "kinesis",
+        "target": "glueJobs",
+        "label": "HTTP"
+      },
+      {
+        "source": "glueJobs",
+        "target": "s3Curated",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3Curated",
+        "target": "elastic",
+        "label": "DB Query"
+      },
+      {
+        "source": "elastic",
+        "target": "analyticsVPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambdaGames",
+        "target": "stepFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "stepFunc",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "dlq",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lambdaGames",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambdaGames",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "stepFunc",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "kinesis",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "glueJobs",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3Raw",
+        "target": "drS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "dynamo",
+        "target": "drDynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambdaGames",
+        "target": "drLambda",
+        "label": "Async"
+      },
+      {
+        "source": "drLambda",
+        "target": "drRegion",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 28
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Gaming",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Disaster Recovery",
+      "High Throughput (100k+ TPS)",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 49,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

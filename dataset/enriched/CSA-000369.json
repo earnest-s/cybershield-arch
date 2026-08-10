@@ -1,0 +1,500 @@
+{
+  "id": "CSA-000369",
+  "instruction": "Design a Banking architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: Active-Active Multi-Region, Compliance/Audit Logging, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "onprem",
+        "type": "service"
+      },
+      {
+        "id": "svcA1",
+        "type": "service"
+      },
+      {
+        "id": "dbA1",
+        "type": "database"
+      },
+      {
+        "id": "svcB1",
+        "type": "service"
+      },
+      {
+        "id": "dbB1",
+        "type": "database"
+      },
+      {
+        "id": "svcC1",
+        "type": "service"
+      },
+      {
+        "id": "dbC1",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "svcA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "svcB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "svcC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "svcA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "svcB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "svcC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA1",
+        "target": "dbA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB1",
+        "target": "dbB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcC1",
+        "target": "dbC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA1",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "svcB1",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "svcC1",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "dbC1",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB1",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcC1",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbA1",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbB1",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbC1",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA1",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB1",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcC1",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "aws",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "azure",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "onprem",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "svcA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "svcB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "svcC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "k8s",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Compliance/Audit Logging",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 59,
+    "source_edges": 49,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

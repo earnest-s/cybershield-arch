@@ -1,0 +1,765 @@
+{
+  "id": "CSA-000149",
+  "instruction": "Design a Oil & Gas architecture. using a Microservices style. deployed on GCP. satisfying: High Throughput (100k+ TPS), Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "PARTNERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "K8S1",
+        "type": "container"
+      },
+      {
+        "id": "K8S2",
+        "type": "container"
+      },
+      {
+        "id": "K8S3",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "MON",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "ALERT",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PUBSUB",
+        "type": "service"
+      },
+      {
+        "id": "EVENTBRIDGE",
+        "type": "service"
+      },
+      {
+        "id": "WELL_WELL",
+        "type": "service"
+      },
+      {
+        "id": "GEO_GEO",
+        "type": "service"
+      },
+      {
+        "id": "SEISMIC",
+        "type": "service"
+      },
+      {
+        "id": "PROD",
+        "type": "service"
+      },
+      {
+        "id": "RESV",
+        "type": "service"
+      },
+      {
+        "id": "FLUID",
+        "type": "ui"
+      },
+      {
+        "id": "LOGISTICS",
+        "type": "service"
+      },
+      {
+        "id": "INVENTORY",
+        "type": "service"
+      },
+      {
+        "id": "CONTRACT",
+        "type": "service"
+      },
+      {
+        "id": "BILLING",
+        "type": "service"
+      },
+      {
+        "id": "ERP",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "SPANNER",
+        "type": "service"
+      },
+      {
+        "id": "BIGTABLE",
+        "type": "service"
+      },
+      {
+        "id": "CLOUDSQL",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VECDB",
+        "type": "database"
+      },
+      {
+        "id": "LAKE",
+        "type": "database"
+      },
+      {
+        "id": "METADATA",
+        "type": "service"
+      },
+      {
+        "id": "EMBEDDINGS",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AI_GATEWAY",
+        "type": "service"
+      },
+      {
+        "id": "ORCH",
+        "type": "service"
+      },
+      {
+        "id": "SAP",
+        "type": "service"
+      },
+      {
+        "id": "OIL_TRADE",
+        "type": "service"
+      },
+      {
+        "id": "GOVERNMENT",
+        "type": "service"
+      },
+      {
+        "id": "GIS",
+        "type": "service"
+      },
+      {
+        "id": "BIGQUERY",
+        "type": "service"
+      },
+      {
+        "id": "REPLICATOR",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "COMPLY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S3",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MON",
+        "label": "HTTP"
+      },
+      {
+        "source": "MON",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "ALERT",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENTBRIDGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PUBSUB",
+        "target": "EVENTBRIDGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "WELL_WELL",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "GEO_GEO",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "SEISMIC",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "PROD",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "RESV",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "FLUID",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "LOGISTICS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "CONTRACT",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "BILLING",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "ERP",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "SPANNER",
+        "label": "HTTP"
+      },
+      {
+        "source": "BIGTABLE",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECDB",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "METADATA",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDINGS",
+        "target": "VECDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_SEARCH",
+        "target": "VECDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VECTOR_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "EMBEDDINGS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_GATEWAY",
+        "target": "ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "SAP",
+        "target": "ERP",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIL_TRADE",
+        "target": "BILLING",
+        "label": "HTTP"
+      },
+      {
+        "source": "GOVERNMENT",
+        "target": "COMPLY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GIS",
+        "target": "GEO_GEO",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "K8S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "WELL_WELL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "GEO_GEO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "PROD",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "RESV",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S3",
+        "target": "LOGISTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S3",
+        "target": "BILLING",
+        "label": "HTTP"
+      },
+      {
+        "source": "WELL_WELL",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "GEO_GEO",
+        "target": "BIGTABLE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEISMIC",
+        "target": "BIGTABLE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROD",
+        "target": "SPANNER",
+        "label": "HTTP"
+      },
+      {
+        "source": "RESV",
+        "target": "SPANNER",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLUID",
+        "target": "SPANNER",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOGISTICS",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONTRACT",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "BILLING",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ERP",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPLICATOR",
+        "target": "SPANNER",
+        "label": "Async"
+      },
+      {
+        "source": "REPLICATOR",
+        "target": "BIGTABLE",
+        "label": "Async"
+      },
+      {
+        "source": "REPLICATOR",
+        "target": "LAKE",
+        "label": "Async"
+      },
+      {
+        "source": "MON",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MON",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MON",
+        "target": "ELK",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 5,
+      "services": 50
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 110,
+    "source_edges": 104,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

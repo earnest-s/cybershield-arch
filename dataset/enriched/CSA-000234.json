@@ -1,0 +1,445 @@
+{
+  "id": "CSA-000234",
+  "instruction": "Design a Gaming architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: Active-Active Multi-Region, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "GameConsole",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "CmdServiceA",
+        "type": "service"
+      },
+      {
+        "id": "CmdServiceB",
+        "type": "service"
+      },
+      {
+        "id": "CmdServiceC",
+        "type": "service"
+      },
+      {
+        "id": "QryServiceA",
+        "type": "service"
+      },
+      {
+        "id": "QryServiceB",
+        "type": "service"
+      },
+      {
+        "id": "QryServiceC",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "OLTP1",
+        "type": "database"
+      },
+      {
+        "id": "OLTP2",
+        "type": "database"
+      },
+      {
+        "id": "DLake",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "K8sUS",
+        "type": "service"
+      },
+      {
+        "id": "K8sEU",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "GlobalLB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GameConsole",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CmdServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CmdServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CmdServiceC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdServiceA",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdServiceB",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdServiceC",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CmdServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CmdServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CmdServiceC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "QryServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "QryServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "QryServiceC",
+        "label": "HTTP"
+      },
+      {
+        "source": "QryServiceA",
+        "target": "OLTP1",
+        "label": "HTTP"
+      },
+      {
+        "source": "QryServiceB",
+        "target": "OLTP1",
+        "label": "HTTP"
+      },
+      {
+        "source": "QryServiceC",
+        "target": "OLTP2",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP1",
+        "target": "DLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP2",
+        "target": "DLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdServiceA",
+        "target": "K8sUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdServiceB",
+        "target": "K8sUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdServiceC",
+        "target": "K8sEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "QryServiceA",
+        "target": "K8sEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "QryServiceB",
+        "target": "K8sEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "QryServiceC",
+        "target": "K8sUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sUS",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sEU",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sUS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sEU",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 2,
+      "services": 25
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Gaming",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 55,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

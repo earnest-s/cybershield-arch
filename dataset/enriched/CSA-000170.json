@@ -1,0 +1,456 @@
+{
+  "id": "CSA-000170",
+  "instruction": "Design a Fraud Detection architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: AI/ML Inference Integration, Active-Active Multi-Region, Strict Network Segmentation, Data Lakehouse Pattern, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "lambda_auth",
+        "type": "service"
+      },
+      {
+        "id": "feature_flags",
+        "type": "service"
+      },
+      {
+        "id": "request_router",
+        "type": "service"
+      },
+      {
+        "id": "ingest",
+        "type": "service"
+      },
+      {
+        "id": "dlq",
+        "type": "queue"
+      },
+      {
+        "id": "event_bus",
+        "type": "service"
+      },
+      {
+        "id": "enrich",
+        "type": "service"
+      },
+      {
+        "id": "score",
+        "type": "service"
+      },
+      {
+        "id": "decision",
+        "type": "service"
+      },
+      {
+        "id": "batch_trigger",
+        "type": "service"
+      },
+      {
+        "id": "lake_ingest",
+        "type": "service"
+      },
+      {
+        "id": "s3_us_east",
+        "type": "service"
+      },
+      {
+        "id": "gcs_eu_west",
+        "type": "service"
+      },
+      {
+        "id": "adls_apac",
+        "type": "service"
+      },
+      {
+        "id": "raw_zone",
+        "type": "service"
+      },
+      {
+        "id": "curated_zone",
+        "type": "service"
+      },
+      {
+        "id": "analytics_zone",
+        "type": "service"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "snowflake",
+        "type": "service"
+      },
+      {
+        "id": "rag_service",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "policy_engine",
+        "type": "service"
+      },
+      {
+        "id": "slack",
+        "type": "service"
+      },
+      {
+        "id": "cur_event_store",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_auth",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "request_router",
+        "label": "HTTP"
+      },
+      {
+        "source": "request_router",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "dlq",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "event_bus",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bus",
+        "target": "enrich",
+        "label": "HTTP"
+      },
+      {
+        "source": "enrich",
+        "target": "score",
+        "label": "HTTP"
+      },
+      {
+        "source": "score",
+        "target": "decision",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bus",
+        "target": "batch_trigger",
+        "label": "HTTP"
+      },
+      {
+        "source": "batch_trigger",
+        "target": "lake_ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3_us_east",
+        "target": "raw_zone",
+        "label": "HTTP"
+      },
+      {
+        "source": "gcs_eu_west",
+        "target": "raw_zone",
+        "label": "HTTP"
+      },
+      {
+        "source": "adls_apac",
+        "target": "raw_zone",
+        "label": "HTTP"
+      },
+      {
+        "source": "raw_zone",
+        "target": "curated_zone",
+        "label": "HTTP"
+      },
+      {
+        "source": "curated_zone",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "curated_zone",
+        "target": "snowflake",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector_db",
+        "target": "rag_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_service",
+        "target": "score",
+        "label": "HTTP"
+      },
+      {
+        "source": "policy_engine",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "request_router",
+        "target": "lambda_auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "decision",
+        "target": "slack",
+        "label": "HTTP"
+      },
+      {
+        "source": "decision",
+        "target": "cur_event_store",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 2,
+      "services": 38
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Active-Active Multi-Region",
+      "Strict Network Segmentation",
+      "Data Lakehouse Pattern",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 68,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

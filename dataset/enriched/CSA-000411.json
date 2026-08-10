@@ -1,0 +1,601 @@
+{
+  "id": "CSA-000411",
+  "instruction": "Design a Insurance architecture. using a Hexagonal style. deployed on On-Premises. satisfying: Compliance/Audit Logging, Blue/Green Deployment, Zero Trust Architecture, Disaster Recovery, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkI",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "idFed",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "policyEngine",
+        "type": "service"
+      },
+      {
+        "id": "claimProcessor",
+        "type": "service"
+      },
+      {
+        "id": "underwriting",
+        "type": "service"
+      },
+      {
+        "id": "billing",
+        "type": "service"
+      },
+      {
+        "id": "notification",
+        "type": "service"
+      },
+      {
+        "id": "adapterREST",
+        "type": "service"
+      },
+      {
+        "id": "adapterGRPC",
+        "type": "service"
+      },
+      {
+        "id": "adapterEvent",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "k8sDR",
+        "type": "container"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "blueGreen",
+        "type": "service"
+      },
+      {
+        "id": "regionA",
+        "type": "service"
+      },
+      {
+        "id": "regionB",
+        "type": "service"
+      },
+      {
+        "id": "drSync",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "secrets",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "pkI",
+        "label": "HTTP"
+      },
+      {
+        "source": "pkI",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "idFed",
+        "label": "HTTP"
+      },
+      {
+        "source": "idFed",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "idFed",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "adapterREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "adapterGRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "adapterEvent",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterREST",
+        "target": "policyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterGRPC",
+        "target": "claimProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterEvent",
+        "target": "underwriting",
+        "label": "HTTP"
+      },
+      {
+        "source": "policyEngine",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "claimProcessor",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "underwriting",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "billing",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "policyEngine",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "claimProcessor",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "underwriting",
+        "label": "Async"
+      },
+      {
+        "source": "rabbit",
+        "target": "billing",
+        "label": "Async"
+      },
+      {
+        "source": "postgres",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongo",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "elastic",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "blueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "k8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sDR",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "regionA",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sDR",
+        "target": "regionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "regionA",
+        "target": "drSync",
+        "label": "HTTP"
+      },
+      {
+        "source": "regionB",
+        "target": "drSync",
+        "label": "HTTP"
+      },
+      {
+        "source": "drSync",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "drSync",
+        "target": "mongo",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 41
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Blue/Green Deployment",
+      "Zero Trust Architecture",
+      "Disaster Recovery",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 61,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

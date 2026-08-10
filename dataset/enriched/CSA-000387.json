@@ -1,0 +1,347 @@
+{
+  "id": "CSA-000387",
+  "instruction": "Design a GenAI architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: Rate Limiting, Observability Stack, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "apigw",
+        "type": "service"
+      },
+      {
+        "id": "idp",
+        "type": "service"
+      },
+      {
+        "id": "ztproxy",
+        "type": "service"
+      },
+      {
+        "id": "cmd_svc",
+        "type": "container"
+      },
+      {
+        "id": "evt_bus",
+        "type": "queue"
+      },
+      {
+        "id": "sec_store",
+        "type": "service"
+      },
+      {
+        "id": "qry_svc",
+        "type": "container"
+      },
+      {
+        "id": "read_db",
+        "type": "database"
+      },
+      {
+        "id": "llm_gw",
+        "type": "service"
+      },
+      {
+        "id": "embed_model",
+        "type": "service"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "otl",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apigw",
+        "target": "idp",
+        "label": "HTTP"
+      },
+      {
+        "source": "idp",
+        "target": "ztproxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "ztproxy",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "evt_bus",
+        "label": "HTTP"
+      },
+      {
+        "source": "evt_bus",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_svc",
+        "target": "read_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "llm_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm_gw",
+        "target": "embed_model",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed_model",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "apigw",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "apigw",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_svc",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm_gw",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "idp",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "idp",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ztproxy",
+        "target": "qry_svc",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 2,
+      "services": 15
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Observability Stack",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 28,
+    "source_edges": 29,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

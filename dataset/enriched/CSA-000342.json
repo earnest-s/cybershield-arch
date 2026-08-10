@@ -1,0 +1,525 @@
+{
+  "id": "CSA-000342",
+  "instruction": "Design a DevSecOps architecture. using a Microservices style. deployed on On-Premises. satisfying: Strict Network Segmentation, Auto Scaling, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB_UI",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "SQS",
+        "type": "service"
+      },
+      {
+        "id": "EVENTBRIDGE",
+        "type": "service"
+      },
+      {
+        "id": "AUTH_SVC",
+        "type": "service"
+      },
+      {
+        "id": "USER_SVC",
+        "type": "service"
+      },
+      {
+        "id": "PAYMENT_SVC",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF_SVC",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS_SVC",
+        "type": "service"
+      },
+      {
+        "id": "RAG_ORCH",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REPLICAS",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "LAKEHOUSE",
+        "type": "service"
+      },
+      {
+        "id": "PROMETHEUS",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA_DASH",
+        "type": "ui"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB_UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AUTH_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH_SVC",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH_SVC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH_SVC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH_SVC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH_SVC",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER_SVC",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT_SVC",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF_SVC",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS_SVC",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG_ORCH",
+        "target": "EMBEDDING",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG_ORCH",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDING",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "USER_SVC",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PAYMENT_SVC",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "NOTIF_SVC",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ANALYTICS_SVC",
+        "label": "Async"
+      },
+      {
+        "source": "K8S",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "PROMETHEUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROMETHEUS",
+        "target": "GRAFANA_DASH",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "AUTH_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "USER_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PAYMENT_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "NOTIF_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "ANALYTICS_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "RAG_ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONSUMERS",
+        "target": "API_GW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 37
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service, Monitoring and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "Microservices",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Auto Scaling",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 61,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

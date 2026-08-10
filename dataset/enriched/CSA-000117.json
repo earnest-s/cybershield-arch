@@ -1,0 +1,630 @@
+{
+  "id": "CSA-000117",
+  "instruction": "Design a CRM architecture. using a Hexagonal style. deployed on On-Premises. satisfying: Auto Scaling, Data Lakehouse Pattern, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "loadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "coreService",
+        "type": "service"
+      },
+      {
+        "id": "inboundAdapters",
+        "type": "service"
+      },
+      {
+        "id": "outboundAdapters",
+        "type": "service"
+      },
+      {
+        "id": "domainModel",
+        "type": "service"
+      },
+      {
+        "id": "applicationServices",
+        "type": "service"
+      },
+      {
+        "id": "ports",
+        "type": "service"
+      },
+      {
+        "id": "restAPI",
+        "type": "service"
+      },
+      {
+        "id": "graphqlAPI",
+        "type": "service"
+      },
+      {
+        "id": "grpcAPI",
+        "type": "service"
+      },
+      {
+        "id": "eventListener",
+        "type": "service"
+      },
+      {
+        "id": "dbAdapter",
+        "type": "database"
+      },
+      {
+        "id": "lakehouseAdapter",
+        "type": "service"
+      },
+      {
+        "id": "messagingAdapter",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "database"
+      },
+      {
+        "id": "lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "database"
+      },
+      {
+        "id": "rabbit",
+        "type": "database"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "Autoscale",
+        "type": "service"
+      },
+      {
+        "id": "based",
+        "type": "service"
+      },
+      {
+        "id": "on",
+        "type": "service"
+      },
+      {
+        "id": "CPU",
+        "type": "service"
+      },
+      {
+        "id": "Memory",
+        "type": "service"
+      },
+      {
+        "id": "Queue",
+        "type": "service"
+      },
+      {
+        "id": "Depth",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "loadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "restAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "graphqlAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "grpcAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "eventListener",
+        "label": "HTTP"
+      },
+      {
+        "source": "restAPI",
+        "target": "ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphqlAPI",
+        "target": "ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpcAPI",
+        "target": "ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventListener",
+        "target": "ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "ports",
+        "target": "applicationServices",
+        "label": "HTTP"
+      },
+      {
+        "source": "applicationServices",
+        "target": "domainModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "applicationServices",
+        "target": "coreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "inboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "outboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbAdapter",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbAdapter",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbAdapter",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouseAdapter",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouseAdapter",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "messagingAdapter",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "messagingAdapter",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "embeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "dbAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "lakehouseAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "messagingAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "ciCd",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 7,
+      "databases": 9,
+      "services": 46
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Auto Scaling",
+      "Data Lakehouse Pattern",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 77,
+    "source_edges": 61,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

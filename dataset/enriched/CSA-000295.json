@@ -1,0 +1,511 @@
+{
+  "id": "CSA-000295",
+  "instruction": "Design a CRM architecture. using a CQRS style. deployed on On-Premises. satisfying: Observability Stack, Active-Active Multi-Region, Disaster Recovery, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "CMD",
+        "type": "service"
+      },
+      {
+        "id": "CQ",
+        "type": "queue"
+      },
+      {
+        "id": "CMD_PROC",
+        "type": "service"
+      },
+      {
+        "id": "EVT_STORE",
+        "type": "database"
+      },
+      {
+        "id": "READ_MODEL",
+        "type": "ui"
+      },
+      {
+        "id": "QUERY",
+        "type": "service"
+      },
+      {
+        "id": "CACHE",
+        "type": "cache"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "HELM",
+        "type": "service"
+      },
+      {
+        "id": "DR_SITE",
+        "type": "database"
+      },
+      {
+        "id": "DR_SYNC",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "RL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "CQ",
+        "label": "Async"
+      },
+      {
+        "source": "CQ",
+        "target": "CMD_PROC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_PROC",
+        "target": "EVT_STORE",
+        "label": "Async"
+      },
+      {
+        "source": "EVT_STORE",
+        "target": "READ_MODEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_MODEL",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY",
+        "target": "CACHE",
+        "label": "Cache"
+      },
+      {
+        "source": "CACHE",
+        "target": "POSTGRES",
+        "label": "Cache"
+      },
+      {
+        "source": "KAFKA",
+        "target": "READ_MODEL",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "OBSERVABILITY",
+        "label": "Async"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CMD_PROC",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "HELM",
+        "label": "HTTP"
+      },
+      {
+        "source": "HELM",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SITE",
+        "target": "DR_SYNC",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SYNC",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SYNC",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "ELK",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 28
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Observability Stack",
+      "Active-Active Multi-Region",
+      "Disaster Recovery",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 49,
+    "source_edges": 43,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

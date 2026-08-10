@@ -1,0 +1,522 @@
+{
+  "id": "CSA-000208",
+  "instruction": "Design a Agriculture architecture. using a Modular Monolith style. deployed on Hybrid Cloud. satisfying: Active-Active Multi-Region, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrustProxy",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "regionA",
+        "type": "service"
+      },
+      {
+        "id": "regionB",
+        "type": "service"
+      },
+      {
+        "id": "API",
+        "type": "service"
+      },
+      {
+        "id": "Services",
+        "type": "service"
+      },
+      {
+        "id": "Scheduler",
+        "type": "service"
+      },
+      {
+        "id": "API_B",
+        "type": "service"
+      },
+      {
+        "id": "Services_B",
+        "type": "service"
+      },
+      {
+        "id": "Scheduler_B",
+        "type": "service"
+      },
+      {
+        "id": "MOD_MONOLITH_A",
+        "type": "service"
+      },
+      {
+        "id": "MOD_MONOLITH_B",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "DataLake",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "K8sA",
+        "type": "container"
+      },
+      {
+        "id": "K8sB",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Git",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "OnPrem",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "regionA",
+        "target": "MOD_MONOLITH_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "regionB",
+        "target": "MOD_MONOLITH_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ZeroTrustProxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrustProxy",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrustProxy",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrustProxy",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrustProxy",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "API",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "API_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "Services",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "Scheduler",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_B",
+        "target": "Services_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services_B",
+        "target": "Scheduler_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services_B",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services_B",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scheduler",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scheduler_B",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services_B",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services_B",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_B",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services_B",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scheduler",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scheduler_B",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sA",
+        "target": "MOD_MONOLITH_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sB",
+        "target": "MOD_MONOLITH_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Git",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OnPrem",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OnPrem",
+        "target": "K8sB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 3,
+      "services": 28
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Agriculture",
+    "style": "Modular Monolith",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 59,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,657 @@
+{
+  "id": "CSA-000133",
+  "instruction": "Design a Logistics architecture. using a Serverless style. deployed on Azure. satisfying: Feature Flags, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "AzureAD",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "KeyVault",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Sentinel",
+        "type": "service"
+      },
+      {
+        "id": "APIM",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlag",
+        "type": "service"
+      },
+      {
+        "id": "FuncA",
+        "type": "service"
+      },
+      {
+        "id": "FuncB",
+        "type": "service"
+      },
+      {
+        "id": "FuncC",
+        "type": "service"
+      },
+      {
+        "id": "LogicApp",
+        "type": "service"
+      },
+      {
+        "id": "DurableFunc",
+        "type": "service"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "Cosmos",
+        "type": "database"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "SQL",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "Search",
+        "type": "service"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "AppInsights",
+        "type": "service"
+      },
+      {
+        "id": "LogAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "Data",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "AzureFrontDoor_US",
+        "type": "service"
+      },
+      {
+        "id": "APIM_US",
+        "type": "service"
+      },
+      {
+        "id": "FuncA_US",
+        "type": "service"
+      },
+      {
+        "id": "EventHub_US",
+        "type": "service"
+      },
+      {
+        "id": "Cosmos_US",
+        "type": "database"
+      },
+      {
+        "id": "AzureFrontDoor_EU",
+        "type": "service"
+      },
+      {
+        "id": "APIM_EU",
+        "type": "service"
+      },
+      {
+        "id": "FuncA_EU",
+        "type": "service"
+      },
+      {
+        "id": "EventHub_EU",
+        "type": "service"
+      },
+      {
+        "id": "Cosmos_EU",
+        "type": "database"
+      },
+      {
+        "id": "Failover-",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "APIM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "FeatureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlag",
+        "target": "FuncA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlag",
+        "target": "FuncB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlag",
+        "target": "FuncC",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncB",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncC",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "LogicApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApp",
+        "target": "DurableFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DurableFunc",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "DurableFunc",
+        "target": "SQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DurableFunc",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "DurableFunc",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "DurableFunc",
+        "target": "Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cosmos",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA",
+        "target": "AzureAD",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncB",
+        "target": "AzureAD",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncC",
+        "target": "AzureAD",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "KeyVault",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "Sentinel",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA",
+        "target": "AppInsights",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncB",
+        "target": "AppInsights",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncC",
+        "target": "AppInsights",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApp",
+        "target": "AppInsights",
+        "label": "HTTP"
+      },
+      {
+        "source": "DurableFunc",
+        "target": "AppInsights",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "AppInsights",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cosmos",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "AppInsights",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogAnalytics",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "Terraform",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "FuncA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "FuncB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "FuncC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "LogicApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Data",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "AzureFrontDoor_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "AzureFrontDoor_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor_US",
+        "target": "APIM_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM_US",
+        "target": "FuncA_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA_US",
+        "target": "EventHub_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub_US",
+        "target": "Cosmos_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor_EU",
+        "target": "APIM_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM_EU",
+        "target": "FuncA_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA_EU",
+        "target": "EventHub_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub_EU",
+        "target": "Cosmos_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cosmos_US",
+        "target": "Cosmos_EU",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 5,
+      "services": 43
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Feature Flags",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 73,
+    "source_edges": 93,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

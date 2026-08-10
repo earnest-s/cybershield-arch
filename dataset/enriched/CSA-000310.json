@@ -1,0 +1,409 @@
+{
+  "id": "CSA-000310",
+  "instruction": "Design a E-Commerce architecture. using a Serverless style. deployed on GCP. satisfying: Rate Limiting, High Throughput (100k+ TPS), Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "CloudLoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "API_Gateway",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "FrontendFunc",
+        "type": "ui"
+      },
+      {
+        "id": "AuthFunc",
+        "type": "service"
+      },
+      {
+        "id": "OrderFunc",
+        "type": "service"
+      },
+      {
+        "id": "CatalogFunc",
+        "type": "service"
+      },
+      {
+        "id": "PaymentFunc",
+        "type": "service"
+      },
+      {
+        "id": "NotificationFunc",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "Firestore",
+        "type": "service"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "CloudSQL",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      },
+      {
+        "id": "Logging",
+        "type": "service"
+      },
+      {
+        "id": "Trace",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CloudLoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudLoadBalancer",
+        "target": "API_Gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_Gateway",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_Gateway",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_Gateway",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_Gateway",
+        "target": "FrontendFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "CatalogFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "OrderFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "AuthFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFunc",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFunc",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderFunc",
+        "target": "PaymentFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderFunc",
+        "target": "NotificationFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderFunc",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentFunc",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogFunc",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationFunc",
+        "target": "PubSub",
+        "label": "Async"
+      },
+      {
+        "source": "PubSub",
+        "target": "OrderFunc",
+        "label": "Async"
+      },
+      {
+        "source": "PubSub",
+        "target": "NotificationFunc",
+        "label": "Async"
+      },
+      {
+        "source": "CloudSQL",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firestore",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "Logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontendFunc",
+        "target": "Trace",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFunc",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderFunc",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentFunc",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationFunc",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "Monitoring",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "SIEM",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 22
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 41,
+    "source_edges": 33,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

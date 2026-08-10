@@ -1,0 +1,516 @@
+{
+  "id": "CSA-000419",
+  "instruction": "Design a AIOps architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Feature Flags, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "TelemetryIngest",
+        "type": "service"
+      },
+      {
+        "id": "TelemetryStore",
+        "type": "database"
+      },
+      {
+        "id": "LogIngest",
+        "type": "service"
+      },
+      {
+        "id": "LogStore",
+        "type": "database"
+      },
+      {
+        "id": "MetricsIngest",
+        "type": "service"
+      },
+      {
+        "id": "MetricsStore",
+        "type": "database"
+      },
+      {
+        "id": "IncidentService",
+        "type": "service"
+      },
+      {
+        "id": "IncidentStore",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AgentOrch",
+        "type": "service"
+      },
+      {
+        "id": "TicketSys",
+        "type": "service"
+      },
+      {
+        "id": "CMDB",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "TelemetryIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LogIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "MetricsIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryIngest",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogIngest",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetricsIngest",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "IncidentService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryIngest",
+        "target": "TelemetryStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogIngest",
+        "target": "LogStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetricsIngest",
+        "target": "MetricsStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "IncidentService",
+        "target": "IncidentStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryStore",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogStore",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetricsStore",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "IncidentStore",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AgentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "ISO",
+        "label": "HTTP"
+      },
+      {
+        "source": "IncidentService",
+        "target": "TicketSys",
+        "label": "HTTP"
+      },
+      {
+        "source": "IncidentService",
+        "target": "CMDB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 6,
+      "services": 27
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "AIOps",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 60,
+    "source_edges": 56,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

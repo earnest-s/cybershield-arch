@@ -1,0 +1,576 @@
+{
+  "id": "CSA-000266",
+  "instruction": "Design a SCM architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: AI/ML Inference Integration, Auto Scaling, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "svc_mesh",
+        "type": "service"
+      },
+      {
+        "id": "autoscale",
+        "type": "service"
+      },
+      {
+        "id": "inv",
+        "type": "service"
+      },
+      {
+        "id": "ord",
+        "type": "service"
+      },
+      {
+        "id": "prc",
+        "type": "service"
+      },
+      {
+        "id": "log",
+        "type": "service"
+      },
+      {
+        "id": "ana",
+        "type": "service"
+      },
+      {
+        "id": "ai_int",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "dw",
+        "type": "service"
+      },
+      {
+        "id": "model_srv",
+        "type": "service"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "dr_k8s",
+        "type": "container"
+      },
+      {
+        "id": "dr_pg",
+        "type": "database"
+      },
+      {
+        "id": "dr_storage",
+        "type": "database"
+      },
+      {
+        "id": "zt_fw",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "inv",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "ord",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "prc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "log",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "ana",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "ai_int",
+        "label": "HTTP"
+      },
+      {
+        "source": "inv",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "ord",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "prc",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "log",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "ana",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "ana",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "ana",
+        "target": "dw",
+        "label": "HTTP"
+      },
+      {
+        "source": "ord",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "prc",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "log",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_int",
+        "target": "model_srv",
+        "label": "HTTP"
+      },
+      {
+        "source": "model_srv",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "model_srv",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "model_srv",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "dw",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "svc_mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "autoscale",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg",
+        "target": "dr_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "dw",
+        "target": "dr_storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "dr_k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "dr_k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_k8s",
+        "target": "dr_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_k8s",
+        "target": "dr_storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "dw",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "zt_fw",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "WAF"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "SQL Injection",
+        "severity": "CRITICAL",
+        "description": "Attackers can execute malicious SQL statements that control a web application's database server.",
+        "missing_control": "WAF",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Deploy a Web Application Firewall.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 5,
+      "services": 33
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, WAF, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Auto Scaling",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 65,
+    "source_edges": 65,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

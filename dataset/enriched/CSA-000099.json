@@ -1,0 +1,498 @@
+{
+  "id": "CSA-000099",
+  "instruction": "Design a Supply Chain architecture. using a Microservices style. deployed on GCP. satisfying: Rate Limiting, Disaster Recovery, Observability Stack, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Bronze",
+        "type": "database"
+      },
+      {
+        "id": "Silver",
+        "type": "service"
+      },
+      {
+        "id": "Gold",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "OrderMS",
+        "type": "service"
+      },
+      {
+        "id": "InventoryMS",
+        "type": "service"
+      },
+      {
+        "id": "ShippingMS",
+        "type": "service"
+      },
+      {
+        "id": "ProcurementMS",
+        "type": "service"
+      },
+      {
+        "id": "NotificationMS",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsMS",
+        "type": "service"
+      },
+      {
+        "id": "DR_Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "DR_Storage",
+        "type": "database"
+      },
+      {
+        "id": "DR_BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "SupplierAPI",
+        "type": "service"
+      },
+      {
+        "id": "CarrierAPI",
+        "type": "service"
+      },
+      {
+        "id": "ERPSystem",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "OrderMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "InventoryMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ShippingMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ProcurementMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "NotificationMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AnalyticsMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderMS",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "InventoryMS",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ShippingMS",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ProcurementMS",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "NotificationMS",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "AnalyticsMS",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "OrderMS",
+        "target": "Bronze",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventoryMS",
+        "target": "Bronze",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShippingMS",
+        "target": "Bronze",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcurementMS",
+        "target": "Bronze",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsMS",
+        "target": "Silver",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsMS",
+        "target": "Gold",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationMS",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderMS",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventoryMS",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShippingMS",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcurementMS",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationMS",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsMS",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "DR_Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Bronze",
+        "target": "DR_Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "Gold",
+        "target": "DR_BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcurementMS",
+        "target": "SupplierAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShippingMS",
+        "target": "CarrierAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderMS",
+        "target": "ERPSystem",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 26
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Disaster Recovery",
+      "Observability Stack",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 51,
+    "source_edges": 47,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

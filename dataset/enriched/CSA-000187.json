@@ -1,0 +1,506 @@
+{
+  "id": "CSA-000187",
+  "instruction": "Design a FinTech architecture. using a Serverless style. deployed on AWS. satisfying: Active-Active Multi-Region, Disaster Recovery, Observability Stack, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "vpcA",
+        "type": "service"
+      },
+      {
+        "id": "vpcB",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "authorizer",
+        "type": "service"
+      },
+      {
+        "id": "ingest",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
+        "id": "process",
+        "type": "service"
+      },
+      {
+        "id": "txnDB",
+        "type": "database"
+      },
+      {
+        "id": "auditDB",
+        "type": "database"
+      },
+      {
+        "id": "notifSNS",
+        "type": "database"
+      },
+      {
+        "id": "email",
+        "type": "service"
+      },
+      {
+        "id": "sms",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "analyticsLake",
+        "type": "database"
+      },
+      {
+        "id": "redshift",
+        "type": "database"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "database"
+      },
+      {
+        "id": "loki",
+        "type": "database"
+      },
+      {
+        "id": "jaeger",
+        "type": "database"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "drBucket",
+        "type": "database"
+      },
+      {
+        "id": "drBucketEU",
+        "type": "database"
+      },
+      {
+        "id": "txnDB_EU",
+        "type": "database"
+      },
+      {
+        "id": "auditDB_EU",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "vpcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "authorizer",
+        "label": "HTTP"
+      },
+      {
+        "source": "authorizer",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "authorizer",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "process",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "txnDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "auditDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "notifSNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "notifSNS",
+        "target": "email",
+        "label": "HTTP"
+      },
+      {
+        "source": "notifSNS",
+        "target": "sms",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "analyticsLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsLake",
+        "target": "redshift",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "jaeger",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "jaeger",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "process",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "authorizer",
+        "target": "otel",
+        "label": "Async"
+      },
+      {
+        "source": "cdn",
+        "target": "web",
+        "label": "Cache"
+      },
+      {
+        "source": "cdn",
+        "target": "mobile",
+        "label": "Cache"
+      },
+      {
+        "source": "web",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpcA",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpcA",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpcA",
+        "target": "process",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpcA",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpcB",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpcB",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpcB",
+        "target": "process",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpcB",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "process",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "process",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "analytics",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 12,
+      "services": 20
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Disaster Recovery",
+      "Observability Stack",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 47,
+    "source_edges": 82,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

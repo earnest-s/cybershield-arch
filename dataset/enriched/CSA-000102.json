@@ -1,0 +1,472 @@
+{
+  "id": "CSA-000102",
+  "instruction": "Design a DevSecOps architecture. using a Event-Driven style. deployed on AWS. satisfying: Zero Trust Architecture, GraphRAG Integration, AI/ML Inference Integration, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOB",
+        "type": "service"
+      },
+      {
+        "id": "CI_TRIGGER",
+        "type": "service"
+      },
+      {
+        "id": "CF",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "ZT_PROXY",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "EB",
+        "type": "service"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "ANALYZER",
+        "type": "service"
+      },
+      {
+        "id": "ENFORCER",
+        "type": "service"
+      },
+      {
+        "id": "SCANNER",
+        "type": "service"
+      },
+      {
+        "id": "AI_ASSIST",
+        "type": "service"
+      },
+      {
+        "id": "GRAGR",
+        "type": "service"
+      },
+      {
+        "id": "EC2_ASG",
+        "type": "service"
+      },
+      {
+        "id": "DYNAMO",
+        "type": "database"
+      },
+      {
+        "id": "S3Bucket",
+        "type": "database"
+      },
+      {
+        "id": "OPENSEARCH",
+        "type": "database"
+      },
+      {
+        "id": "KNOWLEDGE",
+        "type": "service"
+      },
+      {
+        "id": "SG_ENDPOINT",
+        "type": "service"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "PIPELINE",
+        "type": "service"
+      },
+      {
+        "id": "BUILDER",
+        "type": "ui"
+      },
+      {
+        "id": "ARGO",
+        "type": "service"
+      },
+      {
+        "id": "TF",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOB",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_TRIGGER",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CF",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ZT_PROXY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT_PROXY",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "EB",
+        "label": "Async"
+      },
+      {
+        "source": "EB",
+        "target": "ANALYZER",
+        "label": "HTTP"
+      },
+      {
+        "source": "EB",
+        "target": "ENFORCER",
+        "label": "HTTP"
+      },
+      {
+        "source": "EB",
+        "target": "SCANNER",
+        "label": "HTTP"
+      },
+      {
+        "source": "EB",
+        "target": "AI_ASSIST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYZER",
+        "target": "ENFORCER",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENFORCER",
+        "target": "SCANNER",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ASSIST",
+        "target": "SG_ENDPOINT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ASSIST",
+        "target": "EMBEDDING",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ASSIST",
+        "target": "GRAGR",
+        "label": "DB Query"
+      },
+      {
+        "source": "GRAGR",
+        "target": "OPENSEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGR",
+        "target": "KNOWLEDGE",
+        "label": "DB Query"
+      },
+      {
+        "source": "ANALYZER",
+        "target": "DYNAMO",
+        "label": "HTTP"
+      },
+      {
+        "source": "SCANNER",
+        "target": "S3Bucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENFORCER",
+        "target": "DYNAMO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT_PROXY",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENFORCER",
+        "target": "SNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQS",
+        "target": "SCANNER",
+        "label": "Async"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3Bucket",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPELINE",
+        "target": "BUILDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "BUILDER",
+        "target": "S3Bucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "BUILDER",
+        "target": "TF",
+        "label": "HTTP"
+      },
+      {
+        "source": "TF",
+        "target": "EC2_ASG",
+        "label": "HTTP"
+      },
+      {
+        "source": "TF",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ARGO",
+        "target": "EC2_ASG",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "EC2_ASG",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3Bucket",
+        "target": "EB",
+        "label": "Async"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 3,
+      "services": 26
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "Event-Driven",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "GraphRAG Integration",
+      "AI/ML Inference Integration",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

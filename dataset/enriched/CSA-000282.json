@@ -1,0 +1,486 @@
+{
+  "id": "CSA-000282",
+  "instruction": "Design a Manufacturing architecture. using a Serverless style. deployed on Azure. satisfying: Data Lakehouse Pattern, Blue/Green Deployment, Active-Active Multi-Region, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "FrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "FuncA1",
+        "type": "service"
+      },
+      {
+        "id": "FuncA2",
+        "type": "service"
+      },
+      {
+        "id": "FuncA3",
+        "type": "service"
+      },
+      {
+        "id": "FuncB1",
+        "type": "service"
+      },
+      {
+        "id": "FuncB2",
+        "type": "service"
+      },
+      {
+        "id": "FuncB3",
+        "type": "service"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "BronzeBlue",
+        "type": "database"
+      },
+      {
+        "id": "SilverBlue",
+        "type": "service"
+      },
+      {
+        "id": "GoldBlue",
+        "type": "database"
+      },
+      {
+        "id": "BronzeGreen",
+        "type": "database"
+      },
+      {
+        "id": "SilverGreen",
+        "type": "service"
+      },
+      {
+        "id": "GoldGreen",
+        "type": "service"
+      },
+      {
+        "id": "LogAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "Metrics",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "Repo",
+        "type": "service"
+      },
+      {
+        "id": "Pipeline",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "FUNC",
+        "type": "service"
+      },
+      {
+        "id": "COMPUTE_A",
+        "type": "service"
+      },
+      {
+        "id": "COMPUTE_B",
+        "type": "service"
+      },
+      {
+        "id": "DATA_LAKEHOUSE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "FrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "FrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "FrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontDoor",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FuncA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FuncB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA1",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncB1",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "FuncA2",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "FuncB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA2",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncB2",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "FuncA3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "FuncB3",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA3",
+        "target": "BronzeBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncB3",
+        "target": "BronzeGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BronzeBlue",
+        "target": "SilverBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "BronzeGreen",
+        "target": "SilverGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "SilverBlue",
+        "target": "GoldBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "SilverGreen",
+        "target": "GoldGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "GoldBlue",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "GoldGreen",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "FUNC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "FUNC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "BronzeBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "BronzeGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA3",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncB3",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Repo",
+        "target": "Pipeline",
+        "label": "HTTP"
+      },
+      {
+        "source": "Pipeline",
+        "target": "IaC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "COMPUTE_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "COMPUTE_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "DATA_LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Pipeline",
+        "target": "BronzeBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Pipeline",
+        "target": "BronzeGreen",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 3,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Blue/Green Deployment",
+      "Active-Active Multi-Region",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 59,
+    "source_edges": 43,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,610 @@
+{
+  "id": "CSA-000014",
+  "instruction": "Design a HR architecture. using a Data Mesh style. deployed on On-Premises. satisfying: High Throughput (100k+ TPS), Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Git",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "EmpAPI",
+        "type": "service"
+      },
+      {
+        "id": "EmpStore",
+        "type": "database"
+      },
+      {
+        "id": "EmpCache",
+        "type": "database"
+      },
+      {
+        "id": "PayAPI",
+        "type": "service"
+      },
+      {
+        "id": "PayStore",
+        "type": "database"
+      },
+      {
+        "id": "PayCache",
+        "type": "database"
+      },
+      {
+        "id": "RecAPI",
+        "type": "ui"
+      },
+      {
+        "id": "RecStore",
+        "type": "database"
+      },
+      {
+        "id": "RecCache",
+        "type": "database"
+      },
+      {
+        "id": "AnalytAPI",
+        "type": "service"
+      },
+      {
+        "id": "DW",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Catalog",
+        "type": "service"
+      },
+      {
+        "id": "Policies",
+        "type": "service"
+      },
+      {
+        "id": "Lineage",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "EmpAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "PayAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "RecAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AnalytAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmpAPI",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayAPI",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecAPI",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalytAPI",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmpAPI",
+        "target": "EmpStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmpStore",
+        "target": "EmpCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayAPI",
+        "target": "PayStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayStore",
+        "target": "PayCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecAPI",
+        "target": "RecStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecStore",
+        "target": "RecCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalytAPI",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalytAPI",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Git",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmpAPI",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayAPI",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecAPI",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalytAPI",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmpStore",
+        "target": "Catalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayStore",
+        "target": "Catalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecStore",
+        "target": "Catalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "Catalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Catalog",
+        "target": "Policies",
+        "label": "HTTP"
+      },
+      {
+        "source": "Policies",
+        "target": "Lineage",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lineage",
+        "target": "EmpAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lineage",
+        "target": "PayAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lineage",
+        "target": "RecAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lineage",
+        "target": "AnalytAPI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 9,
+      "databases": 8,
+      "services": 33
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Data Mesh",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 66,
+    "source_edges": 72,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

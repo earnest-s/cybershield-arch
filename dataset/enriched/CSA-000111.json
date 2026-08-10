@@ -1,0 +1,361 @@
+{
+  "id": "CSA-000111",
+  "instruction": "Design a Energy architecture. using a Microservices style. deployed on Multi-Cloud. satisfying: Strict Network Segmentation, Feature Flags, Rate Limiting, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "iot",
+        "type": "service"
+      },
+      {
+        "id": "mqtt_broker",
+        "type": "queue"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "ff",
+        "type": "service"
+      },
+      {
+        "id": "rl",
+        "type": "service"
+      },
+      {
+        "id": "svc_a1",
+        "type": "service"
+      },
+      {
+        "id": "svc_a2",
+        "type": "service"
+      },
+      {
+        "id": "svc_a3",
+        "type": "service"
+      },
+      {
+        "id": "svc_a4",
+        "type": "service"
+      },
+      {
+        "id": "micro_svc",
+        "type": "service"
+      },
+      {
+        "id": "redis_aws",
+        "type": "cache"
+      },
+      {
+        "id": "pg_aws",
+        "type": "database"
+      },
+      {
+        "id": "es_aws",
+        "type": "database"
+      },
+      {
+        "id": "svc_b1",
+        "type": "service"
+      },
+      {
+        "id": "svc_b2",
+        "type": "service"
+      },
+      {
+        "id": "svc_b3",
+        "type": "service"
+      },
+      {
+        "id": "svc_b4",
+        "type": "service"
+      },
+      {
+        "id": "micro_svc2",
+        "type": "service"
+      },
+      {
+        "id": "redis_az",
+        "type": "cache"
+      },
+      {
+        "id": "pg_az",
+        "type": "database"
+      },
+      {
+        "id": "es_az",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "pg_replica",
+        "type": "database"
+      },
+      {
+        "id": "es_replica",
+        "type": "container"
+      },
+      {
+        "id": "redis_sync",
+        "type": "cache"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "micro_svc",
+        "target": "svc_a2",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_svc",
+        "target": "svc_a3",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_svc",
+        "target": "svc_a4",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_svc2",
+        "target": "svc_b2",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_svc2",
+        "target": "svc_b3",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_svc2",
+        "target": "svc_b4",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svc_a2",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svc_a3",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svc_a4",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "rl",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "svc_a1",
+        "label": "HTTP"
+      },
+      {
+        "source": "mqtt_broker",
+        "target": "kafka",
+        "label": "Async"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 8,
+      "services": 31
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "Microservices",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Feature Flags",
+      "Rate Limiting",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 66,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,647 @@
+{
+  "id": "CSA-000495",
+  "instruction": "Design a Blockchain architecture. using a Zero-Trust style. deployed on GCP. satisfying: Auto Scaling, Active-Active Multi-Region, Blue/Green Deployment, Data Lakehouse Pattern, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "EDGE",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "FED",
+        "type": "service"
+      },
+      {
+        "id": "SECRETS",
+        "type": "service"
+      },
+      {
+        "id": "ZERO",
+        "type": "service"
+      },
+      {
+        "id": "MS1",
+        "type": "service"
+      },
+      {
+        "id": "MS2",
+        "type": "service"
+      },
+      {
+        "id": "MS3",
+        "type": "service"
+      },
+      {
+        "id": "MS4",
+        "type": "service"
+      },
+      {
+        "id": "GRPC",
+        "type": "service"
+      },
+      {
+        "id": "GRAPHQL",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "MONGO",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "LAKE",
+        "type": "database"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PUBSUB",
+        "type": "service"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AGENT_ORCH",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "CANARY",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD_SQL",
+        "type": "database"
+      },
+      {
+        "id": "BIGQUERY",
+        "type": "service"
+      },
+      {
+        "id": "STORAGE",
+        "type": "database"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD_ARMOR",
+        "type": "service"
+      },
+      {
+        "id": "SECRET_MANAGER",
+        "type": "service"
+      },
+      {
+        "id": "RATE_LIMIT",
+        "type": "service"
+      },
+      {
+        "id": "GKE_EU",
+        "type": "service"
+      },
+      {
+        "id": "GKE_ASIA",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONSUMERS",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "EDGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EDGE",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "SECRETS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "PUBSUB",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "STORAGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "MS2",
+        "label": "Cache"
+      },
+      {
+        "source": "REDIS",
+        "target": "MS3",
+        "label": "Cache"
+      },
+      {
+        "source": "VECTOR",
+        "target": "VECTOR_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_SEARCH",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDING",
+        "target": "VECTOR_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AGENT_ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_ORCH",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAFANA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "SECRETS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "ZERO",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "ZERO",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "CLOUD_ARMOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLOUD_ARMOR",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECRET_MANAGER",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RATE_LIMIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "GKE_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "GKE_ASIA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE_EU",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE_ASIA",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 7,
+      "services": 47
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Blockchain",
+    "style": "Zero-Trust",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "Active-Active Multi-Region",
+      "Blue/Green Deployment",
+      "Data Lakehouse Pattern",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 72,
+    "source_edges": 64,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}
