@@ -1,0 +1,567 @@
+{
+  "id": "CSA-000131",
+  "instruction": "Design a E-Commerce architecture. using a Hexagonal style. deployed on Hybrid Cloud. satisfying: Rate Limiting, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ZTA",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "OrderService",
+        "type": "service"
+      },
+      {
+        "id": "CatalogService",
+        "type": "service"
+      },
+      {
+        "id": "PaymentService",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "OrderPort",
+        "type": "service"
+      },
+      {
+        "id": "CatalogPort",
+        "type": "service"
+      },
+      {
+        "id": "PaymentPort",
+        "type": "service"
+      },
+      {
+        "id": "AuthPort",
+        "type": "service"
+      },
+      {
+        "id": "OrderAdapter",
+        "type": "service"
+      },
+      {
+        "id": "CatalogAdapter",
+        "type": "service"
+      },
+      {
+        "id": "PaymentAdapter",
+        "type": "service"
+      },
+      {
+        "id": "AuthAdapter",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ZTA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "AuthPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthPort",
+        "target": "AuthAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthAdapter",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "OrderPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogService",
+        "target": "CatalogPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentService",
+        "target": "PaymentPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderPort",
+        "target": "OrderAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogPort",
+        "target": "CatalogAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentPort",
+        "target": "PaymentAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderAdapter",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogAdapter",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentAdapter",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogService",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogService",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentService",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "CatalogService",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Redis",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 5,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 2,
+      "services": 29
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Hexagonal",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 46,
+    "source_edges": 58,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

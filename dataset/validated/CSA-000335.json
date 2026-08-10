@@ -1,0 +1,415 @@
+{
+  "id": "CSA-000335",
+  "instruction": "Design a SCM architecture. using a Event-Driven style. deployed on GCP. satisfying: Zero Trust Architecture, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZT",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "SM",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "OrderSvc",
+        "type": "service"
+      },
+      {
+        "id": "InvSvc",
+        "type": "service"
+      },
+      {
+        "id": "ShipSvc",
+        "type": "service"
+      },
+      {
+        "id": "NotifSvc",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ZT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "SM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "InvSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "ShipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "NotifSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "InvSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShipSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotifSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "InvSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ShipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "NotifSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "InvSvc",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShipSvc",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotifSvc",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "OTEL",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Add monitoring and observability."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 2,
+      "services": 22
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 37,
+    "source_edges": 46,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}
