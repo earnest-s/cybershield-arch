@@ -256,6 +256,10 @@
         "type": "service"
       },
       {
+        "id": "Elasticsearch",
+        "type": "service"
+      },
+      {
         "id": "EventSourcing",
         "type": "service"
       },
@@ -265,6 +269,10 @@
       },
       {
         "id": "ZeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "FIREWALL",
         "type": "service"
       },
       {
@@ -310,6 +318,31 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "Cache"
+      },
+      {
         "source": "WAF",
         "target": "FW",
         "label": "HTTP"
@@ -330,6 +363,16 @@
         "label": "HTTP"
       },
       {
+        "source": "EdgeNet",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
         "source": "OIDC",
         "target": "SSO",
         "label": "HTTP"
@@ -340,8 +383,78 @@
         "label": "HTTP"
       },
       {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
         "source": "KMS",
         "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Federation",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Auditing",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "Auditing",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Auditing",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Auditing",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "Auditing",
+        "label": "HTTP"
+      },
+      {
+        "source": "IngestSvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "DetectSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ScoreSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AlertSvc",
+        "target": "AlertTopic",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminAPI",
+        "target": "DetectSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "DetectSvc",
         "label": "HTTP"
       },
       {
@@ -352,6 +465,31 @@
       {
         "source": "EventBus",
         "target": "AlertSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "AIGW",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Orchestrator",
+        "target": "AIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAG",
+        "target": "Neo4j",
         "label": "HTTP"
       },
       {
@@ -360,6 +498,26 @@
         "label": "HTTP"
       },
       {
+        "source": "PostgreSQL",
+        "target": "DetectSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "MongoDB",
+        "target": "ScoreSvc",
+        "label": "DB Query"
+      },
+      {
+        "source": "Redis",
+        "target": "IngestSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "AlertSvc",
+        "label": "HTTP"
+      },
+      {
         "source": "Kafka",
         "target": "DetectSvc",
         "label": "HTTP"
@@ -372,6 +530,36 @@
       {
         "source": "Kafka",
         "target": "AlertSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Jaeger",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Kibana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Splunk",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "IngestSvc",
         "label": "HTTP"
       },
       {
@@ -405,6 +593,26 @@
         "label": "HTTP"
       },
       {
+        "source": "Docker",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
         "source": "GCP",
         "target": "K8s",
         "label": "HTTP"
@@ -426,7 +634,47 @@
       },
       {
         "source": "DR",
+        "target": "GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
         "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS",
+        "target": "Elasticsearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventSourcing",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Saga",
+        "target": "Orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "FIREWALL",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Canary",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "DetectSvc",
         "label": "HTTP"
       },
       {
@@ -480,18 +728,8 @@
         "label": "HTTP"
       },
       {
-        "source": "GraphRAG",
-        "target": "Neo4j",
-        "label": "HTTP"
-      },
-      {
         "source": "Neo4j",
         "target": "GraphRAG",
-        "label": "HTTP"
-      },
-      {
-        "source": "RAG",
-        "target": "VectorDB",
         "label": "HTTP"
       },
       {
@@ -527,11 +765,6 @@
       {
         "source": "CI_CD",
         "target": "Docker",
-        "label": "HTTP"
-      },
-      {
-        "source": "CI_CD",
-        "target": "K8s",
         "label": "HTTP"
       },
       {

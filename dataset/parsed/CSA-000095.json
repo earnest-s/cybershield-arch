@@ -80,19 +80,19 @@
         "type": "cache"
       },
       {
-        "id": "Scrape",
-        "type": "service"
-      },
-      {
         "id": "Prom",
         "type": "service"
       },
       {
-        "id": "Pull",
+        "id": "Scrape",
         "type": "service"
       },
       {
         "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Pull",
         "type": "service"
       },
       {
@@ -122,8 +122,53 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
         "source": "APIGW",
         "target": "FrontEndFW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Functions",
         "label": "HTTP"
       },
       {
@@ -134,6 +179,11 @@
       {
         "source": "FrontEndFW",
         "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "BQ",
         "label": "HTTP"
       },
       {
@@ -162,8 +212,18 @@
         "label": "Cache"
       },
       {
+        "source": "Prom",
+        "target": "Scrape",
+        "label": "HTTP"
+      },
+      {
         "source": "Scrape",
         "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Pull",
         "label": "HTTP"
       },
       {
@@ -172,8 +232,23 @@
         "label": "HTTP"
       },
       {
+        "source": "OTEL",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Replication",
+        "target": "BQ_DR",
+        "label": "HTTP"
+      },
+      {
         "source": "DR_Replication",
         "target": "Firestore_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Trigger",
+        "target": "APIGW_DR",
         "label": "HTTP"
       },
       {
@@ -190,16 +265,6 @@
         "source": "CDN",
         "target": "WebUI",
         "label": "Cache"
-      },
-      {
-        "source": "WAF",
-        "target": "APIGW",
-        "label": "HTTP"
-      },
-      {
-        "source": "VPC",
-        "target": "ZTNA",
-        "label": "HTTP"
       },
       {
         "source": "ZTNA",

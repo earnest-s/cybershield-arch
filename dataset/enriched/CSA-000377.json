@@ -190,6 +190,111 @@
     ],
     "edges": [
       {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PARTNER",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC1",
+        "target": "SF1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC2",
+        "target": "DB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC3",
+        "target": "AIINF",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC4",
+        "target": "REPORT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EG",
+        "target": "FUNC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SB",
+        "target": "FUNC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB",
+        "target": "AIINF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGW",
+        "target": "AIINF",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMB",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
         "source": "RAG",
         "target": "AIINF",
         "label": "HTTP"
@@ -207,6 +312,11 @@
       {
         "source": "GW",
         "target": "FUNC3",
+        "label": "HTTP"
+      },
+      {
+        "source": "SGW",
+        "target": "GW",
         "label": "HTTP"
       },
       {
@@ -370,13 +480,6 @@
     ],
     "threats": [
       {
-        "name": "Log Evasion",
-        "severity": "MEDIUM",
-        "description": "Attackers can perform actions without generating audit trails.",
-        "missing_control": "Audit Logging",
-        "severity_level": "info"
-      },
-      {
         "name": "Data Leakage",
         "severity": "CRITICAL",
         "description": "Sensitive data is exposed in transit or at rest.",
@@ -388,6 +491,20 @@
         "severity": "HIGH",
         "description": "Data is maliciously modified.",
         "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
         "severity_level": "warning"
       },
       {
@@ -403,23 +520,16 @@
         "description": "Automated injection of breached username/password pairs.",
         "missing_control": "Authentication",
         "severity_level": "warning"
-      },
-      {
-        "name": "Lateral Movement",
-        "severity": "HIGH",
-        "description": "Attackers move through the network searching for key assets.",
-        "missing_control": "Monitoring",
-        "severity_level": "warning"
       }
     ],
     "recommendations": [
-      "Enable centralized audit logging.",
       "Encrypt sensitive data at rest and in transit.",
-      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
       "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
       "Implement an Intrusion Prevention System.",
-      "Implement an Intrusion Detection System.",
-      "Deploy a SIEM for security event aggregation and threat detection."
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Implement an Intrusion Detection System."
     ],
     "risk_level": "HIGH",
     "security_score": 20,
@@ -429,7 +539,7 @@
       "databases": 5,
       "services": 37
     },
-    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Audit Logging, Encryption Service, Authentication, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, Authentication, IPS, SIEM and IDS. Overall security posture is HIGH RISK and requires immediate remediation."
   },
   "metadata": {
     "domain": "Automotive",

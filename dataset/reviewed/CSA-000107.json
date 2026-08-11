@@ -1,0 +1,364 @@
+{
+  "id": "CSA-000107",
+  "instruction": "Design a DevSecOps architecture. using a Hexagonal style. deployed on Azure. satisfying: Rate Limiting, Strict Network Segmentation, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD_Tool",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "AzureFW",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "CoreService",
+        "type": "service"
+      },
+      {
+        "id": "PortIn",
+        "type": "service"
+      },
+      {
+        "id": "PortOut",
+        "type": "service"
+      },
+      {
+        "id": "AdapterREST",
+        "type": "service"
+      },
+      {
+        "id": "AdapterGRPC",
+        "type": "service"
+      },
+      {
+        "id": "AdapterEvent",
+        "type": "service"
+      },
+      {
+        "id": "Subnet1",
+        "type": "service"
+      },
+      {
+        "id": "Subnet2",
+        "type": "service"
+      },
+      {
+        "id": "AzureSQL",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "BlobStorage",
+        "type": "database"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD_Tool",
+        "target": "AzureFW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "PortIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortIn",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "PortOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortOut",
+        "target": "AdapterREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortOut",
+        "target": "AdapterGRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortOut",
+        "target": "AdapterEvent",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterREST",
+        "target": "Subnet1",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterGRPC",
+        "target": "Subnet2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterEvent",
+        "target": "Subnet1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet1",
+        "target": "AzureSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet2",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet1",
+        "target": "BlobStorage",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "OTEL",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 21
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication and RBAC. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "Hexagonal",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Strict Network Segmentation",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 36,
+    "source_edges": 26,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
         "id": "mobile",
         "type": "service"
       },
@@ -36,10 +40,6 @@
         "type": "service"
       },
       {
-        "id": "apiGateway",
-        "type": "service"
-      },
-      {
         "id": "lb",
         "type": "service"
       },
@@ -49,6 +49,10 @@
       },
       {
         "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "microservices",
         "type": "service"
       },
       {
@@ -164,10 +168,6 @@
         "type": "queue"
       },
       {
-        "id": "microservices",
-        "type": "service"
-      },
-      {
         "id": "compliance",
         "type": "service"
       },
@@ -190,6 +190,31 @@
     ],
     "edges": [
       {
+        "source": "web",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdParty",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
         "source": "waf",
         "target": "firewall",
         "label": "HTTP"
@@ -210,6 +235,46 @@
         "label": "HTTP"
       },
       {
+        "source": "iam",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "obs",
+        "target": "microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "a_api",
+        "target": "a_svc",
+        "label": "HTTP"
+      },
+      {
         "source": "a_svc",
         "target": "a_store",
         "label": "HTTP"
@@ -217,6 +282,11 @@
       {
         "source": "a_svc",
         "target": "a_cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "b_api",
+        "target": "b_svc",
         "label": "HTTP"
       },
       {
@@ -230,6 +300,11 @@
         "label": "HTTP"
       },
       {
+        "source": "c_api",
+        "target": "c_svc",
+        "label": "HTTP"
+      },
+      {
         "source": "c_svc",
         "target": "c_store",
         "label": "HTTP"
@@ -240,6 +315,11 @@
         "label": "HTTP"
       },
       {
+        "source": "d_api",
+        "target": "d_svc",
+        "label": "HTTP"
+      },
+      {
         "source": "d_svc",
         "target": "d_store",
         "label": "HTTP"
@@ -247,6 +327,16 @@
       {
         "source": "d_svc",
         "target": "d_vec",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "analytics",
         "label": "HTTP"
       },
       {
@@ -262,6 +352,16 @@
       {
         "source": "rag",
         "target": "aiSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "mesh",
         "label": "HTTP"
       },
       {
@@ -291,6 +391,11 @@
       },
       {
         "source": "compliance",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
         "target": "vault",
         "label": "HTTP"
       },
@@ -301,7 +406,27 @@
       },
       {
         "source": "dr",
+        "target": "lakehouse",
+        "label": "Async"
+      },
+      {
+        "source": "dr",
         "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "erp",
+        "target": "a_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "crm",
+        "target": "d_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "iot",
+        "target": "c_api",
         "label": "HTTP"
       }
     ]

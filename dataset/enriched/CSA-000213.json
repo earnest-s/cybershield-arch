@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -36,10 +40,6 @@
         "type": "service"
       },
       {
-        "id": "APIGW",
-        "type": "service"
-      },
-      {
         "id": "LB",
         "type": "service"
       },
@@ -57,6 +57,10 @@
       },
       {
         "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES",
         "type": "service"
       },
       {
@@ -180,10 +184,6 @@
         "type": "service"
       },
       {
-        "id": "MICROSERVICES",
-        "type": "service"
-      },
-      {
         "id": "K8s",
         "type": "container"
       },
@@ -202,6 +202,81 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdParty",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
         "source": "LB",
         "target": "BLUE_SVC",
         "label": "HTTP"
@@ -219,6 +294,11 @@
       {
         "source": "GREEN_SVC",
         "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "MICROSERVICES",
         "label": "HTTP"
       },
       {
@@ -454,6 +534,34 @@
     ],
     "threats": [
       {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
         "name": "DDoS",
         "severity": "HIGH",
         "description": "Distributed Denial of Service attacking service availability.",
@@ -480,45 +588,17 @@
         "description": "Automated injection of breached username/password pairs.",
         "missing_control": "Authentication",
         "severity_level": "warning"
-      },
-      {
-        "name": "Log Evasion",
-        "severity": "MEDIUM",
-        "description": "Attackers can perform actions without generating audit trails.",
-        "missing_control": "Audit Logging",
-        "severity_level": "info"
-      },
-      {
-        "name": "Data Leakage",
-        "severity": "CRITICAL",
-        "description": "Sensitive data is exposed in transit or at rest.",
-        "missing_control": "Encryption Service",
-        "severity_level": "danger"
-      },
-      {
-        "name": "Data Tampering",
-        "severity": "HIGH",
-        "description": "Data is maliciously modified.",
-        "missing_control": "Encryption Service",
-        "severity_level": "warning"
-      },
-      {
-        "name": "Lateral Movement",
-        "severity": "HIGH",
-        "description": "Attackers move through the network searching for key assets.",
-        "missing_control": "Monitoring",
-        "severity_level": "warning"
       }
     ],
     "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
       "Add API Gateway to secure and manage external traffic.",
       "Add Authentication service to protect user access.",
-      "Enable centralized audit logging.",
-      "Encrypt sensitive data at rest and in transit.",
-      "Add monitoring and observability.",
       "Implement an Intrusion Prevention System.",
-      "Implement an Intrusion Detection System.",
-      "Deploy a SIEM for security event aggregation and threat detection."
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Implement an Intrusion Detection System."
     ],
     "risk_level": "HIGH",
     "security_score": 10,
@@ -528,7 +608,7 @@
       "databases": 3,
       "services": 42
     },
-    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication, IPS, SIEM and IDS. Overall security posture is HIGH RISK and requires immediate remediation."
   },
   "metadata": {
     "domain": "E-Commerce",

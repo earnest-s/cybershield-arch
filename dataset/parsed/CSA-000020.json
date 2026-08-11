@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
         "id": "mobileApp",
         "type": "service"
       },
@@ -36,10 +40,6 @@
         "type": "service"
       },
       {
-        "id": "apiGateway",
-        "type": "service"
-      },
-      {
         "id": "loadBalancer",
         "type": "database"
       },
@@ -48,11 +48,11 @@
         "type": "service"
       },
       {
-        "id": "cqrsQuery",
+        "id": "cqrsCommand",
         "type": "service"
       },
       {
-        "id": "cqrsCommand",
+        "id": "cqrsQuery",
         "type": "service"
       },
       {
@@ -182,8 +182,68 @@
     ],
     "edges": [
       {
+        "source": "webUI",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdParty",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "loadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceMesh",
+        "target": "cqrsCommand",
+        "label": "HTTP"
+      },
+      {
         "source": "serviceMesh",
         "target": "cqrsQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "cqrsCommand",
+        "target": "commandHandler",
         "label": "HTTP"
       },
       {
@@ -202,6 +262,11 @@
         "label": "HTTP"
       },
       {
+        "source": "kafkaCons",
+        "target": "projectionBuilder",
+        "label": "HTTP"
+      },
+      {
         "source": "projectionBuilder",
         "target": "readModel",
         "label": "HTTP"
@@ -209,6 +274,11 @@
       {
         "source": "readModel",
         "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaCluster",
+        "target": "kafkaProd",
         "label": "HTTP"
       },
       {
@@ -239,6 +309,51 @@
       {
         "source": "ragEngine",
         "target": "llm",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "allServices",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "auditLog",
         "label": "HTTP"
       },
       {

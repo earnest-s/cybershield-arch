@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
         "id": "MOBILE",
         "type": "service"
       },
@@ -56,6 +60,10 @@
         "type": "service"
       },
       {
+        "id": "MICROSERVICES",
+        "type": "container"
+      },
+      {
         "id": "KMS",
         "type": "service"
       },
@@ -84,16 +92,8 @@
         "type": "database"
       },
       {
-        "id": "API_GW",
-        "type": "service"
-      },
-      {
         "id": "SECURITY",
         "type": "service"
-      },
-      {
-        "id": "MICROSERVICES",
-        "type": "container"
       },
       {
         "id": "sidecar1",
@@ -234,6 +234,91 @@
     ],
     "edges": [
       {
+        "source": "WEB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "THIRD_PARTY",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WEB",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "SSO",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "LOG_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
         "source": "API_GW",
         "target": "IAM",
         "label": "HTTP"
@@ -242,6 +327,21 @@
         "source": "API_GW",
         "target": "SECURITY",
         "label": "HTTP"
+      },
+      {
+        "source": "sidecar1",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "sidecar2",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ENERGY_MGMT",
+        "label": "Async"
       },
       {
         "source": "KAFKA",
@@ -349,6 +449,36 @@
         "label": "DB Query"
       },
       {
+        "source": "PROM",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAFANA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "LOG_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "HELM",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
         "source": "K8S",
         "target": "MESH",
         "label": "HTTP"
@@ -389,8 +519,13 @@
         "label": "HTTP"
       },
       {
-        "source": "AUDIT",
-        "target": "LOG_DB",
+        "source": "GRID_API",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGULATOR",
+        "target": "LAKE",
         "label": "HTTP"
       },
       {

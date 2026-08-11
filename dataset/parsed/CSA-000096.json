@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -25,10 +29,6 @@
       },
       {
         "id": "FW",
-        "type": "service"
-      },
-      {
-        "id": "APIGW",
         "type": "service"
       },
       {
@@ -178,12 +178,47 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
         "source": "FW",
         "target": "APIGW",
         "label": "HTTP"
       },
       {
         "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA1",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA2",
         "target": "LB",
         "label": "HTTP"
       },
@@ -209,8 +244,18 @@
       },
       {
         "source": "SensorSvcA",
+        "target": "StorageA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SensorSvcA",
         "target": "EventHubA",
         "label": "Async"
+      },
+      {
+        "source": "AnalyticSvcB",
+        "target": "StorageB",
+        "label": "HTTP"
       },
       {
         "source": "AnalyticSvcB",
@@ -219,12 +264,37 @@
       },
       {
         "source": "ReportSvcC",
+        "target": "StorageC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportSvcC",
         "target": "EventHubA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHubA",
+        "target": "KafkaCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
         "label": "HTTP"
       },
       {
         "source": "OTEL",
         "target": "Jaeger",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogAgent",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
         "label": "HTTP"
       },
       {
@@ -238,6 +308,16 @@
         "label": "HTTP"
       },
       {
+        "source": "Vault",
+        "target": "AUTOSCALE_K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "StorageA",
+        "label": "HTTP"
+      },
+      {
         "source": "KMS",
         "target": "StorageB",
         "label": "HTTP"
@@ -248,7 +328,17 @@
         "label": "HTTP"
       },
       {
+        "source": "GitRepo",
+        "target": "Jenkins",
+        "label": "HTTP"
+      },
+      {
         "source": "Jenkins",
+        "target": "AUTOSCALE_K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
         "target": "AUTOSCALE_K8S",
         "label": "HTTP"
       },

@@ -246,8 +246,63 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
         "source": "EdgeLB",
         "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "Vault",
         "label": "HTTP"
       },
       {
@@ -281,6 +336,41 @@
         "label": "HTTP"
       },
       {
+        "source": "sidecar1",
+        "target": "ModCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "sidecar2",
+        "target": "Billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "sidecar3",
+        "target": "GridOps",
+        "label": "HTTP"
+      },
+      {
+        "source": "sidecar4",
+        "target": "AssetMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "sidecar5",
+        "target": "Forecast",
+        "label": "HTTP"
+      },
+      {
+        "source": "sidecar6",
+        "target": "IoTIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "sidecar7",
+        "target": "Reporting",
+        "label": "HTTP"
+      },
+      {
         "source": "Billing",
         "target": "Postgres",
         "label": "HTTP"
@@ -306,6 +396,11 @@
         "label": "HTTP"
       },
       {
+        "source": "Kafka",
+        "target": "Timescale",
+        "label": "HTTP"
+      },
+      {
         "source": "Reporting",
         "target": "ES",
         "label": "HTTP"
@@ -326,12 +421,42 @@
         "label": "Async"
       },
       {
+        "source": "SQS",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
         "source": "Forecast",
         "target": "RAG",
         "label": "HTTP"
       },
       {
+        "source": "Prom",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
         "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Splunk",
         "target": "Loki",
         "label": "HTTP"
       },
@@ -342,6 +467,11 @@
       },
       {
         "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
         "target": "AKS",
         "label": "HTTP"
       },
@@ -352,12 +482,22 @@
       },
       {
         "source": "Helm",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
         "target": "AKS",
         "label": "HTTP"
       },
       {
         "source": "Helm",
         "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComplianceEngine",
+        "target": "PCI",
         "label": "HTTP"
       },
       {
@@ -451,8 +591,8 @@
         "label": "HTTP"
       },
       {
-        "source": "CDN",
-        "target": "EdgeLB",
+        "source": "edge1",
+        "target": "CDN",
         "label": "HTTP"
       },
       {
@@ -499,6 +639,34 @@
     ],
     "threats": [
       {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
         "name": "DDoS",
         "severity": "HIGH",
         "description": "Distributed Denial of Service attacking service availability.",
@@ -511,20 +679,6 @@
         "description": "Attackers take over an active user session.",
         "missing_control": "API Gateway",
         "severity_level": "warning"
-      },
-      {
-        "name": "Privilege Escalation",
-        "severity": "HIGH",
-        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
-        "missing_control": "RBAC",
-        "severity_level": "warning"
-      },
-      {
-        "name": "Insider Threat",
-        "severity": "MEDIUM",
-        "description": "Malicious or negligent actions by internal users.",
-        "missing_control": "RBAC",
-        "severity_level": "info"
       },
       {
         "name": "Unauthorized Access",
@@ -541,44 +695,30 @@
         "severity_level": "warning"
       },
       {
-        "name": "Log Evasion",
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
         "severity": "MEDIUM",
-        "description": "Attackers can perform actions without generating audit trails.",
-        "missing_control": "Audit Logging",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
         "severity_level": "info"
-      },
-      {
-        "name": "Data Leakage",
-        "severity": "CRITICAL",
-        "description": "Sensitive data is exposed in transit or at rest.",
-        "missing_control": "Encryption Service",
-        "severity_level": "danger"
-      },
-      {
-        "name": "Data Tampering",
-        "severity": "HIGH",
-        "description": "Data is maliciously modified.",
-        "missing_control": "Encryption Service",
-        "severity_level": "warning"
-      },
-      {
-        "name": "Lateral Movement",
-        "severity": "HIGH",
-        "description": "Attackers move through the network searching for key assets.",
-        "missing_control": "Monitoring",
-        "severity_level": "warning"
       }
     ],
     "recommendations": [
-      "Add API Gateway to secure and manage external traffic.",
-      "Implement role-based access control.",
-      "Add Authentication service to protect user access.",
-      "Enable centralized audit logging.",
       "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
       "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
       "Implement an Intrusion Prevention System.",
-      "Implement an Intrusion Detection System.",
-      "Deploy a SIEM for security event aggregation and threat detection."
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Implement an Intrusion Detection System."
     ],
     "risk_level": "HIGH",
     "security_score": 0,
@@ -588,7 +728,7 @@
       "databases": 5,
       "services": 49
     },
-    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication, RBAC, IPS, SIEM and IDS. Overall security posture is HIGH RISK and requires immediate remediation."
   },
   "metadata": {
     "domain": "Energy",

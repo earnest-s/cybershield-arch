@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -24,7 +28,7 @@
         "type": "ui"
       },
       {
-        "id": "APIGW",
+        "id": "RateLimiter",
         "type": "service"
       },
       {
@@ -44,6 +48,10 @@
         "type": "service"
       },
       {
+        "id": "Functions",
+        "type": "service"
+      },
+      {
         "id": "PCI",
         "type": "service"
       },
@@ -56,15 +64,11 @@
         "type": "service"
       },
       {
-        "id": "RateLimiter",
-        "type": "service"
-      },
-      {
         "id": "FF",
         "type": "service"
       },
       {
-        "id": "Functions",
+        "id": "OrderSvc",
         "type": "service"
       },
       {
@@ -77,10 +81,6 @@
       },
       {
         "id": "RecommendationSvc",
-        "type": "service"
-      },
-      {
-        "id": "OrderSvc",
         "type": "service"
       },
       {
@@ -138,6 +138,56 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
         "source": "PCI",
         "target": "APIGW",
         "label": "HTTP"
@@ -153,6 +203,21 @@
         "label": "HTTP"
       },
       {
+        "source": "RateLimiter",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "OrderSvc",
+        "label": "Async"
+      },
+      {
         "source": "Functions",
         "target": "CatalogSvc",
         "label": "Async"
@@ -166,6 +231,11 @@
         "source": "Functions",
         "target": "RecommendationSvc",
         "label": "Async"
+      },
+      {
+        "source": "EventHub",
+        "target": "OrderSvc",
+        "label": "HTTP"
       },
       {
         "source": "EventHub",

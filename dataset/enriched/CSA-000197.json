@@ -32,15 +32,15 @@
         "type": "service"
       },
       {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
         "id": "VPN",
         "type": "service"
       },
       {
         "id": "ZeroTrust",
-        "type": "service"
-      },
-      {
-        "id": "APIGateway",
         "type": "service"
       },
       {
@@ -66,8 +66,33 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
         "source": "WAF",
         "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGateway",
         "label": "HTTP"
       }
     ]
@@ -88,20 +113,6 @@
     ],
     "threats": [
       {
-        "name": "DDoS",
-        "severity": "HIGH",
-        "description": "Distributed Denial of Service attacking service availability.",
-        "missing_control": "API Gateway",
-        "severity_level": "warning"
-      },
-      {
-        "name": "Session Hijacking",
-        "severity": "HIGH",
-        "description": "Attackers take over an active user session.",
-        "missing_control": "API Gateway",
-        "severity_level": "warning"
-      },
-      {
         "name": "Privilege Escalation",
         "severity": "HIGH",
         "description": "Users or attackers can gain higher access rights than they are supposed to have.",
@@ -116,6 +127,27 @@
         "severity_level": "info"
       },
       {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
         "name": "Unauthorized Access",
         "severity": "CRITICAL",
         "description": "Attackers can access systems or data without proper identity verification.",
@@ -128,20 +160,13 @@
         "description": "Automated injection of breached username/password pairs.",
         "missing_control": "Authentication",
         "severity_level": "warning"
-      },
-      {
-        "name": "Lateral Movement",
-        "severity": "HIGH",
-        "description": "Attackers move through the network searching for key assets.",
-        "missing_control": "Monitoring",
-        "severity_level": "warning"
       }
     ],
     "recommendations": [
-      "Add API Gateway to secure and manage external traffic.",
       "Implement role-based access control.",
-      "Add Authentication service to protect user access.",
-      "Add monitoring and observability."
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access."
     ],
     "risk_level": "HIGH",
     "security_score": 45,
@@ -151,7 +176,7 @@
       "databases": 0,
       "services": 12
     },
-    "security_summary": "Architecture contains a frontend and an API service but lacks API Gateway, RBAC, Authentication and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+    "security_summary": "Architecture contains a frontend and an API service but lacks RBAC, API Gateway, Monitoring and Authentication. Overall security posture is HIGH RISK and requires immediate remediation."
   },
   "metadata": {
     "domain": "Agriculture",

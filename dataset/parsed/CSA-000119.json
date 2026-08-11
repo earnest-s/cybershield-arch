@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -32,10 +36,6 @@
         "type": "service"
       },
       {
-        "id": "APIGW",
-        "type": "service"
-      },
-      {
         "id": "LB",
         "type": "service"
       },
@@ -56,6 +56,10 @@
         "type": "service"
       },
       {
+        "id": "MICROSERVICES",
+        "type": "service"
+      },
+      {
         "id": "KMS",
         "type": "service"
       },
@@ -65,6 +69,10 @@
       },
       {
         "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
         "type": "service"
       },
       {
@@ -168,10 +176,6 @@
         "type": "service"
       },
       {
-        "id": "OBS",
-        "type": "service"
-      },
-      {
         "id": "Embedding",
         "type": "service"
       },
@@ -246,6 +250,96 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
         "source": "LB",
         "target": "CMD",
         "label": "HTTP"
@@ -253,6 +347,11 @@
       {
         "source": "LB",
         "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "CMD_SRV",
         "label": "HTTP"
       },
       {
@@ -282,6 +381,16 @@
       },
       {
         "source": "SUBS",
+        "target": "EVENTBK",
+        "label": "HTTP"
+      },
+      {
+        "source": "SUBS",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_API",
         "target": "READ_DB",
         "label": "HTTP"
       },
@@ -299,6 +408,11 @@
         "source": "GRAGR",
         "target": "READ_DB",
         "label": "HTTP"
+      },
+      {
+        "source": "SQS",
+        "target": "MICROSERVICES",
+        "label": "Async"
       },
       {
         "source": "AuthSrv",
@@ -336,6 +450,46 @@
         "label": "HTTP"
       },
       {
+        "source": "Embedding",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "GRAGR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "LOGS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Tracing",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
         "source": "GKE",
         "target": "BLUE",
         "label": "HTTP"
@@ -343,6 +497,21 @@
       {
         "source": "GKE",
         "target": "GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "Autoscale",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitOps",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_Resources",
+        "target": "ALL",
         "label": "HTTP"
       },
       {
@@ -358,11 +527,6 @@
       {
         "source": "APIGW",
         "target": "QRY_API",
-        "label": "HTTP"
-      },
-      {
-        "source": "CMD_API",
-        "target": "CMD_SRV",
         "label": "HTTP"
       },
       {
@@ -398,6 +562,11 @@
       {
         "source": "OBS",
         "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "EXTERNAL",
+        "target": "OBS",
         "label": "HTTP"
       }
     ]

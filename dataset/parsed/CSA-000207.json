@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -17,10 +21,6 @@
       },
       {
         "id": "CDN",
-        "type": "service"
-      },
-      {
-        "id": "APIGW",
         "type": "service"
       },
       {
@@ -134,13 +134,168 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Secrets",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mesh",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdAPI",
+        "target": "Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "CmdAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Outbox",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadService",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadDB",
+        "target": "ReadService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "Outbox",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
         "source": "EventHub",
         "target": "ReadService",
         "label": "HTTP"
       },
       {
+        "source": "DataLake",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "Synapse",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Log",
+        "target": "Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
         "source": "AuditLog",
         "target": "Log",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "AKS",
         "label": "HTTP"
       },
       {
@@ -184,11 +339,6 @@
         "label": "HTTP"
       },
       {
-        "source": "MFA",
-        "target": "IAM",
-        "label": "HTTP"
-      },
-      {
         "source": "Secrets",
         "target": "CmdService",
         "label": "HTTP"
@@ -196,11 +346,6 @@
       {
         "source": "Secrets",
         "target": "ReadService",
-        "label": "HTTP"
-      },
-      {
-        "source": "Synapse",
-        "target": "DataLake",
         "label": "HTTP"
       }
     ]

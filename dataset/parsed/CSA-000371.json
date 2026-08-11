@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
         "id": "mobileApp",
         "type": "service"
       },
@@ -68,8 +72,16 @@
         "type": "service"
       },
       {
+        "id": "microsvcGroup",
+        "type": "container"
+      },
+      {
         "id": "kms",
         "type": "service"
+      },
+      {
+        "id": "dbGroup",
+        "type": "database"
       },
       {
         "id": "pki",
@@ -77,6 +89,10 @@
       },
       {
         "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "observability",
         "type": "service"
       },
       {
@@ -92,12 +108,12 @@
         "type": "service"
       },
       {
-        "id": "apiGateway",
+        "id": "security",
         "type": "service"
       },
       {
-        "id": "microsvcGroup",
-        "type": "container"
+        "id": "apiGateway",
+        "type": "service"
       },
       {
         "id": "graphql",
@@ -160,10 +176,6 @@
         "type": "service"
       },
       {
-        "id": "dbGroup",
-        "type": "database"
-      },
-      {
         "id": "kafka",
         "type": "queue"
       },
@@ -212,19 +224,7 @@
         "type": "container"
       },
       {
-        "id": "apiGW",
-        "type": "service"
-      },
-      {
         "id": "compliance",
-        "type": "service"
-      },
-      {
-        "id": "observability",
-        "type": "service"
-      },
-      {
-        "id": "security",
         "type": "service"
       },
       {
@@ -233,6 +233,121 @@
       }
     ],
     "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdParty",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "edgeNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "edgeNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "edgeNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLim",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "dbGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "pki",
+        "target": "edgeNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "security",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
       {
         "source": "apiGateway",
         "target": "graphql",
@@ -244,13 +359,123 @@
         "label": "HTTP"
       },
       {
+        "source": "featureFlags",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventStore",
+        "target": "saga",
+        "label": "HTTP"
+      },
+      {
+        "source": "cqrs",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
+      {
         "source": "microsvcGroup",
         "target": "istio",
         "label": "HTTP"
       },
       {
+        "source": "postgres",
+        "target": "activeActiveA",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongo",
+        "target": "activeActiveB",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "activeActiveA",
+        "label": "HTTP"
+      },
+      {
+        "source": "elastic",
+        "target": "activeActiveB",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "activeActiveA",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataMesh",
+        "target": "activeActiveB",
+        "label": "HTTP"
+      },
+      {
         "source": "dbGroup",
         "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "microsvcGroup",
+        "label": "Async"
+      },
+      {
+        "source": "eventBridge",
+        "target": "microsvcGroup",
+        "label": "Async"
+      },
+      {
+        "source": "prometheus",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "splunk",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sA",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sB",
+        "target": "microsvcGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "ciCd",
         "label": "HTTP"
       },
       {

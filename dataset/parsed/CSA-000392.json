@@ -16,15 +16,15 @@
         "type": "service"
       },
       {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
         "id": "AdminPortal",
         "type": "ui"
       },
       {
         "id": "APIConsumer",
-        "type": "service"
-      },
-      {
-        "id": "CDN",
         "type": "service"
       },
       {
@@ -60,6 +60,10 @@
         "type": "service"
       },
       {
+        "id": "CommandSvc",
+        "type": "container"
+      },
+      {
         "id": "QuerySvc",
         "type": "container"
       },
@@ -72,12 +76,12 @@
         "type": "service"
       },
       {
-        "id": "CommandAPI",
+        "id": "LogAnalytics",
         "type": "service"
       },
       {
-        "id": "CommandSvc",
-        "type": "container"
+        "id": "CommandAPI",
+        "type": "service"
       },
       {
         "id": "EventHub",
@@ -192,10 +196,6 @@
         "type": "service"
       },
       {
-        "id": "LogAnalytics",
-        "type": "service"
-      },
-      {
         "id": "AuditLogs",
         "type": "database"
       },
@@ -222,6 +222,31 @@
     ],
     "edges": [
       {
+        "source": "IoTSensors",
+        "target": "EdgeGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
         "source": "WAF",
         "target": "FrontDoor",
         "label": "HTTP"
@@ -237,8 +262,38 @@
         "label": "HTTP"
       },
       {
+        "source": "IAM",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KV",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
         "source": "KV",
         "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KV",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "LogAnalytics",
         "label": "HTTP"
       },
       {
@@ -284,6 +339,11 @@
       {
         "source": "QuerySvc",
         "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_EU",
+        "target": "ServiceMesh_EU",
         "label": "HTTP"
       },
       {
@@ -342,6 +402,11 @@
         "label": "HTTP"
       },
       {
+        "source": "AKS_WE",
+        "target": "ServiceMesh_WE",
+        "label": "HTTP"
+      },
+      {
         "source": "ServiceMesh_WE",
         "target": "Observability_WE",
         "label": "HTTP"
@@ -372,13 +437,38 @@
         "label": "HTTP"
       },
       {
+        "source": "BG_Prod",
+        "target": "FrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_Green",
+        "target": "FrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "BG_Prod",
+        "label": "HTTP"
+      },
+      {
         "source": "CI_CD",
         "target": "BG_Green",
         "label": "HTTP"
       },
       {
         "source": "FeatureFlags",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
         "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogAnalytics",
+        "target": "Compliance",
         "label": "HTTP"
       },
       {
@@ -394,6 +484,16 @@
       {
         "source": "Observability_WE",
         "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "ApplicationInsights",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "SensorData",
+        "target": "AI_Gateway",
         "label": "HTTP"
       },
       {

@@ -1,0 +1,521 @@
+{
+  "id": "CSA-000325",
+  "instruction": "Design a Pharma architecture. using a Microservices style. deployed on Azure. satisfying: GraphRAG Integration, Active-Active Multi-Region, Feature Flags, Strict Network Segmentation, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "AGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CONSUMER",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW1",
+        "type": "service"
+      },
+      {
+        "id": "FW2",
+        "type": "service"
+      },
+      {
+        "id": "FW3",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MICRO",
+        "type": "service"
+      },
+      {
+        "id": "INGRESS",
+        "type": "service"
+      },
+      {
+        "id": "EU_API",
+        "type": "service"
+      },
+      {
+        "id": "EU_ORDER",
+        "type": "service"
+      },
+      {
+        "id": "EU_INVENTORY",
+        "type": "service"
+      },
+      {
+        "id": "EU_RAG",
+        "type": "service"
+      },
+      {
+        "id": "US_API",
+        "type": "service"
+      },
+      {
+        "id": "US_ORDER",
+        "type": "service"
+      },
+      {
+        "id": "US_INVENTORY",
+        "type": "service"
+      },
+      {
+        "id": "US_RAG",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      },
+      {
+        "id": "AKS_CLUSTER",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "ADLS",
+        "type": "database"
+      },
+      {
+        "id": "DWH",
+        "type": "service"
+      },
+      {
+        "id": "LKP",
+        "type": "service"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "VSEARCH",
+        "type": "service"
+      },
+      {
+        "id": "Cache",
+        "type": "service"
+      },
+      {
+        "id": "Index",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONSUMER",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "FW1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW1",
+        "target": "FW2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW2",
+        "target": "FW3",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MICRO",
+        "label": "HTTP"
+      },
+      {
+        "source": "INGRESS",
+        "target": "MICRO",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "INGRESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EU_API",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "US_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "EU_ORDER",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "US_ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "EU_INVENTORY",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "US_INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "EU_RAG",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "US_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICRO",
+        "target": "AKS_CLUSTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_CLUSTER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADLS",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "DWH",
+        "target": "LKP",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EU_RAG",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "US_RAG",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "EU_INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "US_INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "VSEARCH",
+        "target": "Index",
+        "label": "HTTP"
+      },
+      {
+        "source": "Index",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_CLUSTER",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_CLUSTER",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICRO",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "ISO",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Implement an Intrusion Prevention System.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Implement an Intrusion Detection System."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 2,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication, RBAC, IPS, SIEM and IDS. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Microservices",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Active-Active Multi-Region",
+      "Feature Flags",
+      "Strict Network Segmentation",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 68,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

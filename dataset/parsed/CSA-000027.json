@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -20,7 +24,7 @@
         "type": "service"
       },
       {
-        "id": "CDN",
+        "id": "APIGW",
         "type": "service"
       },
       {
@@ -29,6 +33,10 @@
       },
       {
         "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Region1",
         "type": "service"
       },
       {
@@ -73,6 +81,10 @@
       },
       {
         "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "Auditing",
         "type": "service"
       },
       {
@@ -192,23 +204,11 @@
         "type": "service"
       },
       {
-        "id": "Region1",
-        "type": "service"
-      },
-      {
-        "id": "Auditing",
-        "type": "service"
-      },
-      {
         "id": "CentralLogging",
         "type": "service"
       },
       {
         "id": "AlertManager",
-        "type": "service"
-      },
-      {
-        "id": "APIGW",
         "type": "service"
       },
       {
@@ -234,8 +234,48 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Region1",
+        "label": "HTTP"
+      },
+      {
         "source": "LB",
         "target": "Region2",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
         "label": "HTTP"
       },
       {
@@ -274,6 +314,36 @@
         "label": "HTTP"
       },
       {
+        "source": "PCI",
+        "target": "Auditing",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "Auditing",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Auditing",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Auditing",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "Microservices",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
         "source": "Microservices",
         "target": "Kafka1",
         "label": "Async"
@@ -282,6 +352,41 @@
         "source": "Microservices",
         "target": "Redis1",
         "label": "Cache"
+      },
+      {
+        "source": "DWH",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "RawLake",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus1",
+        "target": "Grafana1",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL1",
+        "target": "Loki1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka1",
+        "target": "StreamProcessor1",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQS1",
+        "target": "AsyncWorker1",
+        "label": "Async"
+      },
+      {
+        "source": "Istio2",
+        "target": "Microservices2",
+        "label": "HTTP"
       },
       {
         "source": "Microservices2",
@@ -297,6 +402,36 @@
         "source": "Microservices2",
         "target": "Redis2",
         "label": "Cache"
+      },
+      {
+        "source": "DWH2",
+        "target": "DataLake2",
+        "label": "HTTP"
+      },
+      {
+        "source": "RawLake2",
+        "target": "DataLake2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus2",
+        "target": "Grafana2",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL2",
+        "target": "Loki2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka2",
+        "target": "StreamProcessor2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQS2",
+        "target": "AsyncWorker2",
+        "label": "Async"
       },
       {
         "source": "IAM",
@@ -326,6 +461,11 @@
       {
         "source": "CentralLogging",
         "target": "AlertManager",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Microservices",
         "label": "HTTP"
       },
       {

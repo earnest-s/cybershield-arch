@@ -1,0 +1,401 @@
+{
+  "id": "CSA-000095",
+  "instruction": "Design a Telecom architecture. using a Serverless style. deployed on GCP. satisfying: Disaster Recovery, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "FrontEndFW",
+        "type": "ui"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Functions",
+        "type": "service"
+      },
+      {
+        "id": "BQ",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Firestore",
+        "type": "database"
+      },
+      {
+        "id": "Logging",
+        "type": "service"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Scrape",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Pull",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "DR_Replication",
+        "type": "service"
+      },
+      {
+        "id": "BQ_DR",
+        "type": "service"
+      },
+      {
+        "id": "Firestore_DR",
+        "type": "service"
+      },
+      {
+        "id": "DR_Trigger",
+        "type": "service"
+      },
+      {
+        "id": "APIGW_DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FrontEndFW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontEndFW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontEndFW",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "BQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "PubSub",
+        "label": "Async"
+      },
+      {
+        "source": "Functions",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "Logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "Functions",
+        "label": "Async"
+      },
+      {
+        "source": "Functions",
+        "target": "Cache",
+        "label": "Cache"
+      },
+      {
+        "source": "Prom",
+        "target": "Scrape",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scrape",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Pull",
+        "label": "HTTP"
+      },
+      {
+        "source": "Pull",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Replication",
+        "target": "BQ_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Replication",
+        "target": "Firestore_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Trigger",
+        "target": "APIGW_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_DR",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WebUI",
+        "label": "Cache"
+      },
+      {
+        "source": "ZTNA",
+        "target": "FrontEndFW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 1,
+      "services": 23
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication and RBAC. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Disaster Recovery",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 40,
+    "source_edges": 40,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

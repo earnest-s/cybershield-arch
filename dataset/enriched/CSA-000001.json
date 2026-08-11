@@ -206,6 +206,26 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
         "source": "WAF",
         "target": "FW",
         "label": "HTTP"
@@ -232,13 +252,38 @@
       },
       {
         "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
         "target": "AdminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGController",
+        "target": "CanarySvc",
         "label": "HTTP"
       },
       {
         "source": "BGController",
         "target": "StableSvc",
         "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ModelRegistry",
+        "target": "ModelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "TrainingOrch",
+        "target": "Kafka",
+        "label": "Async"
       },
       {
         "source": "TrainingOrch",
@@ -248,6 +293,11 @@
       {
         "source": "ComputeCluster",
         "target": "ModelRegistry",
+        "label": "HTTP"
+      },
+      {
+        "source": "InferenceSrv",
+        "target": "Kafka",
         "label": "HTTP"
       },
       {
@@ -286,6 +336,21 @@
         "label": "Async"
       },
       {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
         "source": "OTEL",
         "target": "Loki",
         "label": "HTTP"
@@ -296,9 +361,34 @@
         "label": "HTTP"
       },
       {
+        "source": "Vault",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComplianceEngine",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
         "source": "ComplianceEngine",
         "target": "Logging",
         "label": "HTTP"
+      },
+      {
+        "source": "DRSite",
+        "target": "Kafka",
+        "label": "Async"
       },
       {
         "source": "DRSite",
@@ -313,6 +403,11 @@
       {
         "source": "DRSite",
         "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CI",
         "label": "HTTP"
       },
       {
@@ -367,86 +462,96 @@
       "WAF"
     ],
     "missing_controls": [
-      "Encryption Service",
       "API Gateway",
       "Audit Logging",
       "Authentication",
-      "RBAC",
-      "SIEM",
+      "Encryption Service",
       "IDS",
-      "IPS"
+      "IPS",
+      "RBAC",
+      "SIEM"
     ],
     "threats": [
       {
         "name": "Data Leakage",
         "severity": "CRITICAL",
         "description": "Sensitive data is exposed in transit or at rest.",
-        "missing_control": "Encryption Service"
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
       },
       {
         "name": "Data Tampering",
         "severity": "HIGH",
         "description": "Data is maliciously modified.",
-        "missing_control": "Encryption Service"
-      },
-      {
-        "name": "DDoS",
-        "severity": "HIGH",
-        "description": "Distributed Denial of Service attacking service availability.",
-        "missing_control": "API Gateway"
-      },
-      {
-        "name": "Session Hijacking",
-        "severity": "HIGH",
-        "description": "Attackers take over an active user session.",
-        "missing_control": "API Gateway"
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
       },
       {
         "name": "Log Evasion",
         "severity": "MEDIUM",
         "description": "Attackers can perform actions without generating audit trails.",
-        "missing_control": "Audit Logging"
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
       },
       {
         "name": "Unauthorized Access",
         "severity": "CRITICAL",
         "description": "Attackers can access systems or data without proper identity verification.",
-        "missing_control": "Authentication"
+        "missing_control": "Authentication",
+        "severity_level": "danger"
       },
       {
         "name": "Credential Stuffing",
         "severity": "HIGH",
         "description": "Automated injection of breached username/password pairs.",
-        "missing_control": "Authentication"
+        "missing_control": "Authentication",
+        "severity_level": "warning"
       },
       {
         "name": "Privilege Escalation",
         "severity": "HIGH",
         "description": "Users or attackers can gain higher access rights than they are supposed to have.",
-        "missing_control": "RBAC"
+        "missing_control": "RBAC",
+        "severity_level": "warning"
       },
       {
         "name": "Insider Threat",
         "severity": "MEDIUM",
         "description": "Malicious or negligent actions by internal users.",
-        "missing_control": "RBAC"
+        "missing_control": "RBAC",
+        "severity_level": "info"
       },
       {
         "name": "Lateral Movement",
         "severity": "HIGH",
         "description": "Attackers move through the network searching for key assets.",
-        "missing_control": "SIEM"
+        "missing_control": "SIEM",
+        "severity_level": "warning"
       }
     ],
     "recommendations": [
       "Encrypt sensitive data at rest and in transit.",
-      "Add API Gateway to secure and manage external traffic.",
       "Enable centralized audit logging.",
+      "Add API Gateway to secure and manage external traffic.",
       "Add Authentication service to protect user access.",
       "Implement role-based access control.",
+      "Implement an Intrusion Prevention System.",
       "Deploy a SIEM for security event aggregation and threat detection.",
-      "Implement an Intrusion Detection System.",
-      "Implement an Intrusion Prevention System."
+      "Implement an Intrusion Detection System."
     ],
     "risk_level": "HIGH",
     "security_score": 0,
@@ -456,7 +561,7 @@
       "databases": 2,
       "services": 43
     },
-    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, API Gateway, Audit Logging, Authentication, RBAC, SIEM, IDS and IPS. Overall security posture is HIGH RISK and requires immediate remediation."
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, API Gateway, Authentication, RBAC, IPS, SIEM and IDS. Overall security posture is HIGH RISK and requires immediate remediation."
   },
   "metadata": {
     "domain": "MLOps",

@@ -286,6 +286,31 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdParty",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
         "source": "WAF",
         "target": "FW",
         "label": "HTTP"
@@ -312,12 +337,22 @@
       },
       {
         "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
         "target": "Vault",
         "label": "HTTP"
       },
       {
         "source": "IAM",
         "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
         "label": "HTTP"
       },
       {
@@ -351,6 +386,21 @@
         "label": "HTTP"
       },
       {
+        "source": "CommandHandler1",
+        "target": "WriteModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler2",
+        "target": "WriteModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler3",
+        "target": "WriteModel",
+        "label": "HTTP"
+      },
+      {
         "source": "CommandBus",
         "target": "CommandHandler1",
         "label": "HTTP"
@@ -366,6 +416,16 @@
         "label": "HTTP"
       },
       {
+        "source": "QueryHandler1",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryHandler2",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
         "source": "QueryBus",
         "target": "QueryHandler1",
         "label": "HTTP"
@@ -373,6 +433,21 @@
       {
         "source": "QueryBus",
         "target": "QueryHandler2",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "RAGEngine",
         "label": "HTTP"
       },
       {
@@ -391,6 +466,11 @@
         "label": "HTTP"
       },
       {
+        "source": "KafkaCluster",
+        "target": "DLQ",
+        "label": "HTTP"
+      },
+      {
         "source": "CommandBus",
         "target": "KafkaCluster",
         "label": "HTTP"
@@ -403,6 +483,16 @@
       {
         "source": "Prometheus",
         "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Kibana",
         "label": "HTTP"
       },
       {
@@ -422,7 +512,22 @@
       },
       {
         "source": "ArgoCD",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
         "target": "K8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "K8sPrimary",
         "label": "HTTP"
       },
       {
@@ -463,6 +568,11 @@
       {
         "source": "DATA",
         "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRTrigger",
+        "target": "Replication",
         "label": "HTTP"
       },
       {
@@ -576,6 +686,20 @@
     ],
     "threats": [
       {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
         "name": "Log Evasion",
         "severity": "MEDIUM",
         "description": "Attackers can perform actions without generating audit trails.",
@@ -597,20 +721,6 @@
         "severity_level": "warning"
       },
       {
-        "name": "Data Leakage",
-        "severity": "CRITICAL",
-        "description": "Sensitive data is exposed in transit or at rest.",
-        "missing_control": "Encryption Service",
-        "severity_level": "danger"
-      },
-      {
-        "name": "Data Tampering",
-        "severity": "HIGH",
-        "description": "Data is maliciously modified.",
-        "missing_control": "Encryption Service",
-        "severity_level": "warning"
-      },
-      {
         "name": "Unauthorized Access",
         "severity": "CRITICAL",
         "description": "Attackers can access systems or data without proper identity verification.",
@@ -626,9 +736,9 @@
       }
     ],
     "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
       "Enable centralized audit logging.",
       "Add API Gateway to secure and manage external traffic.",
-      "Encrypt sensitive data at rest and in transit.",
       "Add Authentication service to protect user access.",
       "Implement an Intrusion Prevention System.",
       "Implement an Intrusion Detection System."
@@ -641,7 +751,7 @@
       "databases": 9,
       "services": 51
     },
-    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Audit Logging, API Gateway, Encryption Service, Authentication, IPS and IDS. Overall security posture is HIGH RISK and requires immediate remediation."
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, API Gateway, Authentication, IPS and IDS. Overall security posture is HIGH RISK and requires immediate remediation."
   },
   "metadata": {
     "domain": "AIOps",

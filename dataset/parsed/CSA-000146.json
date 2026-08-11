@@ -124,6 +124,10 @@
         "type": "container"
       },
       {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
         "id": "Istio",
         "type": "service"
       },
@@ -133,6 +137,10 @@
       },
       {
         "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
         "type": "service"
       },
       {
@@ -158,6 +166,41 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
         "source": "APIGW",
         "target": "RateLimiter",
         "label": "HTTP"
@@ -168,13 +211,78 @@
         "label": "HTTP"
       },
       {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
         "source": "AuthZ",
         "target": "LB",
         "label": "HTTP"
       },
       {
+        "source": "PortIn",
+        "target": "DTCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortOut",
+        "target": "DTCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Adapters",
+        "target": "PortOut",
+        "label": "HTTP"
+      },
+      {
         "source": "LB",
         "target": "PortIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "DTCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metastore",
+        "target": "DeltaLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "DeltaLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "DeltaLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "DTCore",
         "label": "HTTP"
       },
       {
@@ -190,6 +298,71 @@
       {
         "source": "DTCore",
         "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "DTCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ERP",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "CRM",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "WEB",
+        "target": "WAF",
         "label": "HTTP"
       },
       {

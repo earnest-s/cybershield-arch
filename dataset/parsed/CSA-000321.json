@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -33,10 +37,6 @@
       },
       {
         "id": "VPN",
-        "type": "service"
-      },
-      {
-        "id": "APIGW",
         "type": "service"
       },
       {
@@ -290,8 +290,58 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
         "source": "LB",
         "target": "ZTProxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
         "label": "HTTP"
       },
       {
@@ -305,6 +355,21 @@
         "label": "HTTP"
       },
       {
+        "source": "Vault",
+        "target": "ZTProxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "ZTProxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "IstioControl",
+        "target": "IstioData",
+        "label": "HTTP"
+      },
+      {
         "source": "IstioData",
         "target": "MicroserviceGroup",
         "label": "HTTP"
@@ -315,8 +380,18 @@
         "label": "HTTP"
       },
       {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
         "source": "Loki",
         "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CI",
         "label": "HTTP"
       },
       {
@@ -345,8 +420,33 @@
         "label": "HTTP"
       },
       {
+        "source": "AWS",
+        "target": "K8sClusterA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Azure",
+        "target": "K8sClusterA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "K8sClusterB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProductDomain",
+        "target": "PostgresA",
+        "label": "HTTP"
+      },
+      {
         "source": "ProductDomain",
         "target": "PostgresB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SensorDomain",
+        "target": "CassandraA",
         "label": "HTTP"
       },
       {
@@ -356,7 +456,17 @@
       },
       {
         "source": "AnalyticsDomain",
+        "target": "DruidA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsDomain",
         "target": "DruidB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "PGVectorA",
         "label": "HTTP"
       },
       {
@@ -366,7 +476,17 @@
       },
       {
         "source": "GraphRAG",
+        "target": "VectorDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "GraphRAG",
         "target": "KnowledgeGraph",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaA",
+        "target": "KafkaB",
         "label": "HTTP"
       },
       {
@@ -381,7 +501,17 @@
       },
       {
         "source": "OrderService",
+        "target": "InventoryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
         "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "WeatherAgent",
+        "target": "LLMGateway",
         "label": "HTTP"
       },
       {
@@ -395,8 +525,28 @@
         "label": "HTTP"
       },
       {
+        "source": "ImageProcessor",
+        "target": "S3Bucket",
+        "label": "Async"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "ResponseGen",
+        "label": "HTTP"
+      },
+      {
         "source": "ResponseGen",
         "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRSync",
+        "target": "PostgresA",
         "label": "HTTP"
       },
       {
@@ -442,6 +592,26 @@
       {
         "source": "DRSync",
         "target": "KafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Auditing",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "Auditing",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DataPrivacy",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Governance",
         "label": "HTTP"
       },
       {
@@ -515,13 +685,8 @@
         "label": "HTTP"
       },
       {
-        "source": "CDN",
-        "target": "APIGW",
-        "label": "HTTP"
-      },
-      {
-        "source": "APIGW",
-        "target": "LB",
+        "source": "ClientTraffic",
+        "target": "CDN",
         "label": "HTTP"
       },
       {

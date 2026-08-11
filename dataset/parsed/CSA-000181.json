@@ -140,6 +140,10 @@
         "type": "service"
       },
       {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
         "id": "COMPLIANCE_LOG",
         "type": "database"
       },
@@ -168,10 +172,6 @@
         "type": "service"
       },
       {
-        "id": "DEVOPS",
-        "type": "service"
-      },
-      {
         "id": "OBSERV",
         "type": "service"
       },
@@ -185,6 +185,56 @@
       }
     ],
     "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFirewall",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "AzureFirewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
       {
         "source": "APIGW",
         "target": "CmdIngress",
@@ -257,7 +307,17 @@
       },
       {
         "source": "AIEndpoint",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "AIEndpoint",
         "target": "QueryIngress",
+        "label": "HTTP"
+      },
+      {
+        "source": "Repo",
+        "target": "CI",
         "label": "HTTP"
       },
       {
@@ -308,6 +368,11 @@
       {
         "source": "AuditLog",
         "target": "AzureMonitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "Policy",
+        "target": "DEVOPS",
         "label": "HTTP"
       },
       {

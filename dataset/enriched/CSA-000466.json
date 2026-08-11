@@ -318,6 +318,11 @@
     ],
     "edges": [
       {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
         "source": "WAF",
         "target": "APIGW",
         "label": "HTTP"
@@ -619,6 +624,34 @@
     ],
     "threats": [
       {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
         "name": "DDoS",
         "severity": "HIGH",
         "description": "Distributed Denial of Service attacking service availability.",
@@ -645,42 +678,14 @@
         "description": "Automated injection of breached username/password pairs.",
         "missing_control": "Authentication",
         "severity_level": "warning"
-      },
-      {
-        "name": "Log Evasion",
-        "severity": "MEDIUM",
-        "description": "Attackers can perform actions without generating audit trails.",
-        "missing_control": "Audit Logging",
-        "severity_level": "info"
-      },
-      {
-        "name": "Data Leakage",
-        "severity": "CRITICAL",
-        "description": "Sensitive data is exposed in transit or at rest.",
-        "missing_control": "Encryption Service",
-        "severity_level": "danger"
-      },
-      {
-        "name": "Data Tampering",
-        "severity": "HIGH",
-        "description": "Data is maliciously modified.",
-        "missing_control": "Encryption Service",
-        "severity_level": "warning"
-      },
-      {
-        "name": "Lateral Movement",
-        "severity": "HIGH",
-        "description": "Attackers move through the network searching for key assets.",
-        "missing_control": "Monitoring",
-        "severity_level": "warning"
       }
     ],
     "recommendations": [
-      "Add API Gateway to secure and manage external traffic.",
-      "Add Authentication service to protect user access.",
-      "Enable centralized audit logging.",
       "Encrypt sensitive data at rest and in transit.",
-      "Add monitoring and observability."
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access."
     ],
     "risk_level": "HIGH",
     "security_score": 35,
@@ -690,7 +695,7 @@
       "databases": 6,
       "services": 65
     },
-    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway and Authentication. Overall security posture is HIGH RISK and requires immediate remediation."
   },
   "metadata": {
     "domain": "Pharma",

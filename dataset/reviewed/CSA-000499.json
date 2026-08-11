@@ -1,0 +1,487 @@
+{
+  "id": "CSA-000499",
+  "instruction": "Design a Education architecture. using a Event-Driven style. deployed on GCP. satisfying: Active-Active Multi-Region, Disaster Recovery, Feature Flags, Auto Scaling, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "INGRESS",
+        "type": "service"
+      },
+      {
+        "id": "SM",
+        "type": "service"
+      },
+      {
+        "id": "UE",
+        "type": "service"
+      },
+      {
+        "id": "CS",
+        "type": "service"
+      },
+      {
+        "id": "AS",
+        "type": "service"
+      },
+      {
+        "id": "NS",
+        "type": "service"
+      },
+      {
+        "id": "K",
+        "type": "queue"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "DLQ",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "K8S1",
+        "type": "container"
+      },
+      {
+        "id": "K8S2",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "ui"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "AR",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "PG_DR",
+        "type": "database"
+      },
+      {
+        "id": "REDIS_DR",
+        "type": "cache"
+      },
+      {
+        "id": "K_DR",
+        "type": "queue"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "INGRESS",
+        "target": "SM",
+        "label": "HTTP"
+      },
+      {
+        "source": "UE",
+        "target": "K",
+        "label": "Async"
+      },
+      {
+        "source": "CS",
+        "target": "K",
+        "label": "Async"
+      },
+      {
+        "source": "AS",
+        "target": "K",
+        "label": "Async"
+      },
+      {
+        "source": "NS",
+        "target": "K",
+        "label": "Async"
+      },
+      {
+        "source": "K",
+        "target": "DLQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "INGRESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "INGRESS",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "INGRESS",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "UE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "CS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "AS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "NS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "UE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "CS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "AS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "NS",
+        "label": "HTTP"
+      },
+      {
+        "source": "UE",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CS",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AS",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "NS",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "NS",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "UE",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "CS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "AS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AR",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "AR",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "INGRESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "PG_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "REDIS_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "K",
+        "target": "K_DR",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 20
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, Authentication and RBAC. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Education",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Disaster Recovery",
+      "Feature Flags",
+      "Auto Scaling",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 47,
+    "source_edges": 58,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

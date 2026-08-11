@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -22,10 +26,6 @@
       {
         "id": "WAF",
         "type": "ui"
-      },
-      {
-        "id": "API_GW",
-        "type": "service"
       },
       {
         "id": "LB",
@@ -48,7 +48,15 @@
         "type": "service"
       },
       {
+        "id": "INTERNAL",
+        "type": "service"
+      },
+      {
         "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "DMZ",
         "type": "service"
       },
       {
@@ -178,6 +186,26 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
         "source": "WAF",
         "target": "API_GW",
         "label": "HTTP"
@@ -203,6 +231,21 @@
         "label": "Async"
       },
       {
+        "source": "VPN",
+        "target": "INTERNAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "DMZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
         "source": "IAM",
         "target": "CMD_SVC",
         "label": "HTTP"
@@ -210,6 +253,11 @@
       {
         "source": "IAM",
         "target": "QUERY_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "PROM",
         "label": "HTTP"
       },
       {
@@ -263,6 +311,11 @@
         "label": "HTTP"
       },
       {
+        "source": "INFER_REQ",
+        "target": "AI_GATEWAY",
+        "label": "HTTP"
+      },
+      {
         "source": "AI_GATEWAY",
         "target": "EMBEDDING_MODEL",
         "label": "HTTP"
@@ -298,6 +351,11 @@
         "label": "HTTP"
       },
       {
+        "source": "DR_REGION",
+        "target": "DR_LB",
+        "label": "HTTP"
+      },
+      {
         "source": "DR_LB",
         "target": "DR_CMD_SVC",
         "label": "HTTP"
@@ -308,8 +366,18 @@
         "label": "HTTP"
       },
       {
+        "source": "DR_EVENT_BUS",
+        "target": "DR_EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
         "source": "DR_EVENT_STORE",
         "target": "DR_PROJECTION",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_READ_DB",
+        "target": "DR_CMD_SVC",
         "label": "HTTP"
       },
       {
@@ -320,6 +388,11 @@
       {
         "source": "LB",
         "target": "DR_LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
         "label": "HTTP"
       },
       {
@@ -335,6 +408,36 @@
       {
         "source": "ISTIO",
         "target": "PROJECTION",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECRET_VAULT",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONITOR",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "ISTIO",
         "label": "HTTP"
       }
     ]

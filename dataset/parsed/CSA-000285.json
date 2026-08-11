@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -18,6 +22,10 @@
       {
         "id": "IoTDevices",
         "type": "service"
+      },
+      {
+        "id": "MQTTBroker",
+        "type": "queue"
       },
       {
         "id": "CDN",
@@ -32,16 +40,8 @@
         "type": "service"
       },
       {
-        "id": "APIGW",
-        "type": "service"
-      },
-      {
         "id": "LB",
         "type": "service"
-      },
-      {
-        "id": "MQTTBroker",
-        "type": "queue"
       },
       {
         "id": "IAM",
@@ -154,6 +154,66 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IoTDevices",
+        "target": "MQTTBroker",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WebUI",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MQTTBroker",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdIngress",
+        "target": "CmdQueue",
+        "label": "HTTP"
+      },
+      {
         "source": "CmdQueue",
         "target": "CmdService",
         "label": "HTTP"
@@ -229,13 +289,43 @@
         "label": "HTTP"
       },
       {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logs",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "GKE1",
+        "label": "HTTP"
+      },
+      {
         "source": "CI",
         "target": "GKE2",
         "label": "HTTP"
       },
       {
         "source": "Istio",
+        "target": "GKE1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
         "target": "GKE2",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRStorage",
+        "target": "EventStore",
         "label": "HTTP"
       },
       {

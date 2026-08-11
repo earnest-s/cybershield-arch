@@ -36,7 +36,15 @@
         "type": "service"
       },
       {
+        "id": "mesh_ctrl",
+        "type": "service"
+      },
+      {
         "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "svc_mesh",
         "type": "service"
       },
       {
@@ -68,12 +76,8 @@
         "type": "service"
       },
       {
-        "id": "mesh_ctrl",
-        "type": "service"
-      },
-      {
-        "id": "svc_mesh",
-        "type": "service"
+        "id": "log_agg",
+        "type": "database"
       },
       {
         "id": "fs_api",
@@ -188,12 +192,12 @@
         "type": "service"
       },
       {
-        "id": "elk",
+        "id": "prometheus",
         "type": "service"
       },
       {
-        "id": "log_agg",
-        "type": "database"
+        "id": "elk",
+        "type": "service"
       },
       {
         "id": "gitlab",
@@ -246,8 +250,138 @@
     ],
     "edges": [
       {
+        "source": "web",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "web",
+        "label": "Cache"
+      },
+      {
+        "source": "waf",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "mesh_ctrl",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "svc_mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "mesh_ctrl",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "mesh_ctrl",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "log_agg",
+        "label": "HTTP"
+      },
+      {
         "source": "mesh_ctrl",
         "target": "svc_mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "fs_api",
+        "target": "fs_grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "fs_worker",
+        "target": "fs_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "mr_api",
+        "target": "mr_grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "mr_worker",
+        "target": "mr_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "et_api",
+        "target": "et_grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "et_worker",
+        "target": "et_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "dl_api",
+        "target": "dl_grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "dl_worker",
+        "target": "dl_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "si_api",
+        "target": "si_grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "si_worker",
+        "target": "si_vec",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "fs_worker",
         "label": "HTTP"
       },
       {
@@ -271,6 +405,41 @@
         "label": "HTTP"
       },
       {
+        "source": "embed",
+        "target": "vec_store",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vec_store",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "log_agg",
+        "label": "HTTP"
+      },
+      {
+        "source": "gitlab",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
         "source": "k8s",
         "target": "mesh_ctrl",
         "label": "HTTP"
@@ -283,6 +452,31 @@
       {
         "source": "k8s",
         "target": "ai_services",
+        "label": "HTTP"
+      },
+      {
+        "source": "gcs",
+        "target": "gitlab",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "spanner",
+        "target": "mr_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "bigquery",
+        "target": "et_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "vertex",
+        "target": "embed",
         "label": "HTTP"
       },
       {
@@ -373,11 +567,6 @@
       {
         "source": "ai_services",
         "target": "llm",
-        "label": "HTTP"
-      },
-      {
-        "source": "prom",
-        "target": "grafana",
         "label": "HTTP"
       },
       {

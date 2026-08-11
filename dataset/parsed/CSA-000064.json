@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -16,7 +20,7 @@
         "type": "ui"
       },
       {
-        "id": "APIGW",
+        "id": "LB",
         "type": "service"
       },
       {
@@ -28,7 +32,7 @@
         "type": "service"
       },
       {
-        "id": "LB",
+        "id": "Region1",
         "type": "service"
       },
       {
@@ -190,6 +194,26 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
         "source": "CDN",
         "target": "WAF",
         "label": "HTTP"
@@ -197,6 +221,11 @@
       {
         "source": "WAF",
         "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Region1",
         "label": "HTTP"
       },
       {
@@ -215,7 +244,17 @@
         "label": "HTTP"
       },
       {
+        "source": "LB1",
+        "target": "SubnetPriv1",
+        "label": "HTTP"
+      },
+      {
         "source": "SubnetPriv1",
+        "target": "ServiceMesh1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF1",
         "target": "ServiceMesh1",
         "label": "HTTP"
       },
@@ -237,6 +276,11 @@
       {
         "source": "ServiceMesh1",
         "target": "AnalyticsAPI1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka1",
+        "target": "ServiceMesh1",
         "label": "HTTP"
       },
       {
@@ -270,6 +314,16 @@
         "label": "HTTP"
       },
       {
+        "source": "Prom1",
+        "target": "Graf1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki1",
+        "target": "Graf1",
+        "label": "HTTP"
+      },
+      {
         "source": "ServiceMesh1",
         "target": "Prom1",
         "label": "HTTP"
@@ -285,7 +339,17 @@
         "label": "HTTP"
       },
       {
+        "source": "LB2",
+        "target": "SubnetPriv2",
+        "label": "HTTP"
+      },
+      {
         "source": "SubnetPriv2",
+        "target": "ServiceMesh2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF2",
         "target": "ServiceMesh2",
         "label": "HTTP"
       },
@@ -307,6 +371,11 @@
       {
         "source": "ServiceMesh2",
         "target": "AnalyticsAPI2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka2",
+        "target": "ServiceMesh2",
         "label": "HTTP"
       },
       {
@@ -340,8 +409,23 @@
         "label": "HTTP"
       },
       {
+        "source": "Prom2",
+        "target": "Graf2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki2",
+        "target": "Graf2",
+        "label": "HTTP"
+      },
+      {
         "source": "ServiceMesh2",
         "target": "Prom2",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Region1",
         "label": "HTTP"
       },
       {
@@ -351,12 +435,37 @@
       },
       {
         "source": "CI_CD",
+        "target": "Region1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "Region2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASG1",
+        "target": "Region1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASG2",
         "target": "Region2",
         "label": "HTTP"
       },
       {
         "source": "Replication",
+        "target": "DWH1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
         "target": "DWH2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GrafanaCentral",
+        "target": "Prom1",
         "label": "HTTP"
       },
       {

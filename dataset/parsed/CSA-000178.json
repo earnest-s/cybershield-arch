@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -22,10 +26,6 @@
       {
         "id": "WAF",
         "type": "ui"
-      },
-      {
-        "id": "API_GW",
-        "type": "service"
       },
       {
         "id": "LB",
@@ -48,11 +48,19 @@
         "type": "service"
       },
       {
+        "id": "LambdaFuncs",
+        "type": "service"
+      },
+      {
         "id": "KMS",
         "type": "service"
       },
       {
         "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "LoggingSink",
         "type": "service"
       },
       {
@@ -64,7 +72,7 @@
         "type": "service"
       },
       {
-        "id": "LambdaFuncs",
+        "id": "DataLake",
         "type": "service"
       },
       {
@@ -116,19 +124,11 @@
         "type": "service"
       },
       {
-        "id": "LoggingSink",
-        "type": "service"
-      },
-      {
         "id": "AzureFunc",
         "type": "service"
       },
       {
         "id": "GCP_CloudRun",
-        "type": "service"
-      },
-      {
-        "id": "DataLake",
         "type": "service"
       },
       {
@@ -142,6 +142,76 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "LambdaFuncs",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "LoggingSink",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "LambdaFuncs",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "S3Trigger",
+        "label": "Async"
+      },
+      {
         "source": "LambdaFuncs",
         "target": "QueueTrigger",
         "label": "Async"
@@ -149,6 +219,31 @@
       {
         "source": "LambdaFuncs",
         "target": "CronTrigger",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQS",
+        "target": "LambdaFuncs",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "LambdaFuncs",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "LoggingSink",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFunc",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_CloudRun",
+        "target": "API_GW",
         "label": "HTTP"
       },
       {
@@ -209,6 +304,11 @@
       {
         "source": "DynamoDB",
         "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "FFService",
+        "target": "AuthZ",
         "label": "HTTP"
       },
       {

@@ -164,11 +164,80 @@
         "type": "service"
       },
       {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
         "id": "LAKEHOUSE",
         "type": "service"
       }
     ],
     "edges": [
+      {
+        "source": "web",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "third_party",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "event_bus",
+        "label": "Async"
+      },
       {
         "source": "cmd_svc",
         "target": "pg_write",
@@ -187,6 +256,11 @@
       {
         "source": "ai_inf",
         "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "query_api",
+        "target": "pg_read",
         "label": "HTTP"
       },
       {
@@ -231,6 +305,11 @@
       },
       {
         "source": "raw_zone",
+        "target": "s3_ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "raw_zone",
         "target": "refined_zone",
         "label": "HTTP"
       },
@@ -260,6 +339,26 @@
         "label": "HTTP"
       },
       {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "logs",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
         "source": "k8s",
         "target": "istio",
         "label": "HTTP"
@@ -280,6 +379,21 @@
         "label": "HTTP"
       },
       {
+        "source": "gdpr",
+        "target": "query_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
         "source": "api_gw",
         "target": "lb",
         "label": "HTTP"
@@ -292,11 +406,6 @@
       {
         "source": "lb",
         "target": "query_api",
-        "label": "HTTP"
-      },
-      {
-        "source": "iam",
-        "target": "api_gw",
         "label": "HTTP"
       },
       {

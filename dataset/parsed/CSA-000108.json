@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
         "id": "mobileApp",
         "type": "service"
       },
@@ -36,6 +40,10 @@
         "type": "database"
       },
       {
+        "id": "svcBlue",
+        "type": "service"
+      },
+      {
         "id": "svcGreen",
         "type": "service"
       },
@@ -60,20 +68,16 @@
         "type": "service"
       },
       {
-        "id": "apiGateway",
-        "type": "service"
-      },
-      {
         "id": "authZ",
-        "type": "service"
-      },
-      {
-        "id": "svcBlue",
         "type": "service"
       },
       {
         "id": "microA",
         "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "queue"
       },
       {
         "id": "microB",
@@ -88,20 +92,16 @@
         "type": "service"
       },
       {
-        "id": "eventBus",
-        "type": "queue"
-      },
-      {
         "id": "embedModel",
-        "type": "service"
-      },
-      {
-        "id": "ragEngine",
         "type": "service"
       },
       {
         "id": "vectorDB",
         "type": "database"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
       },
       {
         "id": "aiGateway",
@@ -214,8 +214,68 @@
     ],
     "edges": [
       {
+        "source": "webUI",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "svcBlue",
+        "label": "HTTP"
+      },
+      {
         "source": "loadBalancer",
         "target": "svcGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "svcBlue",
         "label": "HTTP"
       },
       {
@@ -224,11 +284,41 @@
         "label": "HTTP"
       },
       {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "authZ",
+        "label": "HTTP"
+      },
+      {
         "source": "authZ",
         "target": "loadBalancer",
         "label": "HTTP"
       },
       {
+        "source": "microA",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "microB",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "microC",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlag",
+        "target": "microA",
+        "label": "HTTP"
+      },
+      {
         "source": "featureFlag",
         "target": "microB",
         "label": "HTTP"
@@ -240,12 +330,32 @@
       },
       {
         "source": "eventBus",
+        "target": "microA",
+        "label": "Async"
+      },
+      {
+        "source": "eventBus",
         "target": "microB",
         "label": "HTTP"
       },
       {
         "source": "eventBus",
         "target": "microC",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "aiGateway",
         "label": "HTTP"
       },
       {
@@ -324,6 +434,21 @@
         "label": "HTTP"
       },
       {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "microA",
+        "label": "HTTP"
+      },
+      {
         "source": "elk",
         "target": "microB",
         "label": "HTTP"
@@ -335,12 +460,52 @@
       },
       {
         "source": "k8s",
+        "target": "svcBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
         "target": "svcGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "svcBlue",
         "label": "HTTP"
       },
       {
         "source": "istio",
         "target": "svcGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "aws",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "azure",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "gcp",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "obs",
         "label": "HTTP"
       },
       {
@@ -391,11 +556,6 @@
       {
         "source": "svcGreen",
         "target": "microC",
-        "label": "HTTP"
-      },
-      {
-        "source": "featureFlag",
-        "target": "microA",
         "label": "HTTP"
       }
     ]

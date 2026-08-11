@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
         "id": "MOBILE",
         "type": "service"
       },
@@ -40,6 +44,10 @@
         "type": "service"
       },
       {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
         "id": "MFA",
         "type": "service"
       },
@@ -52,7 +60,7 @@
         "type": "service"
       },
       {
-        "id": "API_GW",
+        "id": "RATE_LIMIT",
         "type": "service"
       },
       {
@@ -60,7 +68,7 @@
         "type": "service"
       },
       {
-        "id": "RATE_LIMIT",
+        "id": "MICROSERVICES",
         "type": "service"
       },
       {
@@ -104,10 +112,6 @@
         "type": "database"
       },
       {
-        "id": "POSTGRES",
-        "type": "database"
-      },
-      {
         "id": "REDIS",
         "type": "database"
       },
@@ -148,10 +152,6 @@
         "type": "service"
       },
       {
-        "id": "MICROSERVICES",
-        "type": "service"
-      },
-      {
         "id": "SECURITY",
         "type": "service"
       },
@@ -165,6 +165,76 @@
       }
     ],
     "edges": [
+      {
+        "source": "WEB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "POS",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AUTHZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTHZ",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "POSTGRES",
+        "label": "DB Query"
+      },
+      {
+        "source": "MFA",
+        "target": "AUTHZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RATE_LIMIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMMANDS",
+        "target": "CMD_BUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERIES",
+        "target": "QUERY_BUS",
+        "label": "HTTP"
+      },
       {
         "source": "CMD_BUS",
         "target": "ORDER_CMD",
@@ -208,6 +278,11 @@
       {
         "source": "QUERY_BUS",
         "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT_STORE",
         "label": "HTTP"
       },
       {

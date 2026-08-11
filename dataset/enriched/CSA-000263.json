@@ -230,6 +230,26 @@
     ],
     "edges": [
       {
+        "source": "WEB",
+        "target": "LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "LB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONS",
+        "target": "LB2",
+        "label": "HTTP"
+      },
+      {
         "source": "FW",
         "target": "WAF",
         "label": "HTTP"
@@ -542,6 +562,34 @@
     ],
     "threats": [
       {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
         "name": "DDoS",
         "severity": "HIGH",
         "description": "Distributed Denial of Service attacking service availability.",
@@ -554,20 +602,6 @@
         "description": "Attackers take over an active user session.",
         "missing_control": "API Gateway",
         "severity_level": "warning"
-      },
-      {
-        "name": "Privilege Escalation",
-        "severity": "HIGH",
-        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
-        "missing_control": "RBAC",
-        "severity_level": "warning"
-      },
-      {
-        "name": "Insider Threat",
-        "severity": "MEDIUM",
-        "description": "Malicious or negligent actions by internal users.",
-        "missing_control": "RBAC",
-        "severity_level": "info"
       },
       {
         "name": "Unauthorized Access",
@@ -584,41 +618,27 @@
         "severity_level": "warning"
       },
       {
-        "name": "Log Evasion",
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
         "severity": "MEDIUM",
-        "description": "Attackers can perform actions without generating audit trails.",
-        "missing_control": "Audit Logging",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
         "severity_level": "info"
-      },
-      {
-        "name": "Data Leakage",
-        "severity": "CRITICAL",
-        "description": "Sensitive data is exposed in transit or at rest.",
-        "missing_control": "Encryption Service",
-        "severity_level": "danger"
-      },
-      {
-        "name": "Data Tampering",
-        "severity": "HIGH",
-        "description": "Data is maliciously modified.",
-        "missing_control": "Encryption Service",
-        "severity_level": "warning"
-      },
-      {
-        "name": "Lateral Movement",
-        "severity": "HIGH",
-        "description": "Attackers move through the network searching for key assets.",
-        "missing_control": "Monitoring",
-        "severity_level": "warning"
       }
     ],
     "recommendations": [
-      "Add API Gateway to secure and manage external traffic.",
-      "Implement role-based access control.",
-      "Add Authentication service to protect user access.",
-      "Enable centralized audit logging.",
       "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
       "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
       "Implement an Intrusion Prevention System.",
       "Deploy a SIEM for security event aggregation and threat detection."
     ],
@@ -630,7 +650,7 @@
       "databases": 5,
       "services": 44
     },
-    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service, Monitoring, IPS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication, RBAC, IPS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
   },
   "metadata": {
     "domain": "Cyber Security",

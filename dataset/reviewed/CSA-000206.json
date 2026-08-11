@@ -1,0 +1,589 @@
+{
+  "id": "CSA-000206",
+  "instruction": "Design a SCM architecture. using a Hexagonal style. deployed on Multi-Cloud. satisfying: High Throughput (100k+ TPS), Feature Flags, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "DDoS",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "AdapterIn1",
+        "type": "service"
+      },
+      {
+        "id": "Domain",
+        "type": "service"
+      },
+      {
+        "id": "AdapterIn2",
+        "type": "queue"
+      },
+      {
+        "id": "AdapterOut1",
+        "type": "queue"
+      },
+      {
+        "id": "AdapterOut2",
+        "type": "service"
+      },
+      {
+        "id": "AdapterOut3",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "K8sAWS",
+        "type": "container"
+      },
+      {
+        "id": "Azure",
+        "type": "service"
+      },
+      {
+        "id": "K8sAzure",
+        "type": "container"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      },
+      {
+        "id": "K8sGCP",
+        "type": "container"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Jaeger",
+        "type": "service"
+      },
+      {
+        "id": "Git",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "ExternalAPIs",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DDoS",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterIn1",
+        "target": "Domain",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterIn2",
+        "target": "Domain",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "AdapterOut1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "AdapterOut2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "AdapterOut3",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AdapterIn1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AdapterIn2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8sAWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Azure",
+        "target": "K8sAzure",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "K8sGCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAzure",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sGCP",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAzure",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sGCP",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAzure",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sGCP",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAzure",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sGCP",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Jaeger",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Git",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8sAWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8sAzure",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8sGCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterOut1",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterOut2",
+        "target": "ExternalAPIs",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterOut3",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "Observability",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 2,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication and RBAC. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "Hexagonal",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Feature Flags",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 58,
+    "source_edges": 63,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

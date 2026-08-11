@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -22,10 +26,6 @@
       {
         "id": "WAF",
         "type": "ui"
-      },
-      {
-        "id": "API_GW",
-        "type": "service"
       },
       {
         "id": "LB",
@@ -44,15 +44,15 @@
         "type": "service"
       },
       {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
         "id": "IAM",
         "type": "service"
       },
       {
         "id": "MFA",
-        "type": "service"
-      },
-      {
-        "id": "ServiceMesh",
         "type": "service"
       },
       {
@@ -170,6 +170,36 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "API_GW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
         "source": "LB",
         "target": "Edge1",
         "label": "HTTP"
@@ -177,6 +207,26 @@
       {
         "source": "LB",
         "target": "Edge2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT_Proxy",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ZT_Proxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Auth",
         "label": "HTTP"
       },
       {
@@ -250,6 +300,26 @@
         "label": "HTTP"
       },
       {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogCollector",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sClusterA",
+        "label": "HTTP"
+      },
+      {
         "source": "CI_CD",
         "target": "K8sClusterB",
         "label": "HTTP"
@@ -262,6 +332,16 @@
       {
         "source": "K8sClusterB",
         "target": "Edge2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DataAccess",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "LogCollector",
         "label": "HTTP"
       },
       {

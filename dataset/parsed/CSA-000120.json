@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -22,10 +26,6 @@
       {
         "id": "WAF",
         "type": "ui"
-      },
-      {
-        "id": "APIGW",
-        "type": "service"
       },
       {
         "id": "ZTNA",
@@ -194,6 +194,51 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
         "source": "AKS",
         "target": "CICD",
         "label": "HTTP"
@@ -201,6 +246,26 @@
       {
         "source": "GKE",
         "target": "CICD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "MicroSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "MicroSrv",
+        "target": "OrderSvc",
         "label": "HTTP"
       },
       {
@@ -241,6 +306,11 @@
       {
         "source": "AIGW",
         "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OrderEvt",
         "label": "HTTP"
       },
       {
@@ -286,6 +356,16 @@
       {
         "source": "CuratedLake",
         "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
         "label": "HTTP"
       },
       {

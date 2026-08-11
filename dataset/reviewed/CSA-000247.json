@@ -1,0 +1,753 @@
+{
+  "id": "CSA-000247",
+  "instruction": "Design a Manufacturing architecture. using a Event-Driven style. deployed on AWS. satisfying: Blue/Green Deployment, AI/ML Inference Integration, Rate Limiting, Observability Stack, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZTA",
+        "type": "service"
+      },
+      {
+        "id": "RateLim",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "Glue",
+        "type": "service"
+      },
+      {
+        "id": "Redshift",
+        "type": "service"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "AIInference",
+        "type": "service"
+      },
+      {
+        "id": "AgentOrch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "OrderSvcB",
+        "type": "service"
+      },
+      {
+        "id": "InventorySvcB",
+        "type": "service"
+      },
+      {
+        "id": "ProductionSvcB",
+        "type": "service"
+      },
+      {
+        "id": "ShippingSvcB",
+        "type": "service"
+      },
+      {
+        "id": "OrderSvcG",
+        "type": "service"
+      },
+      {
+        "id": "InventorySvcG",
+        "type": "service"
+      },
+      {
+        "id": "ProductionSvcG",
+        "type": "service"
+      },
+      {
+        "id": "ShippingSvcG",
+        "type": "service"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "Query",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES_BLUE",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES_GREEN",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      },
+      {
+        "id": "Canary",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLim",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OrderSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OrderSvcG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "InventorySvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "InventorySvcG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ProductionSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ProductionSvcG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ShippingSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ShippingSvcG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "OrderSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "OrderSvcG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "InventorySvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "InventorySvcG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "ProductionSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "ProductionSvcG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "ShippingSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "ShippingSvcG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Query",
+        "target": "AIInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInference",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AgentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "OrderSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "OrderSvcG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "MICROSERVICES_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "MICROSERVICES_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "MICROSERVICES_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "MICROSERVICES_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Splunk",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "MICROSERVICES_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "MICROSERVICES_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "Canary",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLim",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLim",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ZTA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA",
+        "target": "MICROSERVICES_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA",
+        "target": "MICROSERVICES_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES_BLUE",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES_GREEN",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES_BLUE",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES_GREEN",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES_BLUE",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES_GREEN",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES_BLUE",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES_GREEN",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvcB",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "OrderSvcG",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "InventorySvcB",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "InventorySvcG",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ProductionSvcB",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ProductionSvcG",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ShippingSvcB",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ShippingSvcG",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "S3",
+        "target": "Glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Glue",
+        "target": "Redshift",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Implement an Intrusion Prevention System.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Implement an Intrusion Detection System."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 3,
+      "services": 45
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication, RBAC, IPS, SIEM and IDS. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "Event-Driven",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Blue/Green Deployment",
+      "AI/ML Inference Integration",
+      "Rate Limiting",
+      "Observability Stack",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 82,
+    "source_edges": 85,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

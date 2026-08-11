@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -29,10 +33,6 @@
       },
       {
         "id": "DDoS",
-        "type": "service"
-      },
-      {
-        "id": "APIGW",
         "type": "service"
       },
       {
@@ -254,8 +254,58 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "TVApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WebUI",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DDoS",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
         "source": "IAM",
         "target": "IdP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "MS1",
         "label": "HTTP"
       },
       {
@@ -274,14 +324,54 @@
         "label": "HTTP"
       },
       {
-        "source": "DRM",
-        "target": "LicenseSrv",
+        "source": "UserSvc",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogSvc",
+        "target": "SearchSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "SearchSvc",
+        "target": "AIInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "PlaybackSvc",
+        "target": "DRM",
         "label": "HTTP"
       },
       {
         "source": "BillingSvc",
         "target": "KafkaPub",
         "label": "Async"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "EmailSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "KafkaSub",
+        "label": "Async"
+      },
+      {
+        "source": "PersonalizationSvc",
+        "target": "AIInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContentMgmt",
+        "target": "Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRM",
+        "target": "LicenseSrv",
+        "label": "HTTP"
       },
       {
         "source": "KafkaPub",
@@ -339,6 +429,31 @@
         "label": "HTTP"
       },
       {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Kibana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Splunk",
+        "target": "SIEM",
+        "label": "Async"
+      },
+      {
+        "source": "GitHub",
+        "target": "Jenkins",
+        "label": "HTTP"
+      },
+      {
         "source": "Jenkins",
         "target": "ArgoCD",
         "label": "HTTP"
@@ -389,6 +504,11 @@
         "label": "HTTP"
       },
       {
+        "source": "PaymentGateway",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
         "source": "CDN",
         "target": "MediaCDN",
         "label": "HTTP"
@@ -406,11 +526,6 @@
       {
         "source": "TVApp",
         "target": "CDN",
-        "label": "HTTP"
-      },
-      {
-        "source": "AdminPortal",
-        "target": "APIGW",
         "label": "HTTP"
       },
       {

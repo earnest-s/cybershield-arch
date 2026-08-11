@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
         "id": "mobileApp",
         "type": "service"
       },
@@ -28,10 +32,6 @@
         "type": "service"
       },
       {
-        "id": "apiGateway",
-        "type": "service"
-      },
-      {
         "id": "loadBalancer",
         "type": "database"
       },
@@ -48,16 +48,16 @@
         "type": "service"
       },
       {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
         "id": "funcB",
         "type": "service"
       },
       {
         "id": "funcC",
         "type": "container"
-      },
-      {
-        "id": "eventBus",
-        "type": "service"
       },
       {
         "id": "dataIngestion",
@@ -68,15 +68,15 @@
         "type": "service"
       },
       {
+        "id": "vectorStore",
+        "type": "service"
+      },
+      {
         "id": "rawLake",
         "type": "database"
       },
       {
         "id": "curatedLake",
-        "type": "service"
-      },
-      {
-        "id": "vectorStore",
         "type": "service"
       },
       {
@@ -142,6 +142,81 @@
     ],
     "edges": [
       {
+        "source": "webUI",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGateway",
+        "label": "Cache"
+      },
+      {
+        "source": "waf",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "loadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "authZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "authZ",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcC",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "dataIngestion",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataIngestion",
+        "target": "ragOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragOrchestrator",
+        "target": "vectorStore",
+        "label": "HTTP"
+      },
+      {
         "source": "rawLake",
         "target": "curatedLake",
         "label": "HTTP"
@@ -154,6 +229,56 @@
       {
         "source": "vectorStore",
         "target": "metadata",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "funcB",
+        "label": "Async"
+      },
+      {
+        "source": "eventBridge",
+        "target": "funcC",
+        "label": "Async"
+      },
+      {
+        "source": "embedModel",
+        "target": "vectorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "ragOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiObservability",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "splunk",
+        "target": "otel",
         "label": "HTTP"
       },
       {
@@ -180,26 +305,6 @@
         "source": "apiGateway",
         "target": "funcC",
         "label": "HTTP"
-      },
-      {
-        "source": "funcA",
-        "target": "eventBus",
-        "label": "Async"
-      },
-      {
-        "source": "funcB",
-        "target": "eventBus",
-        "label": "Async"
-      },
-      {
-        "source": "funcC",
-        "target": "eventBus",
-        "label": "Async"
-      },
-      {
-        "source": "ragOrchestrator",
-        "target": "vectorStore",
-        "label": "DB Query"
       },
       {
         "source": "ragOrchestrator",

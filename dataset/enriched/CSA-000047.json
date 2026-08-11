@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -24,7 +28,7 @@
         "type": "ui"
       },
       {
-        "id": "APIGW",
+        "id": "ZTNA",
         "type": "service"
       },
       {
@@ -52,10 +56,6 @@
         "type": "service"
       },
       {
-        "id": "ZTNA",
-        "type": "service"
-      },
-      {
         "id": "AKS",
         "type": "container"
       },
@@ -80,12 +80,16 @@
         "type": "service"
       },
       {
+        "id": "CommandBus",
+        "type": "database"
+      },
+      {
         "id": "QueryAPI",
         "type": "service"
       },
       {
-        "id": "CommandBus",
-        "type": "database"
+        "id": "QueryService",
+        "type": "service"
       },
       {
         "id": "CommandHandler",
@@ -182,6 +186,41 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
         "source": "APIGW",
         "target": "IAM",
         "label": "HTTP"
@@ -217,6 +256,61 @@
         "label": "HTTP"
       },
       {
+        "source": "AKS",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdAPI",
+        "target": "CommandBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandBus",
+        "target": "CommandHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler",
+        "target": "WriteModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventProcessor",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventProcessor",
+        "label": "HTTP"
+      },
+      {
         "source": "EventProcessor",
         "target": "QueryAPI",
         "label": "HTTP"
@@ -242,6 +336,16 @@
         "label": "HTTP"
       },
       {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
         "source": "AKS",
         "target": "Prometheus",
         "label": "HTTP"
@@ -254,6 +358,11 @@
       {
         "source": "AKS",
         "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region",
+        "target": "DR_AKS",
         "label": "HTTP"
       },
       {
@@ -344,6 +453,34 @@
     ],
     "threats": [
       {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
         "name": "DDoS",
         "severity": "HIGH",
         "description": "Distributed Denial of Service attacking service availability.",
@@ -356,20 +493,6 @@
         "description": "Attackers take over an active user session.",
         "missing_control": "API Gateway",
         "severity_level": "warning"
-      },
-      {
-        "name": "Privilege Escalation",
-        "severity": "HIGH",
-        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
-        "missing_control": "RBAC",
-        "severity_level": "warning"
-      },
-      {
-        "name": "Insider Threat",
-        "severity": "MEDIUM",
-        "description": "Malicious or negligent actions by internal users.",
-        "missing_control": "RBAC",
-        "severity_level": "info"
       },
       {
         "name": "Unauthorized Access",
@@ -386,41 +509,27 @@
         "severity_level": "warning"
       },
       {
-        "name": "Log Evasion",
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
         "severity": "MEDIUM",
-        "description": "Attackers can perform actions without generating audit trails.",
-        "missing_control": "Audit Logging",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
         "severity_level": "info"
-      },
-      {
-        "name": "Data Leakage",
-        "severity": "CRITICAL",
-        "description": "Sensitive data is exposed in transit or at rest.",
-        "missing_control": "Encryption Service",
-        "severity_level": "danger"
-      },
-      {
-        "name": "Data Tampering",
-        "severity": "HIGH",
-        "description": "Data is maliciously modified.",
-        "missing_control": "Encryption Service",
-        "severity_level": "warning"
-      },
-      {
-        "name": "Lateral Movement",
-        "severity": "HIGH",
-        "description": "Attackers move through the network searching for key assets.",
-        "missing_control": "Monitoring",
-        "severity_level": "warning"
       }
     ],
     "recommendations": [
-      "Add API Gateway to secure and manage external traffic.",
-      "Implement role-based access control.",
-      "Add Authentication service to protect user access.",
-      "Enable centralized audit logging.",
       "Encrypt sensitive data at rest and in transit.",
-      "Add monitoring and observability."
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control."
     ],
     "risk_level": "HIGH",
     "security_score": 15,
@@ -428,9 +537,9 @@
       "attack_surface_score": 100,
       "public_endpoints": 7,
       "databases": 8,
-      "services": 30
+      "services": 31
     },
-    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, RBAC, Authentication, Audit Logging, Encryption Service and Monitoring. Overall security posture is HIGH RISK and requires immediate remediation."
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication and RBAC. Overall security posture is HIGH RISK and requires immediate remediation."
   },
   "metadata": {
     "domain": "ERP",

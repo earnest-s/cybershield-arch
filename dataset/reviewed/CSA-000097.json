@@ -1,0 +1,560 @@
+{
+  "id": "CSA-000097",
+  "instruction": "Design a Smart City architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Strict Network Segmentation, Rate Limiting, High Throughput (100k+ TPS), Feature Flags, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "AGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "RATE",
+        "type": "service"
+      },
+      {
+        "id": "FEATURE",
+        "type": "service"
+      },
+      {
+        "id": "AUTH",
+        "type": "service"
+      },
+      {
+        "id": "LAMBDA",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "DYNAMO",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "FUNC",
+        "type": "service"
+      },
+      {
+        "id": "AZ_EVENT",
+        "type": "service"
+      },
+      {
+        "id": "COSMOS",
+        "type": "database"
+      },
+      {
+        "id": "BLOB",
+        "type": "database"
+      },
+      {
+        "id": "SERVICEBUS",
+        "type": "service"
+      },
+      {
+        "id": "CF",
+        "type": "service"
+      },
+      {
+        "id": "PUBSUB",
+        "type": "service"
+      },
+      {
+        "id": "BIGTABLE",
+        "type": "service"
+      },
+      {
+        "id": "GCS",
+        "type": "service"
+      },
+      {
+        "id": "DATAFLOW",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "REPO",
+        "type": "service"
+      },
+      {
+        "id": "BUILD",
+        "type": "ui"
+      },
+      {
+        "id": "BLUE",
+        "type": "service"
+      },
+      {
+        "id": "GREEN",
+        "type": "service"
+      },
+      {
+        "id": "MONITOR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "AGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "RATE",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC",
+        "target": "AZ_EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "CF",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "LAMBDA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "FUNC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "LAMBDA",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "FUNC",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "DYNAMO",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "BIGTABLE",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPO",
+        "target": "BUILD",
+        "label": "HTTP"
+      },
+      {
+        "source": "BUILD",
+        "target": "BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "BUILD",
+        "target": "GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GREEN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONITOR",
+        "target": "GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "LAMBDA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FUNC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "FEATURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "RATE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA",
+        "target": "DYNAMO",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA",
+        "target": "SNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC",
+        "target": "COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC",
+        "target": "BLOB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC",
+        "target": "SERVICEBUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CF",
+        "target": "BIGTABLE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CF",
+        "target": "GCS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CF",
+        "target": "DATAFLOW",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "DYNAMO",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZ_EVENT",
+        "target": "COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PUBSUB",
+        "target": "BIGTABLE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CF",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "OTEL",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 3,
+      "services": 31
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, Authentication and RBAC. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)",
+      "Feature Flags",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 56,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

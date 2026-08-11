@@ -1,0 +1,470 @@
+{
+  "id": "CSA-000178",
+  "instruction": "Design a FinTech architecture. using a Serverless style. deployed on Hybrid Cloud. satisfying: Compliance/Audit Logging, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "LambdaFuncs",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "LoggingSink",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "DataLake",
+        "type": "service"
+      },
+      {
+        "id": "S3Trigger",
+        "type": "service"
+      },
+      {
+        "id": "QueueTrigger",
+        "type": "queue"
+      },
+      {
+        "id": "CronTrigger",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "database"
+      },
+      {
+        "id": "SNS",
+        "type": "database"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "Aurora",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "CloudWatch",
+        "type": "service"
+      },
+      {
+        "id": "XRay",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "AzureFunc",
+        "type": "service"
+      },
+      {
+        "id": "GCP_CloudRun",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "database"
+      },
+      {
+        "id": "FFService",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "LambdaFuncs",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "LoggingSink",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "LambdaFuncs",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "S3Trigger",
+        "label": "Async"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "QueueTrigger",
+        "label": "Async"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "CronTrigger",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQS",
+        "target": "LambdaFuncs",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "LambdaFuncs",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "LoggingSink",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFunc",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_CloudRun",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "LambdaFuncs",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "CloudWatch",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "XRay",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaFuncs",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "DynamoDB",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "FFService",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LambdaFuncs",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 7,
+      "services": 23
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication and RBAC. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Serverless",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 45,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

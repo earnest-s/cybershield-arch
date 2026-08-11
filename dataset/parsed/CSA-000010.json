@@ -64,6 +64,10 @@
         "type": "service"
       },
       {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
         "id": "HIPAA",
         "type": "service"
       },
@@ -198,9 +202,103 @@
       {
         "id": "DR",
         "type": "service"
+      },
+      {
+        "id": "MULTICLOUD",
+        "type": "service"
       }
     ],
     "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WebUI",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
       {
         "source": "APIGW",
         "target": "CMD",
@@ -209,6 +307,11 @@
       {
         "source": "APIGW",
         "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_Service",
+        "target": "EventBus",
         "label": "HTTP"
       },
       {
@@ -238,6 +341,11 @@
       },
       {
         "source": "QRY_Service",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_Service",
         "target": "VectorDB",
         "label": "HTTP"
       },
@@ -257,13 +365,48 @@
         "label": "HTTP"
       },
       {
+        "source": "Kafka",
+        "target": "EventProcessor",
+        "label": "Async"
+      },
+      {
         "source": "EventProcessor",
         "target": "AlertService",
         "label": "HTTP"
       },
       {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "QRY_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "ThreatIntel",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
         "source": "Loki",
         "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CMD_Service",
         "label": "HTTP"
       },
       {
@@ -277,8 +420,33 @@
         "label": "HTTP"
       },
       {
+        "source": "CI_CD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CMD_Service",
+        "label": "HTTP"
+      },
+      {
         "source": "Istio",
         "target": "QRY_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAKS",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCPGKE",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "MULTICLOUD",
         "label": "HTTP"
       },
       {
@@ -309,11 +477,6 @@
       {
         "source": "Security",
         "target": "IAM",
-        "label": "HTTP"
-      },
-      {
-        "source": "IAM",
-        "target": "APIGW",
         "label": "HTTP"
       },
       {

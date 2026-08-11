@@ -160,6 +160,10 @@
         "type": "container"
       },
       {
+        "id": "CQRS",
+        "type": "service"
+      },
+      {
         "id": "AgenticAI",
         "type": "service"
       },
@@ -188,15 +192,116 @@
         "type": "service"
       },
       {
-        "id": "CQRS",
-        "type": "service"
-      },
-      {
         "id": "GCP_DR",
         "type": "service"
       }
     ],
     "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Edge",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "EventStore",
+        "label": "Async"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "ReadDB",
+        "label": "HTTP"
+      },
       {
         "source": "EventStore",
         "target": "EventProcessor",
@@ -215,6 +320,11 @@
       {
         "source": "AuthZ",
         "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIAgent",
+        "target": "AIGateway",
         "label": "HTTP"
       },
       {
@@ -258,8 +368,23 @@
         "label": "HTTP"
       },
       {
+        "source": "Prom",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
         "source": "ELK",
         "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CQRS",
         "label": "HTTP"
       },
       {
@@ -268,8 +393,18 @@
         "label": "HTTP"
       },
       {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
         "source": "Istio",
         "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "K8s",
         "label": "HTTP"
       },
       {
@@ -346,16 +481,6 @@
         "source": "APIGW",
         "target": "AIGateway",
         "label": "HTTP"
-      },
-      {
-        "source": "CommandSvc",
-        "target": "EventStore",
-        "label": "Async"
-      },
-      {
-        "source": "QuerySvc",
-        "target": "ReadDB",
-        "label": "DB Query"
       },
       {
         "source": "ServiceMesh",

@@ -60,6 +60,10 @@
         "type": "service"
       },
       {
+        "id": "micro_svc",
+        "type": "service"
+      },
+      {
         "id": "kms",
         "type": "service"
       },
@@ -89,10 +93,6 @@
       },
       {
         "id": "svc_a4",
-        "type": "service"
-      },
-      {
-        "id": "micro_svc",
         "type": "service"
       },
       {
@@ -148,6 +148,10 @@
         "type": "service"
       },
       {
+        "id": "K8S_AWS",
+        "type": "service"
+      },
+      {
         "id": "grafana",
         "type": "service"
       },
@@ -176,11 +180,100 @@
         "type": "service"
       },
       {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
         "id": "gdpr",
         "type": "service"
       }
     ],
     "edges": [
+      {
+        "source": "web",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "iot",
+        "target": "mqtt_broker",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "web",
+        "label": "Cache"
+      },
+      {
+        "source": "waf",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "micro_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "micro_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "micro_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "rl",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_svc",
+        "target": "svc_a1",
+        "label": "HTTP"
+      },
       {
         "source": "micro_svc",
         "target": "svc_a2",
@@ -194,6 +287,26 @@
       {
         "source": "micro_svc",
         "target": "svc_a4",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis_aws",
+        "target": "svc_a1",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_aws",
+        "target": "svc_a2",
+        "label": "HTTP"
+      },
+      {
+        "source": "es_aws",
+        "target": "svc_a3",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_svc2",
+        "target": "svc_b1",
         "label": "HTTP"
       },
       {
@@ -212,6 +325,26 @@
         "label": "HTTP"
       },
       {
+        "source": "redis_az",
+        "target": "svc_b1",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_az",
+        "target": "svc_b2",
+        "label": "HTTP"
+      },
+      {
+        "source": "es_az",
+        "target": "svc_b3",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svc_a1",
+        "label": "HTTP"
+      },
+      {
         "source": "kafka",
         "target": "svc_a2",
         "label": "HTTP"
@@ -224,6 +357,41 @@
       {
         "source": "kafka",
         "target": "svc_a4",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "K8S_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "K8S_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "K8S_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_replica",
+        "target": "pg_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "es_replica",
+        "target": "es_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis_sync",
+        "target": "redis_aws",
         "label": "HTTP"
       },
       {
@@ -245,6 +413,16 @@
         "source": "mqtt_broker",
         "target": "kafka",
         "label": "Async"
+      },
+      {
+        "source": "hipaa",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "SECURITY",
+        "label": "HTTP"
       }
     ]
   },

@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
         "id": "MobileApp",
         "type": "service"
       },
@@ -33,10 +37,6 @@
       },
       {
         "id": "VPN",
-        "type": "service"
-      },
-      {
-        "id": "API_GW",
         "type": "service"
       },
       {
@@ -84,7 +84,15 @@
         "type": "service"
       },
       {
+        "id": "TLS",
+        "type": "service"
+      },
+      {
         "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "Encryption",
         "type": "service"
       },
       {
@@ -248,6 +256,10 @@
         "type": "service"
       },
       {
+        "id": "ElasticSearch",
+        "type": "service"
+      },
+      {
         "id": "Splunk",
         "type": "service"
       },
@@ -316,6 +328,10 @@
         "type": "service"
       },
       {
+        "id": "Security",
+        "type": "service"
+      },
+      {
         "id": "BlueGreen",
         "type": "service"
       },
@@ -346,13 +362,54 @@
       {
         "id": "Mesh5",
         "type": "service"
-      },
-      {
-        "id": "Security",
-        "type": "service"
       }
     ],
     "edges": [
+      {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "API_GW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
       {
         "source": "LB",
         "target": "EdgeNetwork",
@@ -364,8 +421,88 @@
         "label": "HTTP"
       },
       {
+        "source": "IAM",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "SSO",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "SecretsManagement",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "TLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Encryption",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IdentityFed",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
         "source": "SecretsManagement",
         "target": "Envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryService",
+        "target": "VehicleData",
         "label": "HTTP"
       },
       {
@@ -374,14 +511,29 @@
         "label": "Async"
       },
       {
+        "source": "ProductionService",
+        "target": "PartsInventory",
+        "label": "HTTP"
+      },
+      {
         "source": "PartsInventory",
         "target": "EventBus",
         "label": "Async"
       },
       {
+        "source": "CRMService",
+        "target": "CustomerData",
+        "label": "HTTP"
+      },
+      {
         "source": "CustomerData",
         "target": "EventBus",
         "label": "Async"
+      },
+      {
+        "source": "AnalyticsService",
+        "target": "DataMeshGateway",
+        "label": "HTTP"
       },
       {
         "source": "DataMeshGateway",
@@ -392,6 +544,11 @@
         "source": "DataMeshGateway",
         "target": "VectorDB",
         "label": "DB Query"
+      },
+      {
+        "source": "AIGateway",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
       },
       {
         "source": "EmbeddingModel",
@@ -429,8 +586,143 @@
         "label": "HTTP"
       },
       {
+        "source": "PostgreSQL",
+        "target": "VehicleData",
+        "label": "HTTP"
+      },
+      {
+        "source": "MongoDB",
+        "target": "PartsInventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cassandra",
+        "target": "CustomerData",
+        "label": "HTTP"
+      },
+      {
+        "source": "DynamoDB",
+        "target": "AnalyticsService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "API_GW",
+        "label": "Cache"
+      },
+      {
+        "source": "Elasticsearch",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
         "source": "VectorDB",
         "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "DataMeshGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "RabbitMQ",
+        "target": "AsyncProcessing",
+        "label": "Async"
+      },
+      {
+        "source": "SQS",
+        "target": "AsyncProcessing",
+        "label": "Async"
+      },
+      {
+        "source": "EventBridge",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "PubSub",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpenTelemetry",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELKStack",
+        "target": "ElasticSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "Splunk",
+        "target": "ElasticSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ApplicationPods",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "ApplicationPods",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "AutoScaling",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Azure",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "OnPrem",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "AWS",
         "label": "HTTP"
       },
       {
@@ -441,6 +733,41 @@
       {
         "source": "DR",
         "target": "GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS",
+        "target": "ApplicationPods",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventSourcing",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Saga",
+        "target": "ApplicationPods",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "CICD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Canary",
+        "target": "CICD",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "CICD",
         "label": "HTTP"
       },
       {
@@ -549,11 +876,6 @@
         "label": "HTTP"
       },
       {
-        "source": "AutoScaling",
-        "target": "K8s",
-        "label": "HTTP"
-      },
-      {
         "source": "CDN",
         "target": "WebUI",
         "label": "HTTP"
@@ -561,11 +883,6 @@
       {
         "source": "CDN",
         "target": "MobileApp",
-        "label": "HTTP"
-      },
-      {
-        "source": "WAF",
-        "target": "API_GW",
         "label": "HTTP"
       },
       {
@@ -586,11 +903,6 @@
       {
         "source": "IAM",
         "target": "IdentityFed",
-        "label": "HTTP"
-      },
-      {
-        "source": "Vault",
-        "target": "SecretsManagement",
         "label": "HTTP"
       },
       {
@@ -619,64 +931,9 @@
         "label": "HTTP"
       },
       {
-        "source": "PCI",
-        "target": "AuditLog",
-        "label": "HTTP"
-      },
-      {
-        "source": "HIPAA",
-        "target": "AuditLog",
-        "label": "HTTP"
-      },
-      {
-        "source": "GDPR",
-        "target": "AuditLog",
-        "label": "HTTP"
-      },
-      {
-        "source": "SOC2",
-        "target": "AuditLog",
-        "label": "HTTP"
-      },
-      {
-        "source": "ISO",
-        "target": "AuditLog",
-        "label": "HTTP"
-      },
-      {
-        "source": "CQRS",
-        "target": "ApplicationPods",
-        "label": "HTTP"
-      },
-      {
         "source": "EventSourcing",
         "target": "Kafka",
         "label": "Async"
-      },
-      {
-        "source": "Saga",
-        "target": "ApplicationPods",
-        "label": "HTTP"
-      },
-      {
-        "source": "ZeroTrust",
-        "target": "Security",
-        "label": "HTTP"
-      },
-      {
-        "source": "BlueGreen",
-        "target": "CICD",
-        "label": "HTTP"
-      },
-      {
-        "source": "Canary",
-        "target": "CICD",
-        "label": "HTTP"
-      },
-      {
-        "source": "FeatureFlags",
-        "target": "CICD",
-        "label": "HTTP"
       }
     ]
   },

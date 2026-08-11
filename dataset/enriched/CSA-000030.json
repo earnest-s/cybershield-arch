@@ -262,6 +262,31 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "Cache"
+      },
+      {
         "source": "WAF",
         "target": "APIGW",
         "label": "HTTP"
@@ -274,6 +299,96 @@
       {
         "source": "LB",
         "target": "EdgeProxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "EdgeProxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "EdgeProxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CQRSService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "CQRSService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CQRSService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "CQRSService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitOps",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "CQRSService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QuerySvc",
         "label": "HTTP"
       },
       {
@@ -322,6 +437,16 @@
         "label": "HTTP"
       },
       {
+        "source": "Kafka",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
         "source": "Embeddings",
         "target": "VectorDB",
         "label": "HTTP"
@@ -329,6 +454,41 @@
       {
         "source": "RAG",
         "target": "KGSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "SPL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudArmor",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "EventStore",
         "label": "HTTP"
       },
       {
@@ -404,6 +564,34 @@
     ],
     "threats": [
       {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
         "name": "DDoS",
         "severity": "HIGH",
         "description": "Distributed Denial of Service attacking service availability.",
@@ -430,45 +618,17 @@
         "description": "Automated injection of breached username/password pairs.",
         "missing_control": "Authentication",
         "severity_level": "warning"
-      },
-      {
-        "name": "Log Evasion",
-        "severity": "MEDIUM",
-        "description": "Attackers can perform actions without generating audit trails.",
-        "missing_control": "Audit Logging",
-        "severity_level": "info"
-      },
-      {
-        "name": "Data Leakage",
-        "severity": "CRITICAL",
-        "description": "Sensitive data is exposed in transit or at rest.",
-        "missing_control": "Encryption Service",
-        "severity_level": "danger"
-      },
-      {
-        "name": "Data Tampering",
-        "severity": "HIGH",
-        "description": "Data is maliciously modified.",
-        "missing_control": "Encryption Service",
-        "severity_level": "warning"
-      },
-      {
-        "name": "Lateral Movement",
-        "severity": "HIGH",
-        "description": "Attackers move through the network searching for key assets.",
-        "missing_control": "Monitoring",
-        "severity_level": "warning"
       }
     ],
     "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
       "Add API Gateway to secure and manage external traffic.",
       "Add Authentication service to protect user access.",
-      "Enable centralized audit logging.",
-      "Encrypt sensitive data at rest and in transit.",
-      "Add monitoring and observability.",
       "Implement an Intrusion Prevention System.",
-      "Implement an Intrusion Detection System.",
-      "Deploy a SIEM for security event aggregation and threat detection."
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Implement an Intrusion Detection System."
     ],
     "risk_level": "HIGH",
     "security_score": 10,
@@ -478,7 +638,7 @@
       "databases": 4,
       "services": 52
     },
-    "security_summary": "Architecture contains a frontend, an API service and a database but lacks API Gateway, Authentication, Audit Logging, Encryption Service, Monitoring, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication, IPS, SIEM and IDS. Overall security posture is HIGH RISK and requires immediate remediation."
   },
   "metadata": {
     "domain": "Knowledge Graph",

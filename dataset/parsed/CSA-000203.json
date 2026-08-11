@@ -36,6 +36,10 @@
         "type": "service"
       },
       {
+        "id": "serviceMesh",
+        "type": "service"
+      },
+      {
         "id": "lb",
         "type": "service"
       },
@@ -46,10 +50,6 @@
       {
         "id": "k8sCluster",
         "type": "container"
-      },
-      {
-        "id": "serviceMesh",
-        "type": "service"
       },
       {
         "id": "ciCd",
@@ -153,6 +153,51 @@
       }
     ],
     "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "zeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "lb",
+        "label": "Cache"
+      },
       {
         "source": "k8sCluster",
         "target": "serviceMesh",

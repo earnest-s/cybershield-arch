@@ -8,6 +8,10 @@
         "type": "ui"
       },
       {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
         "id": "mobileApp",
         "type": "service"
       },
@@ -33,10 +37,6 @@
       },
       {
         "id": "vpn",
-        "type": "service"
-      },
-      {
-        "id": "apiGW",
         "type": "service"
       },
       {
@@ -294,6 +294,31 @@
     ],
     "edges": [
       {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdParty",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
         "source": "waf",
         "target": "firewall",
         "label": "HTTP"
@@ -324,13 +349,33 @@
         "label": "HTTP"
       },
       {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
         "source": "authz",
         "target": "vault",
         "label": "HTTP"
       },
       {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
         "source": "istio",
         "target": "sidecar",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "prometheus",
         "label": "HTTP"
       },
       {
@@ -341,6 +386,11 @@
       {
         "source": "monitoring",
         "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "logging",
+        "target": "splunk",
         "label": "HTTP"
       },
       {
@@ -385,7 +435,27 @@
       },
       {
         "source": "kafka",
+        "target": "kafkaReplica",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
         "target": "eventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedding",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentOrch",
+        "target": "rag",
         "label": "HTTP"
       },
       {
@@ -404,8 +474,18 @@
         "label": "HTTP"
       },
       {
+        "source": "scLake",
+        "target": "scDW",
+        "label": "HTTP"
+      },
+      {
         "source": "scDW",
         "target": "scAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfLake",
+        "target": "mfDW",
         "label": "HTTP"
       },
       {
@@ -414,8 +494,18 @@
         "label": "HTTP"
       },
       {
+        "source": "qlLake",
+        "target": "qlDW",
+        "label": "HTTP"
+      },
+      {
         "source": "qlDW",
         "target": "qlAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "mtLake",
+        "target": "mtDW",
         "label": "HTTP"
       },
       {
@@ -484,9 +574,29 @@
         "label": "HTTP"
       },
       {
+        "source": "aws",
+        "target": "hybridLink",
+        "label": "HTTP"
+      },
+      {
+        "source": "azure",
+        "target": "hybridLink",
+        "label": "HTTP"
+      },
+      {
+        "source": "onPrem",
+        "target": "hybridLink",
+        "label": "HTTP"
+      },
+      {
         "source": "hybridLink",
         "target": "k8s",
         "label": "HTTP"
+      },
+      {
+        "source": "drSite",
+        "target": "k8s",
+        "label": "DB Query"
       },
       {
         "source": "apiGW",
@@ -549,11 +659,6 @@
         "label": "HTTP"
       },
       {
-        "source": "kafka",
-        "target": "kafkaReplica",
-        "label": "HTTP"
-      },
-      {
         "source": "aiGateway",
         "target": "vectorDB",
         "label": "HTTP"
@@ -561,6 +666,11 @@
       {
         "source": "aiGateway",
         "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceEngine",
+        "target": "policyEngine",
         "label": "HTTP"
       },
       {
@@ -636,11 +746,6 @@
       {
         "source": "otel",
         "target": "prometheus",
-        "label": "HTTP"
-      },
-      {
-        "source": "logging",
-        "target": "splunk",
         "label": "HTTP"
       },
       {

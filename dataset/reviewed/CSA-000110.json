@@ -1,0 +1,511 @@
+{
+  "id": "CSA-000110",
+  "instruction": "Design a CRM architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Zero Trust Architecture, GraphRAG Integration, Rate Limiting, Active-Active Multi-Region, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Edge1",
+        "type": "service"
+      },
+      {
+        "id": "Edge2",
+        "type": "service"
+      },
+      {
+        "id": "ZT_Proxy",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "EventBroker",
+        "type": "queue"
+      },
+      {
+        "id": "GraphRAG",
+        "type": "service"
+      },
+      {
+        "id": "CRM_API",
+        "type": "service"
+      },
+      {
+        "id": "EventPublisher",
+        "type": "service"
+      },
+      {
+        "id": "EventSubscriber",
+        "type": "service"
+      },
+      {
+        "id": "CRM_Logic",
+        "type": "service"
+      },
+      {
+        "id": "DataAccess",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LogCollector",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "K8sClusterA",
+        "type": "container"
+      },
+      {
+        "id": "K8sClusterB",
+        "type": "container"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "API_GW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Edge1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Edge2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT_Proxy",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ZT_Proxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "EventBroker",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "CRM_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "CRM_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CRM_API",
+        "target": "EventPublisher",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventPublisher",
+        "target": "EventBroker",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAG",
+        "target": "EventSubscriber",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventSubscriber",
+        "target": "CRM_Logic",
+        "label": "HTTP"
+      },
+      {
+        "source": "CRM_Logic",
+        "target": "DataAccess",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataAccess",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataAccess",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataAccess",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataAccess",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogCollector",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sClusterA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sClusterB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sClusterA",
+        "target": "Edge1",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sClusterB",
+        "target": "Edge2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DataAccess",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "LogCollector",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "NETWORK",
+        "target": "ZERO_TRUST",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Implement an Intrusion Prevention System.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Implement an Intrusion Detection System."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 4,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Audit Logging, Monitoring, API Gateway, Authentication, RBAC, IPS, SIEM and IDS. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "GraphRAG Integration",
+      "Rate Limiting",
+      "Active-Active Multi-Region",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 49,
+    "source_edges": 43,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

@@ -52,6 +52,10 @@
         "type": "service"
       },
       {
+        "id": "K8sCluster",
+        "type": "container"
+      },
+      {
         "id": "CommandSvc",
         "type": "service"
       },
@@ -62,10 +66,6 @@
       {
         "id": "FeatureFlags",
         "type": "service"
-      },
-      {
-        "id": "K8sCluster",
-        "type": "container"
       },
       {
         "id": "CmdTopic",
@@ -198,6 +198,61 @@
     ],
     "edges": [
       {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "K8sCluster",
+        "label": "HTTP"
+      },
+      {
         "source": "APIGW",
         "target": "CommandSvc",
         "label": "HTTP"
@@ -205,6 +260,11 @@
       {
         "source": "APIGW",
         "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "CommandSvc",
         "label": "HTTP"
       },
       {
@@ -224,12 +284,27 @@
       },
       {
         "source": "CmdWorker",
+        "target": "CmdTopic",
+        "label": "HTTP"
+      },
+      {
+        "source": "QryWorker",
+        "target": "QueryTopic",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdWorker",
         "target": "WriteModel",
         "label": "HTTP"
       },
       {
         "source": "QryWorker",
         "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CmdTopic",
         "label": "HTTP"
       },
       {
@@ -250,6 +325,66 @@
       {
         "source": "ReadModel",
         "target": "SearchIndex",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "K8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "K8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "K8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodeRepo",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "SonarQube",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Trivy",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "GuardDuty",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Inspector",
+        "target": "K8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "WriteModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Loki",
         "label": "HTTP"
       },
       {
