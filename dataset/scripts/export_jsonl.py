@@ -82,16 +82,18 @@ def export(limit: int = 0, output: Path | None = None) -> int:
             if exported % 1000 == 0:
                 LOG.info("Progress: %d records written", exported)
 
-    LOG.info("Export complete: %d records written to %s", exported, OUTPUT_FILE)
+    LOG.info("Export complete: %d records written to %s", exported, out_path)
     return 0
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Export reviewed samples to training JSONL.")
     parser.add_argument("--limit", type=int, default=0, help="Max records to export (0 = all).")
+    parser.add_argument("--output", type=Path, default=None,
+                        help="Output JSONL path (default: dataset/final/CyberShield_Dataset_v1.jsonl).")
     args = parser.parse_args()
     try:
-        return export(args.limit)
+        return export(args.limit, args.output)
     except Exception as e:
         LOG.exception("Export failed: %s", e)
         return 1
