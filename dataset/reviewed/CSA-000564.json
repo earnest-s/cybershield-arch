@@ -1,0 +1,573 @@
+{
+  "id": "CSA-000564",
+  "instruction": "Design a MLOps architecture. using a Hexagonal style. deployed on AWS. satisfying: High Throughput (100k+ TPS), Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "dataScientist",
+        "type": "service"
+      },
+      {
+        "id": "mlOpsPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "loadBal",
+        "type": "database"
+      },
+      {
+        "id": "k8sIngress",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "k8sPods",
+        "type": "container"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "s3Lake",
+        "type": "database"
+      },
+      {
+        "id": "k8sCluster",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "microservices",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "core",
+        "type": "service"
+      },
+      {
+        "id": "portAPI",
+        "type": "service"
+      },
+      {
+        "id": "portCLI",
+        "type": "service"
+      },
+      {
+        "id": "portBatch",
+        "type": "service"
+      },
+      {
+        "id": "adapterAPI",
+        "type": "service"
+      },
+      {
+        "id": "adapterCLI",
+        "type": "service"
+      },
+      {
+        "id": "adapterBatch",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "queue"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventProcessor",
+        "type": "service"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "redshift",
+        "type": "service"
+      },
+      {
+        "id": "biTool",
+        "type": "ui"
+      },
+      {
+        "id": "glue",
+        "type": "service"
+      },
+      {
+        "id": "athena",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "auditTrail",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "dsrService",
+        "type": "service"
+      },
+      {
+        "id": "highLoad",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataScientist",
+        "target": "mlOpsPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "webUI",
+        "label": "Cache"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "mlOpsPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBal",
+        "target": "k8sIngress",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8sPods",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster",
+        "target": "k8sIngress",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "portAPI",
+        "target": "core",
+        "label": "HTTP"
+      },
+      {
+        "source": "portCLI",
+        "target": "core",
+        "label": "HTTP"
+      },
+      {
+        "source": "portBatch",
+        "target": "core",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterAPI",
+        "target": "portAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterCLI",
+        "target": "portCLI",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterBatch",
+        "target": "portBatch",
+        "label": "HTTP"
+      },
+      {
+        "source": "core",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "core",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "core",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "eventProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "eventProcessor",
+        "label": "Async"
+      },
+      {
+        "source": "redshift",
+        "target": "biTool",
+        "label": "HTTP"
+      },
+      {
+        "source": "glue",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "athena",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "mlOpsPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "auditTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "dsrService",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditTrail",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "dsrService",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "loadBal",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sIngress",
+        "target": "adapterAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterAPI",
+        "target": "core",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterBatch",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventProcessor",
+        "target": "core",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlOpsPortal",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlOpsPortal",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "highLoad",
+        "target": "portBatch",
+        "label": "HTTP"
+      },
+      {
+        "source": "portBatch",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "eventProcessor",
+        "target": "s3Lake",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 2,
+      "services": 36
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 67,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

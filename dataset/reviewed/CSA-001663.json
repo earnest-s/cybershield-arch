@@ -1,0 +1,680 @@
+{
+  "id": "CSA-001663",
+  "instruction": "Design a HR architecture. using a Zero-Trust style. deployed on GCP. satisfying: Compliance/Audit Logging, Strict Network Segmentation, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "edgeLB",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkc",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "segFront",
+        "type": "service"
+      },
+      {
+        "id": "segBiz",
+        "type": "service"
+      },
+      {
+        "id": "segData",
+        "type": "service"
+      },
+      {
+        "id": "segAI",
+        "type": "service"
+      },
+      {
+        "id": "userMS",
+        "type": "service"
+      },
+      {
+        "id": "payrollMS",
+        "type": "service"
+      },
+      {
+        "id": "talentMS",
+        "type": "ui"
+      },
+      {
+        "id": "benefitsMS",
+        "type": "service"
+      },
+      {
+        "id": "complianceMS",
+        "type": "service"
+      },
+      {
+        "id": "auditLogMS",
+        "type": "service"
+      },
+      {
+        "id": "rateLimitMS",
+        "type": "service"
+      },
+      {
+        "id": "gateway",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "database"
+      },
+      {
+        "id": "bigQuery",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "github",
+        "type": "service"
+      },
+      {
+        "id": "cloudBuild",
+        "type": "ui"
+      },
+      {
+        "id": "artifact",
+        "type": "service"
+      },
+      {
+        "id": "gke",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "auditSink",
+        "type": "service"
+      },
+      {
+        "id": "payrollProvider",
+        "type": "service"
+      },
+      {
+        "id": "identityProvider",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "edgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeLB",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "pkc",
+        "label": "HTTP"
+      },
+      {
+        "source": "pkc",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeLB",
+        "target": "segFront",
+        "label": "HTTP"
+      },
+      {
+        "source": "segFront",
+        "target": "segBiz",
+        "label": "HTTP"
+      },
+      {
+        "source": "segBiz",
+        "target": "segData",
+        "label": "HTTP"
+      },
+      {
+        "source": "segBiz",
+        "target": "segAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "segFront",
+        "target": "userMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "segBiz",
+        "target": "payrollMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "segBiz",
+        "target": "talentMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "segBiz",
+        "target": "benefitsMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "segBiz",
+        "target": "complianceMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "segBiz",
+        "target": "auditLogMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "segBiz",
+        "target": "rateLimitMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "segAI",
+        "target": "gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "segAI",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "payrollMS",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "talentMS",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "benefitsMS",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "complianceMS",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "auditLogMS",
+        "label": "Async"
+      },
+      {
+        "source": "payrollMS",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "talentMS",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "benefitsMS",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "complianceMS",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "gateway",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "userMS",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "payrollMS",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "talentMS",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "benefitsMS",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "complianceMS",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLogMS",
+        "target": "bigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "userMS",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "payrollMS",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "talentMS",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "benefitsMS",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceMS",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLogMS",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "github",
+        "target": "cloudBuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "cloudBuild",
+        "target": "artifact",
+        "label": "HTTP"
+      },
+      {
+        "source": "artifact",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLogMS",
+        "target": "auditSink",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditSink",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditSink",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditSink",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditSink",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditSink",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "payrollMS",
+        "target": "payrollProvider",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "identityProvider",
+        "label": "HTTP"
+      },
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "apiGW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 7,
+      "services": 42
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Zero-Trust",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Strict Network Segmentation",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 77,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

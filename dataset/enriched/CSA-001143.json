@@ -1,0 +1,490 @@
+{
+  "id": "CSA-001143",
+  "instruction": "Design a MLOps architecture. using a CQRS style. deployed on On-Premises. satisfying: Auto Scaling, Zero Trust Architecture, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "cmdSvc1",
+        "type": "service"
+      },
+      {
+        "id": "cmdSvc2",
+        "type": "service"
+      },
+      {
+        "id": "cmdSvc3",
+        "type": "service"
+      },
+      {
+        "id": "cmdSidebus",
+        "type": "queue"
+      },
+      {
+        "id": "queryAPI",
+        "type": "service"
+      },
+      {
+        "id": "redisCache",
+        "type": "cache"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "minio",
+        "type": "database"
+      },
+      {
+        "id": "mlflow",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "bluegreen",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "zeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "cmdSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "cmdSvc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "cmdSvc3",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "queryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc1",
+        "target": "cmdSidebus",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc2",
+        "target": "cmdSidebus",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc3",
+        "target": "cmdSidebus",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSidebus",
+        "target": "queryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryAPI",
+        "target": "redisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryAPI",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc1",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc2",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc3",
+        "target": "mlflow",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc1",
+        "target": "minio",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc2",
+        "target": "minio",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "ci",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "bluegreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "cmdSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "cmdSvc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "cmdSvc3",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "queryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "cmdSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "cmdSvc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "cmdSvc3",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "queryAPI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 6,
+      "services": 25
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Zero Trust Architecture",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 47,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

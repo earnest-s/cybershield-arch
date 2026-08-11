@@ -1,0 +1,257 @@
+{
+  "id": "CSA-001885",
+  "instruction": "Design a Retail architecture. using a Serverless style. deployed on AWS. satisfying: Compliance/Audit Logging, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "FrontLambda",
+        "type": "ui"
+      },
+      {
+        "id": "OrderLambda",
+        "type": "service"
+      },
+      {
+        "id": "CatalogLambda",
+        "type": "service"
+      },
+      {
+        "id": "PaymentLambda",
+        "type": "service"
+      },
+      {
+        "id": "NotifyLambda",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "Aurora",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "CW",
+        "type": "service"
+      },
+      {
+        "id": "XRay",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "F",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FrontLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontLambda",
+        "target": "OrderLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontLambda",
+        "target": "CatalogLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontLambda",
+        "target": "PaymentLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontLambda",
+        "target": "NotifyLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderLambda",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "CatalogLambda",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentLambda",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "NotifyLambda",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "OrderLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "PaymentLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "NotifyLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderLambda",
+        "target": "Aurora",
+        "label": "DB Query"
+      },
+      {
+        "source": "PaymentLambda",
+        "target": "Aurora",
+        "label": "DB Query"
+      },
+      {
+        "source": "OrderLambda",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "PaymentLambda",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "FrontLambda",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontLambda",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Retail",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 35,
+    "source_edges": 33,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

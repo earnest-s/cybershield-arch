@@ -1,0 +1,437 @@
+{
+  "id": "CSA-001973",
+  "instruction": "Design a ERP architecture. using a Modular Monolith style. deployed on Azure. satisfying: Active-Active Multi-Region, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "DKR",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "MON",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "RATE",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "AUTH",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "PG_REP",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "BLOB",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONS",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "SSO",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "COMPLY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "RATE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "PG_REP",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "BLOB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "DKR",
+        "label": "HTTP"
+      },
+      {
+        "source": "DKR",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "MON",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MON",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 26
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Modular Monolith",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

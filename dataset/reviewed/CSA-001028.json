@@ -1,0 +1,650 @@
+{
+  "id": "CSA-001028",
+  "instruction": "Design a Knowledge Graph architecture. using a Microservices style. deployed on Multi-Cloud. satisfying: Strict Network Segmentation, Observability Stack, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "K8S_AWS",
+        "type": "container"
+      },
+      {
+        "id": "K8S_AZR",
+        "type": "container"
+      },
+      {
+        "id": "K8S_GCP",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "KG_API",
+        "type": "service"
+      },
+      {
+        "id": "KG_INGEST",
+        "type": "service"
+      },
+      {
+        "id": "KG_INDEX",
+        "type": "database"
+      },
+      {
+        "id": "KG_QUERY",
+        "type": "service"
+      },
+      {
+        "id": "KG_ENRICH",
+        "type": "service"
+      },
+      {
+        "id": "KG_NOTIF",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "DYNAMO",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "USER",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONSUMERS",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "KG_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_API",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_INGEST",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_INDEX",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_QUERY",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_ENRICH",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_NOTIF",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_API",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_INGEST",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_INDEX",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_QUERY",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_ENRICH",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_NOTIF",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_INGEST",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_ENRICH",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_NOTIF",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "KG_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "KG_QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_API",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_INGEST",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_ENRICH",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_INDEX",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_INDEX",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_QUERY",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_QUERY",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_QUERY",
+        "target": "DYNAMO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC_DB",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "WEB",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "MOBILE",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "ADMIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "SSO",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AWS",
+        "target": "KG_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AWS",
+        "target": "KG_INGEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AWS",
+        "target": "KG_INDEX",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AWS",
+        "target": "KG_QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AWS",
+        "target": "KG_ENRICH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AWS",
+        "target": "KG_NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AZR",
+        "target": "KG_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AZR",
+        "target": "KG_INGEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AZR",
+        "target": "KG_INDEX",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AZR",
+        "target": "KG_QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AZR",
+        "target": "KG_ENRICH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AZR",
+        "target": "KG_NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_GCP",
+        "target": "KG_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_GCP",
+        "target": "KG_INGEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_GCP",
+        "target": "KG_INDEX",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_GCP",
+        "target": "KG_QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_GCP",
+        "target": "KG_ENRICH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_GCP",
+        "target": "KG_NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_AZR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_GCP",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Knowledge Graph",
+    "style": "Microservices",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Observability Stack",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 56,
+    "source_edges": 75,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

@@ -1,0 +1,450 @@
+{
+  "id": "CSA-000883",
+  "instruction": "Design a Logistics architecture. using a Data Mesh style. deployed on On-Premises. satisfying: Active-Active Multi-Region, GraphRAG Integration, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "MeshNodeA1",
+        "type": "service"
+      },
+      {
+        "id": "MeshNodeA2",
+        "type": "service"
+      },
+      {
+        "id": "MeshNodeA3",
+        "type": "service"
+      },
+      {
+        "id": "MeshNodeFinA",
+        "type": "service"
+      },
+      {
+        "id": "MeshNodeB1",
+        "type": "service"
+      },
+      {
+        "id": "MeshNodeB2",
+        "type": "service"
+      },
+      {
+        "id": "MeshNodeB3",
+        "type": "service"
+      },
+      {
+        "id": "MeshNodeFinB",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "PostgresA",
+        "type": "database"
+      },
+      {
+        "id": "MongoA",
+        "type": "database"
+      },
+      {
+        "id": "PostgresB",
+        "type": "database"
+      },
+      {
+        "id": "MongoB",
+        "type": "database"
+      },
+      {
+        "id": "DynamoA",
+        "type": "database"
+      },
+      {
+        "id": "DynamoB",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "GraphRAG",
+        "type": "database"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeA1",
+        "target": "MeshNodeA2",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeA2",
+        "target": "MeshNodeA3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeA3",
+        "target": "MeshNodeA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeB1",
+        "target": "MeshNodeB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeB2",
+        "target": "MeshNodeB3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeB3",
+        "target": "MeshNodeB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeA1",
+        "target": "MeshNodeB1",
+        "label": "Async"
+      },
+      {
+        "source": "MeshNodeA2",
+        "target": "MeshNodeB2",
+        "label": "Async"
+      },
+      {
+        "source": "MeshNodeA3",
+        "target": "MeshNodeB3",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "MeshNodeA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MeshNodeA2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MeshNodeA3",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MeshNodeB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MeshNodeB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MeshNodeB3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeA1",
+        "target": "PostgresA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeA2",
+        "target": "MongoA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeB1",
+        "target": "PostgresB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeB2",
+        "target": "MongoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeFinA",
+        "target": "DynamoA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeFinB",
+        "target": "DynamoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeA3",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeB3",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeA1",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeA2",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeA3",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeB1",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeB2",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNodeB3",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MeshNodeA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MeshNodeB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "MeshNodeA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "MeshNodeB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "Data Mesh",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "GraphRAG Integration",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 77,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

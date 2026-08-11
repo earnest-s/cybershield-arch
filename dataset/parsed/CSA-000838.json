@@ -1,0 +1,325 @@
+{
+  "id": "CSA-000838",
+  "instruction": "Design a RAG architecture. using a Event-Driven style. deployed on Hybrid Cloud. satisfying: Strict Network Segmentation, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "k8sBlue",
+        "type": "container"
+      },
+      {
+        "id": "k8sGreen",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "gql",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "embed",
+        "type": "service"
+      },
+      {
+        "id": "vecDB",
+        "type": "database"
+      },
+      {
+        "id": "cache",
+        "type": "cache"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "SERVICES",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "gql",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "gql",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed",
+        "target": "vecDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "vecDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "gql",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sBlue",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sGreen",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8sBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8sGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "SERVICES",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "RAG",
+    "style": "Event-Driven",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 37,
+    "source_edges": 38,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

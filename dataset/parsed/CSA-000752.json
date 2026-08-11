@@ -1,0 +1,434 @@
+{
+  "id": "CSA-000752",
+  "instruction": "Design a MLOps architecture. using a Zero-Trust style. deployed on On-Premises. satisfying: Data Lakehouse Pattern, High Throughput (100k+ TPS), Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "LB1",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "LB2",
+        "type": "service"
+      },
+      {
+        "id": "CONSUMER",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "IDM",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IDS",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_MESH",
+        "type": "service"
+      },
+      {
+        "id": "DISCOVERY",
+        "type": "service"
+      },
+      {
+        "id": "CONFIG",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "ML_SERVICES",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT_LOG",
+        "type": "service"
+      },
+      {
+        "id": "TRAIN",
+        "type": "service"
+      },
+      {
+        "id": "SERVE",
+        "type": "service"
+      },
+      {
+        "id": "MONITOR",
+        "type": "service"
+      },
+      {
+        "id": "PIPE",
+        "type": "service"
+      },
+      {
+        "id": "RAW_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "CURATED",
+        "type": "service"
+      },
+      {
+        "id": "METASTORE",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "ARCHIVE",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "SEC",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "GIT",
+        "type": "service"
+      },
+      {
+        "id": "BUILD",
+        "type": "ui"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "TF",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "K8S_CLUSTER",
+        "type": "container"
+      },
+      {
+        "id": "EX_DATA",
+        "type": "service"
+      },
+      {
+        "id": "EX_AUTH",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "LB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONSUMER",
+        "target": "LB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "IDM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IDM",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "DISCOVERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "DISCOVERY",
+        "target": "CONFIG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ML_SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "AUDIT_LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPE",
+        "target": "TRAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPE",
+        "target": "SERVE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPE",
+        "target": "MONITOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ML_SERVICES",
+        "target": "PIPE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAW_LAKE",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "CURATED",
+        "target": "METASTORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CURATED",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "METASTORE",
+        "target": "ML_SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_DB",
+        "target": "SERVE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "SEC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GIT",
+        "target": "BUILD",
+        "label": "HTTP"
+      },
+      {
+        "source": "BUILD",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "K8S_CLUSTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "CONFIG",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "K8S_CLUSTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "EX_DATA",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EX_AUTH",
+        "target": "IDM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB1",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB2",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PERIMETER",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ML_SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CONFIG",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "ML_SERVICES",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVE",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONITOR",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "TRAIN",
+        "target": "ARCHIVE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONFIG",
+        "target": "WEB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONFIG",
+        "target": "MOBILE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONFIG",
+        "target": "ADMIN",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Zero-Trust",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "High Throughput (100k+ TPS)",
+      "Feature Flags"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 60,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

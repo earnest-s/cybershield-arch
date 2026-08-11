@@ -1,0 +1,729 @@
+{
+  "id": "CSA-000922",
+  "instruction": "Design a Defense architecture. using a Serverless style. deployed on AWS. satisfying: Active-Active Multi-Region, Blue/Green Deployment, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "glb",
+        "type": "service"
+      },
+      {
+        "id": "alb_east",
+        "type": "service"
+      },
+      {
+        "id": "nlb_east",
+        "type": "service"
+      },
+      {
+        "id": "lambda_auth",
+        "type": "service"
+      },
+      {
+        "id": "lambda_core",
+        "type": "service"
+      },
+      {
+        "id": "step_funcs",
+        "type": "service"
+      },
+      {
+        "id": "sfn_state",
+        "type": "service"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "aurora",
+        "type": "service"
+      },
+      {
+        "id": "s3_bucket",
+        "type": "service"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "sns_topic",
+        "type": "service"
+      },
+      {
+        "id": "sqs_queue",
+        "type": "queue"
+      },
+      {
+        "id": "event_bridge",
+        "type": "service"
+      },
+      {
+        "id": "sage_endpoint",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "guardduty",
+        "type": "service"
+      },
+      {
+        "id": "config",
+        "type": "service"
+      },
+      {
+        "id": "alb_west",
+        "type": "service"
+      },
+      {
+        "id": "nlb_west",
+        "type": "service"
+      },
+      {
+        "id": "lambda_auth_w",
+        "type": "service"
+      },
+      {
+        "id": "lambda_core_w",
+        "type": "service"
+      },
+      {
+        "id": "step_funcs_w",
+        "type": "service"
+      },
+      {
+        "id": "dynamo_w",
+        "type": "database"
+      },
+      {
+        "id": "aurora_w",
+        "type": "service"
+      },
+      {
+        "id": "s3_bucket_w",
+        "type": "service"
+      },
+      {
+        "id": "es_w",
+        "type": "service"
+      },
+      {
+        "id": "sns_topic_w",
+        "type": "service"
+      },
+      {
+        "id": "sqs_queue_w",
+        "type": "queue"
+      },
+      {
+        "id": "event_bridge_w",
+        "type": "service"
+      },
+      {
+        "id": "sage_endpoint_w",
+        "type": "service"
+      },
+      {
+        "id": "secrets_w",
+        "type": "service"
+      },
+      {
+        "id": "kms_w",
+        "type": "service"
+      },
+      {
+        "id": "iam_w",
+        "type": "service"
+      },
+      {
+        "id": "guardduty_w",
+        "type": "service"
+      },
+      {
+        "id": "config_w",
+        "type": "service"
+      },
+      {
+        "id": "cw",
+        "type": "service"
+      },
+      {
+        "id": "xray",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "codecommit",
+        "type": "service"
+      },
+      {
+        "id": "codebuild",
+        "type": "ui"
+      },
+      {
+        "id": "codedeploy",
+        "type": "service"
+      },
+      {
+        "id": "codepipeline",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "vpc_east",
+        "type": "service"
+      },
+      {
+        "id": "vpc_west",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "auditor",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "glb",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "glb",
+        "target": "alb_east",
+        "label": "HTTP"
+      },
+      {
+        "source": "glb",
+        "target": "alb_west",
+        "label": "HTTP"
+      },
+      {
+        "source": "alb_east",
+        "target": "lambda_auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "alb_east",
+        "target": "lambda_core",
+        "label": "HTTP"
+      },
+      {
+        "source": "alb_west",
+        "target": "lambda_auth_w",
+        "label": "HTTP"
+      },
+      {
+        "source": "alb_west",
+        "target": "lambda_core_w",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_auth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_auth",
+        "target": "secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core",
+        "target": "secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_auth",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core",
+        "target": "step_funcs",
+        "label": "HTTP"
+      },
+      {
+        "source": "step_funcs",
+        "target": "sfn_state",
+        "label": "HTTP"
+      },
+      {
+        "source": "step_funcs",
+        "target": "event_bridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "step_funcs",
+        "target": "sns_topic",
+        "label": "HTTP"
+      },
+      {
+        "source": "step_funcs",
+        "target": "sqs_queue",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bridge",
+        "target": "lambda_core",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bridge",
+        "target": "lambda_core_w",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bridge",
+        "target": "nlb_east",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bridge_w",
+        "target": "nlb_west",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core",
+        "target": "aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core",
+        "target": "s3_bucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core_w",
+        "target": "dynamo_w",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core_w",
+        "target": "aurora_w",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core_w",
+        "target": "s3_bucket_w",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core_w",
+        "target": "es_w",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core",
+        "target": "sage_endpoint",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_core_w",
+        "target": "sage_endpoint_w",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "lambda_auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "lambda_core",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "lambda_auth_w",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "lambda_core_w",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "s3_bucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "event_bridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "sns_topic",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "sqs_queue",
+        "label": "HTTP"
+      },
+      {
+        "source": "xray",
+        "target": "lambda_auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "xray",
+        "target": "lambda_core",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "codecommit",
+        "target": "codebuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "codebuild",
+        "target": "codepipeline",
+        "label": "HTTP"
+      },
+      {
+        "source": "codepipeline",
+        "target": "codedeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "codedeploy",
+        "target": "alb_east",
+        "label": "HTTP"
+      },
+      {
+        "source": "codedeploy",
+        "target": "alb_west",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "lambda_auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "lambda_core",
+        "label": "HTTP"
+      },
+      {
+        "source": "secrets",
+        "target": "lambda_auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "secrets",
+        "target": "lambda_core",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "s3_bucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "guardduty",
+        "target": "vpc_east",
+        "label": "HTTP"
+      },
+      {
+        "source": "guardduty_w",
+        "target": "vpc_west",
+        "label": "HTTP"
+      },
+      {
+        "source": "config",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "auditor",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 2,
+      "services": 54
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Defense",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Blue/Green Deployment",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 75,
+    "source_edges": 92,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

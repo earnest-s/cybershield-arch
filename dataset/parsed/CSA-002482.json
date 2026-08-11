@@ -1,0 +1,410 @@
+{
+  "id": "CSA-002482",
+  "instruction": "Design a ERP architecture. using a Serverless style. deployed on AWS. satisfying: Rate Limiting, AI/ML Inference Integration, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "AuthFn",
+        "type": "service"
+      },
+      {
+        "id": "OrderSvc",
+        "type": "service"
+      },
+      {
+        "id": "InvSrv",
+        "type": "service"
+      },
+      {
+        "id": "FinanceSvc",
+        "type": "service"
+      },
+      {
+        "id": "ReportFn",
+        "type": "service"
+      },
+      {
+        "id": "AIInfer",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "Queue",
+        "type": "queue"
+      },
+      {
+        "id": "Aurora",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "CodeRepo",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "BGDeploy",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "AuthFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "InvSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "FinanceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "ReportFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "AIInfer",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "InvSrv",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "InvSrv",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "FinanceSvc",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "FinanceSvc",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportFn",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportFn",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInfer",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInfer",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Queue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Queue",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Queue",
+        "target": "InvSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Queue",
+        "target": "FinanceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Aurora",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "CodeRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "BGDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGDeploy",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGDeploy",
+        "target": "InvSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGDeploy",
+        "target": "FinanceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGDeploy",
+        "target": "ReportFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGDeploy",
+        "target": "AIInfer",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "AuthFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "InvSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "FinanceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ReportFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "AIInfer",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Rate Limiting",
+      "AI/ML Inference Integration",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 40,
+    "source_edges": 52,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

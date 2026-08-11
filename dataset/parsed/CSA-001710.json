@@ -1,0 +1,469 @@
+{
+  "id": "CSA-001710",
+  "instruction": "Design a Blockchain architecture. using a CQRS style. deployed on GCP. satisfying: Data Lakehouse Pattern, GraphRAG Integration, Disaster Recovery, Blue/Green Deployment, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "AUTH",
+        "type": "service"
+      },
+      {
+        "id": "CQRS",
+        "type": "service"
+      },
+      {
+        "id": "CMD",
+        "type": "service"
+      },
+      {
+        "id": "QRY",
+        "type": "service"
+      },
+      {
+        "id": "KAF",
+        "type": "queue"
+      },
+      {
+        "id": "CMD_SVC1",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SVC2",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_STORE",
+        "type": "service"
+      },
+      {
+        "id": "STREAM",
+        "type": "queue"
+      },
+      {
+        "id": "PROJ",
+        "type": "service"
+      },
+      {
+        "id": "READ_DB",
+        "type": "database"
+      },
+      {
+        "id": "AI_AGENT",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "RAW",
+        "type": "service"
+      },
+      {
+        "id": "CLEAN",
+        "type": "service"
+      },
+      {
+        "id": "CURATED",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "LAKEHOUSE",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "ALL",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "SEC",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "CQRS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "KAF",
+        "label": "Async"
+      },
+      {
+        "source": "KAF",
+        "target": "CMD_SVC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAF",
+        "target": "CMD_SVC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC1",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC2",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "STREAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "STREAM",
+        "target": "PROJ",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROJ",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "STREAM",
+        "target": "AI_AGENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAW",
+        "target": "CLEAN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLEAN",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "CURATED",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_DB",
+        "target": "LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC1",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC2",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROJ",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_AGENT",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "ALL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALL",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "AI_AGENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "EVENT_STORE",
+        "label": "Async"
+      },
+      {
+        "source": "DR",
+        "target": "READ_DB",
+        "label": "Async"
+      },
+      {
+        "source": "DR",
+        "target": "LAKEHOUSE",
+        "label": "Async"
+      },
+      {
+        "source": "IAM",
+        "target": "CLIENTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEC",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Blockchain",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "GraphRAG Integration",
+      "Disaster Recovery",
+      "Blue/Green Deployment",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 59,
+    "source_edges": 64,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

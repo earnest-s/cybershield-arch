@@ -1,0 +1,250 @@
+{
+  "id": "CSA-002223",
+  "instruction": "Design a Agriculture architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Zero Trust Architecture, Disaster Recovery, Data Lakehouse Pattern, Active-Active Multi-Region, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "dataPartner",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "edgeLB",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "ingest",
+        "type": "service"
+      },
+      {
+        "id": "process",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "redisCache",
+        "type": "cache"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "drBackup",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataPartner",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "edgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeLB",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "process",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "redisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "drBackup",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "drBackup",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Agriculture",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Disaster Recovery",
+      "Data Lakehouse Pattern",
+      "Active-Active Multi-Region",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 39,
+    "source_edges": 30,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

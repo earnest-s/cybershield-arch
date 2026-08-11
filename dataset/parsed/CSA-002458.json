@@ -1,0 +1,383 @@
+{
+  "id": "CSA-002458",
+  "instruction": "Design a Smart City architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Rate Limiting, Auto Scaling, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "loadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "complianceEngine",
+        "type": "service"
+      },
+      {
+        "id": "k8sCluster",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "hpa",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "microservices",
+        "type": "service"
+      },
+      {
+        "id": "cqrs",
+        "type": "service"
+      },
+      {
+        "id": "querySrv",
+        "type": "service"
+      },
+      {
+        "id": "eventStore",
+        "type": "queue"
+      },
+      {
+        "id": "saga",
+        "type": "service"
+      },
+      {
+        "id": "aiOrch",
+        "type": "service"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "influx",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "loadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "cqrs",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "querySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "aiOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "microservices",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "cqrs",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "cqrs",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "querySrv",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "querySrv",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "saga",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "aiOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiOrch",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "hpa",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "auditLog",
+        "label": "Async"
+      },
+      {
+        "source": "microservices",
+        "target": "auditLog",
+        "label": "Async"
+      },
+      {
+        "source": "auditLog",
+        "target": "complianceEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Rate Limiting",
+      "Auto Scaling",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 58,
+    "source_edges": 41,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

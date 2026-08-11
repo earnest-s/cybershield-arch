@@ -1,0 +1,467 @@
+{
+  "id": "CSA-000624",
+  "instruction": "Design a Fraud Detection architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Zero Trust Architecture, Disaster Recovery, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "zk",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "fraudAPI",
+        "type": "service"
+      },
+      {
+        "id": "eventInj",
+        "type": "service"
+      },
+      {
+        "id": "ruleEngine",
+        "type": "service"
+      },
+      {
+        "id": "anomalyDetect",
+        "type": "service"
+      },
+      {
+        "id": "decision",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "drSite",
+        "type": "service"
+      },
+      {
+        "id": "asyncRep",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "fraudAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "eventInj",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudAPI",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudAPI",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudAPI",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventInj",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ruleEngine",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "anomalyDetect",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "decision",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "ruleEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "anomalyDetect",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "decision",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "ruleEngine",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "anomalyDetect",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "decision",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "asyncRep",
+        "label": "HTTP"
+      },
+      {
+        "source": "asyncRep",
+        "target": "drSite",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "asyncRep",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "asyncRep",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "asyncRep",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudAPI",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventInj",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ruleEngine",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "anomalyDetect",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "decision",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "fraudAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "fraudAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "fraudAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "cicd",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "fraudAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "eventInj",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "ruleEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "anomalyDetect",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "decision",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "auditLog",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Disaster Recovery",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 49,
+    "source_edges": 61,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

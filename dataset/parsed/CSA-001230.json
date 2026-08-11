@@ -1,0 +1,542 @@
+{
+  "id": "CSA-001230",
+  "instruction": "Design a Energy architecture. using a Microservices style. deployed on GCP. satisfying: Zero Trust Architecture, Blue/Green Deployment, Feature Flags, Rate Limiting, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "svc_mesh_a",
+        "type": "service"
+      },
+      {
+        "id": "ms_ingest_a",
+        "type": "service"
+      },
+      {
+        "id": "ms_billing_a",
+        "type": "service"
+      },
+      {
+        "id": "ms_grid_a",
+        "type": "service"
+      },
+      {
+        "id": "ms_analytics_a",
+        "type": "service"
+      },
+      {
+        "id": "ff_a",
+        "type": "service"
+      },
+      {
+        "id": "svc_mesh_a_g",
+        "type": "service"
+      },
+      {
+        "id": "ms_ingest_a_g",
+        "type": "service"
+      },
+      {
+        "id": "ms_billing_a_g",
+        "type": "service"
+      },
+      {
+        "id": "ms_grid_a_g",
+        "type": "service"
+      },
+      {
+        "id": "ms_analytics_a_g",
+        "type": "service"
+      },
+      {
+        "id": "ff_a_g",
+        "type": "service"
+      },
+      {
+        "id": "pubsub_a",
+        "type": "service"
+      },
+      {
+        "id": "spanner_a",
+        "type": "service"
+      },
+      {
+        "id": "redis_a",
+        "type": "cache"
+      },
+      {
+        "id": "svc_mesh_b",
+        "type": "service"
+      },
+      {
+        "id": "ms_ingest_b",
+        "type": "service"
+      },
+      {
+        "id": "ms_billing_b",
+        "type": "service"
+      },
+      {
+        "id": "ms_grid_b",
+        "type": "service"
+      },
+      {
+        "id": "ms_analytics_b",
+        "type": "service"
+      },
+      {
+        "id": "ff_b",
+        "type": "service"
+      },
+      {
+        "id": "svc_mesh_b_g",
+        "type": "service"
+      },
+      {
+        "id": "ms_ingest_b_g",
+        "type": "service"
+      },
+      {
+        "id": "ms_billing_b_g",
+        "type": "service"
+      },
+      {
+        "id": "ms_grid_b_g",
+        "type": "service"
+      },
+      {
+        "id": "ms_analytics_b_g",
+        "type": "service"
+      },
+      {
+        "id": "ff_b_g",
+        "type": "service"
+      },
+      {
+        "id": "pubsub_b",
+        "type": "service"
+      },
+      {
+        "id": "spanner_b",
+        "type": "service"
+      },
+      {
+        "id": "redis_b",
+        "type": "cache"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "id_fed",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "cb",
+        "type": "ui"
+      },
+      {
+        "id": "cd",
+        "type": "service"
+      },
+      {
+        "id": "ff_mgr",
+        "type": "service"
+      },
+      {
+        "id": "canary",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "id_fed",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "svc_mesh_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "svc_mesh_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_a",
+        "target": "ms_ingest_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_a",
+        "target": "ms_billing_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_a",
+        "target": "ms_grid_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_a",
+        "target": "ms_analytics_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_b",
+        "target": "ms_ingest_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_b",
+        "target": "ms_billing_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_b",
+        "target": "ms_grid_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_b",
+        "target": "ms_analytics_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_ingest_a",
+        "target": "pubsub_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_ingest_b",
+        "target": "pubsub_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub_a",
+        "target": "ms_billing_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub_a",
+        "target": "ms_grid_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub_b",
+        "target": "ms_billing_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub_b",
+        "target": "ms_grid_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_billing_a",
+        "target": "spanner_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_grid_a",
+        "target": "spanner_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_analytics_a",
+        "target": "spanner_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_billing_b",
+        "target": "spanner_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_grid_b",
+        "target": "spanner_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_analytics_b",
+        "target": "spanner_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "spanner_a",
+        "target": "spanner_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis_a",
+        "target": "redis_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff_a",
+        "target": "ff_mgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff_b",
+        "target": "ff_mgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff_a_g",
+        "target": "ff_mgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff_b_g",
+        "target": "ff_mgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "svc_mesh_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "svc_mesh_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "ms_ingest_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "ms_ingest_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "spanner_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "spanner_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "svc_mesh_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "svc_mesh_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "svc_mesh_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "svc_mesh_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "cb",
+        "target": "cd",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "svc_mesh_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "svc_mesh_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "svc_mesh_a_g",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "svc_mesh_b_g",
+        "label": "HTTP"
+      },
+      {
+        "source": "canary",
+        "target": "cd",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_a",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_b",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_a_g",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_b_g",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "svc_mesh_a_g",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "svc_mesh_b_g",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Blue/Green Deployment",
+      "Feature Flags",
+      "Rate Limiting",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 75,
+    "source_edges": 76,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

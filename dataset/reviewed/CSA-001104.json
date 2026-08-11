@@ -1,0 +1,521 @@
+{
+  "id": "CSA-001104",
+  "instruction": "Design a Government architecture. using a Serverless style. deployed on AWS. satisfying: Active-Active Multi-Region, High Throughput (100k+ TPS), Disaster Recovery, Compliance/Audit Logging, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "partner",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edgeFunc",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
+        "id": "svcA",
+        "type": "service"
+      },
+      {
+        "id": "svcB",
+        "type": "service"
+      },
+      {
+        "id": "dbPrimary",
+        "type": "database"
+      },
+      {
+        "id": "cache",
+        "type": "cache"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "lb2",
+        "type": "service"
+      },
+      {
+        "id": "edgeFunc2",
+        "type": "service"
+      },
+      {
+        "id": "auth2",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags2",
+        "type": "service"
+      },
+      {
+        "id": "eventBus2",
+        "type": "service"
+      },
+      {
+        "id": "svcA2",
+        "type": "service"
+      },
+      {
+        "id": "svcB2",
+        "type": "service"
+      },
+      {
+        "id": "dbReplica",
+        "type": "database"
+      },
+      {
+        "id": "cache2",
+        "type": "cache"
+      },
+      {
+        "id": "auditLog2",
+        "type": "service"
+      },
+      {
+        "id": "centralAudit",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "lambdaExec",
+        "type": "service"
+      },
+      {
+        "id": "cognito",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "s3Data",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "kinesis",
+        "type": "service"
+      },
+      {
+        "id": "kinesisDR",
+        "type": "service"
+      },
+      {
+        "id": "dr",
+        "type": "service"
+      },
+      {
+        "id": "thirdParty",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "partner",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "edgeFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeFunc",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "svcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "svcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA",
+        "target": "dbPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB",
+        "target": "cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbPrimary",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb2",
+        "target": "edgeFunc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeFunc2",
+        "target": "auth2",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth2",
+        "target": "featureFlags2",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags2",
+        "target": "eventBus2",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus2",
+        "target": "svcA2",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus2",
+        "target": "svcB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA2",
+        "target": "dbReplica",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB2",
+        "target": "cache2",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbReplica",
+        "target": "auditLog2",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbPrimary",
+        "target": "dbReplica",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "centralAudit",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog2",
+        "target": "centralAudit",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "lambdaExec",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "auth2",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "s3Data",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambdaExec",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "auditLog2",
+        "label": "HTTP"
+      },
+      {
+        "source": "kinesis",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "kinesis",
+        "target": "kinesisDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "kinesisDR",
+        "target": "eventBus2",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "lambdaExec",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdParty",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdParty",
+        "target": "auth2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 2,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "High Throughput (100k+ TPS)",
+      "Disaster Recovery",
+      "Compliance/Audit Logging",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 49,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

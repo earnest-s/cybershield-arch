@@ -1,0 +1,469 @@
+{
+  "id": "CSA-000599",
+  "instruction": "Design a GenAI architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, Auto Scaling, Data Lakehouse Pattern, AI/ML Inference Integration, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AuthN",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "ComputeA",
+        "type": "container"
+      },
+      {
+        "id": "StoreLakeA",
+        "type": "service"
+      },
+      {
+        "id": "StoreRedisA",
+        "type": "cache"
+      },
+      {
+        "id": "ComputeB",
+        "type": "container"
+      },
+      {
+        "id": "StoreLakeB",
+        "type": "service"
+      },
+      {
+        "id": "StoreRedisB",
+        "type": "cache"
+      },
+      {
+        "id": "ComputeC",
+        "type": "container"
+      },
+      {
+        "id": "StoreLakeC",
+        "type": "service"
+      },
+      {
+        "id": "StoreRedisC",
+        "type": "cache"
+      },
+      {
+        "id": "MESH_AWS",
+        "type": "service"
+      },
+      {
+        "id": "MESH_AZURE",
+        "type": "service"
+      },
+      {
+        "id": "MESH_GCP",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "EmbedModel",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "LLMGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "OBSERV",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthN",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthN",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH_AWS",
+        "target": "MESH_AZURE",
+        "label": "Async"
+      },
+      {
+        "source": "MESH_AZURE",
+        "target": "MESH_GCP",
+        "label": "Async"
+      },
+      {
+        "source": "MESH_GCP",
+        "target": "MESH_AWS",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbedModel",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERV",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERV",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERV",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ComputeA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ComputeB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ComputeC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeA",
+        "target": "StoreLakeA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeA",
+        "target": "StoreRedisA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeB",
+        "target": "StoreLakeB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeB",
+        "target": "StoreRedisB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeC",
+        "target": "StoreLakeC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeC",
+        "target": "StoreRedisC",
+        "label": "HTTP"
+      },
+      {
+        "source": "StoreLakeA",
+        "target": "StoreLakeB",
+        "label": "HTTP"
+      },
+      {
+        "source": "StoreLakeB",
+        "target": "StoreLakeC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeA",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeB",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeC",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeB",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeA",
+        "target": "OBSERV",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeB",
+        "target": "OBSERV",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComputeC",
+        "target": "OBSERV",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Authentication",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Authentication",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Implement role-based access control.",
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 20,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 25
+    },
+    "security_summary": "Architecture contains a frontend and an API service but lacks RBAC, Monitoring, Authentication, API Gateway, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Auto Scaling",
+      "Data Lakehouse Pattern",
+      "AI/ML Inference Integration",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 58,
+    "source_edges": 55,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

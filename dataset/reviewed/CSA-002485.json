@@ -1,0 +1,391 @@
+{
+  "id": "CSA-002485",
+  "instruction": "Design a Manufacturing architecture. using a Microservices style. deployed on GCP. satisfying: Blue/Green Deployment, Active-Active Multi-Region, Auto Scaling, AI/ML Inference Integration, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLB",
+        "type": "service"
+      },
+      {
+        "id": "APIgw",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      },
+      {
+        "id": "OrderSvc",
+        "type": "service"
+      },
+      {
+        "id": "InventorySvc",
+        "type": "service"
+      },
+      {
+        "id": "ProductionCtl",
+        "type": "service"
+      },
+      {
+        "id": "QualitySvc",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "ModelSrv",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingDB",
+        "type": "database"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Spanner",
+        "type": "service"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GlobalLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLB",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "InventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "ProductionCtl",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "QualitySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventorySvc",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProductionCtl",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "QualitySvc",
+        "target": "PubSub",
+        "label": "Async"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "QualitySvc",
+        "target": "ModelSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelSrv",
+        "target": "EmbeddingDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "InventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "ProductionCtl",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "QualitySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitoring",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitoring",
+        "target": "AuditLog",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 20,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 21
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Active-Active Multi-Region",
+      "Auto Scaling",
+      "AI/ML Inference Integration",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 35,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

@@ -1,0 +1,445 @@
+{
+  "id": "CSA-000797",
+  "instruction": "Design a Digital Twin architecture. using a CQRS style. deployed on On-Premises. satisfying: Auto Scaling, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "CmdService",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "QueryService",
+        "type": "service"
+      },
+      {
+        "id": "ReadModel",
+        "type": "database"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "DataLake",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Git",
+        "type": "service"
+      },
+      {
+        "id": "DR_K8s",
+        "type": "container"
+      },
+      {
+        "id": "DR_DB",
+        "type": "database"
+      },
+      {
+        "id": "DR_Storage",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "EventStore",
+        "target": "DR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "DR_Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Git",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_K8s",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_K8s",
+        "target": "DR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_K8s",
+        "target": "DR_Storage",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 5,
+      "services": 23
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Digital Twin",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 49,
+    "source_edges": 43,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

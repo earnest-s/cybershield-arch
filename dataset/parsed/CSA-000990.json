@@ -1,0 +1,665 @@
+{
+  "id": "CSA-000990",
+  "instruction": "Design a Travel architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Disaster Recovery, Compliance/Audit Logging, Observability Stack, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "PARTNERS",
+        "type": "service"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "container"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ESB",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "EKS1",
+        "type": "container"
+      },
+      {
+        "id": "EKS2",
+        "type": "container"
+      },
+      {
+        "id": "SM",
+        "type": "service"
+      },
+      {
+        "id": "MCQ",
+        "type": "service"
+      },
+      {
+        "id": "MSQ",
+        "type": "service"
+      },
+      {
+        "id": "MPS",
+        "type": "service"
+      },
+      {
+        "id": "MAV",
+        "type": "service"
+      },
+      {
+        "id": "MSG",
+        "type": "service"
+      },
+      {
+        "id": "MRB",
+        "type": "service"
+      },
+      {
+        "id": "MFH",
+        "type": "service"
+      },
+      {
+        "id": "MPB",
+        "type": "service"
+      },
+      {
+        "id": "MRC",
+        "type": "service"
+      },
+      {
+        "id": "CQR",
+        "type": "queue"
+      },
+      {
+        "id": "EVT",
+        "type": "database"
+      },
+      {
+        "id": "SAGA",
+        "type": "service"
+      },
+      {
+        "id": "KFK",
+        "type": "queue"
+      },
+      {
+        "id": "RAB",
+        "type": "queue"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VEC",
+        "type": "database"
+      },
+      {
+        "id": "DWH",
+        "type": "service"
+      },
+      {
+        "id": "AUD",
+        "type": "database"
+      },
+      {
+        "id": "EMB",
+        "type": "service"
+      },
+      {
+        "id": "VR",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AIGW",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "SPL",
+        "type": "service"
+      },
+      {
+        "id": "DRLB",
+        "type": "service"
+      },
+      {
+        "id": "DRSync",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PARTNERS",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ESB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ESB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ESB",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQR",
+        "target": "KFK",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "EVT",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "MCQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "MSQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "MPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "MAV",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "MSG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "MRB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "MFH",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "MPB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "MRC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "SAGA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MCQ",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MSQ",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MPS",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MAV",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MSG",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MRB",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFH",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MPB",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MRC",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVT",
+        "target": "AUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "MSG",
+        "target": "EMB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMB",
+        "target": "VR",
+        "label": "HTTP"
+      },
+      {
+        "source": "VR",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGW",
+        "target": "MRC",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS1",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS2",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "SPL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRLB",
+        "target": "EKS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "DRLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "DRSync",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "DRSync",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "DRSync",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC",
+        "target": "DRSync",
+        "label": "HTTP"
+      },
+      {
+        "source": "DWH",
+        "target": "DRSync",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "EKS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS1",
+        "target": "SM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "MCQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "MSQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "MPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "MAV",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "MSG",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "MRB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "MFH",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "MPB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "MRC",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Travel",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Disaster Recovery",
+      "Compliance/Audit Logging",
+      "Observability Stack",
+      "Feature Flags"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 80,
+    "source_edges": 96,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

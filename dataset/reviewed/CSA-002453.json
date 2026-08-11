@@ -1,0 +1,518 @@
+{
+  "id": "CSA-002453",
+  "instruction": "Design a Fraud Detection architecture. using a Event-Driven style. deployed on Hybrid Cloud. satisfying: Zero Trust Architecture, Blue/Green Deployment, Strict Network Segmentation, Disaster Recovery, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "fraud_blue",
+        "type": "service"
+      },
+      {
+        "id": "rules_blue",
+        "type": "service"
+      },
+      {
+        "id": "score_blue",
+        "type": "service"
+      },
+      {
+        "id": "fraud_green",
+        "type": "service"
+      },
+      {
+        "id": "rules_green",
+        "type": "service"
+      },
+      {
+        "id": "score_green",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "embed_model",
+        "type": "service"
+      },
+      {
+        "id": "vector_search",
+        "type": "service"
+      },
+      {
+        "id": "ai_gateway",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "cass",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectordb",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "blue_green",
+        "type": "service"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "onprem",
+        "type": "service"
+      },
+      {
+        "id": "dr",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "fraud_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "fraud_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraud_blue",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "fraud_green",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "rules_blue",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "rules_green",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "score_blue",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "score_green",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "orchestrator",
+        "target": "fraud_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "fraud_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "cass",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraud_blue",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraud_green",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "rules_blue",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "rules_green",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "score_blue",
+        "target": "es",
+        "label": "DB Query"
+      },
+      {
+        "source": "score_green",
+        "target": "es",
+        "label": "DB Query"
+      },
+      {
+        "source": "embed_model",
+        "target": "vectordb",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector_search",
+        "target": "vectordb",
+        "label": "DB Query"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "embed_model",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "vector_search",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "fraud_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "fraud_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "graf",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "blue_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "blue_green",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "aws",
+        "target": "onprem",
+        "label": "HTTP"
+      },
+      {
+        "source": "onprem",
+        "target": "dr",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "es",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 33
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Event-Driven",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Blue/Green Deployment",
+      "Strict Network Segmentation",
+      "Disaster Recovery",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 69,
+    "source_edges": 49,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

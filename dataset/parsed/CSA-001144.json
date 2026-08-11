@@ -1,0 +1,392 @@
+{
+  "id": "CSA-001144",
+  "instruction": "Design a MLOps architecture. using a Serverless style. deployed on AWS. satisfying: Observability Stack, Feature Flags, Rate Limiting, Blue/Green Deployment, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "rate",
+        "type": "service"
+      },
+      {
+        "id": "ff",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "trainStep",
+        "type": "service"
+      },
+      {
+        "id": "inferStep",
+        "type": "service"
+      },
+      {
+        "id": "s3raw",
+        "type": "service"
+      },
+      {
+        "id": "ddbmeta",
+        "type": "database"
+      },
+      {
+        "id": "s3model",
+        "type": "service"
+      },
+      {
+        "id": "redisc",
+        "type": "cache"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "metrics--",
+        "type": "service"
+      },
+      {
+        "id": "metrics",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "dashboards--",
+        "type": "service"
+      },
+      {
+        "id": "dashboards",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "traces--",
+        "type": "service"
+      },
+      {
+        "id": "traces",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "logs--",
+        "type": "service"
+      },
+      {
+        "id": "logs",
+        "type": "service"
+      },
+      {
+        "id": "blue",
+        "type": "ui"
+      },
+      {
+        "id": "lambdaB",
+        "type": "service"
+      },
+      {
+        "id": "green",
+        "type": "ui"
+      },
+      {
+        "id": "lambdaG",
+        "type": "service"
+      },
+      {
+        "id": "trafficSwitch",
+        "type": "service"
+      },
+      {
+        "id": "edgeSecurity",
+        "type": "service"
+      },
+      {
+        "id": "ZONE_PUBLIC",
+        "type": "service"
+      },
+      {
+        "id": "ZONE_APP",
+        "type": "service"
+      },
+      {
+        "id": "ZONE_DATA",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "DEPLOYMENT",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "rate",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ff",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "rate",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "trainStep",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "inferStep",
+        "label": "HTTP"
+      },
+      {
+        "source": "trainStep",
+        "target": "s3raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "trainStep",
+        "target": "ddbmeta",
+        "label": "HTTP"
+      },
+      {
+        "source": "inferStep",
+        "target": "s3model",
+        "label": "HTTP"
+      },
+      {
+        "source": "inferStep",
+        "target": "redisc",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "metrics--",
+        "label": "HTTP"
+      },
+      {
+        "source": "metrics",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "graf",
+        "target": "dashboards--",
+        "label": "HTTP"
+      },
+      {
+        "source": "dashboards",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "traces--",
+        "label": "HTTP"
+      },
+      {
+        "source": "traces",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "logs--",
+        "label": "HTTP"
+      },
+      {
+        "source": "logs",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "blue",
+        "target": "lambdaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "green",
+        "target": "lambdaG",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambdaB",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambdaG",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "edgeSecurity",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeSecurity",
+        "target": "ZONE_PUBLIC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZONE_PUBLIC",
+        "target": "ZONE_APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZONE_APP",
+        "target": "ZONE_DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZONE_APP",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZONE_APP",
+        "target": "DEPLOYMENT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Observability Stack",
+      "Feature Flags",
+      "Rate Limiting",
+      "Blue/Green Deployment",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 48,
+    "source_edges": 41,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

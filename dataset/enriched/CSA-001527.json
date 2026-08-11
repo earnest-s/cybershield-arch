@@ -1,0 +1,478 @@
+{
+  "id": "CSA-001527",
+  "instruction": "Design a Multi-Agent Systems architecture. using a Event-Driven style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "zt",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "direction1",
+        "type": "container"
+      },
+      {
+        "id": "agentA",
+        "type": "service"
+      },
+      {
+        "id": "agentB",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "vecDB",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "k8sAWS",
+        "type": "container"
+      },
+      {
+        "id": "k8sAzure",
+        "type": "container"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "agentA",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "agentB",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "orchestrator",
+        "target": "agentA",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "agentB",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentA",
+        "target": "vecDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentB",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vecDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "ragEngine",
+        "label": "DB Query"
+      },
+      {
+        "source": "iam",
+        "target": "zt",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "agentA",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "agentB",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sAWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sAzure",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sAWS",
+        "target": "agentA",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sAWS",
+        "target": "agentB",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sAzure",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8sAWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8sAzure",
+        "label": "HTTP"
+      },
+      {
+        "source": "aws",
+        "target": "k8sAWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "azure",
+        "target": "k8sAzure",
+        "label": "HTTP"
+      },
+      {
+        "source": "aws",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "azure",
+        "target": "kafka",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 2,
+      "services": 29
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Multi-Agent Systems",
+    "style": "Event-Driven",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 47,
+    "source_edges": 40,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,451 @@
+{
+  "id": "CSA-000812",
+  "instruction": "Design a Logistics architecture. using a Microservices style. deployed on Multi-Cloud. satisfying: Disaster Recovery, Auto Scaling, Blue/Green Deployment, Compliance/Audit Logging, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "MS_Cluster",
+        "type": "container"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "DB_Cluster",
+        "type": "database"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "OBS_Stack",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "OrderMS",
+        "type": "service"
+      },
+      {
+        "id": "InventoryMS",
+        "type": "service"
+      },
+      {
+        "id": "RoutingMS",
+        "type": "service"
+      },
+      {
+        "id": "NotificationMS",
+        "type": "service"
+      },
+      {
+        "id": "BillingMS",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsMS",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "Kafka_DR",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      },
+      {
+        "id": "Autoscale",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "Azure",
+        "type": "service"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WebUI",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "MS_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MS_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "DB_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "OBS_Stack",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DB_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderMS",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "InventoryMS",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "RoutingMS",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "NotificationMS",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingMS",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsMS",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Postgres",
+        "label": "Async"
+      },
+      {
+        "source": "OrderMS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventoryMS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "RoutingMS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingMS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationMS",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsMS",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Kafka_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "MS_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "Autoscale",
+        "target": "MS_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "MS_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OBS_Stack",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Azure",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "Azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderMS",
+        "target": "AuditLog",
+        "label": "Async"
+      },
+      {
+        "source": "InventoryMS",
+        "target": "AuditLog",
+        "label": "Async"
+      },
+      {
+        "source": "RoutingMS",
+        "target": "AuditLog",
+        "label": "Async"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "Microservices",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Disaster Recovery",
+      "Auto Scaling",
+      "Blue/Green Deployment",
+      "Compliance/Audit Logging",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

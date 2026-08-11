@@ -1,0 +1,308 @@
+{
+  "id": "CSA-001084",
+  "instruction": "Design a Insurance architecture. using a Modular Monolith style. deployed on GCP. satisfying: GraphRAG Integration, Blue/Green Deployment, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "ui"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "Sec",
+        "type": "service"
+      },
+      {
+        "id": "PolicySrv",
+        "type": "service"
+      },
+      {
+        "id": "ClaimSrv",
+        "type": "service"
+      },
+      {
+        "id": "BillingSrv",
+        "type": "service"
+      },
+      {
+        "id": "CustomerSrv",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "ui"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "Sec",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicySrv",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClaimSrv",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSrv",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CustomerSrv",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicySrv",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClaimSrv",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSrv",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "CustomerSrv",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "PolicySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ClaimSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "BillingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CustomerSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Modular Monolith",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Blue/Green Deployment",
+      "Auto Scaling"
+    ],
+    "diagram_type": "graph TD",
+    "source_nodes": 40,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

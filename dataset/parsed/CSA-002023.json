@@ -1,0 +1,358 @@
+{
+  "id": "CSA-002023",
+  "instruction": "Design a ERP architecture. using a Event-Driven style. deployed on Hybrid Cloud. satisfying: Active-Active Multi-Region, Feature Flags, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES",
+        "type": "ui"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "OrderSvc",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "InventorySvc",
+        "type": "service"
+      },
+      {
+        "id": "BillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "NotificationSvc",
+        "type": "service"
+      },
+      {
+        "id": "ReportingSvc",
+        "type": "service"
+      },
+      {
+        "id": "KafkaEU",
+        "type": "queue"
+      },
+      {
+        "id": "KafkaUS",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "OBSERV",
+        "type": "service"
+      },
+      {
+        "id": "DR_Store",
+        "type": "service"
+      },
+      {
+        "id": "ORDER",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "Firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "InventorySvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "KafkaEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "KafkaUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "OrderSvc",
+        "label": "Cache"
+      },
+      {
+        "source": "ES",
+        "target": "ReportingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "OBSERV",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Store",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Store",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "ORDER",
+        "label": "Async"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Event-Driven",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Feature Flags",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 57,
+    "source_edges": 37,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

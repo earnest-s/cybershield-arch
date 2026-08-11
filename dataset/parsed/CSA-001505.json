@@ -1,0 +1,513 @@
+{
+  "id": "CSA-001505",
+  "instruction": "Design a MLOps architecture. using a Event-Driven style. deployed on Hybrid Cloud. satisfying: Data Lakehouse Pattern, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "K8S_MGMT",
+        "type": "container"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "SECRETS",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "HELM",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT_BRIDGE",
+        "type": "service"
+      },
+      {
+        "id": "INGEST",
+        "type": "service"
+      },
+      {
+        "id": "PREPROC",
+        "type": "service"
+      },
+      {
+        "id": "TRAIN",
+        "type": "service"
+      },
+      {
+        "id": "DEPLOY",
+        "type": "service"
+      },
+      {
+        "id": "MONITOR",
+        "type": "service"
+      },
+      {
+        "id": "ROLLBACK",
+        "type": "service"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AGENT_ORCH",
+        "type": "service"
+      },
+      {
+        "id": "RAW",
+        "type": "service"
+      },
+      {
+        "id": "CURATED",
+        "type": "service"
+      },
+      {
+        "id": "METASTORE",
+        "type": "service"
+      },
+      {
+        "id": "WAREHOUSE",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "SUBGRAPH_EXTERNAL",
+        "type": "service"
+      },
+      {
+        "id": "EXTERNAL_DATA",
+        "type": "service"
+      },
+      {
+        "id": "EXTERNAL_SERVICES",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WEB",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "K8S_MGMT",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "RL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "SECRETS",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "SECRETS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "K8S_MGMT",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "K8S_MGMT",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_MGMT",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_MGMT",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_MGMT",
+        "target": "CICD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "HELM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_MGMT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT_BRIDGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BRIDGE",
+        "target": "INGEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BRIDGE",
+        "target": "PREPROC",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BRIDGE",
+        "target": "TRAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BRIDGE",
+        "target": "DEPLOY",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BRIDGE",
+        "target": "MONITOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "INGEST",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "PREPROC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "TRAIN",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEPLOY",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONITOR",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "INGEST",
+        "target": "RAW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PREPROC",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "CURATED",
+        "target": "METASTORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "TRAIN",
+        "target": "WAREHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONITOR",
+        "target": "WAREHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "TRAIN",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AGENT_ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_ORCH",
+        "target": "DEPLOY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_MGMT",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_MGMT",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "RAW",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EXTERNAL_DATA",
+        "target": "INGEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "EXTERNAL_SERVICES",
+        "target": "PREPROC",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Event-Driven",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 64,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

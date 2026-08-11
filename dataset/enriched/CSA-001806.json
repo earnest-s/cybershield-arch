@@ -1,0 +1,589 @@
+{
+  "id": "CSA-001806",
+  "instruction": "Design a AIOps architecture. using a Data Mesh style. deployed on GCP. satisfying: Zero Trust Architecture, Rate Limiting, GraphRAG Integration, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "ZT_INGRESS",
+        "type": "service"
+      },
+      {
+        "id": "MTLS",
+        "type": "service"
+      },
+      {
+        "id": "AUTHZ",
+        "type": "service"
+      },
+      {
+        "id": "RATE",
+        "type": "service"
+      },
+      {
+        "id": "IDP",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "K8S1",
+        "type": "container"
+      },
+      {
+        "id": "K8S2",
+        "type": "container"
+      },
+      {
+        "id": "K8S3",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "ARGO",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "database"
+      },
+      {
+        "id": "TS_IN",
+        "type": "service"
+      },
+      {
+        "id": "TS_PROC",
+        "type": "service"
+      },
+      {
+        "id": "TS_STORE",
+        "type": "database"
+      },
+      {
+        "id": "LOG_INGEST",
+        "type": "service"
+      },
+      {
+        "id": "LOG_PROC",
+        "type": "service"
+      },
+      {
+        "id": "LOG_STORE",
+        "type": "service"
+      },
+      {
+        "id": "INC_INCIDENT",
+        "type": "service"
+      },
+      {
+        "id": "INC_ANALYTIC",
+        "type": "service"
+      },
+      {
+        "id": "INC_STORE",
+        "type": "database"
+      },
+      {
+        "id": "KG_RAG",
+        "type": "database"
+      },
+      {
+        "id": "KG_SYNC",
+        "type": "service"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "service"
+      },
+      {
+        "id": "AGENT",
+        "type": "service"
+      },
+      {
+        "id": "RAG_GATEWAY",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "POL",
+        "type": "service"
+      },
+      {
+        "id": "DSG",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA_MESH",
+        "type": "service"
+      },
+      {
+        "id": "AIML",
+        "type": "service"
+      },
+      {
+        "id": "svc",
+        "type": "service"
+      },
+      {
+        "id": "ALL_SERVICES",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "ZT_INGRESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT_INGRESS",
+        "target": "MTLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MTLS",
+        "target": "AUTHZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTHZ",
+        "target": "RATE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RATE",
+        "target": "CLIENTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IDP",
+        "label": "HTTP"
+      },
+      {
+        "source": "IDP",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "SSO",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S3",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "DATA_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "AIML",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "TS_IN",
+        "target": "TS_PROC",
+        "label": "HTTP"
+      },
+      {
+        "source": "TS_PROC",
+        "target": "TS_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG_INGEST",
+        "target": "LOG_PROC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG_PROC",
+        "target": "LOG_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "INC_INCIDENT",
+        "target": "INC_ANALYTIC",
+        "label": "HTTP"
+      },
+      {
+        "source": "INC_ANALYTIC",
+        "target": "INC_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "TS_STORE",
+        "target": "KG_SYNC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG_STORE",
+        "target": "KG_SYNC",
+        "label": "HTTP"
+      },
+      {
+        "source": "INC_STORE",
+        "target": "KG_SYNC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_SYNC",
+        "target": "KG_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KG_RAG",
+        "target": "RAG_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG_GATEWAY",
+        "target": "AGENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR",
+        "target": "RAG_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "POL",
+        "label": "HTTP"
+      },
+      {
+        "source": "POL",
+        "target": "DSG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ARGO",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ARGO",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ARGO",
+        "target": "K8S3",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging.",
+      "Add API Gateway to secure and manage external traffic."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 4,
+      "services": 42
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC, Audit Logging and API Gateway. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "AIOps",
+    "style": "Data Mesh",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Rate Limiting",
+      "GraphRAG Integration",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 74,
+    "source_edges": 63,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

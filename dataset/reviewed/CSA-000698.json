@@ -1,0 +1,502 @@
+{
+  "id": "CSA-000698",
+  "instruction": "Design a Education architecture. using a Hexagonal style. deployed on Multi-Cloud. satisfying: Rate Limiting, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "BG_BLUE",
+        "type": "service"
+      },
+      {
+        "id": "BG_GREEN",
+        "type": "service"
+      },
+      {
+        "id": "SWITCH",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_IN",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_OUT",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "AZURE",
+        "type": "service"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      },
+      {
+        "id": "USER_MS",
+        "type": "service"
+      },
+      {
+        "id": "COURSE_MS",
+        "type": "service"
+      },
+      {
+        "id": "ASSIGN_MS",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF_MS",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "DEPLOYMENT",
+        "type": "service"
+      },
+      {
+        "id": "HEXAGONAL_CORE",
+        "type": "service"
+      },
+      {
+        "id": "SERVICES",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "SWITCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "SWITCH",
+        "target": "BG_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SWITCH",
+        "target": "BG_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "ADAPTER_IN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "ADAPTER_OUT",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_BLUE",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_GREEN",
+        "target": "AZURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_BLUE",
+        "target": "GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "USER_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "COURSE_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "ASSIGN_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "NOTIF_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER_MS",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "COURSE_MS",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASSIGN_MS",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF_MS",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "COURSE_MS",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "USER_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "COURSE_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ASSIGN_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAF",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "BG_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "BG_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "DEPLOYMENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEPLOYMENT",
+        "target": "HEXAGONAL_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "HEXAGONAL_CORE",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLOUD",
+        "target": "DEPLOYMENT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 2,
+      "services": 33
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Education",
+    "style": "Hexagonal",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

@@ -1,0 +1,566 @@
+{
+  "id": "CSA-002333",
+  "instruction": "Design a Agentic AI architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Auto Scaling, Observability Stack, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "idp",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "monolith",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "agent_core",
+        "type": "service"
+      },
+      {
+        "id": "rag_engine",
+        "type": "service"
+      },
+      {
+        "id": "data_ingest",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "api",
+        "type": "service"
+      },
+      {
+        "id": "vec_db",
+        "type": "database"
+      },
+      {
+        "id": "llm_gateway",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "s3",
+        "type": "service"
+      },
+      {
+        "id": "ollama",
+        "type": "service"
+      },
+      {
+        "id": "embedding",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "policy",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "autoscale",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "Cache"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "idp",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "monolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "agent_core",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "rag_engine",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "data_ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "api",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "agent_core",
+        "target": "vec_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_engine",
+        "target": "llm_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_engine",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "data_ingest",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "api",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "api",
+        "target": "agent_core",
+        "label": "HTTP"
+      },
+      {
+        "source": "api",
+        "target": "rag_engine",
+        "label": "HTTP"
+      },
+      {
+        "source": "vec_db",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "auth",
+        "label": "Cache"
+      },
+      {
+        "source": "kafka",
+        "target": "redis",
+        "label": "Async"
+      },
+      {
+        "source": "llm_gateway",
+        "target": "ollama",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedding",
+        "target": "vec_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_engine",
+        "target": "embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm_gateway",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "monolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "ollama",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "policy",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "policy",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "audit",
+        "label": "Async"
+      },
+      {
+        "source": "api_gw",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "admin",
+        "label": "HTTP"
+      },
+      {
+        "source": "autoscale",
+        "target": "monolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "autoscale",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "autoscale",
+        "target": "ollama",
+        "label": "HTTP"
+      },
+      {
+        "source": "autoscale",
+        "target": "otel",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Agentic AI",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "Observability Stack",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 54,
+    "source_edges": 66,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

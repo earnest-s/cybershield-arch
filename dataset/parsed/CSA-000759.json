@@ -1,0 +1,474 @@
+{
+  "id": "CSA-000759",
+  "instruction": "Design a Fraud Detection architecture. using a Modular Monolith style. deployed on Multi-Cloud. satisfying: Compliance/Audit Logging, Data Lakehouse Pattern, Auto Scaling, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "DMZ",
+        "type": "service"
+      },
+      {
+        "id": "INTERNAL",
+        "type": "service"
+      },
+      {
+        "id": "DATASEG",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "UserMgmt",
+        "type": "service"
+      },
+      {
+        "id": "RulesEngine",
+        "type": "service"
+      },
+      {
+        "id": "Scoring",
+        "type": "service"
+      },
+      {
+        "id": "Alerting",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "API",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Bronze",
+        "type": "service"
+      },
+      {
+        "id": "Silver",
+        "type": "service"
+      },
+      {
+        "id": "Gold",
+        "type": "service"
+      },
+      {
+        "id": "LakeFS",
+        "type": "service"
+      },
+      {
+        "id": "BI",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "APP",
+        "type": "service"
+      },
+      {
+        "id": "SCORING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "MSG",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "Argo",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "STORAGE",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "DMZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "INTERNAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "DATASEG",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "UserMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserMgmt",
+        "target": "RulesEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RulesEngine",
+        "target": "Scoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scoring",
+        "target": "Alerting",
+        "label": "HTTP"
+      },
+      {
+        "source": "Alerting",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "RulesEngine",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Scoring",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Alerting",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Bronze",
+        "target": "Silver",
+        "label": "HTTP"
+      },
+      {
+        "source": "Silver",
+        "target": "Gold",
+        "label": "HTTP"
+      },
+      {
+        "source": "Gold",
+        "target": "BI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Bronze",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "Bronze",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "SCORING",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MSG",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "MSG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "STORAGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Argo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "INTERNAL",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "INTERNAL",
+        "target": "MSG",
+        "label": "HTTP"
+      },
+      {
+        "source": "INTERNAL",
+        "target": "STORAGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "INTERNAL",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATASEG",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATASEG",
+        "target": "STORAGE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Modular Monolith",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Data Lakehouse Pattern",
+      "Auto Scaling",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 66,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

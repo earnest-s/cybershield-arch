@@ -1,0 +1,543 @@
+{
+  "id": "CSA-001888",
+  "instruction": "Design a GenAI architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Feature Flags, Data Lakehouse Pattern, Disaster Recovery, Strict Network Segmentation, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CONSUMER",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "FEATURE",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "SM",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "API_LAYER",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "SCHEMA",
+        "type": "service"
+      },
+      {
+        "id": "CONNECT",
+        "type": "queue"
+      },
+      {
+        "id": "USER_MS",
+        "type": "service"
+      },
+      {
+        "id": "GENAI_MS",
+        "type": "service"
+      },
+      {
+        "id": "INGEST_MS",
+        "type": "service"
+      },
+      {
+        "id": "TRANSFORM_MS",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_MS",
+        "type": "service"
+      },
+      {
+        "id": "SEARCH_MS",
+        "type": "service"
+      },
+      {
+        "id": "NOTIFY_MS",
+        "type": "service"
+      },
+      {
+        "id": "LAKE",
+        "type": "database"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "container"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "DR_K8S",
+        "type": "container"
+      },
+      {
+        "id": "DR_KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "DR_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "DR_VAULT",
+        "type": "service"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "Mirror",
+        "type": "service"
+      },
+      {
+        "id": "SEG_INTERNET",
+        "type": "service"
+      },
+      {
+        "id": "SEG_APP",
+        "type": "service"
+      },
+      {
+        "id": "SEG_DATA",
+        "type": "service"
+      },
+      {
+        "id": "SEG_SEC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONSUMER",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "FEATURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "SM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_LAYER",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "SCHEMA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "CONNECT",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "INGEST_MS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "TRANSFORM_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "GENAI_MS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_MS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEARCH_MS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIFY_MS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "USER_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "INGEST_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "TRANSFORM_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "GENAI_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "VECTOR_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "SEARCH_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "NOTIFY_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC_DB",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONNECT",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "INGEST_MS",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "TRANSFORM_MS",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_MS",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEARCH_MS",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEG_INTERNET",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEG_APP",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEG_DATA",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEG_SEC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEG_SEC",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "IAM",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Feature Flags",
+      "Data Lakehouse Pattern",
+      "Disaster Recovery",
+      "Strict Network Segmentation",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 68,
+    "source_edges": 79,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

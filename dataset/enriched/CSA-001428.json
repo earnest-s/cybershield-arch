@@ -1,0 +1,692 @@
+{
+  "id": "CSA-001428",
+  "instruction": "Design a ERP architecture. using a Hexagonal style. deployed on On-Premises. satisfying: Active-Active Multi-Region, Strict Network Segmentation, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMER",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "EDGE",
+        "type": "service"
+      },
+      {
+        "id": "ENVOY",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "SECRETS",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "API_ADAPTER",
+        "type": "service"
+      },
+      {
+        "id": "UI_ADAPTER",
+        "type": "ui"
+      },
+      {
+        "id": "EVENT_ADAPTER",
+        "type": "queue"
+      },
+      {
+        "id": "BATCH_ADAPTER",
+        "type": "service"
+      },
+      {
+        "id": "ORDER_SVC",
+        "type": "service"
+      },
+      {
+        "id": "INV_SVC",
+        "type": "service"
+      },
+      {
+        "id": "FIN_SVC",
+        "type": "service"
+      },
+      {
+        "id": "HR_SVC",
+        "type": "service"
+      },
+      {
+        "id": "CRM_SVC",
+        "type": "service"
+      },
+      {
+        "id": "DB_ADAPTER",
+        "type": "database"
+      },
+      {
+        "id": "CACHE_ADAPTER",
+        "type": "cache"
+      },
+      {
+        "id": "SEARCH_ADAPTER",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "MONGO",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "RABBIT",
+        "type": "queue"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AGENT",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "BLUE_GREEN",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "REGION_A",
+        "type": "service"
+      },
+      {
+        "id": "REGION_B",
+        "type": "service"
+      },
+      {
+        "id": "DNS",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONSUMER",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ENVOY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENVOY",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "API_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "UI_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "EVENT_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "BATCH_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_ADAPTER",
+        "target": "ORDER_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "UI_ADAPTER",
+        "target": "CRM_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_ADAPTER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "BATCH_ADAPTER",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_SVC",
+        "target": "DB_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV_SVC",
+        "target": "DB_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIN_SVC",
+        "target": "DB_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "HR_SVC",
+        "target": "DB_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "CRM_SVC",
+        "target": "DB_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_ADAPTER",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_ADAPTER",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "CACHE_ADAPTER",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEARCH_ADAPTER",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ORDER_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "INV_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "FIN_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "HR_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "CRM_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_SVC",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "CRM_SVC",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "HR_SVC",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "BLUE_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE_GREEN",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "SECRETS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "SECRETS",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_A",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_A",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_A",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_B",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_B",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_B",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DNS",
+        "target": "REGION_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "DNS",
+        "target": "REGION_B",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 5,
+      "services": 47
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Strict Network Segmentation",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 92,
+    "source_edges": 77,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

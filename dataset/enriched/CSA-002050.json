@@ -1,0 +1,625 @@
+{
+  "id": "CSA-002050",
+  "instruction": "Design a GenAI architecture. using a Event-Driven style. deployed on Multi-Cloud. satisfying: Active-Active Multi-Region, Auto Scaling, Rate Limiting, Feature Flags, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "Mobile",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "DDoS",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLB",
+        "type": "service"
+      },
+      {
+        "id": "APIgw",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "K8sEU",
+        "type": "service"
+      },
+      {
+        "id": "K8sUS",
+        "type": "service"
+      },
+      {
+        "id": "EKS",
+        "type": "service"
+      },
+      {
+        "id": "US",
+        "type": "service"
+      },
+      {
+        "id": "West",
+        "type": "service"
+      },
+      {
+        "id": "K8sAP",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "service"
+      },
+      {
+        "id": "APAC",
+        "type": "service"
+      },
+      {
+        "id": "Region",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "GitOps",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Tempo",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventStore",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "UserProfile",
+        "type": "service"
+      },
+      {
+        "id": "Billing",
+        "type": "service"
+      },
+      {
+        "id": "Notification",
+        "type": "service"
+      },
+      {
+        "id": "PromptEngine",
+        "type": "service"
+      },
+      {
+        "id": "LLMGateway",
+        "type": "service"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RAGorchestrator",
+        "type": "service"
+      },
+      {
+        "id": "AgentOrch",
+        "type": "service"
+      },
+      {
+        "id": "Agent",
+        "type": "service"
+      },
+      {
+        "id": "Orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "end",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "Deploy",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mobile",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "DDoS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DDoS",
+        "target": "GlobalLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLB",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "UserProfile",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "Billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "Notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "PromptEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "RAGorchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "AgentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "UserProfile",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Billing",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Notification",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "PromptEngine",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Embedding",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "RAGorchestrator",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "PromptEngine",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGorchestrator",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGorchestrator",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "UserProfile",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "AuthService",
+        "label": "Cache"
+      },
+      {
+        "source": "RedisCache",
+        "target": "UserProfile",
+        "label": "Cache"
+      },
+      {
+        "source": "RedisCache",
+        "target": "Billing",
+        "label": "Cache"
+      },
+      {
+        "source": "Elastic",
+        "target": "Notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8sEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8sUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8sAP",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sEU",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 43
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "Event-Driven",
+    "cloud": "Multi-Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Auto Scaling",
+      "Rate Limiting",
+      "Feature Flags",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 61,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

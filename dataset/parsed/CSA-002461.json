@@ -1,0 +1,424 @@
+{
+  "id": "CSA-002461",
+  "instruction": "Design a Banking architecture. using a Zero-Trust style. deployed on Multi-Cloud. satisfying: Zero Trust Architecture, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "ms_auth",
+        "type": "service"
+      },
+      {
+        "id": "ms_accounts",
+        "type": "service"
+      },
+      {
+        "id": "ms_txn",
+        "type": "service"
+      },
+      {
+        "id": "ms_analytics",
+        "type": "service"
+      },
+      {
+        "id": "ai_gateway",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "service"
+      },
+      {
+        "id": "aks",
+        "type": "service"
+      },
+      {
+        "id": "gke",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "k8s_us",
+        "type": "service"
+      },
+      {
+        "id": "kafka_us",
+        "type": "queue"
+      },
+      {
+        "id": "db_us",
+        "type": "database"
+      },
+      {
+        "id": "k8s_eu",
+        "type": "service"
+      },
+      {
+        "id": "kafka_eu",
+        "type": "queue"
+      },
+      {
+        "id": "db_eu",
+        "type": "database"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ms_auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ms_accounts",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ms_txn",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ms_analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ai_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_auth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_auth",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_auth",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_auth",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_accounts",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_txn",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_txn",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_analytics",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_analytics",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "k8s_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "k8s_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "ms_auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "ms_accounts",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "ms_txn",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "db_us",
+        "target": "db_eu",
+        "label": "Async"
+      },
+      {
+        "source": "kafka_us",
+        "target": "kafka_eu",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Zero-Trust",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

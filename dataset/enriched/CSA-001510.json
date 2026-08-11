@@ -1,0 +1,552 @@
+{
+  "id": "CSA-001510",
+  "instruction": "Design a OTT architecture. using a Serverless style. deployed on Azure. satisfying: Auto Scaling, Feature Flags, Data Lakehouse Pattern, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "iOSApp",
+        "type": "service"
+      },
+      {
+        "id": "AndroidApp",
+        "type": "service"
+      },
+      {
+        "id": "TVApp",
+        "type": "service"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "EntraID",
+        "type": "service"
+      },
+      {
+        "id": "KeyVault",
+        "type": "service"
+      },
+      {
+        "id": "Sentinel",
+        "type": "service"
+      },
+      {
+        "id": "Functions",
+        "type": "service"
+      },
+      {
+        "id": "LogicApps",
+        "type": "service"
+      },
+      {
+        "id": "ContainerApps",
+        "type": "container"
+      },
+      {
+        "id": "AIFeature",
+        "type": "service"
+      },
+      {
+        "id": "EventHub",
+        "type": "queue"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "queue"
+      },
+      {
+        "id": "NotificationHub",
+        "type": "service"
+      },
+      {
+        "id": "ADLS",
+        "type": "service"
+      },
+      {
+        "id": "Synapse",
+        "type": "service"
+      },
+      {
+        "id": "CosmosDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Search",
+        "type": "service"
+      },
+      {
+        "id": "LogAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "AppInsights",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Repo",
+        "type": "service"
+      },
+      {
+        "id": "Pipelines",
+        "type": "service"
+      },
+      {
+        "id": "ARMTemplates",
+        "type": "service"
+      },
+      {
+        "id": "GitOps",
+        "type": "service"
+      },
+      {
+        "id": "end",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "DRM",
+        "type": "service"
+      },
+      {
+        "id": "CDN_Origin",
+        "type": "database"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "Flux",
+        "type": "service"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "iOSApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AndroidApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "TVApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "EntraID",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "ContainerApps",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "FeatureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "EventHub",
+        "label": "Async"
+      },
+      {
+        "source": "Functions",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "Functions",
+        "target": "Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApps",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApps",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApps",
+        "target": "NotificationHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContainerApps",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContainerApps",
+        "target": "Synapse",
+        "label": "DB Query"
+      },
+      {
+        "source": "ContainerApps",
+        "target": "AIFeature",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIFeature",
+        "target": "Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIFeature",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "Synapse",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADLS",
+        "target": "Synapse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Synapse",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Synapse",
+        "target": "Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Search",
+        "target": "AIFeature",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentGateway",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRM",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN_Origin",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "AppInsights",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContainerApps",
+        "target": "AppInsights",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApps",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "Sentinel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AppInsights",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogAnalytics",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Repo",
+        "target": "Pipelines",
+        "label": "HTTP"
+      },
+      {
+        "source": "Pipelines",
+        "target": "ARMTemplates",
+        "label": "HTTP"
+      },
+      {
+        "source": "Pipelines",
+        "target": "Flux",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "ContainerApps",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "LogicApps",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Require Multi-Factor Authentication for user access."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 33
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, SIEM and MFA. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "OTT",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Auto Scaling",
+      "Feature Flags",
+      "Data Lakehouse Pattern",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 54,
+    "source_edges": 51,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

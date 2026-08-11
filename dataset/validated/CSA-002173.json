@@ -1,0 +1,421 @@
+{
+  "id": "CSA-002173",
+  "instruction": "Design a Travel architecture. using a CQRS style. deployed on On-Premises. satisfying: Auto Scaling, Strict Network Segmentation, Observability Stack, Rate Limiting, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "RATE_LIMIT",
+        "type": "service"
+      },
+      {
+        "id": "SEG",
+        "type": "service"
+      },
+      {
+        "id": "IDS",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "AUTH",
+        "type": "service"
+      },
+      {
+        "id": "CMD_API",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SVC",
+        "type": "service"
+      },
+      {
+        "id": "CMD_DB",
+        "type": "database"
+      },
+      {
+        "id": "QUERY_API",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_SVC",
+        "type": "service"
+      },
+      {
+        "id": "READ_REP",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "HPA_CMD",
+        "type": "service"
+      },
+      {
+        "id": "HPA_QUERY",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "DMZ",
+        "type": "service"
+      },
+      {
+        "id": "ZONE1",
+        "type": "service"
+      },
+      {
+        "id": "ZONE2",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "RATE_LIMIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "RATE_LIMIT",
+        "target": "SEG",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEG",
+        "target": "IDS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "CMD_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "QUERY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_API",
+        "target": "QUERY_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SVC",
+        "target": "READ_REP",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "QUERY_SVC",
+        "label": "Async"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SVC",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "HPA_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SVC",
+        "target": "HPA_QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PERIMETER",
+        "target": "DMZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ",
+        "target": "ZONE1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ",
+        "target": "ZONE2",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 2,
+      "services": 27
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Travel",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "Strict Network Segmentation",
+      "Observability Stack",
+      "Rate Limiting",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 43,
+    "source_edges": 35,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

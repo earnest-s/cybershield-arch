@@ -1,0 +1,598 @@
+{
+  "id": "CSA-001098",
+  "instruction": "Design a Warehouse architecture. using a Data Mesh style. deployed on On-Premises. satisfying: Active-Active Multi-Region, Strict Network Segmentation, Disaster Recovery, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "thirdParty",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pk",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "fed",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY_COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "meshRouter",
+        "type": "service"
+      },
+      {
+        "id": "domainA",
+        "type": "service"
+      },
+      {
+        "id": "domainB",
+        "type": "service"
+      },
+      {
+        "id": "domainC",
+        "type": "service"
+      },
+      {
+        "id": "invService",
+        "type": "service"
+      },
+      {
+        "id": "invStore",
+        "type": "database"
+      },
+      {
+        "id": "invCache",
+        "type": "cache"
+      },
+      {
+        "id": "invSearch",
+        "type": "service"
+      },
+      {
+        "id": "featureFlagsA",
+        "type": "service"
+      },
+      {
+        "id": "orderSvc",
+        "type": "service"
+      },
+      {
+        "id": "orderStore",
+        "type": "database"
+      },
+      {
+        "id": "orderCache",
+        "type": "cache"
+      },
+      {
+        "id": "orderSearch",
+        "type": "service"
+      },
+      {
+        "id": "featureFlagsB",
+        "type": "service"
+      },
+      {
+        "id": "shipSvc",
+        "type": "service"
+      },
+      {
+        "id": "shipStore",
+        "type": "database"
+      },
+      {
+        "id": "shipCache",
+        "type": "cache"
+      },
+      {
+        "id": "shipSearch",
+        "type": "service"
+      },
+      {
+        "id": "featureFlagsC",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "dlq",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "dr",
+        "type": "database"
+      },
+      {
+        "id": "clientTraffic",
+        "type": "ui"
+      },
+      {
+        "id": "firewallZone1",
+        "type": "service"
+      },
+      {
+        "id": "firewallZone2",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdParty",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "webUI",
+        "label": "Cache"
+      },
+      {
+        "source": "waf",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "pk",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "fed",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "SECURITY_COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "meshRouter",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshRouter",
+        "target": "domainA",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshRouter",
+        "target": "domainB",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshRouter",
+        "target": "domainC",
+        "label": "HTTP"
+      },
+      {
+        "source": "invService",
+        "target": "invStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "invCache",
+        "target": "invService",
+        "label": "HTTP"
+      },
+      {
+        "source": "invSearch",
+        "target": "invService",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlagsA",
+        "target": "invService",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSvc",
+        "target": "orderStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderCache",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSearch",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlagsB",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipSvc",
+        "target": "shipStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipCache",
+        "target": "shipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipSearch",
+        "target": "shipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlagsC",
+        "target": "shipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "invService",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "orderSvc",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "shipSvc",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "dlq",
+        "label": "Async"
+      },
+      {
+        "source": "prometheus",
+        "target": "invService",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "shipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "invService",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "shipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "invService",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "shipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "invService",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "shipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "invService",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "shipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "dr",
+        "target": "invStore",
+        "label": "Async"
+      },
+      {
+        "source": "dr",
+        "target": "orderStore",
+        "label": "Async"
+      },
+      {
+        "source": "dr",
+        "target": "shipStore",
+        "label": "Async"
+      },
+      {
+        "source": "clientTraffic",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "firewallZone1",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewallZone1",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewallZone2",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "firewallZone1",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "firewallZone2",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "elk",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Data Mesh",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Strict Network Segmentation",
+      "Disaster Recovery",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 85,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

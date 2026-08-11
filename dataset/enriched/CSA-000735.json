@@ -1,0 +1,649 @@
+{
+  "id": "CSA-000735",
+  "instruction": "Design a HR architecture. using a Serverless style. deployed on Hybrid Cloud. satisfying: Auto Scaling, Disaster Recovery, Feature Flags, Rate Limiting, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "client",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "network",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "DDoS",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "Auth0",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "FuncHR",
+        "type": "service"
+      },
+      {
+        "id": "FuncPay",
+        "type": "service"
+      },
+      {
+        "id": "FuncRec",
+        "type": "ui"
+      },
+      {
+        "id": "FuncOnb",
+        "type": "service"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "OnPrem",
+        "type": "service"
+      },
+      {
+        "id": "DR_AWS",
+        "type": "service"
+      },
+      {
+        "id": "DR_OnPrem",
+        "type": "service"
+      },
+      {
+        "id": "ASG",
+        "type": "service"
+      },
+      {
+        "id": "DMZ",
+        "type": "service"
+      },
+      {
+        "id": "PrivateSegment",
+        "type": "service"
+      },
+      {
+        "id": "MGMT",
+        "type": "service"
+      },
+      {
+        "id": "Functions",
+        "type": "service"
+      },
+      {
+        "id": "Storage",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "Network_Segmentation",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "client",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "network",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Auth0",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth0",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "FeatureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "Auth0",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncHR",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncPay",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncRec",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncOnb",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncHR",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncPay",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncRec",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncOnb",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncHR",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "IaC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "Terraform",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "FuncHR",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncHR",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncHR",
+        "target": "OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "DR_AWS",
+        "label": "Async"
+      },
+      {
+        "source": "Dynamo",
+        "target": "DR_OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "DR_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASG",
+        "target": "FuncHR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASG",
+        "target": "FuncPay",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASG",
+        "target": "FuncRec",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASG",
+        "target": "FuncOnb",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PrivateSegment",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "MGMT",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "Auth0",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Network_Segmentation",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "Storage",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 5,
+      "services": 40
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Serverless",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "Disaster Recovery",
+      "Feature Flags",
+      "Rate Limiting",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 75,
+    "source_edges": 81,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

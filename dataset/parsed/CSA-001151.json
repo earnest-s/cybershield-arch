@@ -1,0 +1,373 @@
+{
+  "id": "CSA-001151",
+  "instruction": "Design a IoT architecture. using a Data Mesh style. deployed on GCP. satisfying: Strict Network Segmentation, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webui",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkis",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "sensorIngest",
+        "type": "service"
+      },
+      {
+        "id": "sensorProc",
+        "type": "service"
+      },
+      {
+        "id": "sensorStore",
+        "type": "database"
+      },
+      {
+        "id": "actIngest",
+        "type": "service"
+      },
+      {
+        "id": "actProc",
+        "type": "service"
+      },
+      {
+        "id": "actStore",
+        "type": "database"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "featureStore",
+        "type": "database"
+      },
+      {
+        "id": "ragService",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "embedding",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "thirdParty",
+        "type": "service"
+      },
+      {
+        "id": "legacy",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webui",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "pkis",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "sensorIngest",
+        "target": "sensorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "sensorIngest",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "sensorProc",
+        "label": "HTTP"
+      },
+      {
+        "source": "sensorProc",
+        "target": "sensorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "actIngest",
+        "target": "actProc",
+        "label": "HTTP"
+      },
+      {
+        "source": "actProc",
+        "target": "actStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "actProc",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "sensorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "actStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "featureStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragService",
+        "target": "embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragService",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragService",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "ragService",
+        "label": "Async"
+      },
+      {
+        "source": "istio",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "thirdParty",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "legacy",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "Data Mesh",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Strict Network Segmentation",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 62,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

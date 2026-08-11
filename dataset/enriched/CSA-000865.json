@@ -1,0 +1,457 @@
+{
+  "id": "CSA-000865",
+  "instruction": "Design a E-Commerce architecture. using a Modular Monolith style. deployed on GCP. satisfying: Feature Flags, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GCLB",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "PARTNERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "MONO",
+        "type": "service"
+      },
+      {
+        "id": "GRPC",
+        "type": "service"
+      },
+      {
+        "id": "REST",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "BIGQUERY",
+        "type": "database"
+      },
+      {
+        "id": "CLOUDSQL",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOGGING",
+        "type": "service"
+      },
+      {
+        "id": "ALERTING",
+        "type": "service"
+      },
+      {
+        "id": "GIT",
+        "type": "service"
+      },
+      {
+        "id": "CLOUDBUILD",
+        "type": "ui"
+      },
+      {
+        "id": "ARGO",
+        "type": "service"
+      },
+      {
+        "id": "CONTAINER",
+        "type": "ui"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "FLAG",
+        "type": "service"
+      },
+      {
+        "id": "RATE_LIMIT",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GCLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GCLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GCLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PARTNERS",
+        "target": "GCLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "GCLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCLB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "GRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "REST",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLOUDSQL",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLOUDSQL",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLOUDSQL",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOGGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "ALERTING",
+        "label": "HTTP"
+      },
+      {
+        "source": "GIT",
+        "target": "CLOUDBUILD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLOUDBUILD",
+        "target": "CONTAINER",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONTAINER",
+        "target": "ARGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ARGO",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAG",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAG",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "RATE_LIMIT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 27
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Modular Monolith",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Feature Flags",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 47,
+    "source_edges": 45,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

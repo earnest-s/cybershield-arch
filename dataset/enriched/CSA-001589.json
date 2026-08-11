@@ -1,0 +1,660 @@
+{
+  "id": "CSA-001589",
+  "instruction": "Design a Oil & Gas architecture. using a Microservices style. deployed on GCP. satisfying: Active-Active Multi-Region, High Throughput (100k+ TPS), Compliance/Audit Logging, Rate Limiting, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "EdgeLB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "LoggingSink",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "DataLake",
+        "type": "service"
+      },
+      {
+        "id": "MS",
+        "type": "ui"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "DrillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "ProductionSvc",
+        "type": "service"
+      },
+      {
+        "id": "LogisticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "MaintenanceSvc",
+        "type": "ui"
+      },
+      {
+        "id": "AnalyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Cassandra",
+        "type": "service"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "DataMesh",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      },
+      {
+        "id": "GCP2",
+        "type": "service"
+      },
+      {
+        "id": "CloudSQL",
+        "type": "database"
+      },
+      {
+        "id": "Memorystore",
+        "type": "cache"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Storage",
+        "type": "database"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "LoggingSink",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS",
+        "target": "DrillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS",
+        "target": "ProductionSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS",
+        "target": "LogisticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS",
+        "target": "MaintenanceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "DrillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ProductionSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "LogisticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MaintenanceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "DrillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cassandra",
+        "target": "ProductionSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "MaintenanceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "BigQuery",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataLake",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataMesh",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "LoggingSink",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP2",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudSQL",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Memorystore",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Storage",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "MESSAGING",
+        "label": "Async"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "DataLake",
+        "label": "Async"
+      },
+      {
+        "source": "DataLake",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "GCP2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "GCP2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataLake",
+        "target": "Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "DrillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DrillingSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "WebUI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 5,
+      "services": 35
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "High Throughput (100k+ TPS)",
+      "Compliance/Audit Logging",
+      "Rate Limiting",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 64,
+    "source_edges": 85,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

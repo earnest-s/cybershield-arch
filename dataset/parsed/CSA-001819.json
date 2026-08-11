@@ -1,0 +1,272 @@
+{
+  "id": "CSA-001819",
+  "instruction": "Design a DevSecOps architecture. using a Serverless style. deployed on GCP. satisfying: Zero Trust Architecture, Disaster Recovery, Feature Flags, Observability Stack, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APICONS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "OT",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Functions",
+        "type": "service"
+      },
+      {
+        "id": "Workflows",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "Spanner",
+        "type": "service"
+      },
+      {
+        "id": "Firestore",
+        "type": "service"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "DR_Storage",
+        "type": "database"
+      },
+      {
+        "id": "DR_Spanner",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APICONS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "Functions",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "Workflows",
+        "label": "HTTP"
+      },
+      {
+        "source": "Workflows",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "OT",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Storage",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Storage",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Spanner",
+        "target": "Spanner",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Disaster Recovery",
+      "Feature Flags",
+      "Observability Stack",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 39,
+    "source_edges": 29,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,472 @@
+{
+  "id": "CSA-001172",
+  "instruction": "Design a Supply Chain architecture. using a Zero-Trust style. deployed on Multi-Cloud. satisfying: Data Lakehouse Pattern, High Throughput (100k+ TPS), Auto Scaling, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "partner",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edge_proxy",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "opa",
+        "type": "service"
+      },
+      {
+        "id": "eks_aws",
+        "type": "container"
+      },
+      {
+        "id": "s3",
+        "type": "database"
+      },
+      {
+        "id": "rds",
+        "type": "database"
+      },
+      {
+        "id": "redis_aws",
+        "type": "cache"
+      },
+      {
+        "id": "aks_az",
+        "type": "container"
+      },
+      {
+        "id": "adls",
+        "type": "service"
+      },
+      {
+        "id": "sql_az",
+        "type": "database"
+      },
+      {
+        "id": "redis_az",
+        "type": "cache"
+      },
+      {
+        "id": "order_svc",
+        "type": "service"
+      },
+      {
+        "id": "inventory_svc",
+        "type": "service"
+      },
+      {
+        "id": "shipping_svc",
+        "type": "service"
+      },
+      {
+        "id": "demand_ai",
+        "type": "service"
+      },
+      {
+        "id": "anomaly_ai",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "topic_orders",
+        "type": "service"
+      },
+      {
+        "id": "topic_inventory",
+        "type": "service"
+      },
+      {
+        "id": "topic_events",
+        "type": "service"
+      },
+      {
+        "id": "lake_raw",
+        "type": "service"
+      },
+      {
+        "id": "lake_curated",
+        "type": "service"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "argo",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "edge_proxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge_proxy",
+        "target": "eks_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "partner",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "opa",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_aws",
+        "target": "aks_az",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_aws",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_aws",
+        "target": "order_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_aws",
+        "target": "inventory_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_aws",
+        "target": "shipping_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_aws",
+        "target": "demand_ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_aws",
+        "target": "anomaly_ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks_az",
+        "target": "order_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks_az",
+        "target": "inventory_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks_az",
+        "target": "shipping_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks_az",
+        "target": "demand_ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks_az",
+        "target": "anomaly_ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "order_svc",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory_svc",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipping_svc",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "topic_orders",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "topic_inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "topic_events",
+        "label": "HTTP"
+      },
+      {
+        "source": "topic_orders",
+        "target": "demand_ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "topic_inventory",
+        "target": "anomaly_ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "demand_ai",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "anomaly_ai",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "order_svc",
+        "target": "rds",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory_svc",
+        "target": "rds",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipping_svc",
+        "target": "rds",
+        "label": "HTTP"
+      },
+      {
+        "source": "order_svc",
+        "target": "redis_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory_svc",
+        "target": "redis_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "rds",
+        "target": "lake_raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "lake_raw",
+        "target": "lake_curated",
+        "label": "HTTP"
+      },
+      {
+        "source": "lake_curated",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "argo",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "eks_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "aks_az",
+        "label": "HTTP"
+      },
+      {
+        "source": "argo",
+        "target": "eks_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "argo",
+        "target": "aks_az",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "order_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "inventory_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "shipping_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "order_svc",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "Zero-Trust",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "High Throughput (100k+ TPS)",
+      "Auto Scaling",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 58,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

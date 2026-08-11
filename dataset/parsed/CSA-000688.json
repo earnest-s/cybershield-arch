@@ -1,0 +1,514 @@
+{
+  "id": "CSA-000688",
+  "instruction": "Design a Insurance architecture. using a Microservices style. deployed on GCP. satisfying: Observability Stack, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AgentPortal",
+        "type": "ui"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "CloudArmor",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "SecretMgr",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "Istio1",
+        "type": "service"
+      },
+      {
+        "id": "MS_Policy",
+        "type": "service"
+      },
+      {
+        "id": "MS_Customer",
+        "type": "service"
+      },
+      {
+        "id": "MS_PolicyDB",
+        "type": "database"
+      },
+      {
+        "id": "Istio2",
+        "type": "service"
+      },
+      {
+        "id": "MS_Payment",
+        "type": "service"
+      },
+      {
+        "id": "MS_Claims",
+        "type": "service"
+      },
+      {
+        "id": "MS_Underwriting",
+        "type": "service"
+      },
+      {
+        "id": "MS_Analytics",
+        "type": "service"
+      },
+      {
+        "id": "MS_EventStore",
+        "type": "database"
+      },
+      {
+        "id": "Istio3",
+        "type": "service"
+      },
+      {
+        "id": "MS_Documents",
+        "type": "service"
+      },
+      {
+        "id": "MS_AI",
+        "type": "service"
+      },
+      {
+        "id": "MS_Search",
+        "type": "service"
+      },
+      {
+        "id": "MS_VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "Spanner",
+        "type": "database"
+      },
+      {
+        "id": "BigQuery",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "VertexAI",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Tempo",
+        "type": "service"
+      },
+      {
+        "id": "AlertMgr",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "DR_Cluster",
+        "type": "container"
+      },
+      {
+        "id": "DR_Storage",
+        "type": "database"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "K8S_CLUSTER_1",
+        "type": "service"
+      },
+      {
+        "id": "K8S_CLUSTER_2",
+        "type": "service"
+      },
+      {
+        "id": "K8S_CLUSTER_3",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "Kafka",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "CloudArmor",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudArmor",
+        "target": "GlobalLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentPortal",
+        "target": "GlobalLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "Istio1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio1",
+        "target": "MS_Policy",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio1",
+        "target": "MS_Customer",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio2",
+        "target": "MS_Payment",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio2",
+        "target": "MS_Claims",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio2",
+        "target": "MS_Underwriting",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio2",
+        "target": "MS_Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio3",
+        "target": "MS_Documents",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio3",
+        "target": "MS_AI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio3",
+        "target": "MS_Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_Policy",
+        "target": "MS_PolicyDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_Customer",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_Payment",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_Claims",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_Underwriting",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_Analytics",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_Documents",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_AI",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_Search",
+        "target": "MS_VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_Customer",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "MS_Payment",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "MS_Claims",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "MS_Underwriting",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "MS_Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_Search",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_AI",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio1",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio2",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio3",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "AlertMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "SecretMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AlertMgr",
+        "target": "SOC2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Observability Stack",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 70,
+    "source_edges": 89,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

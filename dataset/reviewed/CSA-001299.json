@@ -1,0 +1,607 @@
+{
+  "id": "CSA-001299",
+  "instruction": "Design a Cyber Security architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: Data Lakehouse Pattern, Compliance/Audit Logging, High Throughput (100k+ TPS), Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "apiCons",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkI",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "ztProxy",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "git",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
+        "id": "lake",
+        "type": "database"
+      },
+      {
+        "id": "dwh",
+        "type": "service"
+      },
+      {
+        "id": "vecDB",
+        "type": "database"
+      },
+      {
+        "id": "redisCache",
+        "type": "cache"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "authSrv",
+        "type": "service"
+      },
+      {
+        "id": "userSrv",
+        "type": "service"
+      },
+      {
+        "id": "threatSrv",
+        "type": "service"
+      },
+      {
+        "id": "incidentSrv",
+        "type": "service"
+      },
+      {
+        "id": "policySrv",
+        "type": "service"
+      },
+      {
+        "id": "analyticsSrv",
+        "type": "service"
+      },
+      {
+        "id": "aiOrch",
+        "type": "service"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "vectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "micr",
+        "type": "service"
+      },
+      {
+        "id": "Log",
+        "type": "service"
+      },
+      {
+        "id": "externalSOC",
+        "type": "service"
+      },
+      {
+        "id": "threatIntelFeed",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiCons",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "pkI",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "ztProxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "ztProxy",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "micr",
+        "label": "HTTP"
+      },
+      {
+        "source": "micr",
+        "target": "authSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "micr",
+        "target": "userSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "micr",
+        "target": "threatSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "micr",
+        "target": "incidentSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "micr",
+        "target": "policySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "micr",
+        "target": "analyticsSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "micr",
+        "target": "aiOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "policySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "userSrv",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "threatSrv",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "incidentSrv",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "analyticsSrv",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "vecDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "redisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "kafka",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "lake",
+        "target": "dwh",
+        "label": "HTTP"
+      },
+      {
+        "source": "lake",
+        "target": "vecDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vecDB",
+        "target": "vectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorSearch",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiOrch",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "vectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiOrch",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "micr",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "Log",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "git",
+        "target": "ci",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalSOC",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "threatIntelFeed",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "micr",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 42
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Cyber Security",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Compliance/Audit Logging",
+      "High Throughput (100k+ TPS)",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 57,
+    "source_edges": 66,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

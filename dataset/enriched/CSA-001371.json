@@ -1,0 +1,632 @@
+{
+  "id": "CSA-001371",
+  "instruction": "Design a Government architecture. using a Zero-Trust style. deployed on GCP. satisfying: AI/ML Inference Integration, Feature Flags, Auto Scaling, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "edgeLB",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "msAuth",
+        "type": "service"
+      },
+      {
+        "id": "msUser",
+        "type": "service"
+      },
+      {
+        "id": "msCase",
+        "type": "service"
+      },
+      {
+        "id": "msAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "msAI",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "sidecarProxy",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventStore",
+        "type": "database"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "spanner",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "vertexEndpoint",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "autoscale",
+        "type": "service"
+      },
+      {
+        "id": "canary",
+        "type": "service"
+      },
+      {
+        "id": "ffToggle",
+        "type": "ui"
+      },
+      {
+        "id": "compute",
+        "type": "service"
+      },
+      {
+        "id": "gke",
+        "type": "container"
+      },
+      {
+        "id": "storage",
+        "type": "database"
+      },
+      {
+        "id": "vpc",
+        "type": "service"
+      },
+      {
+        "id": "cloudDNS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "edgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeLB",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "msAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "msAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "msAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "msAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAuth",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "msUser",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "msCase",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "msAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAuth",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "msUser",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "msCase",
+        "target": "spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAnalytics",
+        "target": "elastic",
+        "label": "DB Query"
+      },
+      {
+        "source": "msAI",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAI",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "msAI",
+        "target": "embeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "embeddingModel",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAI",
+        "target": "ragEngine",
+        "label": "DB Query"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vertexEndpoint",
+        "label": "HTTP"
+      },
+      {
+        "source": "msUser",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "msCase",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "ffToggle",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAuth",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "msUser",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "msCase",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "sidecarProxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "autoscale",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "canary",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "compute",
+        "label": "HTTP"
+      },
+      {
+        "source": "compute",
+        "target": "vpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "storage",
+        "target": "spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "storage",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "iam",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 5,
+      "services": 42
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Zero-Trust",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Feature Flags",
+      "Auto Scaling",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 78,
+    "source_edges": 64,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

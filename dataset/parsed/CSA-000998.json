@@ -1,0 +1,337 @@
+{
+  "id": "CSA-000998",
+  "instruction": "Design a Fraud Detection architecture. using a Microservices style. deployed on GCP. satisfying: Disaster Recovery, Feature Flags, High Throughput (100k+ TPS), Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Microservices",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "K8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "K8sDR",
+        "type": "container"
+      },
+      {
+        "id": "GitCI",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Ingest",
+        "type": "service"
+      },
+      {
+        "id": "KafkaMain",
+        "type": "database"
+      },
+      {
+        "id": "Scorer",
+        "type": "service"
+      },
+      {
+        "id": "BigTable",
+        "type": "service"
+      },
+      {
+        "id": "Alert",
+        "type": "service"
+      },
+      {
+        "id": "PubSubAlerts",
+        "type": "database"
+      },
+      {
+        "id": "Model",
+        "type": "service"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "Dashboard",
+        "type": "ui"
+      },
+      {
+        "id": "FeatureFlagger",
+        "type": "service"
+      },
+      {
+        "id": "lake",
+        "type": "service"
+      },
+      {
+        "id": "RawLake",
+        "type": "service"
+      },
+      {
+        "id": "ProcessedLake",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "DRBucket",
+        "type": "service"
+      },
+      {
+        "id": "DRReplica",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "Microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitCI",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitCI",
+        "target": "K8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "KafkaMain",
+        "label": "Async"
+      },
+      {
+        "source": "Scorer",
+        "target": "BigTable",
+        "label": "HTTP"
+      },
+      {
+        "source": "Alert",
+        "target": "PubSubAlerts",
+        "label": "HTTP"
+      },
+      {
+        "source": "Model",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dashboard",
+        "target": "BigTable",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlagger",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "lake",
+        "target": "BigTable",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "Scorer",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaMain",
+        "target": "Scorer",
+        "label": "Async"
+      },
+      {
+        "source": "KafkaMain",
+        "target": "Model",
+        "label": "Async"
+      },
+      {
+        "source": "KafkaMain",
+        "target": "Alert",
+        "label": "Async"
+      },
+      {
+        "source": "PubSubAlerts",
+        "target": "Alert",
+        "label": "Async"
+      },
+      {
+        "source": "OTEL",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRBucket",
+        "target": "BigTable",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRReplica",
+        "target": "K8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scorer",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Alert",
+        "target": "Dashboard",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Disaster Recovery",
+      "Feature Flags",
+      "High Throughput (100k+ TPS)",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 53,
+    "source_edges": 43,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

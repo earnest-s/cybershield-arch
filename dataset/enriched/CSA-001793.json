@@ -1,0 +1,497 @@
+{
+  "id": "CSA-001793",
+  "instruction": "Design a E-Commerce architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Strict Network Segmentation, Blue/Green Deployment, Feature Flags, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkc",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
+        "id": "coreServices",
+        "type": "service"
+      },
+      {
+        "id": "featureFlag",
+        "type": "service"
+      },
+      {
+        "id": "bgDeploy",
+        "type": "service"
+      },
+      {
+        "id": "autoscale",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "devops",
+        "type": "service"
+      },
+      {
+        "id": "complianceCheck",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "coreServices",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreServices",
+        "target": "featureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreServices",
+        "target": "bgDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreServices",
+        "target": "autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreServices",
+        "target": "pg",
+        "label": "DB Query"
+      },
+      {
+        "source": "coreServices",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "coreServices",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "pkc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlag",
+        "target": "coreServices",
+        "label": "HTTP"
+      },
+      {
+        "source": "bgDeploy",
+        "target": "coreServices",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreServices",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreServices",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "devops",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "devops",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "devops",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "devops",
+        "target": "coreServices",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "bgDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreServices",
+        "target": "complianceCheck",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceCheck",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceCheck",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceCheck",
+        "target": "soc2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 2,
+      "services": 36
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Blue/Green Deployment",
+      "Feature Flags",
+      "Auto Scaling"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 58,
+    "source_edges": 40,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

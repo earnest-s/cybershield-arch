@@ -1,0 +1,590 @@
+{
+  "id": "CSA-001653",
+  "instruction": "Design a Travel architecture. using a Microservices style. deployed on On-Premises. satisfying: Active-Active Multi-Region, Rate Limiting, Strict Network Segmentation, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "B2BConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "EDGE_NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "K8sA",
+        "type": "container"
+      },
+      {
+        "id": "K8sB",
+        "type": "container"
+      },
+      {
+        "id": "IstioA",
+        "type": "service"
+      },
+      {
+        "id": "IstioB",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "Booking",
+        "type": "service"
+      },
+      {
+        "id": "Inventory",
+        "type": "service"
+      },
+      {
+        "id": "Pricing",
+        "type": "service"
+      },
+      {
+        "id": "Notification",
+        "type": "service"
+      },
+      {
+        "id": "Search",
+        "type": "service"
+      },
+      {
+        "id": "UserProfile",
+        "type": "service"
+      },
+      {
+        "id": "Payment",
+        "type": "service"
+      },
+      {
+        "id": "Review",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "RawLake",
+        "type": "database"
+      },
+      {
+        "id": "ProcessedLake",
+        "type": "service"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "Replicator",
+        "type": "service"
+      },
+      {
+        "id": "HealthCheck",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA_LAKEHOUSE",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "PLATFORM",
+        "type": "service"
+      },
+      {
+        "id": "DR_SYNC",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "B2BConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "EDGE_NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sA",
+        "target": "IstioA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sB",
+        "target": "IstioB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Booking",
+        "target": "Inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "Booking",
+        "target": "Pricing",
+        "label": "HTTP"
+      },
+      {
+        "source": "Booking",
+        "target": "Notification",
+        "label": "Async"
+      },
+      {
+        "source": "Search",
+        "target": "Inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "Search",
+        "target": "Pricing",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserProfile",
+        "target": "Booking",
+        "label": "HTTP"
+      },
+      {
+        "source": "Payment",
+        "target": "Booking",
+        "label": "HTTP"
+      },
+      {
+        "source": "Review",
+        "target": "Booking",
+        "label": "HTTP"
+      },
+      {
+        "source": "Booking",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Notification",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Analytics",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "Booking",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Inventory",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Pricing",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "RawLake",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcessedLake",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcessedLake",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Search",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "Notification",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "VectorDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "RAG",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicator",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicator",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "HealthCheck",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "HealthCheck",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "MESSAGING",
+        "label": "Async"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "DATA_LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ML",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "PLATFORM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SYNC",
+        "target": "PLATFORM",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SYNC",
+        "target": "DATA_LAKEHOUSE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Travel",
+    "style": "Microservices",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Rate Limiting",
+      "Strict Network Segmentation",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 71,
+    "source_edges": 71,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

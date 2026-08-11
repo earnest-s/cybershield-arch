@@ -1,0 +1,284 @@
+{
+  "id": "CSA-001165",
+  "instruction": "Design a Warehouse architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Auto Scaling, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "HandheldApp",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LDAP",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "OrderSvc",
+        "type": "service"
+      },
+      {
+        "id": "InvSvc",
+        "type": "service"
+      },
+      {
+        "id": "PickSvc",
+        "type": "service"
+      },
+      {
+        "id": "ShipSvc",
+        "type": "service"
+      },
+      {
+        "id": "Scheduler",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Services",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "HandheldApp",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "LDAP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "InvSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "PickSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "ShipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "InvSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "PickSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShipSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scheduler",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "InvSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "PickSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ShipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Scheduler",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "InvSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "PickSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShipSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "InvSvc",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "PickSvc",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Services",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Graf",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 30,
+    "source_edges": 37,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

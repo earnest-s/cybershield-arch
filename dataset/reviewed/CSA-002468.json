@@ -1,0 +1,621 @@
+{
+  "id": "CSA-002468",
+  "instruction": "Design a Energy architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, Rate Limiting, Compliance/Audit Logging, AI/ML Inference Integration, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "container"
+      },
+      {
+        "id": "authN",
+        "type": "service"
+      },
+      {
+        "id": "tokenSvc",
+        "type": "service"
+      },
+      {
+        "id": "funcA",
+        "type": "service"
+      },
+      {
+        "id": "funcB",
+        "type": "service"
+      },
+      {
+        "id": "funcC",
+        "type": "service"
+      },
+      {
+        "id": "funcD",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "modelStore",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "llm",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "bluegreen",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "s3",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "authN",
+        "label": "HTTP"
+      },
+      {
+        "source": "authN",
+        "target": "tokenSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBridge",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "funcD",
+        "label": "HTTP"
+      },
+      {
+        "source": "modelStore",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "llm",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "bluegreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "ci",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "funcD",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcC",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcD",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "dynamo",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcC",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcD",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "funcD",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "funcD",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcC",
+        "target": "llm",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcC",
+        "target": "grafana",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 35
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Rate Limiting",
+      "Compliance/Audit Logging",
+      "AI/ML Inference Integration",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 80,
+    "source_edges": 75,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

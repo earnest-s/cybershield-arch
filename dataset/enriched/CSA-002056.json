@@ -1,0 +1,517 @@
+{
+  "id": "CSA-002056",
+  "instruction": "Design a HR architecture. using a Serverless style. deployed on AWS. satisfying: AI/ML Inference Integration, Feature Flags, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "cognito",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "lambda",
+        "type": "service"
+      },
+      {
+        "id": "step",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "aurora",
+        "type": "database"
+      },
+      {
+        "id": "s3",
+        "type": "service"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "sns",
+        "type": "service"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "sagemaker",
+        "type": "service"
+      },
+      {
+        "id": "embedding",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "cw",
+        "type": "service"
+      },
+      {
+        "id": "xray",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "codepipeline",
+        "type": "service"
+      },
+      {
+        "id": "codebuild",
+        "type": "ui"
+      },
+      {
+        "id": "sam",
+        "type": "service"
+      },
+      {
+        "id": "awsRegion",
+        "type": "service"
+      },
+      {
+        "id": "dr",
+        "type": "service"
+      },
+      {
+        "id": "appconfig",
+        "type": "service"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "step",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "step",
+        "target": "lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "step",
+        "target": "sagemaker",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "sagemaker",
+        "label": "HTTP"
+      },
+      {
+        "source": "sagemaker",
+        "target": "embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedding",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "eventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBridge",
+        "target": "sns",
+        "label": "HTTP"
+      },
+      {
+        "source": "sns",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "sns",
+        "target": "lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "web",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "mobile",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "admin",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "codepipeline",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "appconfig",
+        "label": "HTTP"
+      },
+      {
+        "source": "codepipeline",
+        "target": "codebuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "codebuild",
+        "target": "sam",
+        "label": "HTTP"
+      },
+      {
+        "source": "sam",
+        "target": "lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "xray",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "xray",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "secrets",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "security",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "security",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "dynamo",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 2,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Feature Flags",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

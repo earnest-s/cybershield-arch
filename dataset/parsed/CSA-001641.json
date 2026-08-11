@@ -1,0 +1,411 @@
+{
+  "id": "CSA-001641",
+  "instruction": "Design a AIOps architecture. using a Modular Monolith style. deployed on Azure. satisfying: Blue/Green Deployment, Feature Flags, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "frontdoor",
+        "type": "service"
+      },
+      {
+        "id": "appgw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "blueInst",
+        "type": "service"
+      },
+      {
+        "id": "greenInst",
+        "type": "service"
+      },
+      {
+        "id": "sqlDb",
+        "type": "database"
+      },
+      {
+        "id": "cosmos",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "lake",
+        "type": "database"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "monitor",
+        "type": "service"
+      },
+      {
+        "id": "sentinel",
+        "type": "service"
+      },
+      {
+        "id": "aad",
+        "type": "service"
+      },
+      {
+        "id": "keyVault",
+        "type": "service"
+      },
+      {
+        "id": "policy",
+        "type": "service"
+      },
+      {
+        "id": "nsg",
+        "type": "service"
+      },
+      {
+        "id": "eventHub",
+        "type": "service"
+      },
+      {
+        "id": "serviceBus",
+        "type": "service"
+      },
+      {
+        "id": "aml",
+        "type": "service"
+      },
+      {
+        "id": "cogSearch",
+        "type": "service"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "appInsights",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "featureFlag",
+        "type": "service"
+      },
+      {
+        "id": "ingest",
+        "type": "service"
+      },
+      {
+        "id": "alert",
+        "type": "service"
+      },
+      {
+        "id": "corr",
+        "type": "service"
+      },
+      {
+        "id": "pred",
+        "type": "service"
+      },
+      {
+        "id": "dash",
+        "type": "ui"
+      },
+      {
+        "id": "config",
+        "type": "service"
+      },
+      {
+        "id": "MONOLITH_MODULES",
+        "type": "service"
+      },
+      {
+        "id": "APP_SUBNET",
+        "type": "service"
+      },
+      {
+        "id": "DATA_SUBNET",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "frontdoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "frontdoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "frontdoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "frontdoor",
+        "target": "appgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "frontdoor",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "appgw",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "blueInst",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "greenInst",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueInst",
+        "target": "featureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "greenInst",
+        "target": "featureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueInst",
+        "target": "MONOLITH_MODULES",
+        "label": "HTTP"
+      },
+      {
+        "source": "greenInst",
+        "target": "MONOLITH_MODULES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "eventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "serviceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "alert",
+        "target": "eventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "corr",
+        "target": "pred",
+        "label": "HTTP"
+      },
+      {
+        "source": "pred",
+        "target": "aml",
+        "label": "HTTP"
+      },
+      {
+        "source": "pred",
+        "target": "cogSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "dash",
+        "target": "sqlDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "dash",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "config",
+        "target": "keyVault",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlag",
+        "target": "config",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventHub",
+        "target": "sqlDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventHub",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceBus",
+        "target": "sqlDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceBus",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "cogSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "aml",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONOLITH_MODULES",
+        "target": "appInsights",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONOLITH_MODULES",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqlDb",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "cosmos",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventHub",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceBus",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "frontdoor",
+        "target": "aad",
+        "label": "HTTP"
+      },
+      {
+        "source": "appgw",
+        "target": "keyVault",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "policy",
+        "label": "HTTP"
+      },
+      {
+        "source": "nsg",
+        "target": "APP_SUBNET",
+        "label": "HTTP"
+      },
+      {
+        "source": "nsg",
+        "target": "DATA_SUBNET",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "MONOLITH_MODULES",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "MONOLITH_MODULES",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "MONOLITH_MODULES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "blueInst",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "greenInst",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "monitor",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "AIOps",
+    "style": "Modular Monolith",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Feature Flags",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 72,
+    "source_edges": 50,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

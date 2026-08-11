@@ -1,0 +1,506 @@
+{
+  "id": "CSA-001519",
+  "instruction": "Design a Manufacturing architecture. using a Hexagonal style. deployed on On-Premises. satisfying: GraphRAG Integration, Active-Active Multi-Region, Feature Flags, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APP_PORT",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_PORT",
+        "type": "service"
+      },
+      {
+        "id": "REST_ADAPTER",
+        "type": "service"
+      },
+      {
+        "id": "GRAPHQL_ADAPTER",
+        "type": "service"
+      },
+      {
+        "id": "BIZ_LOGIC",
+        "type": "service"
+      },
+      {
+        "id": "BIZ_QUERY",
+        "type": "service"
+      },
+      {
+        "id": "INVENTORY",
+        "type": "service"
+      },
+      {
+        "id": "PLANNING",
+        "type": "service"
+      },
+      {
+        "id": "QA",
+        "type": "service"
+      },
+      {
+        "id": "MAINT",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VECDB",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "SERVICES",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "PLATFORM",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST_ADAPTER",
+        "target": "APP_PORT",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPHQL_ADAPTER",
+        "target": "QUERY_PORT",
+        "label": "HTTP"
+      },
+      {
+        "source": "BIZ_LOGIC",
+        "target": "APP_PORT",
+        "label": "HTTP"
+      },
+      {
+        "source": "BIZ_QUERY",
+        "target": "QUERY_PORT",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "PLANNING",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "QA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "MAINT",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLANNING",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "QA",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MAINT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PLANNING",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "QA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MAINT",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLANNING",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "QA",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MAINT",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "VECDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECDB",
+        "target": "GRAPHQL_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PLATFORM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAF",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "K8S",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 2,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Active-Active Multi-Region",
+      "Feature Flags",
+      "Auto Scaling"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 47,
+    "source_edges": 50,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

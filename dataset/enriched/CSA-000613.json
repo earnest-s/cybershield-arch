@@ -1,0 +1,403 @@
+{
+  "id": "CSA-000613",
+  "instruction": "Design a IoT architecture. using a Zero-Trust style. deployed on AWS. satisfying: Strict Network Segmentation, Active-Active Multi-Region, Rate Limiting, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "idFed",
+        "type": "service"
+      },
+      {
+        "id": "rateLim",
+        "type": "service"
+      },
+      {
+        "id": "k8s_us_east",
+        "type": "container"
+      },
+      {
+        "id": "micro_us_east",
+        "type": "ui"
+      },
+      {
+        "id": "k8s_eu_west",
+        "type": "container"
+      },
+      {
+        "id": "micro_eu_west",
+        "type": "ui"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "rateLim",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLim",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "micro_us_east",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_us_east",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_eu_west",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "kafka",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_us_east",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_eu_west",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "k8s_us_east",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_us_east",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 2,
+      "services": 27
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "Zero-Trust",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Active-Active Multi-Region",
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 58,
+    "source_edges": 43,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

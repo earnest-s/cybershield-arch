@@ -1,0 +1,448 @@
+{
+  "id": "CSA-001010",
+  "instruction": "Design a Blockchain architecture. using a Hexagonal style. deployed on Multi-Cloud. satisfying: Feature Flags, Zero Trust Architecture, Observability Stack, Active-Active Multi-Region, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB_UI",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE_APP",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN_PORTAL",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMER",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "PORT_ADAPTERS",
+        "type": "service"
+      },
+      {
+        "id": "REST_ADAPTER",
+        "type": "service"
+      },
+      {
+        "id": "GRPC_ADAPTER",
+        "type": "service"
+      },
+      {
+        "id": "MQ_ADAPTER",
+        "type": "queue"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "CASSANDRA",
+        "type": "service"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB_UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ZERO_TRUST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE_APP",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN_PORTAL",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONSUMER",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PORT_ADAPTERS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORT_ADAPTERS",
+        "target": "REST_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORT_ADAPTERS",
+        "target": "GRPC_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORT_ADAPTERS",
+        "target": "MQ_ADAPTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST_ADAPTER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPC_ADAPTER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MQ_ADAPTER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "CASSANDRA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "CASSANDRA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "OTEL",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 2,
+      "services": 25
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Blockchain",
+    "style": "Hexagonal",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Feature Flags",
+      "Zero Trust Architecture",
+      "Observability Stack",
+      "Active-Active Multi-Region",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 52,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

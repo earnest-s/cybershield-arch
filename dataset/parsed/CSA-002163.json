@@ -1,0 +1,320 @@
+{
+  "id": "CSA-002163",
+  "instruction": "Design a Retail architecture. using a CQRS style. deployed on GCP. satisfying: Feature Flags, Auto Scaling, Strict Network Segmentation, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "POS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "SEG",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SVC",
+        "type": "service"
+      },
+      {
+        "id": "CMD_DB",
+        "type": "database"
+      },
+      {
+        "id": "EVT_BUS",
+        "type": "service"
+      },
+      {
+        "id": "READ_API",
+        "type": "service"
+      },
+      {
+        "id": "READ_DB",
+        "type": "database"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "ASYNC",
+        "type": "service"
+      },
+      {
+        "id": "AUTO",
+        "type": "service"
+      },
+      {
+        "id": "MON",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "CD_BLUE",
+        "type": "service"
+      },
+      {
+        "id": "CD_GREEN",
+        "type": "service"
+      },
+      {
+        "id": "ROUTE",
+        "type": "service"
+      },
+      {
+        "id": "app",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SUB",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SUB_G",
+        "type": "service"
+      },
+      {
+        "id": "READ_SUB",
+        "type": "service"
+      },
+      {
+        "id": "READ_SUB_G",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "SEG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "POS",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "EVT_BUS",
+        "label": "Async"
+      },
+      {
+        "source": "EVT_BUS",
+        "target": "CMD_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVT_BUS",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "READ_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_API",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASYNC",
+        "target": "EVT_BUS",
+        "label": "Async"
+      },
+      {
+        "source": "ASYNC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTO",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTO",
+        "target": "READ_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "MON",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "MON",
+        "target": "READ_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "READ_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_DB",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_DB",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "CD_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "CD_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD_BLUE",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD_BLUE",
+        "target": "READ_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD_GREEN",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD_GREEN",
+        "target": "READ_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "app",
+        "target": "ROUTE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Retail",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Auto Scaling",
+      "Strict Network Segmentation",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 38,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

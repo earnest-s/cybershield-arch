@@ -1,0 +1,428 @@
+{
+  "id": "CSA-000715",
+  "instruction": "Design a CRM architecture. using a Modular Monolith style. deployed on AWS. satisfying: Auto Scaling, High Throughput (100k+ TPS), Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "MODMON",
+        "type": "container"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "ContactService",
+        "type": "service"
+      },
+      {
+        "id": "LeadService",
+        "type": "service"
+      },
+      {
+        "id": "OpportunityService",
+        "type": "service"
+      },
+      {
+        "id": "CampaignService",
+        "type": "service"
+      },
+      {
+        "id": "ReportingService",
+        "type": "service"
+      },
+      {
+        "id": "Aurora",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "XRay",
+        "type": "service"
+      },
+      {
+        "id": "PROMETHEUS",
+        "type": "service"
+      },
+      {
+        "id": "CodeRepo",
+        "type": "service"
+      },
+      {
+        "id": "Build",
+        "type": "ui"
+      },
+      {
+        "id": "Deploy",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Secrets",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "EmailSvc",
+        "type": "service"
+      },
+      {
+        "id": "SMSSvc",
+        "type": "service"
+      },
+      {
+        "id": "ThirdPartyCRM",
+        "type": "service"
+      },
+      {
+        "id": "AutoScaleGroup",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "SubnetPublic",
+        "type": "service"
+      },
+      {
+        "id": "SubnetPrivate",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "MODMON",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "ContactService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "LeadService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "OpportunityService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "CampaignService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "ReportingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContactService",
+        "target": "LeadService",
+        "label": "Async"
+      },
+      {
+        "source": "LeadService",
+        "target": "OpportunityService",
+        "label": "Async"
+      },
+      {
+        "source": "OpportunityService",
+        "target": "CampaignService",
+        "label": "Async"
+      },
+      {
+        "source": "MODMON",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODMON",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODMON",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "ReportingService",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODMON",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "MODMON",
+        "label": "Async"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODMON",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODMON",
+        "target": "XRay",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROMETHEUS",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodeRepo",
+        "target": "Build",
+        "label": "HTTP"
+      },
+      {
+        "source": "Build",
+        "target": "Deploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "MODMON",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "IaC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MODMON",
+        "label": "HTTP"
+      },
+      {
+        "source": "Secrets",
+        "target": "MODMON",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "MODMON",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CampaignService",
+        "target": "EmailSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CampaignService",
+        "target": "SMSSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LeadService",
+        "target": "ThirdPartyCRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "SubnetPublic",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetPublic",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "SubnetPrivate",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetPrivate",
+        "target": "MODMON",
+        "label": "HTTP"
+      },
+      {
+        "source": "AutoScaleGroup",
+        "target": "MODMON",
+        "label": "HTTP"
+      },
+      {
+        "source": "AutoScaleGroup",
+        "target": "LB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "High Throughput (100k+ TPS)",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 66,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

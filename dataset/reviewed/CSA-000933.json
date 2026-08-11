@@ -1,0 +1,667 @@
+{
+  "id": "CSA-000933",
+  "instruction": "Design a Smart City architecture. using a Microservices style. deployed on Azure. satisfying: Active-Active Multi-Region, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "iot",
+        "type": "service"
+      },
+      {
+        "id": "eventHub",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "aksEast",
+        "type": "container"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "aksWest",
+        "type": "container"
+      },
+      {
+        "id": "serviceMesh",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "pkc",
+        "type": "service"
+      },
+      {
+        "id": "storage",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "securityAudit",
+        "type": "service"
+      },
+      {
+        "id": "istioEast",
+        "type": "service"
+      },
+      {
+        "id": "istioWest",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "microservices",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "traffic",
+        "type": "service"
+      },
+      {
+        "id": "parking",
+        "type": "service"
+      },
+      {
+        "id": "lighting",
+        "type": "service"
+      },
+      {
+        "id": "waste",
+        "type": "service"
+      },
+      {
+        "id": "env",
+        "type": "service"
+      },
+      {
+        "id": "transit",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "openai",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "blob",
+        "type": "database"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "loki",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iot",
+        "target": "eventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "web",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "aksEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "aksEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "aksWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "aksEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "aksWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "pkc",
+        "target": "storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "aksEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "aksWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "securityAudit",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "securityAudit",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "securityAudit",
+        "label": "HTTP"
+      },
+      {
+        "source": "istioEast",
+        "target": "aksEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "istioWest",
+        "target": "aksWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "aksEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "aksWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventHub",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceMesh",
+        "target": "microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "traffic",
+        "target": "eventHub",
+        "label": "Async"
+      },
+      {
+        "source": "parking",
+        "target": "eventHub",
+        "label": "Async"
+      },
+      {
+        "source": "lighting",
+        "target": "eventHub",
+        "label": "Async"
+      },
+      {
+        "source": "waste",
+        "target": "eventHub",
+        "label": "Async"
+      },
+      {
+        "source": "env",
+        "target": "eventHub",
+        "label": "Async"
+      },
+      {
+        "source": "transit",
+        "target": "eventHub",
+        "label": "Async"
+      },
+      {
+        "source": "analytics",
+        "target": "postgres",
+        "label": "DB Query"
+      },
+      {
+        "source": "analytics",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "embeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "openai",
+        "label": "HTTP"
+      },
+      {
+        "source": "traffic",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "parking",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "lighting",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "waste",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "env",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "transit",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "splunk",
+        "target": "securityAudit",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "traffic",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "parking",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lighting",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "waste",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "env",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "transit",
+        "label": "HTTP"
+      },
+      {
+        "source": "traffic",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "parking",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "lighting",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "analytics",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "aksEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "aksWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "aksEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "aksWest",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 6,
+      "services": 42
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "Microservices",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

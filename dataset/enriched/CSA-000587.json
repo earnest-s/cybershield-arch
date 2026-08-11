@@ -1,0 +1,458 @@
+{
+  "id": "CSA-000587",
+  "instruction": "Design a Gaming architecture. using a Modular Monolith style. deployed on Hybrid Cloud. satisfying: GraphRAG Integration, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "wif",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "idp",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "monolithCore",
+        "type": "service"
+      },
+      {
+        "id": "userService",
+        "type": "service"
+      },
+      {
+        "id": "gameSessionService",
+        "type": "service"
+      },
+      {
+        "id": "matchmakingService",
+        "type": "service"
+      },
+      {
+        "id": "inventoryService",
+        "type": "service"
+      },
+      {
+        "id": "analyticsService",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "redisCache",
+        "type": "cache"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "eventStore",
+        "type": "queue"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "telemetry",
+        "type": "service"
+      },
+      {
+        "id": "k8sEast",
+        "type": "container"
+      },
+      {
+        "id": "k8sWest",
+        "type": "container"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "clientLayer",
+        "type": "ui"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "APP",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "wif",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "idp",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolithCore",
+        "target": "userService",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolithCore",
+        "target": "gameSessionService",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolithCore",
+        "target": "matchmakingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolithCore",
+        "target": "inventoryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolithCore",
+        "target": "analyticsService",
+        "label": "HTTP"
+      },
+      {
+        "source": "userService",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventoryService",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsService",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "matchmakingService",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "gameSessionService",
+        "target": "redisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsService",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "matchmakingService",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "gameSessionService",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "k8sEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "k8sWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "clientLayer",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PERIMETER",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "DEVOPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 3,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Gaming",
+    "style": "Modular Monolith",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

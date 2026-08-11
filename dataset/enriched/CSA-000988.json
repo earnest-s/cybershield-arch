@@ -1,0 +1,647 @@
+{
+  "id": "CSA-000988",
+  "instruction": "Design a Gaming architecture. using a Microservices style. deployed on GCP. satisfying: Compliance/Audit Logging, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiCons",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "ui"
+      },
+      {
+        "id": "observability",
+        "type": "ui"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "profile",
+        "type": "service"
+      },
+      {
+        "id": "matchmaking",
+        "type": "service"
+      },
+      {
+        "id": "lobby",
+        "type": "service"
+      },
+      {
+        "id": "gameplay",
+        "type": "service"
+      },
+      {
+        "id": "stats",
+        "type": "service"
+      },
+      {
+        "id": "inventory",
+        "type": "service"
+      },
+      {
+        "id": "leader",
+        "type": "service"
+      },
+      {
+        "id": "billing",
+        "type": "service"
+      },
+      {
+        "id": "chat",
+        "type": "service"
+      },
+      {
+        "id": "userDb",
+        "type": "database"
+      },
+      {
+        "id": "gameDb",
+        "type": "database"
+      },
+      {
+        "id": "analyticsDb",
+        "type": "database"
+      },
+      {
+        "id": "redisCache",
+        "type": "database"
+      },
+      {
+        "id": "search",
+        "type": "database"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "embed",
+        "type": "service"
+      },
+      {
+        "id": "aiGw",
+        "type": "service"
+      },
+      {
+        "id": "istiod",
+        "type": "service"
+      },
+      {
+        "id": "statistics",
+        "type": "service"
+      },
+      {
+        "id": "leaderboard",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "loki",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "k8s_us",
+        "type": "service"
+      },
+      {
+        "id": "istio_us",
+        "type": "service"
+      },
+      {
+        "id": "k8s_eu",
+        "type": "service"
+      },
+      {
+        "id": "istio_eu",
+        "type": "service"
+      },
+      {
+        "id": "userDb_EU",
+        "type": "database"
+      },
+      {
+        "id": "gameDb_EU",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiCons",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "pki",
+        "label": "HTTP"
+      },
+      {
+        "source": "pki",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "profile",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "matchmaking",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "lobby",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "gameplay",
+        "label": "HTTP"
+      },
+      {
+        "source": "istiod",
+        "target": "chat",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "statistics",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "leaderboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "userDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "profile",
+        "target": "userDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "matchmaking",
+        "target": "redisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "lobby",
+        "target": "redisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "gameplay",
+        "target": "gameDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "stats",
+        "target": "analyticsDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "userDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "leader",
+        "target": "analyticsDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing",
+        "target": "userDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "gameplay",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "matchmaking",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "chat",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "billing",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "gameplay",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "gameplay",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "analyticsDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_us",
+        "target": "k8s_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio_us",
+        "target": "istio_eu",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 7,
+      "databases": 8,
+      "services": 45
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Gaming",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 85,
+    "source_edges": 72,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

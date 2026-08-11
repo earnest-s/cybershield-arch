@@ -1,0 +1,528 @@
+{
+  "id": "CSA-001719",
+  "instruction": "Design a Warehouse architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Rate Limiting, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "DNS",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "RATE_LIMIT",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "REGION_US_EAST",
+        "type": "service"
+      },
+      {
+        "id": "REGION_AP_SOUTHEAST",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_US",
+        "type": "service"
+      },
+      {
+        "id": "FUN_INBOUND_US",
+        "type": "service"
+      },
+      {
+        "id": "AUTH_US",
+        "type": "service"
+      },
+      {
+        "id": "ORDER_US",
+        "type": "service"
+      },
+      {
+        "id": "INVENTORY_US",
+        "type": "service"
+      },
+      {
+        "id": "DB_US",
+        "type": "database"
+      },
+      {
+        "id": "FUN_OUTBOUND_US",
+        "type": "service"
+      },
+      {
+        "id": "NOTIFY_US",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA_US",
+        "type": "queue"
+      },
+      {
+        "id": "PROM_US",
+        "type": "service"
+      },
+      {
+        "id": "ALERT_US",
+        "type": "service"
+      },
+      {
+        "id": "LOG_US",
+        "type": "service"
+      },
+      {
+        "id": "DASH_US",
+        "type": "ui"
+      },
+      {
+        "id": "EVENT_AP",
+        "type": "service"
+      },
+      {
+        "id": "FUN_INBOUND_AP",
+        "type": "service"
+      },
+      {
+        "id": "AUTH_AP",
+        "type": "service"
+      },
+      {
+        "id": "ORDER_AP",
+        "type": "service"
+      },
+      {
+        "id": "INVENTORY_AP",
+        "type": "service"
+      },
+      {
+        "id": "DB_AP",
+        "type": "database"
+      },
+      {
+        "id": "FUN_OUTBOUND_AP",
+        "type": "service"
+      },
+      {
+        "id": "NOTIFY_AP",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA_AP",
+        "type": "queue"
+      },
+      {
+        "id": "PROM_AP",
+        "type": "service"
+      },
+      {
+        "id": "ALERT_AP",
+        "type": "service"
+      },
+      {
+        "id": "LOG_AP",
+        "type": "service"
+      },
+      {
+        "id": "DASH_AP",
+        "type": "ui"
+      },
+      {
+        "id": "REPL",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY_US_EAST",
+        "type": "service"
+      },
+      {
+        "id": "EMAIL_US",
+        "type": "service"
+      },
+      {
+        "id": "PUSH_AP",
+        "type": "service"
+      },
+      {
+        "id": "PAYMENT",
+        "type": "service"
+      },
+      {
+        "id": "SHIPPING",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "SERVERLESS_US_EAST",
+        "type": "service"
+      },
+      {
+        "id": "MONITOR",
+        "type": "service"
+      },
+      {
+        "id": "LOG_AGG",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WEB",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "DNS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RATE_LIMIT",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "REGION_US_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "REGION_AP_SOUTHEAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_US",
+        "target": "FUN_INBOUND_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUN_INBOUND_US",
+        "target": "AUTH_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUN_INBOUND_US",
+        "target": "ORDER_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_US",
+        "target": "INVENTORY_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY_US",
+        "target": "DB_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUN_OUTBOUND_US",
+        "target": "NOTIFY_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA_US",
+        "target": "ORDER_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA_US",
+        "target": "INVENTORY_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM_US",
+        "target": "ALERT_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG_US",
+        "target": "DASH_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_AP",
+        "target": "FUN_INBOUND_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUN_INBOUND_AP",
+        "target": "AUTH_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUN_INBOUND_AP",
+        "target": "ORDER_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_AP",
+        "target": "INVENTORY_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY_AP",
+        "target": "DB_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUN_OUTBOUND_AP",
+        "target": "NOTIFY_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA_AP",
+        "target": "ORDER_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA_AP",
+        "target": "INVENTORY_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM_AP",
+        "target": "ALERT_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG_AP",
+        "target": "DASH_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_US",
+        "target": "REPL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_AP",
+        "target": "REPL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "LOG_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DB_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "OBSERVABILITY_US_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "EVENT_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUN_INBOUND_US",
+        "target": "KAFKA_US",
+        "label": "Async"
+      },
+      {
+        "source": "FUN_INBOUND_AP",
+        "target": "KAFKA_AP",
+        "label": "Async"
+      },
+      {
+        "source": "INVENTORY_US",
+        "target": "REPL",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY_AP",
+        "target": "REPL",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIFY_US",
+        "target": "EMAIL_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIFY_AP",
+        "target": "PUSH_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT",
+        "target": "ORDER_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIPPING",
+        "target": "ORDER_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "SERVERLESS_US_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONITOR",
+        "target": "PROM_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG_AGG",
+        "target": "LOG_US",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Rate Limiting",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 85,
+    "source_edges": 71,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

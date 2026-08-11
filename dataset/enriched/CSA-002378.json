@@ -1,0 +1,495 @@
+{
+  "id": "CSA-002378",
+  "instruction": "Design a Government architecture. using a Serverless style. deployed on Azure. satisfying: Disaster Recovery, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "VNet",
+        "type": "database"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "AuthFunc",
+        "type": "service"
+      },
+      {
+        "id": "GovDataFunc",
+        "type": "service"
+      },
+      {
+        "id": "NotificationFunc",
+        "type": "service"
+      },
+      {
+        "id": "ReportingFunc",
+        "type": "service"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "Queue",
+        "type": "database"
+      },
+      {
+        "id": "Cosmos",
+        "type": "database"
+      },
+      {
+        "id": "SQLDB",
+        "type": "database"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Log",
+        "type": "service"
+      },
+      {
+        "id": "Traces",
+        "type": "service"
+      },
+      {
+        "id": "Repo",
+        "type": "service"
+      },
+      {
+        "id": "Pipelines",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "GeoDR",
+        "type": "database"
+      },
+      {
+        "id": "Failover",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "SERVERLESS",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "AI",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "VNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFunc",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFunc",
+        "target": "GovDataFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "GovDataFunc",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "NotificationFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationFunc",
+        "target": "Queue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Queue",
+        "target": "ReportingFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingFunc",
+        "target": "SQLDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GovDataFunc",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "GovDataFunc",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "GovDataFunc",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingFunc",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "GovDataFunc",
+        "target": "Log",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFunc",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationFunc",
+        "target": "Traces",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingFunc",
+        "target": "Log",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WebUI",
+        "label": "Cache"
+      },
+      {
+        "source": "VNet",
+        "target": "SERVERLESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNet",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNet",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNet",
+        "target": "AI",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNet",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "SERVERLESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "AI",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "GeoDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "Failover",
+        "label": "HTTP"
+      },
+      {
+        "source": "Failover",
+        "target": "VNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoDR",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoDR",
+        "target": "SQLDB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 6,
+      "services": 28
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

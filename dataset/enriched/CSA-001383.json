@@ -1,0 +1,786 @@
+{
+  "id": "CSA-001383",
+  "instruction": "Design a Agriculture architecture. using a Microservices style. deployed on Azure. satisfying: Auto Scaling, Active-Active Multi-Region, Feature Flags, High Throughput (100k+ TPS), Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "Flux",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Tempo",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Cosmos",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "CropMgmt",
+        "type": "service"
+      },
+      {
+        "id": "SoilAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "Weather",
+        "type": "service"
+      },
+      {
+        "id": "IoTIngest",
+        "type": "service"
+      },
+      {
+        "id": "PestDetect",
+        "type": "service"
+      },
+      {
+        "id": "YieldPredict",
+        "type": "service"
+      },
+      {
+        "id": "Billing",
+        "type": "service"
+      },
+      {
+        "id": "Notification",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlag",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "ModelStore",
+        "type": "service"
+      },
+      {
+        "id": "GovData",
+        "type": "service"
+      },
+      {
+        "id": "MarketData",
+        "type": "service"
+      },
+      {
+        "id": "Satellite",
+        "type": "service"
+      },
+      {
+        "id": "Micr",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "DataLake",
+        "type": "service"
+      },
+      {
+        "id": "Data",
+        "type": "service"
+      },
+      {
+        "id": "LB_Secondary",
+        "type": "service"
+      },
+      {
+        "id": "AKS_Secondary",
+        "type": "container"
+      },
+      {
+        "id": "Cosmos_Secondary",
+        "type": "database"
+      },
+      {
+        "id": "Kafka_Secondary",
+        "type": "queue"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ZeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Micr",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "CropMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "SoilAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Weather",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "IoTIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "PestDetect",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "YieldPredict",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "CropMgmt",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "SoilAnalytics",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Weather",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "IoTIngest",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "IoTIngest",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "PestDetect",
+        "target": "ModelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "PestDetect",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "YieldPredict",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "YieldPredict",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "YieldPredict",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "Billing",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Notification",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlag",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CropMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "SoilAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Weather",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "PestDetect",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "YieldPredict",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cosmos",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "YieldPredict",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Data",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GovData",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "MarketData",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Satellite",
+        "target": "IoTIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "FeatureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "FeatureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "CropMgmt",
+        "target": "FeatureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "PestDetect",
+        "target": "FeatureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "IoTIngest",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 5,
+      "services": 54
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Agriculture",
+    "style": "Microservices",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Auto Scaling",
+      "Active-Active Multi-Region",
+      "Feature Flags",
+      "High Throughput (100k+ TPS)",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 74,
+    "source_edges": 94,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

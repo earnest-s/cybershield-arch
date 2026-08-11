@@ -1,0 +1,533 @@
+{
+  "id": "CSA-000733",
+  "instruction": "Design a Pharma architecture. using a Modular Monolith style. deployed on AWS. satisfying: Blue/Green Deployment, Observability Stack, Compliance/Audit Logging, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "ALB_Main",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "ALB_Admin",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPC",
+        "type": "container"
+      },
+      {
+        "id": "IGW",
+        "type": "service"
+      },
+      {
+        "id": "SubnetA",
+        "type": "service"
+      },
+      {
+        "id": "SubnetB",
+        "type": "service"
+      },
+      {
+        "id": "MGMT",
+        "type": "service"
+      },
+      {
+        "id": "MONOLITH",
+        "type": "service"
+      },
+      {
+        "id": "AuroraPostgres",
+        "type": "database"
+      },
+      {
+        "id": "ElasticCache",
+        "type": "database"
+      },
+      {
+        "id": "ESCluster",
+        "type": "database"
+      },
+      {
+        "id": "MonoObs",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "database"
+      },
+      {
+        "id": "Loki",
+        "type": "database"
+      },
+      {
+        "id": "Tempo",
+        "type": "database"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "S3Audit",
+        "type": "database"
+      },
+      {
+        "id": "CloudWatchEvents",
+        "type": "database"
+      },
+      {
+        "id": "EventBus",
+        "type": "database"
+      },
+      {
+        "id": "KMS",
+        "type": "database"
+      },
+      {
+        "id": "SecretsMgr",
+        "type": "database"
+      },
+      {
+        "id": "SubnetA2",
+        "type": "service"
+      },
+      {
+        "id": "SubnetB2",
+        "type": "service"
+      },
+      {
+        "id": "MGMT2",
+        "type": "service"
+      },
+      {
+        "id": "MONOLITH2",
+        "type": "service"
+      },
+      {
+        "id": "deploys",
+        "type": "service"
+      },
+      {
+        "id": "Note",
+        "type": "service"
+      },
+      {
+        "id": "Route53",
+        "type": "container"
+      },
+      {
+        "id": "ACM",
+        "type": "container"
+      },
+      {
+        "id": "GuardDuty",
+        "type": "service"
+      },
+      {
+        "id": "Config",
+        "type": "service"
+      },
+      {
+        "id": "CloudTrail",
+        "type": "service"
+      },
+      {
+        "id": "S3Backup",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "AuroraPostgresDR",
+        "type": "database"
+      },
+      {
+        "id": "ElasticCacheDR",
+        "type": "database"
+      },
+      {
+        "id": "ESClusterDR",
+        "type": "database"
+      },
+      {
+        "id": "BlueVersion",
+        "type": "service"
+      },
+      {
+        "id": "LB_Prod",
+        "type": "service"
+      },
+      {
+        "id": "GreenVersion",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "database"
+      },
+      {
+        "id": "failover",
+        "type": "service"
+      },
+      {
+        "id": "Failover",
+        "type": "service"
+      },
+      {
+        "id": "to",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "ALB_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "ALB_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "ALB_Admin",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "ALB_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "ALB_Admin",
+        "label": "HTTP"
+      },
+      {
+        "source": "IGW",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IGW",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "MGMT",
+        "target": "MONOLITH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONOLITH",
+        "target": "AuroraPostgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONOLITH",
+        "target": "ElasticCache",
+        "label": "Cache"
+      },
+      {
+        "source": "MONOLITH",
+        "target": "ESCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonoObs",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonoObs",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonoObs",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "S3Audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "CloudWatchEvents",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "MONOLITH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONOLITH",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "MONOLITH",
+        "label": "HTTP"
+      },
+      {
+        "source": "SecretsMgr",
+        "target": "MONOLITH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuroraPostgres",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "AuroraPostgresDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ElasticCache",
+        "target": "ElasticCacheDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ESCluster",
+        "target": "ESClusterDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Route53",
+        "target": "ALB_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "Route53",
+        "target": "ALB_Admin",
+        "label": "HTTP"
+      },
+      {
+        "source": "ACM",
+        "target": "ALB_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "ACM",
+        "target": "ALB_Admin",
+        "label": "HTTP"
+      },
+      {
+        "source": "GuardDuty",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Config",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudTrail",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueVersion",
+        "target": "LB_Prod",
+        "label": "HTTP"
+      },
+      {
+        "source": "GreenVersion",
+        "target": "LB_Prod",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_Prod",
+        "target": "MONOLITH",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB_Main",
+        "target": "MONOLITH",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB_Admin",
+        "target": "MONOLITH",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Tempo",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudTrail",
+        "target": "S3Audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "Config",
+        "target": "AuditLog",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 15,
+      "services": 29
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Observability Stack",
+      "Compliance/Audit Logging",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 57,
+    "source_edges": 58,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

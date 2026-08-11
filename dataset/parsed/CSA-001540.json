@@ -1,0 +1,235 @@
+{
+  "id": "CSA-001540",
+  "instruction": "Design a ERP architecture. using a CQRS style. deployed on On-Premises. satisfying: Active-Active Multi-Region, High Throughput (100k+ TPS), Rate Limiting, Zero Trust Architecture, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "CommandService",
+        "type": "service"
+      },
+      {
+        "id": "QueryService",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "service"
+      },
+      {
+        "id": "ESB",
+        "type": "queue"
+      },
+      {
+        "id": "OLTP",
+        "type": "database"
+      },
+      {
+        "id": "OLAP",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Metrics",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "Traces",
+        "type": "service"
+      },
+      {
+        "id": "Synchronous",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "CommandService",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandService",
+        "target": "ESB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "ESB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ESB",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "OLAP",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLAP",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "CommandService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandService",
+        "target": "AIGateway",
+        "label": "Async"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "High Throughput (100k+ TPS)",
+      "Rate Limiting",
+      "Zero Trust Architecture",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 46,
+    "source_edges": 19,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

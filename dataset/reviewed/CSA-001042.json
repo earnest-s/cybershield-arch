@@ -1,0 +1,301 @@
+{
+  "id": "CSA-001042",
+  "instruction": "Design a Multi-Agent Systems architecture. using a Hexagonal style. deployed on Azure. satisfying: AI/ML Inference Integration, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "AAD",
+        "type": "service"
+      },
+      {
+        "id": "AZPolicy",
+        "type": "service"
+      },
+      {
+        "id": "NSG",
+        "type": "service"
+      },
+      {
+        "id": "FD",
+        "type": "service"
+      },
+      {
+        "id": "APIM",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "KV",
+        "type": "service"
+      },
+      {
+        "id": "AML",
+        "type": "service"
+      },
+      {
+        "id": "SB",
+        "type": "service"
+      },
+      {
+        "id": "Monitor",
+        "type": "service"
+      },
+      {
+        "id": "Core",
+        "type": "service"
+      },
+      {
+        "id": "Orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "Knowledge",
+        "type": "service"
+      },
+      {
+        "id": "APIIn",
+        "type": "service"
+      },
+      {
+        "id": "MLOut",
+        "type": "service"
+      },
+      {
+        "id": "MsgOut",
+        "type": "service"
+      },
+      {
+        "id": "RESTAdapter",
+        "type": "service"
+      },
+      {
+        "id": "GRPCAdapter",
+        "type": "service"
+      },
+      {
+        "id": "MLAdapter",
+        "type": "service"
+      },
+      {
+        "id": "SBAdapter",
+        "type": "service"
+      },
+      {
+        "id": "Infra",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "Core",
+        "target": "Orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "Orchestrator",
+        "target": "Knowledge",
+        "label": "HTTP"
+      },
+      {
+        "source": "FD",
+        "target": "APIM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "RESTAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "GRPCAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RESTAdapter",
+        "target": "APIIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPCAdapter",
+        "target": "APIIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIIn",
+        "target": "Core",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "MLOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "MsgOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "MLOut",
+        "target": "MLAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "MsgOut",
+        "target": "SBAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "MLAdapter",
+        "target": "AML",
+        "label": "HTTP"
+      },
+      {
+        "source": "SBAdapter",
+        "target": "SB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "KV",
+        "label": "HTTP"
+      },
+      {
+        "source": "KV",
+        "target": "Core",
+        "label": "HTTP"
+      },
+      {
+        "source": "Orchestrator",
+        "target": "Monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "Monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AAD",
+        "target": "APIM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AAD",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZPolicy",
+        "target": "Infra",
+        "label": "HTTP"
+      },
+      {
+        "source": "NSG",
+        "target": "Infra",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Core",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Knowledge",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitor",
+        "target": "FD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitor",
+        "target": "APIM",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Monitoring",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Monitoring",
+      "WAF"
+    ],
+    "threats": [
+      {
+        "name": "SQL Injection",
+        "severity": "CRITICAL",
+        "description": "Attackers can execute malicious SQL statements that control a web application's database server.",
+        "missing_control": "WAF",
+        "severity_level": "danger"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "WAF",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Deploy a Web Application Firewall.",
+      "Add monitoring and observability.",
+      "Add API Gateway to secure and manage external traffic."
+    ],
+    "risk_level": "MEDIUM",
+    "security_score": 75,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 0,
+      "services": 20
+    },
+    "security_summary": "Architecture contains an API service but lacks WAF, Monitoring and API Gateway. Overall security posture is MEDIUM RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Multi-Agent Systems",
+    "style": "Hexagonal",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 31,
+    "source_edges": 27,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

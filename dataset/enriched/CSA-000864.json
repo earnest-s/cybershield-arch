@@ -1,0 +1,536 @@
+{
+  "id": "CSA-000864",
+  "instruction": "Design a ERP architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Zero Trust Architecture, Rate Limiting, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "ZT",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "MS1",
+        "type": "service"
+      },
+      {
+        "id": "MS2",
+        "type": "service"
+      },
+      {
+        "id": "Inventory",
+        "type": "service"
+      },
+      {
+        "id": "Service",
+        "type": "service"
+      },
+      {
+        "id": "Sourced",
+        "type": "service"
+      },
+      {
+        "id": "MS3",
+        "type": "service"
+      },
+      {
+        "id": "Finance",
+        "type": "service"
+      },
+      {
+        "id": "CQRS",
+        "type": "service"
+      },
+      {
+        "id": "MS4",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "queue"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "MONGO",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ESDB",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "RABBIT",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "service"
+      },
+      {
+        "id": "Runtime",
+        "type": "service"
+      },
+      {
+        "id": "ECR",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONS",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "ZT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT",
+        "target": "RL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "RABBIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "ESDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RABBIT",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "COMPLY",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "K8S",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 5,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 4,
+      "services": 37
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Rate Limiting",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 49,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

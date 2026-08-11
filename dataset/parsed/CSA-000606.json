@@ -1,0 +1,478 @@
+{
+  "id": "CSA-000606",
+  "instruction": "Design a Logistics architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Disaster Recovery, Observability Stack, Active-Active Multi-Region, High Throughput (100k+ TPS), AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "PARTNERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "DDoS",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "KFK",
+        "type": "queue"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VECDB",
+        "type": "database"
+      },
+      {
+        "id": "DATALAKE",
+        "type": "service"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "INF",
+        "type": "service"
+      },
+      {
+        "id": "ORCH",
+        "type": "service"
+      },
+      {
+        "id": "FN1",
+        "type": "service"
+      },
+      {
+        "id": "FN2",
+        "type": "service"
+      },
+      {
+        "id": "FN3",
+        "type": "service"
+      },
+      {
+        "id": "STEP",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "TERRA",
+        "type": "service"
+      },
+      {
+        "id": "MONO",
+        "type": "service"
+      },
+      {
+        "id": "DR_R1",
+        "type": "service"
+      },
+      {
+        "id": "DR_R2",
+        "type": "service"
+      },
+      {
+        "id": "REPLICATE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PARTNERS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FN1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FN2",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FN3",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN1",
+        "target": "STEP",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN2",
+        "target": "STEP",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN3",
+        "target": "STEP",
+        "label": "HTTP"
+      },
+      {
+        "source": "STEP",
+        "target": "KFK",
+        "label": "HTTP"
+      },
+      {
+        "source": "STEP",
+        "target": "SNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "STEP",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "REPLICATE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "FN1",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQS",
+        "target": "FN2",
+        "label": "HTTP"
+      },
+      {
+        "source": "STEP",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "STEP",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "STEP",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "STEP",
+        "target": "VECDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "STEP",
+        "target": "DATALAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN1",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN2",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN3",
+        "target": "INF",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "INF",
+        "target": "ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORCH",
+        "target": "VECDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORCH",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN1",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN2",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN3",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "STEP",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECDB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "FN1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "FN2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "FN3",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "TERRA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_R1",
+        "target": "REPLICATE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_R2",
+        "target": "REPLICATE",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPLICATE",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPLICATE",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPLICATE",
+        "target": "ES",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Disaster Recovery",
+      "Observability Stack",
+      "Active-Active Multi-Region",
+      "High Throughput (100k+ TPS)",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 54,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

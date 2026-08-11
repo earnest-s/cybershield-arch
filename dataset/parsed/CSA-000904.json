@@ -1,0 +1,500 @@
+{
+  "id": "CSA-000904",
+  "instruction": "Design a CRM architecture. using a Modular Monolith style. deployed on GCP. satisfying: Observability Stack, Disaster Recovery, Auto Scaling, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "CustomerService",
+        "type": "service"
+      },
+      {
+        "id": "LeadService",
+        "type": "service"
+      },
+      {
+        "id": "OpportunityService",
+        "type": "service"
+      },
+      {
+        "id": "CampaignService",
+        "type": "service"
+      },
+      {
+        "id": "ReportingService",
+        "type": "service"
+      },
+      {
+        "id": "AIAssist",
+        "type": "service"
+      },
+      {
+        "id": "CloudSQL",
+        "type": "database"
+      },
+      {
+        "id": "Spanner",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "database"
+      },
+      {
+        "id": "BigQuery",
+        "type": "database"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Stackdriver",
+        "type": "ui"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "Skaffold",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "MultiRegion",
+        "type": "service"
+      },
+      {
+        "id": "Failover",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "LoadBalancer",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "CustomerService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "LeadService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "OpportunityService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "CampaignService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "ReportingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "AIAssist",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CustomerService",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "LeadService",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpportunityService",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CampaignService",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingService",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingService",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIAssist",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIAssist",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudSQL",
+        "target": "MultiRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "Spanner",
+        "target": "MultiRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "MultiRegion",
+        "label": "Cache"
+      },
+      {
+        "source": "PubSub",
+        "target": "CustomerService",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "LeadService",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "OpportunityService",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "CampaignService",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "ReportingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Stackdriver",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Skaffold",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "Failover",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Failover",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Failover",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "CustomerService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "LeadService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "OpportunityService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "CampaignService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "ReportingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "AIAssist",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "Modular Monolith",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Observability Stack",
+      "Disaster Recovery",
+      "Auto Scaling",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 75,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

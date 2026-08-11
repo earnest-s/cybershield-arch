@@ -1,0 +1,410 @@
+{
+  "id": "CSA-002367",
+  "instruction": "Design a Insurance architecture. using a Modular Monolith style. deployed on AWS. satisfying: Rate Limiting, AI/ML Inference Integration, Data Lakehouse Pattern, High Throughput (100k+ TPS), Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ModMonolith",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "OLTP",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "EKS",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "AIModel",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "FeatureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "AIModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIModel",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OLTP",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "Lakehouse",
+        "label": "Async"
+      },
+      {
+        "source": "OLTP",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "ModMonolith",
+        "label": "Cache"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "FeatureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "AIModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "SOC2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "AI/ML Inference Integration",
+      "Data Lakehouse Pattern",
+      "High Throughput (100k+ TPS)",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 43,
+    "source_edges": 51,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

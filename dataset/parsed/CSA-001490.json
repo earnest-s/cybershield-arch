@@ -1,0 +1,579 @@
+{
+  "id": "CSA-001490",
+  "instruction": "Design a Healthcare architecture. using a Microservices style. deployed on Hybrid Cloud. satisfying: Auto Scaling, Rate Limiting, Strict Network Segmentation, Data Lakehouse Pattern, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "third",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "edge_fw",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "ratelim",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "idp",
+        "type": "service"
+      },
+      {
+        "id": "s3",
+        "type": "service"
+      },
+      {
+        "id": "eks",
+        "type": "container"
+      },
+      {
+        "id": "adls",
+        "type": "service"
+      },
+      {
+        "id": "aks",
+        "type": "container"
+      },
+      {
+        "id": "onprem_k8s",
+        "type": "container"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "appt",
+        "type": "service"
+      },
+      {
+        "id": "emr",
+        "type": "service"
+      },
+      {
+        "id": "billing",
+        "type": "service"
+      },
+      {
+        "id": "notif",
+        "type": "service"
+      },
+      {
+        "id": "ingest",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "ai_gate",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectordb",
+        "type": "database"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "zero_trust",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "hpa",
+        "type": "service"
+      },
+      {
+        "id": "bluegreen",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "observability",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "dmz",
+        "type": "service"
+      },
+      {
+        "id": "private",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "third",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "edge_fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge_fw",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "ratelim",
+        "label": "HTTP"
+      },
+      {
+        "source": "ratelim",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "idp",
+        "label": "HTTP"
+      },
+      {
+        "source": "idp",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "ratelim",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "appt",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "emr",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "notif",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ai_gate",
+        "label": "HTTP"
+      },
+      {
+        "source": "appt",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "emr",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "notif",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gate",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "vectordb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "adls",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "pki",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "appt",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "emr",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "adls",
+        "label": "HTTP"
+      },
+      {
+        "source": "zero_trust",
+        "target": "edge_fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "zero_trust",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "aks",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "onprem_k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "hpa",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "hpa",
+        "target": "aks",
+        "label": "HTTP"
+      },
+      {
+        "source": "hpa",
+        "target": "onprem_k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "aks",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "onprem_k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge_fw",
+        "target": "dmz",
+        "label": "HTTP"
+      },
+      {
+        "source": "dmz",
+        "target": "private",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Healthcare",
+    "style": "Microservices",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Rate Limiting",
+      "Strict Network Segmentation",
+      "Data Lakehouse Pattern",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 81,
+    "source_edges": 71,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

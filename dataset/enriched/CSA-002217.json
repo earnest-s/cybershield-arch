@@ -1,0 +1,322 @@
+{
+  "id": "CSA-002217",
+  "instruction": "Design a Fraud Detection architecture. using a Event-Driven style. deployed on GCP. satisfying: Blue/Green Deployment, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "CloudArmor",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "GKE_Green",
+        "type": "container"
+      },
+      {
+        "id": "CloudRun",
+        "type": "service"
+      },
+      {
+        "id": "CloudFunctions",
+        "type": "service"
+      },
+      {
+        "id": "Dataflow",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Firestore",
+        "type": "service"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "ui"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      },
+      {
+        "id": "Layer",
+        "type": "service"
+      },
+      {
+        "id": "Edge",
+        "type": "service"
+      },
+      {
+        "id": "Network",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "Platform",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "Layer",
+        "target": "Edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "Network",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "Platform",
+        "label": "HTTP"
+      },
+      {
+        "source": "Platform",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GKE_Green",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "CloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE_Green",
+        "target": "CloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "PubSub",
+        "label": "Async"
+      },
+      {
+        "source": "PubSub",
+        "target": "CloudFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudFunctions",
+        "target": "Dataflow",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dataflow",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dataflow",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dataflow",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "VertexAI",
+        "target": "CloudFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudFunctions",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "GKE_Green",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitoring",
+        "target": "Platform",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Authentication",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Authentication",
+      "IDS",
+      "IPS",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "threats": [
+      {
+        "name": "SQL Injection",
+        "severity": "CRITICAL",
+        "description": "Attackers can execute malicious SQL statements that control a web application's database server.",
+        "missing_control": "WAF",
+        "severity_level": "danger"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "WAF",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "SIEM",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Deploy a Web Application Firewall.",
+      "Implement role-based access control.",
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 0,
+      "services": 21
+    },
+    "security_summary": "Architecture contains a frontend and an API service but lacks WAF, RBAC, Authentication, API Gateway, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 34,
+    "source_edges": 22,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

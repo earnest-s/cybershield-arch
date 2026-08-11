@@ -1,0 +1,693 @@
+{
+  "id": "CSA-001412",
+  "instruction": "Design a Travel architecture. using a Microservices style. deployed on Azure. satisfying: Active-Active Multi-Region, Compliance/Audit Logging, Zero Trust Architecture, Blue/Green Deployment, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "aks1",
+        "type": "container"
+      },
+      {
+        "id": "aks2",
+        "type": "container"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "istio1",
+        "type": "service"
+      },
+      {
+        "id": "istio2",
+        "type": "service"
+      },
+      {
+        "id": "lb1",
+        "type": "service"
+      },
+      {
+        "id": "lb2",
+        "type": "service"
+      },
+      {
+        "id": "blueGreen",
+        "type": "service"
+      },
+      {
+        "id": "booking",
+        "type": "service"
+      },
+      {
+        "id": "inventory",
+        "type": "service"
+      },
+      {
+        "id": "payment",
+        "type": "service"
+      },
+      {
+        "id": "notification",
+        "type": "service"
+      },
+      {
+        "id": "search",
+        "type": "service"
+      },
+      {
+        "id": "catalog",
+        "type": "service"
+      },
+      {
+        "id": "recommendation",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "booking2",
+        "type": "service"
+      },
+      {
+        "id": "inventory2",
+        "type": "service"
+      },
+      {
+        "id": "payment2",
+        "type": "service"
+      },
+      {
+        "id": "notification2",
+        "type": "service"
+      },
+      {
+        "id": "search2",
+        "type": "service"
+      },
+      {
+        "id": "catalog2",
+        "type": "service"
+      },
+      {
+        "id": "recommendation2",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway2",
+        "type": "service"
+      },
+      {
+        "id": "postgres1",
+        "type": "database"
+      },
+      {
+        "id": "redisCache1",
+        "type": "database"
+      },
+      {
+        "id": "elastic1",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB1",
+        "type": "database"
+      },
+      {
+        "id": "postgres2",
+        "type": "database"
+      },
+      {
+        "id": "redisCache2",
+        "type": "database"
+      },
+      {
+        "id": "elastic2",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB2",
+        "type": "database"
+      },
+      {
+        "id": "kafka1",
+        "type": "queue"
+      },
+      {
+        "id": "kafka2",
+        "type": "queue"
+      },
+      {
+        "id": "prom1",
+        "type": "service"
+      },
+      {
+        "id": "grafana1",
+        "type": "service"
+      },
+      {
+        "id": "loki1",
+        "type": "service"
+      },
+      {
+        "id": "prom2",
+        "type": "service"
+      },
+      {
+        "id": "grafana2",
+        "type": "service"
+      },
+      {
+        "id": "loki2",
+        "type": "service"
+      },
+      {
+        "id": "audit1",
+        "type": "service"
+      },
+      {
+        "id": "audit2",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "dns",
+        "type": "service"
+      },
+      {
+        "id": "ztna",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "aks1",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "aks2",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "aks1",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "aks2",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio1",
+        "target": "aks1",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio2",
+        "target": "aks2",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb1",
+        "target": "istio1",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb2",
+        "target": "istio2",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb1",
+        "target": "blueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "booking",
+        "target": "inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "booking",
+        "target": "payment",
+        "label": "HTTP"
+      },
+      {
+        "source": "booking",
+        "target": "notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "search",
+        "target": "catalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "recommendation",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "booking2",
+        "target": "inventory2",
+        "label": "HTTP"
+      },
+      {
+        "source": "booking2",
+        "target": "payment2",
+        "label": "HTTP"
+      },
+      {
+        "source": "booking2",
+        "target": "notification2",
+        "label": "HTTP"
+      },
+      {
+        "source": "search2",
+        "target": "catalog2",
+        "label": "HTTP"
+      },
+      {
+        "source": "recommendation2",
+        "target": "aiGateway2",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres1",
+        "target": "redisCache1",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres1",
+        "target": "elastic1",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres1",
+        "target": "vectorDB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres2",
+        "target": "redisCache2",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres2",
+        "target": "elastic2",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres2",
+        "target": "vectorDB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka1",
+        "target": "istio1",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka2",
+        "target": "istio2",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom1",
+        "target": "grafana1",
+        "label": "HTTP"
+      },
+      {
+        "source": "loki1",
+        "target": "grafana1",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom1",
+        "target": "aks1",
+        "label": "HTTP"
+      },
+      {
+        "source": "loki1",
+        "target": "aks1",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom2",
+        "target": "grafana2",
+        "label": "HTTP"
+      },
+      {
+        "source": "loki2",
+        "target": "grafana2",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom2",
+        "target": "aks2",
+        "label": "HTTP"
+      },
+      {
+        "source": "loki2",
+        "target": "aks2",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit1",
+        "target": "postgres1",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit2",
+        "target": "postgres2",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit1",
+        "target": "kafka1",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit2",
+        "target": "kafka2",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "blueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb1",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb2",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb1",
+        "target": "booking",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb2",
+        "target": "booking2",
+        "label": "HTTP"
+      },
+      {
+        "source": "booking",
+        "target": "kafka1",
+        "label": "Async"
+      },
+      {
+        "source": "booking2",
+        "target": "kafka2",
+        "label": "Async"
+      },
+      {
+        "source": "aiGateway",
+        "target": "vectorDB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway2",
+        "target": "vectorDB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "dns",
+        "target": "edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "dns",
+        "target": "lb1",
+        "label": "HTTP"
+      },
+      {
+        "source": "dns",
+        "target": "lb2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ztna",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "ztna",
+        "target": "waf",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 5,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 8,
+      "services": 44
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Travel",
+    "style": "Microservices",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Compliance/Audit Logging",
+      "Zero Trust Architecture",
+      "Blue/Green Deployment",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 64,
+    "source_edges": 81,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

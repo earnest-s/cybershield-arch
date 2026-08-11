@@ -1,0 +1,681 @@
+{
+  "id": "CSA-001103",
+  "instruction": "Design a Automotive architecture. using a Hexagonal style. deployed on On-Premises. satisfying: High Throughput (100k+ TPS), Active-Active Multi-Region, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "FW_Cluster1",
+        "type": "container"
+      },
+      {
+        "id": "FW_Cluster2",
+        "type": "container"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "LB_ActiveActive",
+        "type": "service"
+      },
+      {
+        "id": "Mesh_Region1",
+        "type": "service"
+      },
+      {
+        "id": "Mesh_Region2",
+        "type": "service"
+      },
+      {
+        "id": "REST_In",
+        "type": "service"
+      },
+      {
+        "id": "Core1",
+        "type": "service"
+      },
+      {
+        "id": "GRPC_In",
+        "type": "service"
+      },
+      {
+        "id": "Event_In",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTERS_OUT",
+        "type": "service"
+      },
+      {
+        "id": "DB_Out",
+        "type": "database"
+      },
+      {
+        "id": "DB1",
+        "type": "database"
+      },
+      {
+        "id": "Cache_Out",
+        "type": "cache"
+      },
+      {
+        "id": "Redis1",
+        "type": "database"
+      },
+      {
+        "id": "Msg_Out",
+        "type": "queue"
+      },
+      {
+        "id": "Kafka1",
+        "type": "database"
+      },
+      {
+        "id": "ExtAPI_Out",
+        "type": "service"
+      },
+      {
+        "id": "ExtAPI1",
+        "type": "service"
+      },
+      {
+        "id": "REST_In2",
+        "type": "service"
+      },
+      {
+        "id": "Core2",
+        "type": "service"
+      },
+      {
+        "id": "GRPC_In2",
+        "type": "service"
+      },
+      {
+        "id": "Event_In2",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTERS_OUT2",
+        "type": "service"
+      },
+      {
+        "id": "DB_Out2",
+        "type": "database"
+      },
+      {
+        "id": "DB2",
+        "type": "database"
+      },
+      {
+        "id": "Cache_Out2",
+        "type": "cache"
+      },
+      {
+        "id": "Redis2",
+        "type": "database"
+      },
+      {
+        "id": "Msg_Out2",
+        "type": "queue"
+      },
+      {
+        "id": "Kafka2",
+        "type": "database"
+      },
+      {
+        "id": "ExtAPI_Out2",
+        "type": "service"
+      },
+      {
+        "id": "ExtAPI2",
+        "type": "service"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "Mirror",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "K8s1",
+        "type": "container"
+      },
+      {
+        "id": "K8s2",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "Platform",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "Firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW_Cluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW_Cluster2",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_ActiveActive",
+        "target": "Mesh_Region1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_ActiveActive",
+        "target": "Mesh_Region2",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST_In",
+        "target": "Core1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPC_In",
+        "target": "Core1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Event_In",
+        "target": "Core1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core1",
+        "target": "ADAPTERS_OUT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_Out",
+        "target": "DB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache_Out",
+        "target": "Redis1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Msg_Out",
+        "target": "Kafka1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ExtAPI_Out",
+        "target": "ExtAPI1",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST_In2",
+        "target": "Core2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPC_In2",
+        "target": "Core2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Event_In2",
+        "target": "Core2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core2",
+        "target": "ADAPTERS_OUT2",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_Out2",
+        "target": "DB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache_Out2",
+        "target": "Redis2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Msg_Out2",
+        "target": "Kafka2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ExtAPI_Out2",
+        "target": "ExtAPI2",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB1",
+        "target": "Replicate",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicate",
+        "target": "DB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis1",
+        "target": "Replicate",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicate",
+        "target": "Redis2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka1",
+        "target": "Mirror",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mirror",
+        "target": "Kafka2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka1",
+        "target": "Core1",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka2",
+        "target": "Core2",
+        "label": "Async"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s1",
+        "target": "Mesh_Region1",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s2",
+        "target": "Mesh_Region2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "K8s1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "K8s2",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mesh_Region1",
+        "target": "Mesh_Region2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mesh_Region2",
+        "target": "Mesh_Region1",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB_ActiveActive",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mesh_Region1",
+        "target": "Core1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mesh_Region2",
+        "target": "Core2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core1",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core2",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "Platform",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 9,
+      "databases": 8,
+      "services": 40
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Automotive",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Active-Active Multi-Region",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 83,
+    "source_edges": 73,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

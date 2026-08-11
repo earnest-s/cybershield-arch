@@ -1,0 +1,411 @@
+{
+  "id": "CSA-001369",
+  "instruction": "Design a Telecom architecture. using a Serverless style. deployed on AWS. satisfying: GraphRAG Integration, Data Lakehouse Pattern, Observability Stack, Disaster Recovery, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "PARTNERS",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "RATE_LIMIT",
+        "type": "service"
+      },
+      {
+        "id": "AUTH",
+        "type": "container"
+      },
+      {
+        "id": "LAMBDA_CORE",
+        "type": "service"
+      },
+      {
+        "id": "LAMBDA_RAG",
+        "type": "service"
+      },
+      {
+        "id": "LAMBDA_INGEST",
+        "type": "service"
+      },
+      {
+        "id": "LAMBDA_ORCH",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_BRIDGE",
+        "type": "service"
+      },
+      {
+        "id": "DATALAKE",
+        "type": "service"
+      },
+      {
+        "id": "GLUE",
+        "type": "service"
+      },
+      {
+        "id": "REDSHIFT",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "KINESIS",
+        "type": "service"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "CW",
+        "type": "service"
+      },
+      {
+        "id": "XRay",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "ui"
+      },
+      {
+        "id": "LOGGING",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "SECRETS",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "OBSERV",
+        "type": "service"
+      },
+      {
+        "id": "CROSS_REGION_S3",
+        "type": "service"
+      },
+      {
+        "id": "GLOBAL_DYNAMO",
+        "type": "database"
+      },
+      {
+        "id": "FAILOVER",
+        "type": "service"
+      },
+      {
+        "id": "CLIENT",
+        "type": "service"
+      },
+      {
+        "id": "EDGE",
+        "type": "service"
+      },
+      {
+        "id": "APIM",
+        "type": "service"
+      },
+      {
+        "id": "COMPUTE",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PARTNERS",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "RATE_LIMIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BRIDGE",
+        "target": "LAMBDA_INGEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_INGEST",
+        "target": "LAMBDA_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_CORE",
+        "target": "LAMBDA_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_RAG",
+        "target": "LAMBDA_ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_INGEST",
+        "target": "DATALAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_RAG",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATALAKE",
+        "target": "GLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GLUE",
+        "target": "REDSHIFT",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_CORE",
+        "target": "KINESIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KINESIS",
+        "target": "SNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_CORE",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_RAG",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_ORCH",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_CORE",
+        "target": "XRay",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_RAG",
+        "target": "XRay",
+        "label": "HTTP"
+      },
+      {
+        "source": "CW",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOGGING",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_CORE",
+        "target": "SECRETS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA_RAG",
+        "target": "SECRETS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECRETS",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "OBSERV",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATALAKE",
+        "target": "CROSS_REGION_S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_DB",
+        "target": "GLOBAL_DYNAMO",
+        "label": "HTTP"
+      },
+      {
+        "source": "FAILOVER",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENT",
+        "target": "EDGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EDGE",
+        "target": "APIM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "COMPUTE",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPUTE",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPUTE",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPUTE",
+        "target": "OBSERV",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPUTE",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPUTE",
+        "target": "DR",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "GraphRAG Integration",
+      "Data Lakehouse Pattern",
+      "Observability Stack",
+      "Disaster Recovery",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 57,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

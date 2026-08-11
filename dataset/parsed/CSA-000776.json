@@ -1,0 +1,473 @@
+{
+  "id": "CSA-000776",
+  "instruction": "Design a Smart City architecture. using a Zero-Trust style. deployed on GCP. satisfying: Auto Scaling, Feature Flags, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "iotDevices",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "k8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "k8sSecondary",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "ff",
+        "type": "service"
+      },
+      {
+        "id": "authSvc",
+        "type": "service"
+      },
+      {
+        "id": "userMgmt",
+        "type": "service"
+      },
+      {
+        "id": "trafficCtrl",
+        "type": "service"
+      },
+      {
+        "id": "envMonitor",
+        "type": "service"
+      },
+      {
+        "id": "energyMgr",
+        "type": "service"
+      },
+      {
+        "id": "incidentAI",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "database"
+      },
+      {
+        "id": "dataOrch",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
+        "id": "pgSQL",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "bigQuery",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "vectordb",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "database"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "cityGov",
+        "type": "service"
+      },
+      {
+        "id": "thirdParty",
+        "type": "service"
+      },
+      {
+        "id": "authsvc",
+        "type": "service"
+      },
+      {
+        "id": "external",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "webhookHandler",
+        "type": "ui"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "iotDevices",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "k8sSecondary",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sSecondary",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "authsvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "userMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "trafficCtrl",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "envMonitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "energyMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "incidentAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "dataOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "authsvc",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "authsvc",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "userMgmt",
+        "target": "pgSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "trafficCtrl",
+        "target": "pgSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "envMonitor",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "energyMgr",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "incidentAI",
+        "target": "vectordb",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "external",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataOrch",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "dataOrch",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "incidentAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "trafficCtrl",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "envMonitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "pgSQL",
+        "target": "bigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongo",
+        "target": "bigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectordb",
+        "target": "bigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "elastic",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "authsvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "userMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "trafficCtrl",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "cityGov",
+        "target": "bigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdParty",
+        "target": "webhookHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "webhookHandler",
+        "target": "eventBus",
+        "label": "Async"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "Zero-Trust",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Auto Scaling",
+      "Feature Flags",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 72,
+    "source_edges": 52,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,573 @@
+{
+  "id": "CSA-000847",
+  "instruction": "Design a FinTech architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: Auto Scaling, Blue/Green Deployment, Compliance/Audit Logging, Strict Network Segmentation, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkc",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "fed",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "zero",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "bluegreen",
+        "type": "service"
+      },
+      {
+        "id": "autoscale",
+        "type": "service"
+      },
+      {
+        "id": "svcA",
+        "type": "service"
+      },
+      {
+        "id": "svcB",
+        "type": "service"
+      },
+      {
+        "id": "svcC",
+        "type": "service"
+      },
+      {
+        "id": "svcD",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "sidecar",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "cassandra",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "lake",
+        "type": "service"
+      },
+      {
+        "id": "mesh",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "zero",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "svcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "svcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "svcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "svcD",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "svcB",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "svcC",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "svcD",
+        "target": "mesh",
+        "label": "DB Query"
+      },
+      {
+        "source": "kafka",
+        "target": "svcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "svcD",
+        "label": "Async"
+      },
+      {
+        "source": "svcA",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB",
+        "target": "cassandra",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcC",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcD",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcD",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcD",
+        "target": "lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "svcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "svcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "svcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "svcD",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "sidecar",
+        "label": "HTTP"
+      },
+      {
+        "source": "sidecar",
+        "target": "zero",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "bluegreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "autoscale",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "svcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "svcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "svcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "svcD",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "admin",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 4,
+      "services": 39
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "Blue/Green Deployment",
+      "Compliance/Audit Logging",
+      "Strict Network Segmentation",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 66,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

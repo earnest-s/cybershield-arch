@@ -1,0 +1,541 @@
+{
+  "id": "CSA-001860",
+  "instruction": "Design a ERP architecture. using a Data Mesh style. deployed on AWS. satisfying: Strict Network Segmentation, Compliance/Audit Logging, Blue/Green Deployment, Observability Stack, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GATEWAY",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "DM1",
+        "type": "service"
+      },
+      {
+        "id": "DM2",
+        "type": "service"
+      },
+      {
+        "id": "DM3",
+        "type": "service"
+      },
+      {
+        "id": "DM4",
+        "type": "service"
+      },
+      {
+        "id": "DM5",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "DYN",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VEC",
+        "type": "database"
+      },
+      {
+        "id": "LAKE",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "REPO",
+        "type": "service"
+      },
+      {
+        "id": "BUILD",
+        "type": "ui"
+      },
+      {
+        "id": "TEST",
+        "type": "ui"
+      },
+      {
+        "id": "DEPLOY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GATEWAY",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "DM1",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "DM2",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "DM3",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "DM4",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "DM5",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "DM1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DYN",
+        "target": "DM2",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "DM3",
+        "label": "Cache"
+      },
+      {
+        "source": "ES",
+        "target": "DM4",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC",
+        "target": "DM5",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "DM1",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "DM1",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "DM2",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "DM3",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "DM4",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "DM5",
+        "label": "HTTP"
+      },
+      {
+        "source": "DM5",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAFANA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "SPLUNK",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPO",
+        "target": "BUILD",
+        "label": "HTTP"
+      },
+      {
+        "source": "BUILD",
+        "target": "TEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "TEST",
+        "target": "DEPLOY",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEPLOY",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "GATEWAY",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GATEWAY",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DM1",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "DM2",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "DM3",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "DM4",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "DM5",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "LOG",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Data Mesh",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Compliance/Audit Logging",
+      "Blue/Green Deployment",
+      "Observability Stack",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 52,
+    "source_edges": 65,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

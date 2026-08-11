@@ -1,0 +1,210 @@
+{
+  "id": "CSA-002049",
+  "instruction": "Design a MLOps architecture. using a Modular Monolith style. deployed on GCP. satisfying: High Throughput (100k+ TPS), Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "Mobile",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "B_Service1",
+        "type": "service"
+      },
+      {
+        "id": "B_Service2",
+        "type": "service"
+      },
+      {
+        "id": "B_Service3",
+        "type": "service"
+      },
+      {
+        "id": "G_Service1",
+        "type": "service"
+      },
+      {
+        "id": "G_Service2",
+        "type": "service"
+      },
+      {
+        "id": "G_Service3",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "ui"
+      },
+      {
+        "id": "CI",
+        "type": "ui"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mobile",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "B_Service1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "G_Service1",
+        "label": "HTTP"
+      },
+      {
+        "source": "B_Service1",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "G_Service1",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "B_Service2",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "G_Service2",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "B_Service3",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "G_Service3",
+        "label": "Async"
+      },
+      {
+        "source": "G_Service3",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "G_Service3",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "B_Service1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "G_Service1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "LB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Modular Monolith",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 31,
+    "source_edges": 24,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

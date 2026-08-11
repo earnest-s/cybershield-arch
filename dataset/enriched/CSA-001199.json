@@ -1,0 +1,532 @@
+{
+  "id": "CSA-001199",
+  "instruction": "Design a Supply Chain architecture. using a Modular Monolith style. deployed on AWS. satisfying: High Throughput (100k+ TPS), Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "ALB",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "IGW",
+        "type": "service"
+      },
+      {
+        "id": "TGW",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "OrderProcessing",
+        "type": "service"
+      },
+      {
+        "id": "InventoryMgmt",
+        "type": "service"
+      },
+      {
+        "id": "Procurement",
+        "type": "service"
+      },
+      {
+        "id": "Shipping",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "OLTP_DB",
+        "type": "database"
+      },
+      {
+        "id": "DLT",
+        "type": "database"
+      },
+      {
+        "id": "Redshift",
+        "type": "service"
+      },
+      {
+        "id": "Glue",
+        "type": "service"
+      },
+      {
+        "id": "EMR",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "XRay",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "ui"
+      },
+      {
+        "id": "EKS",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "Secrets",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Audit",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "IGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "TGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "OrderProcessing",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "InventoryMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Procurement",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Shipping",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderProcessing",
+        "target": "InventoryMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderProcessing",
+        "target": "Procurement",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderProcessing",
+        "target": "Shipping",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderProcessing",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderProcessing",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "InventoryMgmt",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Procurement",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Shipping",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Analytics",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP_DB",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "OLTP_DB",
+        "target": "DLT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DLT",
+        "target": "Glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "DLT",
+        "target": "Redshift",
+        "label": "DB Query"
+      },
+      {
+        "source": "EMR",
+        "target": "DLT",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "Redshift",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "XRay",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "OLTP_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "DLT",
+        "label": "HTTP"
+      },
+      {
+        "source": "Secrets",
+        "target": "OLTP_DB",
+        "label": "DB Query"
+      },
+      {
+        "source": "Vault",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATA",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 2,
+      "services": 33
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 51,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

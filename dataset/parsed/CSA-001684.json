@@ -1,0 +1,409 @@
+{
+  "id": "CSA-001684",
+  "instruction": "Design a Government architecture. using a Hexagonal style. deployed on AWS. satisfying: Feature Flags, AI/ML Inference Integration, Blue/Green Deployment, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "BG",
+        "type": "service"
+      },
+      {
+        "id": "AS",
+        "type": "service"
+      },
+      {
+        "id": "RestPort",
+        "type": "service"
+      },
+      {
+        "id": "GraphQLPort",
+        "type": "service"
+      },
+      {
+        "id": "GRPCPort",
+        "type": "service"
+      },
+      {
+        "id": "EventPort",
+        "type": "service"
+      },
+      {
+        "id": "WebAdapter",
+        "type": "ui"
+      },
+      {
+        "id": "MobileAdapter",
+        "type": "service"
+      },
+      {
+        "id": "AdminAdapter",
+        "type": "ui"
+      },
+      {
+        "id": "APIAdapter",
+        "type": "service"
+      },
+      {
+        "id": "DBAdapter",
+        "type": "database"
+      },
+      {
+        "id": "CacheAdapter",
+        "type": "cache"
+      },
+      {
+        "id": "MsgAdapter",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "CoreDomain",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "OT",
+        "type": "service"
+      },
+      {
+        "id": "Data_Layer",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RestPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "GraphQLPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "GRPCPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "EventPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "RestPort",
+        "target": "WebAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQLPort",
+        "target": "APIAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPCPort",
+        "target": "MobileAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventPort",
+        "target": "AdminAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebAdapter",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileAdapter",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminAdapter",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIAdapter",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "DBAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "CacheAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "MsgAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "DBAdapter",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "CacheAdapter",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "MsgAdapter",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "BG",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AS",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OT",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Data_Layer",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Feature Flags",
+      "AI/ML Inference Integration",
+      "Blue/Green Deployment",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 61,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,429 @@
+{
+  "id": "CSA-001957",
+  "instruction": "Design a Retail architecture. using a Hexagonal style. deployed on Azure. satisfying: Active-Active Multi-Region, GraphRAG Integration, Zero Trust Architecture, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "idFed",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "appCore",
+        "type": "database"
+      },
+      {
+        "id": "inboundAdapters",
+        "type": "ui"
+      },
+      {
+        "id": "outboundAdapters",
+        "type": "service"
+      },
+      {
+        "id": "domainLogic",
+        "type": "service"
+      },
+      {
+        "id": "productSrv",
+        "type": "service"
+      },
+      {
+        "id": "catalogSrv",
+        "type": "service"
+      },
+      {
+        "id": "orderSrv",
+        "type": "service"
+      },
+      {
+        "id": "paymentSrv",
+        "type": "service"
+      },
+      {
+        "id": "inventorySrv",
+        "type": "service"
+      },
+      {
+        "id": "recommendationSrv",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8sEast",
+        "type": "service"
+      },
+      {
+        "id": "k8sWest",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "dr",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "Deploy",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "appCore",
+        "target": "inboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "appCore",
+        "target": "outboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "inboundAdapters",
+        "target": "domainLogic",
+        "label": "HTTP"
+      },
+      {
+        "source": "outboundAdapters",
+        "target": "domainLogic",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sEast",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "appCore",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 5,
+      "services": 44
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Retail",
+    "style": "Hexagonal",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "GraphRAG Integration",
+      "Zero Trust Architecture",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 65,
+    "source_edges": 20,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

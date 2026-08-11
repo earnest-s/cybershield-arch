@@ -1,0 +1,449 @@
+{
+  "id": "CSA-001802",
+  "instruction": "Design a Fraud Detection architecture. using a Serverless style. deployed on AWS. satisfying: Strict Network Segmentation, Disaster Recovery, Active-Active Multi-Region, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "alb",
+        "type": "service"
+      },
+      {
+        "id": "apigw",
+        "type": "ui"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "cognito",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "ssm",
+        "type": "service"
+      },
+      {
+        "id": "vpc_eu",
+        "type": "service"
+      },
+      {
+        "id": "tg_eu",
+        "type": "service"
+      },
+      {
+        "id": "lambda_fraud",
+        "type": "service"
+      },
+      {
+        "id": "lambda_enrich",
+        "type": "service"
+      },
+      {
+        "id": "step_fn",
+        "type": "service"
+      },
+      {
+        "id": "eventbridge",
+        "type": "service"
+      },
+      {
+        "id": "sns",
+        "type": "service"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "ddb",
+        "type": "database"
+      },
+      {
+        "id": "aurora",
+        "type": "service"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "s3_bucket",
+        "type": "service"
+      },
+      {
+        "id": "vpc_us",
+        "type": "service"
+      },
+      {
+        "id": "tg_us",
+        "type": "service"
+      },
+      {
+        "id": "lambda_fraud_us",
+        "type": "service"
+      },
+      {
+        "id": "lambda_enrich_us",
+        "type": "service"
+      },
+      {
+        "id": "step_fn_us",
+        "type": "service"
+      },
+      {
+        "id": "eventbridge_us",
+        "type": "service"
+      },
+      {
+        "id": "sns_us",
+        "type": "service"
+      },
+      {
+        "id": "sqs_us",
+        "type": "queue"
+      },
+      {
+        "id": "ddb_us",
+        "type": "database"
+      },
+      {
+        "id": "aurora_us",
+        "type": "service"
+      },
+      {
+        "id": "es_us",
+        "type": "service"
+      },
+      {
+        "id": "s3_bucket_us",
+        "type": "service"
+      },
+      {
+        "id": "codepipeline",
+        "type": "service"
+      },
+      {
+        "id": "codedeploy",
+        "type": "service"
+      },
+      {
+        "id": "build",
+        "type": "ui"
+      },
+      {
+        "id": "sam",
+        "type": "service"
+      },
+      {
+        "id": "cw",
+        "type": "service"
+      },
+      {
+        "id": "xrays",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "alias_green",
+        "type": "service"
+      },
+      {
+        "id": "alias_blue",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "alb",
+        "label": "HTTP"
+      },
+      {
+        "source": "alb",
+        "target": "apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apigw",
+        "target": "cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apigw",
+        "target": "lambda_fraud",
+        "label": "HTTP"
+      },
+      {
+        "source": "apigw",
+        "target": "lambda_fraud_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_fraud",
+        "target": "step_fn",
+        "label": "HTTP"
+      },
+      {
+        "source": "step_fn",
+        "target": "lambda_enrich",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_enrich",
+        "target": "ddb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_enrich",
+        "target": "aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "step_fn",
+        "target": "eventbridge",
+        "label": "Async"
+      },
+      {
+        "source": "eventbridge",
+        "target": "sns",
+        "label": "HTTP"
+      },
+      {
+        "source": "sns",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "lambda_fraud",
+        "label": "HTTP"
+      },
+      {
+        "source": "ddb",
+        "target": "ddb_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "aurora",
+        "target": "aurora_us",
+        "label": "DB Query"
+      },
+      {
+        "source": "s3_bucket",
+        "target": "s3_bucket_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "es_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc_eu",
+        "target": "tg_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc_us",
+        "target": "tg_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "tg_eu",
+        "target": "tg_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "tg_eu",
+        "target": "vpc_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "codepipeline",
+        "target": "build",
+        "label": "HTTP"
+      },
+      {
+        "source": "build",
+        "target": "sam",
+        "label": "HTTP"
+      },
+      {
+        "source": "sam",
+        "target": "codedeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "codedeploy",
+        "target": "lambda_fraud",
+        "label": "HTTP"
+      },
+      {
+        "source": "codedeploy",
+        "target": "lambda_fraud_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "codedeploy",
+        "target": "alias_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "codedeploy",
+        "target": "alias_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "lambda_fraud",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "lambda_fraud_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "xrays",
+        "target": "lambda_fraud",
+        "label": "HTTP"
+      },
+      {
+        "source": "xrays",
+        "target": "lambda_fraud_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "lambda_fraud",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "lambda_fraud_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "ddb",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "ddb",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "ddb",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3_bucket",
+        "target": "gdpr",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Disaster Recovery",
+      "Active-Active Multi-Region",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 84,
+    "source_edges": 47,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

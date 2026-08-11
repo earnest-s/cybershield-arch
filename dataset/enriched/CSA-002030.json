@@ -1,0 +1,575 @@
+{
+  "id": "CSA-002030",
+  "instruction": "Design a Pharma architecture. using a CQRS style. deployed on AWS. satisfying: Disaster Recovery, High Throughput (100k+ TPS), Observability Stack, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "Ingress",
+        "type": "service"
+      },
+      {
+        "id": "CommandSide",
+        "type": "service"
+      },
+      {
+        "id": "QuerySide",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "queue"
+      },
+      {
+        "id": "EventProcessor",
+        "type": "service"
+      },
+      {
+        "id": "WriteModelDB",
+        "type": "database"
+      },
+      {
+        "id": "AuditLog",
+        "type": "database"
+      },
+      {
+        "id": "NotificationSvc",
+        "type": "service"
+      },
+      {
+        "id": "ReadModelUpdater",
+        "type": "service"
+      },
+      {
+        "id": "ReadModelDB",
+        "type": "database"
+      },
+      {
+        "id": "SearchIndex",
+        "type": "database"
+      },
+      {
+        "id": "APIRead",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "DRRegion",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "KafkaCluster",
+        "type": "queue"
+      },
+      {
+        "id": "DynamoScale",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WebUI",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Ingress",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingress",
+        "target": "CommandSide",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingress",
+        "target": "QuerySide",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSide",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "EventProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventProcessor",
+        "target": "WriteModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventProcessor",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventProcessor",
+        "target": "NotificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "ReadModelUpdater",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModelUpdater",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModelUpdater",
+        "target": "SearchIndex",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySide",
+        "target": "APIRead",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIRead",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIRead",
+        "target": "SearchIndex",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "CommandSide",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "QuerySide",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "WriteModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRRegion",
+        "target": "WriteModelDB",
+        "label": "Async"
+      },
+      {
+        "source": "DRRegion",
+        "target": "ReadModelDB",
+        "label": "Async"
+      },
+      {
+        "source": "PCI",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "WriteModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "SearchIndex",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "DRRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CommandSide",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QuerySide",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySide",
+        "target": "EventStore",
+        "label": "Async"
+      },
+      {
+        "source": "KafkaCluster",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "DynamoScale",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "KafkaCluster",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 7,
+      "databases": 5,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "High Throughput (100k+ TPS)",
+      "Observability Stack",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 74,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,322 @@
+{
+  "id": "CSA-000553",
+  "instruction": "Design a Oil & Gas architecture. using a Modular Monolith style. deployed on GCP. satisfying: Data Lakehouse Pattern, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "monolith",
+        "type": "service"
+      },
+      {
+        "id": "authService",
+        "type": "service"
+      },
+      {
+        "id": "wellDataSvc",
+        "type": "service"
+      },
+      {
+        "id": "analyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "ragGateway",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "graphRAG",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "logging",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "ui"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "monolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "authService",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "wellDataSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "ragGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "wellDataSvc",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragGateway",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragGateway",
+        "target": "graphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "wellDataSvc",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "ragGateway",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "pubsub",
+        "target": "graphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "monolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "security",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "security",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Modular Monolith",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 42,
+    "source_edges": 35,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

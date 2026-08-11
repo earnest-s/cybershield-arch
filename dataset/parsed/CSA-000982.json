@@ -1,0 +1,549 @@
+{
+  "id": "CSA-000982",
+  "instruction": "Design a Government architecture. using a Event-Driven style. deployed on AWS. satisfying: Auto Scaling, Feature Flags, Active-Active Multi-Region, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "k8s_multi",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "ff",
+        "type": "service"
+      },
+      {
+        "id": "observability",
+        "type": "ui"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "event_bridge",
+        "type": "service"
+      },
+      {
+        "id": "saga",
+        "type": "service"
+      },
+      {
+        "id": "micro_A",
+        "type": "service"
+      },
+      {
+        "id": "micro_B",
+        "type": "service"
+      },
+      {
+        "id": "micro_C",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "embed",
+        "type": "service"
+      },
+      {
+        "id": "vec_search",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "ai_gateway",
+        "type": "service"
+      },
+      {
+        "id": "raw_lake",
+        "type": "service"
+      },
+      {
+        "id": "curated_lake",
+        "type": "service"
+      },
+      {
+        "id": "warehouse",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "kafka_a",
+        "type": "queue"
+      },
+      {
+        "id": "db_a",
+        "type": "database"
+      },
+      {
+        "id": "kafka_b",
+        "type": "queue"
+      },
+      {
+        "id": "db_b",
+        "type": "database"
+      },
+      {
+        "id": "external_api",
+        "type": "service"
+      },
+      {
+        "id": "partner_system",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "k8s_multi",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_multi",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "micro_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "micro_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "micro_C",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "vec_search",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "ai_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "micro_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "micro_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "micro_C",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_A",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_B",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_C",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "saga",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "micro_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "micro_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "micro_C",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "event_bridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bridge",
+        "target": "ai_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_A",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_B",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro_C",
+        "target": "warehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed",
+        "target": "vec_search",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vec_search",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "observability",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "observability",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "observability",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "observability",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "raw_lake",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "raw_lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "raw_lake",
+        "target": "curated_lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "curated_lake",
+        "target": "warehouse",
+        "label": "DB Query"
+      },
+      {
+        "source": "curated_lake",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka_a",
+        "target": "kafka_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "db_a",
+        "target": "db_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "external_api",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "partner_system",
+        "target": "event_bridge",
+        "label": "Async"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Event-Driven",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Auto Scaling",
+      "Feature Flags",
+      "Active-Active Multi-Region",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 81,
+    "source_edges": 71,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

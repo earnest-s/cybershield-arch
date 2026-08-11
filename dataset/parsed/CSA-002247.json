@@ -1,0 +1,378 @@
+{
+  "id": "CSA-002247",
+  "instruction": "Design a Fraud Detection architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: Zero Trust Architecture, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "zt",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "ingest",
+        "type": "service"
+      },
+      {
+        "id": "preprocess",
+        "type": "service"
+      },
+      {
+        "id": "fraudEngine",
+        "type": "service"
+      },
+      {
+        "id": "ragGateway",
+        "type": "service"
+      },
+      {
+        "id": "apiSvc",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "pg_on",
+        "type": "database"
+      },
+      {
+        "id": "es_on",
+        "type": "service"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "vector_aws",
+        "type": "database"
+      },
+      {
+        "id": "cosmos",
+        "type": "database"
+      },
+      {
+        "id": "vector_az",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "zt",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "apiSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "apiSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiSvc",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "preprocess",
+        "label": "HTTP"
+      },
+      {
+        "source": "preprocess",
+        "target": "fraudEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudEngine",
+        "target": "ragGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragGateway",
+        "target": "vector_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragGateway",
+        "target": "vector_az",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudEngine",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ingest",
+        "target": "pg_on",
+        "label": "HTTP"
+      },
+      {
+        "source": "preprocess",
+        "target": "es_on",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudEngine",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudEngine",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudEngine",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragGateway",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "fraudEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ragGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt",
+        "target": "gdpr",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 55,
+    "source_edges": 42,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

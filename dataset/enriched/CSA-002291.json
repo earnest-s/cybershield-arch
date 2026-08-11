@@ -1,0 +1,591 @@
+{
+  "id": "CSA-002291",
+  "instruction": "Design a OTT architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: Active-Active Multi-Region, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "smartTV",
+        "type": "service"
+      },
+      {
+        "id": "setTopBox",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "edgeLB",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "gcp",
+        "type": "service"
+      },
+      {
+        "id": "eksA",
+        "type": "container"
+      },
+      {
+        "id": "eksB",
+        "type": "container"
+      },
+      {
+        "id": "aksA",
+        "type": "container"
+      },
+      {
+        "id": "aksB",
+        "type": "container"
+      },
+      {
+        "id": "gkeA",
+        "type": "container"
+      },
+      {
+        "id": "gkeB",
+        "type": "container"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "contentAPI",
+        "type": "service"
+      },
+      {
+        "id": "contentDB",
+        "type": "database"
+      },
+      {
+        "id": "contentCache",
+        "type": "database"
+      },
+      {
+        "id": "profileAPI",
+        "type": "service"
+      },
+      {
+        "id": "profileDB",
+        "type": "database"
+      },
+      {
+        "id": "analyticsStream",
+        "type": "queue"
+      },
+      {
+        "id": "recommenderAI",
+        "type": "service"
+      },
+      {
+        "id": "vectorStore",
+        "type": "database"
+      },
+      {
+        "id": "embeddings",
+        "type": "service"
+      },
+      {
+        "id": "billingAPI",
+        "type": "service"
+      },
+      {
+        "id": "billingDB",
+        "type": "database"
+      },
+      {
+        "id": "fraudDetect",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "paymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "adNetwork",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "OBS_DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "EKS_A",
+        "type": "service"
+      },
+      {
+        "id": "AKS_A",
+        "type": "service"
+      },
+      {
+        "id": "GKE_A",
+        "type": "service"
+      },
+      {
+        "id": "EKS_B",
+        "type": "service"
+      },
+      {
+        "id": "AKS_B",
+        "type": "service"
+      },
+      {
+        "id": "GKE_B",
+        "type": "service"
+      },
+      {
+        "id": "HYBRID_CLOUD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "edgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeLB",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "zeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "contentAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "profileAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "recommenderAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "billingAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "contentAPI",
+        "target": "contentDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "contentAPI",
+        "target": "contentCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "contentAPI",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "profileAPI",
+        "target": "profileDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "profileAPI",
+        "target": "analyticsStream",
+        "label": "Async"
+      },
+      {
+        "source": "analyticsStream",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "recommenderAI",
+        "target": "embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "embeddings",
+        "target": "vectorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "recommenderAI",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "billingAPI",
+        "target": "billingDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingAPI",
+        "target": "paymentGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingAPI",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudDetect",
+        "target": "billingDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraudDetect",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "OBS_DEVOPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS_A",
+        "target": "AKS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_A",
+        "target": "GKE_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS_B",
+        "target": "AKS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_B",
+        "target": "GKE_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "contentAPI",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "profileAPI",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "recommenderAI",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingAPI",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "HYBRID_CLOUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "contentAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "recommenderAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "billingAPI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 5,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 5,
+      "services": 41
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "OTT",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 75,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

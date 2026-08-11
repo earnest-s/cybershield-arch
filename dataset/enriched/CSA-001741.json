@@ -1,0 +1,502 @@
+{
+  "id": "CSA-001741",
+  "instruction": "Design a Telecom architecture. using a Data Mesh style. deployed on AWS. satisfying: Compliance/Audit Logging, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "B2B",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "ESP",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "VPC1",
+        "type": "container"
+      },
+      {
+        "id": "VPC2",
+        "type": "container"
+      },
+      {
+        "id": "DR",
+        "type": "container"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "CUST_MS",
+        "type": "service"
+      },
+      {
+        "id": "CUST_CMD",
+        "type": "service"
+      },
+      {
+        "id": "CUST_QRY",
+        "type": "service"
+      },
+      {
+        "id": "BILL_MS",
+        "type": "service"
+      },
+      {
+        "id": "BILL_CMD",
+        "type": "service"
+      },
+      {
+        "id": "BILL_QRY",
+        "type": "service"
+      },
+      {
+        "id": "NET_MS",
+        "type": "service"
+      },
+      {
+        "id": "NET_EVT",
+        "type": "service"
+      },
+      {
+        "id": "IOT_MS",
+        "type": "service"
+      },
+      {
+        "id": "IOT_DATA",
+        "type": "service"
+      },
+      {
+        "id": "RAW_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "CURATED",
+        "type": "service"
+      },
+      {
+        "id": "METADATA",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "ML_MODELS",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "SERVICES",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "CLOUD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "ESP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ESP",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "SERVICES",
+        "target": "EVENT",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAW_LAKE",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "CURATED",
+        "target": "ANALYTICS",
+        "label": "DB Query"
+      },
+      {
+        "source": "CURATED",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CURATED",
+        "target": "ML_MODELS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "ADMIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR",
+        "target": "IOT_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ML_MODELS",
+        "target": "IOT_DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "CLOUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC1",
+        "target": "VPC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC2",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "B2B",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 1,
+      "services": 41
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Data Mesh",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 79,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

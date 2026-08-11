@@ -1,0 +1,334 @@
+{
+  "id": "CSA-000529",
+  "instruction": "Design a Travel architecture. using a Modular Monolith style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "ModMonolith",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "BookingService",
+        "type": "service"
+      },
+      {
+        "id": "PaymentService",
+        "type": "service"
+      },
+      {
+        "id": "NotificationService",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "K8sAWS",
+        "type": "service"
+      },
+      {
+        "id": "K8sAzure",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "BookingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "NotificationService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "BookingService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationService",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationService",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CICD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "K8sAWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "K8sAzure",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAzure",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAzure",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAzure",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "K8sAWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "K8sAzure",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Travel",
+    "style": "Modular Monolith",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 39,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

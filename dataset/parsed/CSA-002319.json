@@ -1,0 +1,404 @@
+{
+  "id": "CSA-002319",
+  "instruction": "Design a HR architecture. using a Microservices style. deployed on GCP. satisfying: Feature Flags, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlag",
+        "type": "service"
+      },
+      {
+        "id": "ConfigStore",
+        "type": "service"
+      },
+      {
+        "id": "UserMS",
+        "type": "service"
+      },
+      {
+        "id": "PayrollMS",
+        "type": "service"
+      },
+      {
+        "id": "RecruitingMS",
+        "type": "ui"
+      },
+      {
+        "id": "BenefitsMS",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsMS",
+        "type": "service"
+      },
+      {
+        "id": "AIInference",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Events",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Spanner",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "Artifact",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_MESH",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "Firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlag",
+        "target": "ConfigStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserMS",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollMS",
+        "target": "UserMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitingMS",
+        "target": "UserMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenefitsMS",
+        "target": "UserMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsMS",
+        "target": "UserMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInference",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Events",
+        "target": "UserMS",
+        "label": "Async"
+      },
+      {
+        "source": "Events",
+        "target": "PayrollMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Events",
+        "target": "RecruitingMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Events",
+        "target": "BenefitsMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Events",
+        "target": "AnalyticsMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FeatureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserMS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollMS",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitingMS",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenefitsMS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsMS",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "UserMS",
+        "label": "Cache"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "Terraform",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "DEVOPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ISO",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 53,
+    "source_edges": 46,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,529 @@
+{
+  "id": "CSA-001854",
+  "instruction": "Design a Automotive architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Active-Active Multi-Region, Data Lakehouse Pattern, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "MOD_CORE",
+        "type": "service"
+      },
+      {
+        "id": "MOD_VEH",
+        "type": "service"
+      },
+      {
+        "id": "MOD_ORDER",
+        "type": "service"
+      },
+      {
+        "id": "MOD_INVENT",
+        "type": "service"
+      },
+      {
+        "id": "MOD_ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "MOD_INTEGR",
+        "type": "service"
+      },
+      {
+        "id": "RAW_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "REFINED",
+        "type": "service"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "METASTORE",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "LB_A",
+        "type": "service"
+      },
+      {
+        "id": "GW_A",
+        "type": "service"
+      },
+      {
+        "id": "APP_A",
+        "type": "service"
+      },
+      {
+        "id": "DATA_A",
+        "type": "service"
+      },
+      {
+        "id": "LB_B",
+        "type": "service"
+      },
+      {
+        "id": "GW_B",
+        "type": "service"
+      },
+      {
+        "id": "APP_B",
+        "type": "service"
+      },
+      {
+        "id": "DATA_B",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "EDGE_NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "LOAD_BALANCER",
+        "type": "service"
+      },
+      {
+        "id": "REGION_A_EDGE",
+        "type": "service"
+      },
+      {
+        "id": "REGION_B_EDGE",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "REGION_A_DATA",
+        "type": "service"
+      },
+      {
+        "id": "REGION_B_DATA",
+        "type": "service"
+      },
+      {
+        "id": "REFINED_B",
+        "type": "service"
+      },
+      {
+        "id": "DW_B",
+        "type": "service"
+      },
+      {
+        "id": "THIRD_PARTY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "EDGE_NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "EDGE_NETWORK",
+        "target": "LOAD_BALANCER",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOAD_BALANCER",
+        "target": "REGION_A_EDGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOAD_BALANCER",
+        "target": "REGION_B_EDGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_A_EDGE",
+        "target": "GW_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW_A",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_B_EDGE",
+        "target": "GW_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW_B",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW_A",
+        "target": "APP_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW_B",
+        "target": "APP_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP_A",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP_B",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_VEH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_INVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_INTEGR",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_VEH",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_ORDER",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_INVENT",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_ANALYTICS",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_INTEGR",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "REGION_A_DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "REGION_B_DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_VEH",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_ORDER",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_INVENT",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_ANALYTICS",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAW_LAKE",
+        "target": "REFINED",
+        "label": "HTTP"
+      },
+      {
+        "source": "REFINED",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "REFINED",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "METASTORE",
+        "target": "REFINED",
+        "label": "HTTP"
+      },
+      {
+        "source": "METASTORE",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "REFINED",
+        "target": "REFINED_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "DW_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP_A",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP_B",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_A_DATA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_B_DATA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP_A",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP_B",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "APP_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "APP_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_INTEGR",
+        "target": "THIRD_PARTY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Automotive",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Data Lakehouse Pattern",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 84,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

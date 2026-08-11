@@ -1,0 +1,793 @@
+{
+  "id": "CSA-002145",
+  "instruction": "Design a Warehouse architecture. using a Zero-Trust style. deployed on AWS. satisfying: Active-Active Multi-Region, High Throughput (100k+ TPS), AI/ML Inference Integration, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "external_api",
+        "type": "service"
+      },
+      {
+        "id": "edge_cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "load_bal",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "zero_trust",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "ms_inventory",
+        "type": "service"
+      },
+      {
+        "id": "ms_orders",
+        "type": "service"
+      },
+      {
+        "id": "ms_shipping",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "llm_gateway",
+        "type": "service"
+      },
+      {
+        "id": "ai_orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "event_svc",
+        "type": "service"
+      },
+      {
+        "id": "pg_primary",
+        "type": "database"
+      },
+      {
+        "id": "pg_replica",
+        "type": "database"
+      },
+      {
+        "id": "redis_cache",
+        "type": "cache"
+      },
+      {
+        "id": "es_search",
+        "type": "container"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "sqs",
+        "type": "service"
+      },
+      {
+        "id": "event_bridge",
+        "type": "service"
+      },
+      {
+        "id": "embed_model",
+        "type": "service"
+      },
+      {
+        "id": "rag_service",
+        "type": "service"
+      },
+      {
+        "id": "inference_gpu",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "microservices",
+        "type": "service"
+      },
+      {
+        "id": "k8s_us_east",
+        "type": "container"
+      },
+      {
+        "id": "k8s_us_west",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "Multi",
+        "type": "service"
+      },
+      {
+        "id": "Cluster",
+        "type": "service"
+      },
+      {
+        "id": "region_us_east",
+        "type": "database"
+      },
+      {
+        "id": "region_us_west",
+        "type": "database"
+      },
+      {
+        "id": "dr_site",
+        "type": "service"
+      },
+      {
+        "id": "tls",
+        "type": "service"
+      },
+      {
+        "id": "client_connections",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "external_api",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge_cdn",
+        "target": "waf",
+        "label": "Cache"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "load_bal",
+        "label": "HTTP"
+      },
+      {
+        "source": "load_bal",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "load_bal",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "zero_trust",
+        "label": "HTTP"
+      },
+      {
+        "source": "zero_trust",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "pki",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "zero_trust",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_inventory",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_orders",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_shipping",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_inventory",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_orders",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_shipping",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_orders",
+        "target": "ai_orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_inventory",
+        "target": "ai_orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_orchestrator",
+        "target": "llm_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_svc",
+        "target": "ms_inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_svc",
+        "target": "ms_orders",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_svc",
+        "target": "ms_shipping",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_primary",
+        "target": "pg_replica",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_primary",
+        "target": "redis_cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_inventory",
+        "target": "pg_primary",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_orders",
+        "target": "pg_primary",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_shipping",
+        "target": "pg_primary",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_inventory",
+        "target": "redis_cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_orders",
+        "target": "redis_cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_shipping",
+        "target": "redis_cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_inventory",
+        "target": "es_search",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_orders",
+        "target": "es_search",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_orchestrator",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm_gateway",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "pg_primary",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_inventory",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_orders",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_shipping",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "event_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_svc",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed_model",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_service",
+        "target": "inference_gpu",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm_gateway",
+        "target": "rag_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_orchestrator",
+        "target": "embed_model",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "microservices",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_us_east",
+        "target": "Multi",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cluster",
+        "target": "k8s_us_west",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_us_east",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_us_west",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8s_us_east",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8s_us_west",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "zero_trust",
+        "label": "HTTP"
+      },
+      {
+        "source": "region_us_east",
+        "target": "k8s_us_east",
+        "label": "HTTP"
+      },
+      {
+        "source": "region_us_west",
+        "target": "k8s_us_west",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_site",
+        "target": "pg_replica",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_site",
+        "target": "redis_cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_site",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "zero_trust",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "tls",
+        "label": "HTTP"
+      },
+      {
+        "source": "tls",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "zero_trust",
+        "target": "firewall",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 6,
+      "services": 49
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Zero-Trust",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "High Throughput (100k+ TPS)",
+      "AI/ML Inference Integration",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 85,
+    "source_edges": 93,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

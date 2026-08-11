@@ -1,0 +1,466 @@
+{
+  "id": "CSA-001998",
+  "instruction": "Design a Gaming architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Disaster Recovery, Zero Trust Architecture, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "GameConsole",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "DDoS",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "AWS_LB",
+        "type": "service"
+      },
+      {
+        "id": "AWS_Func",
+        "type": "service"
+      },
+      {
+        "id": "AWS_Auth",
+        "type": "service"
+      },
+      {
+        "id": "AWS_DB",
+        "type": "database"
+      },
+      {
+        "id": "AWS_Redis",
+        "type": "database"
+      },
+      {
+        "id": "AWS_Kafka",
+        "type": "database"
+      },
+      {
+        "id": "AWS_S3",
+        "type": "database"
+      },
+      {
+        "id": "AZ_LB",
+        "type": "service"
+      },
+      {
+        "id": "AZ_Func",
+        "type": "service"
+      },
+      {
+        "id": "AZ_Auth",
+        "type": "service"
+      },
+      {
+        "id": "AZ_DB",
+        "type": "database"
+      },
+      {
+        "id": "AZ_Redis",
+        "type": "database"
+      },
+      {
+        "id": "AZ_Event",
+        "type": "database"
+      },
+      {
+        "id": "AZ_Blob",
+        "type": "database"
+      },
+      {
+        "id": "GCP_LB",
+        "type": "service"
+      },
+      {
+        "id": "GCP_Func",
+        "type": "container"
+      },
+      {
+        "id": "GCP_Auth",
+        "type": "service"
+      },
+      {
+        "id": "GCP_DB",
+        "type": "database"
+      },
+      {
+        "id": "GCP_Redis",
+        "type": "database"
+      },
+      {
+        "id": "GCP_PubSub",
+        "type": "database"
+      },
+      {
+        "id": "GCP_GCS",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "AlertMgr",
+        "type": "service"
+      },
+      {
+        "id": "BackupS3",
+        "type": "database"
+      },
+      {
+        "id": "BackupBlob",
+        "type": "database"
+      },
+      {
+        "id": "DR_Replica",
+        "type": "database"
+      },
+      {
+        "id": "EVENT_BUS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GameConsole",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "GameConsole",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AWS_LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AZ_LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "GCP_LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS_LB",
+        "target": "AWS_Func",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZ_LB",
+        "target": "AZ_Func",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_LB",
+        "target": "GCP_Func",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS_Func",
+        "target": "AWS_Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZ_Func",
+        "target": "AZ_Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_Func",
+        "target": "GCP_Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS_Func",
+        "target": "AWS_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZ_Func",
+        "target": "AZ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_Func",
+        "target": "GCP_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS_Func",
+        "target": "AWS_Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZ_Func",
+        "target": "AZ_Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_Func",
+        "target": "GCP_Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS_Func",
+        "target": "AWS_Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZ_Func",
+        "target": "AZ_Event",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_Func",
+        "target": "GCP_PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS_Func",
+        "target": "AWS_S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZ_Func",
+        "target": "AZ_Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_Func",
+        "target": "GCP_GCS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS_Kafka",
+        "target": "EVENT_BUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZ_Event",
+        "target": "EVENT_BUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_PubSub",
+        "target": "EVENT_BUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BUS",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BUS",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BUS",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS_DB",
+        "target": "DR_Replica",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZ_DB",
+        "target": "DR_Replica",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_DB",
+        "target": "DR_Replica",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Replica",
+        "target": "BackupS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Replica",
+        "target": "BackupBlob",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS_Func",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZ_Func",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP_Func",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "AlertMgr",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Gaming",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "Zero Trust Architecture",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 67,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

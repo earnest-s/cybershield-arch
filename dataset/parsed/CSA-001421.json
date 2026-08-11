@@ -1,0 +1,355 @@
+{
+  "id": "CSA-001421",
+  "instruction": "Design a Pharma architecture. using a CQRS style. deployed on Azure. satisfying: Feature Flags, Data Lakehouse Pattern, Disaster Recovery, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "CmdSvc1",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "CmdSvc2",
+        "type": "service"
+      },
+      {
+        "id": "CmdSvc3",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlag",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "ReadModel",
+        "type": "service"
+      },
+      {
+        "id": "Reporting",
+        "type": "service"
+      },
+      {
+        "id": "ComplianceLog",
+        "type": "service"
+      },
+      {
+        "id": "EventProcessor",
+        "type": "service"
+      },
+      {
+        "id": "AuditStore",
+        "type": "database"
+      },
+      {
+        "id": "OLTP",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "BlobStorage",
+        "type": "database"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LogAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "container"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc1",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc2",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc3",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlag",
+        "target": "CmdSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlag",
+        "target": "CmdSvc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlag",
+        "target": "CmdSvc3",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "Reporting",
+        "label": "HTTP"
+      },
+      {
+        "source": "Reporting",
+        "target": "ComplianceLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "EventProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventProcessor",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventProcessor",
+        "target": "AuditStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "BlobStorage",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "CmdSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "CmdSvc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "CmdSvc3",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "EventProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "CmdSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "CmdSvc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "CmdSvc3",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComplianceLog",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditStore",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "CQRS",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Feature Flags",
+      "Data Lakehouse Pattern",
+      "Disaster Recovery",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 48,
+    "source_edges": 41,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

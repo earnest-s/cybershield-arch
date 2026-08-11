@@ -1,0 +1,587 @@
+{
+  "id": "CSA-001800",
+  "instruction": "Design a Travel architecture. using a Hexagonal style. deployed on Hybrid Cloud. satisfying: Rate Limiting, Data Lakehouse Pattern, Zero Trust Architecture, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webui",
+        "type": "ui"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "thirdparty",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "idp",
+        "type": "service"
+      },
+      {
+        "id": "zt_proxy",
+        "type": "service"
+      },
+      {
+        "id": "load_bal",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "mesh_sidecar1",
+        "type": "service"
+      },
+      {
+        "id": "mesh_sidecar2",
+        "type": "service"
+      },
+      {
+        "id": "inbound_ports",
+        "type": "service"
+      },
+      {
+        "id": "outbound_ports",
+        "type": "database"
+      },
+      {
+        "id": "domain_logic",
+        "type": "service"
+      },
+      {
+        "id": "rest_adapter",
+        "type": "service"
+      },
+      {
+        "id": "grpc_adapter",
+        "type": "service"
+      },
+      {
+        "id": "graphql_adapter",
+        "type": "service"
+      },
+      {
+        "id": "kafka_producer",
+        "type": "queue"
+      },
+      {
+        "id": "event_bridge",
+        "type": "service"
+      },
+      {
+        "id": "redis_cache",
+        "type": "cache"
+      },
+      {
+        "id": "lakehouse_sink",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventbridge",
+        "type": "service"
+      },
+      {
+        "id": "core_evt",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "dynamodb",
+        "type": "database"
+      },
+      {
+        "id": "redshift",
+        "type": "database"
+      },
+      {
+        "id": "delta_lake",
+        "type": "database"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "github_actions",
+        "type": "service"
+      },
+      {
+        "id": "helm_chart",
+        "type": "service"
+      },
+      {
+        "id": "blue_green",
+        "type": "service"
+      },
+      {
+        "id": "canary",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "Monitors",
+        "type": "service"
+      },
+      {
+        "id": "observ",
+        "type": "service"
+      },
+      {
+        "id": "payment_gate",
+        "type": "service"
+      },
+      {
+        "id": "airline_api",
+        "type": "service"
+      },
+      {
+        "id": "hotel_api",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webui",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdparty",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "zt_proxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt_proxy",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "zt_proxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "idp",
+        "target": "zt_proxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "load_bal",
+        "label": "HTTP"
+      },
+      {
+        "source": "load_bal",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "mesh_sidecar1",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "mesh_sidecar2",
+        "label": "HTTP"
+      },
+      {
+        "source": "inbound_ports",
+        "target": "domain_logic",
+        "label": "HTTP"
+      },
+      {
+        "source": "domain_logic",
+        "target": "outbound_ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "rest_adapter",
+        "target": "inbound_ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc_adapter",
+        "target": "inbound_ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql_adapter",
+        "target": "inbound_ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka_producer",
+        "target": "outbound_ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bridge",
+        "target": "outbound_ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis_cache",
+        "target": "outbound_ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse_sink",
+        "target": "outbound_ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "core_evt",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventbridge",
+        "target": "core_evt",
+        "label": "Async"
+      },
+      {
+        "source": "postgres",
+        "target": "delta_lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "dynamodb",
+        "target": "delta_lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "redshift",
+        "target": "delta_lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "core_evt",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "github_actions",
+        "target": "helm_chart",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm_chart",
+        "target": "blue_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "blue_green",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "github_actions",
+        "target": "canary",
+        "label": "HTTP"
+      },
+      {
+        "source": "canary",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "inbound_ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "domain_logic",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "domain_logic",
+        "target": "redis_cache",
+        "label": "Cache"
+      },
+      {
+        "source": "domain_logic",
+        "target": "kafka_producer",
+        "label": "Async"
+      },
+      {
+        "source": "kafka_producer",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse_sink",
+        "target": "delta_lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "domain_logic",
+        "target": "payment_gate",
+        "label": "HTTP"
+      },
+      {
+        "source": "domain_logic",
+        "target": "airline_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "domain_logic",
+        "target": "hotel_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "delta_lake",
+        "target": "analytics",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Require Multi-Factor Authentication for user access."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 6,
+      "services": 40
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS, SIEM and MFA. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Travel",
+    "style": "Hexagonal",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Rate Limiting",
+      "Data Lakehouse Pattern",
+      "Zero Trust Architecture",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 74,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

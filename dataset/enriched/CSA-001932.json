@@ -1,0 +1,662 @@
+{
+  "id": "CSA-001932",
+  "instruction": "Design a MLOps architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: Zero Trust Architecture, Rate Limiting, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB_UI",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE_APP",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN_PORTAL",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "container"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "MFAD",
+        "type": "service"
+      },
+      {
+        "id": "FIREWALL",
+        "type": "service"
+      },
+      {
+        "id": "DMZ",
+        "type": "service"
+      },
+      {
+        "id": "APP_NET",
+        "type": "service"
+      },
+      {
+        "id": "DATA_NET",
+        "type": "service"
+      },
+      {
+        "id": "OBSV_NET",
+        "type": "service"
+      },
+      {
+        "id": "K8S_AWS",
+        "type": "container"
+      },
+      {
+        "id": "K8S_AZ",
+        "type": "container"
+      },
+      {
+        "id": "K8S_GCP",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "CMD_API",
+        "type": "service"
+      },
+      {
+        "id": "QRY_API",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SVC",
+        "type": "service"
+      },
+      {
+        "id": "EVT_PUB",
+        "type": "service"
+      },
+      {
+        "id": "READ_MODEL",
+        "type": "service"
+      },
+      {
+        "id": "PROJECTION",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT_BRIDGE",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "DYNAMO",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "MODEL_REG",
+        "type": "service"
+      },
+      {
+        "id": "TRAINING",
+        "type": "service"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "THIRD_PARTY",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD_STORAGE",
+        "type": "database"
+      },
+      {
+        "id": "LLM_GATEWAY",
+        "type": "database"
+      },
+      {
+        "id": "RATE_LIMITER",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB_UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE_APP",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN_PORTAL",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ZERO_TRUST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "DMZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ",
+        "target": "FIREWALL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "APP_NET",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "DATA_NET",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "OBSV_NET",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFAD",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFAD",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ",
+        "target": "QRY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_API",
+        "target": "READ_MODEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_API",
+        "target": "PROJECTION",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVT_PUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVT_PUB",
+        "target": "EVENT_BRIDGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BRIDGE",
+        "target": "PROJECTION",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROJECTION",
+        "target": "READ_MODEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_MODEL",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_MODEL",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_MODEL",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_API",
+        "target": "EMBEDDING",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDING",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_API",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "MODEL_REG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "LLM_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "K8S_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "K8S_AZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "K8S_GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AWS",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AZ",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_GCP",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROJECTION",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "READ_MODEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_AZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_DB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROJECTION",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "THIRD_PARTY",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "THIRD_PARTY",
+        "target": "QRY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLOUD_STORAGE",
+        "target": "MODEL_REG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLOUD_STORAGE",
+        "target": "TRAINING",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RATE_LIMITER",
+        "label": "HTTP"
+      },
+      {
+        "source": "RATE_LIMITER",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "RATE_LIMITER",
+        "target": "QRY_API",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 6,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Rate Limiting",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 72,
+    "source_edges": 79,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

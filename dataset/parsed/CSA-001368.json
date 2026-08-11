@@ -1,0 +1,414 @@
+{
+  "id": "CSA-001368",
+  "instruction": "Design a Smart City architecture. using a Hexagonal style. deployed on Hybrid Cloud. satisfying: Rate Limiting, Blue/Green Deployment, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "portAPI",
+        "type": "service"
+      },
+      {
+        "id": "portEvents",
+        "type": "service"
+      },
+      {
+        "id": "portAI",
+        "type": "service"
+      },
+      {
+        "id": "adapterREST",
+        "type": "service"
+      },
+      {
+        "id": "adapterGRPC",
+        "type": "service"
+      },
+      {
+        "id": "adapterMsg",
+        "type": "queue"
+      },
+      {
+        "id": "adapterAI",
+        "type": "service"
+      },
+      {
+        "id": "serviceMgmt",
+        "type": "service"
+      },
+      {
+        "id": "serviceTraffic",
+        "type": "service"
+      },
+      {
+        "id": "serviceEnv",
+        "type": "service"
+      },
+      {
+        "id": "serviceAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "modelServer",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "onPrem",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "portAPI",
+        "target": "adapterREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "portAPI",
+        "target": "adapterGRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "portEvents",
+        "target": "adapterMsg",
+        "label": "HTTP"
+      },
+      {
+        "source": "portAI",
+        "target": "adapterAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterREST",
+        "target": "serviceMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterREST",
+        "target": "serviceTraffic",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterREST",
+        "target": "serviceEnv",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterREST",
+        "target": "serviceAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterGRPC",
+        "target": "serviceMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterGRPC",
+        "target": "serviceTraffic",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterGRPC",
+        "target": "serviceEnv",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterGRPC",
+        "target": "serviceAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterMsg",
+        "target": "serviceAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterAI",
+        "target": "serviceAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "portAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "portEvents",
+        "label": "Async"
+      },
+      {
+        "source": "apiGW",
+        "target": "portAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "portEvents",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "adapterMsg",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceAnalytics",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceAnalytics",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "serviceAnalytics",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceMgmt",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceTraffic",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceEnv",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterAI",
+        "target": "modelServer",
+        "label": "HTTP"
+      },
+      {
+        "source": "modelServer",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "modelServer",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "aws",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "azure",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "onPrem",
+        "target": "k8s",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "Hexagonal",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Blue/Green Deployment",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 44,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

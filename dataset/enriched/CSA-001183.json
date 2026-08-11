@@ -1,0 +1,449 @@
+{
+  "id": "CSA-001183",
+  "instruction": "Design a Supply Chain architecture. using a Microservices style. deployed on On-Premises. satisfying: Strict Network Segmentation, Feature Flags, Blue/Green Deployment, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "FW_APP",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_MESH",
+        "type": "service"
+      },
+      {
+        "id": "FW_DATA",
+        "type": "service"
+      },
+      {
+        "id": "DB_SUBNET",
+        "type": "database"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "ORDER",
+        "type": "service"
+      },
+      {
+        "id": "INVENTORY",
+        "type": "service"
+      },
+      {
+        "id": "SHIPPING",
+        "type": "service"
+      },
+      {
+        "id": "PAYMENT",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF",
+        "type": "service"
+      },
+      {
+        "id": "FEATURE",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "HELM",
+        "type": "service"
+      },
+      {
+        "id": "DR_K8S",
+        "type": "container"
+      },
+      {
+        "id": "DR_PG",
+        "type": "database"
+      },
+      {
+        "id": "DR_ES",
+        "type": "service"
+      },
+      {
+        "id": "Deploys",
+        "type": "service"
+      },
+      {
+        "id": "style",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "SHIPPING",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "PAYMENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "FEATURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIPPING",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIPPING",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "DR_PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "DR_ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "HELM",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "WEB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "WEB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "ORDER",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 29
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "Microservices",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Feature Flags",
+      "Blue/Green Deployment",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 60,
+    "source_edges": 41,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

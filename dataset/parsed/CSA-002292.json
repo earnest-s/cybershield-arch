@@ -1,0 +1,367 @@
+{
+  "id": "CSA-002292",
+  "instruction": "Design a Cyber Security architecture. using a Modular Monolith style. deployed on Multi-Cloud. satisfying: Feature Flags, Auto Scaling, Rate Limiting, Compliance/Audit Logging, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "MOD_CORE",
+        "type": "service"
+      },
+      {
+        "id": "AUTH_SVC",
+        "type": "service"
+      },
+      {
+        "id": "SCAN_SVC",
+        "type": "service"
+      },
+      {
+        "id": "ALERT_SVC",
+        "type": "service"
+      },
+      {
+        "id": "REPORT_SVC",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "BLUE_GREEN",
+        "type": "service"
+      },
+      {
+        "id": "TF",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "AWS",
+        "type": "container"
+      },
+      {
+        "id": "AZURE",
+        "type": "container"
+      },
+      {
+        "id": "GCP",
+        "type": "container"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "AUTH_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "SCAN_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "ALERT_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "REPORT_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH_SVC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH_SVC",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH_SVC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH_SVC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH_SVC",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SCAN_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALERT_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPORT_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAF",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "BLUE_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE_GREEN",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "TF",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "AZURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "GCP",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Cyber Security",
+    "style": "Modular Monolith",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Feature Flags",
+      "Auto Scaling",
+      "Rate Limiting",
+      "Compliance/Audit Logging",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

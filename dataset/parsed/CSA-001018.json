@@ -1,0 +1,362 @@
+{
+  "id": "CSA-001018",
+  "instruction": "Design a Agriculture architecture. using a Hexagonal style. deployed on GCP. satisfying: Observability Stack, Strict Network Segmentation, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "CropPlanningService",
+        "type": "service"
+      },
+      {
+        "id": "YieldPredictionService",
+        "type": "service"
+      },
+      {
+        "id": "RestAPI",
+        "type": "service"
+      },
+      {
+        "id": "GRPCPort",
+        "type": "service"
+      },
+      {
+        "id": "EventSub",
+        "type": "service"
+      },
+      {
+        "id": "RepoPort",
+        "type": "service"
+      },
+      {
+        "id": "AIPort",
+        "type": "service"
+      },
+      {
+        "id": "NotificationPort",
+        "type": "service"
+      },
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "PubSubAdapter",
+        "type": "service"
+      },
+      {
+        "id": "CloudSQLAdapter",
+        "type": "service"
+      },
+      {
+        "id": "AIServer",
+        "type": "service"
+      },
+      {
+        "id": "EmailAdapter",
+        "type": "service"
+      },
+      {
+        "id": "VPCFront",
+        "type": "ui"
+      },
+      {
+        "id": "VPCCore",
+        "type": "service"
+      },
+      {
+        "id": "VPCData",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "CloudArmor",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "CloudSQL",
+        "type": "database"
+      },
+      {
+        "id": "Firestore",
+        "type": "service"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      },
+      {
+        "id": "Logging",
+        "type": "service"
+      },
+      {
+        "id": "OTCollector",
+        "type": "service"
+      },
+      {
+        "id": "BackupStorage",
+        "type": "database"
+      },
+      {
+        "id": "DRRegion",
+        "type": "service"
+      },
+      {
+        "id": "FirestoreAdapter",
+        "type": "service"
+      },
+      {
+        "id": "Sendgrid",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CloudArmor",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudArmor",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "RestAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "GRPCPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "RestAPI",
+        "target": "CropPlanningService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPCPort",
+        "target": "YieldPredictionService",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventSub",
+        "target": "YieldPredictionService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CropPlanningService",
+        "target": "RepoPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "YieldPredictionService",
+        "target": "AIPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "RepoPort",
+        "target": "CloudSQLAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RepoPort",
+        "target": "FirestoreAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIPort",
+        "target": "AIServer",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudSQLAdapter",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FirestoreAdapter",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIServer",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationPort",
+        "target": "EmailAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmailAdapter",
+        "target": "Sendgrid",
+        "label": "HTTP"
+      },
+      {
+        "source": "CropPlanningService",
+        "target": "OTCollector",
+        "label": "HTTP"
+      },
+      {
+        "source": "YieldPredictionService",
+        "target": "OTCollector",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTCollector",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTCollector",
+        "target": "Logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RestAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GRPCPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPCFront",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPCCore",
+        "target": "CloudSQLAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPCData",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPCData",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPCData",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPCData",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPCCore",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPCCore",
+        "target": "OTCollector",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPCCore",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPCCore",
+        "target": "Logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudSQL",
+        "target": "DRRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "BigQuery",
+        "target": "DRRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "BackupStorage",
+        "target": "DRRegion",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Agriculture",
+    "style": "Hexagonal",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Observability Stack",
+      "Strict Network Segmentation",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 54,
+    "source_edges": 40,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

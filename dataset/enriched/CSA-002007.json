@@ -1,0 +1,449 @@
+{
+  "id": "CSA-002007",
+  "instruction": "Design a Energy architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Disaster Recovery, Feature Flags, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "BATCH",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "EKS_A",
+        "type": "service"
+      },
+      {
+        "id": "S3_A",
+        "type": "service"
+      },
+      {
+        "id": "DDB_A",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA_A",
+        "type": "queue"
+      },
+      {
+        "id": "AKS_Z",
+        "type": "service"
+      },
+      {
+        "id": "BLOB_Z",
+        "type": "database"
+      },
+      {
+        "id": "COSMOS_Z",
+        "type": "database"
+      },
+      {
+        "id": "EVENTHUB_Z",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "ENRICH",
+        "type": "service"
+      },
+      {
+        "id": "ENERGY_API",
+        "type": "service"
+      },
+      {
+        "id": "WEATHER_INGEST",
+        "type": "service"
+      },
+      {
+        "id": "WEATHER_API",
+        "type": "service"
+      },
+      {
+        "id": "MARKET_STREAM",
+        "type": "service"
+      },
+      {
+        "id": "MARKET_API",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "FLAGGER",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "BATCH",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ENRICH",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENRICH",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "ENRICH",
+        "target": "ENERGY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENERGY_API",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "WEATHER_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MARKET_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "KAFKA_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENTHUB_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA_A",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB_Z",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENERGY_API",
+        "target": "DDB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEATHER_INGEST",
+        "target": "COSMOS_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "MARKET_STREAM",
+        "target": "S3_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAGGER",
+        "target": "ENRICH",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAGGER",
+        "target": "ENERGY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAGGER",
+        "target": "WEATHER_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAGGER",
+        "target": "MARKET_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "EKS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "AKS_Z",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 3,
+      "services": 28
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Disaster Recovery",
+      "Feature Flags",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 43,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

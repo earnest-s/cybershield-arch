@@ -1,0 +1,373 @@
+{
+  "id": "CSA-001697",
+  "instruction": "Design a Autonomous Vehicles architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Active-Active Multi-Region, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "FleetMgmt",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "ModMonolith",
+        "type": "service"
+      },
+      {
+        "id": "Perception",
+        "type": "service"
+      },
+      {
+        "id": "Planning",
+        "type": "service"
+      },
+      {
+        "id": "Control",
+        "type": "service"
+      },
+      {
+        "id": "Telemetry",
+        "type": "service"
+      },
+      {
+        "id": "OTA",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Timescale",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "RabbitMQ",
+        "type": "queue"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Jaeger",
+        "type": "service"
+      },
+      {
+        "id": "K8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "K8sSecondary",
+        "type": "container"
+      },
+      {
+        "id": "GitLab",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "BG_Staging",
+        "type": "service"
+      },
+      {
+        "id": "BG_Prod",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "ModMonolith",
+        "target": "Perception",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Planning",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Control",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Telemetry",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "OTA",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Timescale",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Perception",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Planning",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Control",
+        "target": "RabbitMQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Telemetry",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTA",
+        "target": "RabbitMQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "RabbitMQ",
+        "target": "Prometheus",
+        "label": "Async"
+      },
+      {
+        "source": "Elastic",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Jaeger",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8sSecondary",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sPrimary",
+        "target": "K8sSecondary",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sPrimary",
+        "target": "GitLab",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sSecondary",
+        "target": "GitLab",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitLab",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "BG_Staging",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_Staging",
+        "target": "BG_Prod",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_Prod",
+        "target": "LB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Autonomous Vehicles",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 48,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

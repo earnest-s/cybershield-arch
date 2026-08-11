@@ -1,0 +1,692 @@
+{
+  "id": "CSA-001937",
+  "instruction": "Design a Fraud Detection architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Active-Active Multi-Region, Feature Flags, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "partnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edgeEast",
+        "type": "service"
+      },
+      {
+        "id": "edgeWest",
+        "type": "service"
+      },
+      {
+        "id": "edgeEU",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "pkipki",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "istioA",
+        "type": "service"
+      },
+      {
+        "id": "meshA",
+        "type": "service"
+      },
+      {
+        "id": "ciCdA",
+        "type": "service"
+      },
+      {
+        "id": "istioB",
+        "type": "service"
+      },
+      {
+        "id": "meshB",
+        "type": "service"
+      },
+      {
+        "id": "ciCdB",
+        "type": "database"
+      },
+      {
+        "id": "istioC",
+        "type": "service"
+      },
+      {
+        "id": "meshC",
+        "type": "service"
+      },
+      {
+        "id": "ciCdC",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      },
+      {
+        "id": "kafkaKafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "txnIngest",
+        "type": "service"
+      },
+      {
+        "id": "txnStore",
+        "type": "database"
+      },
+      {
+        "id": "txnCache",
+        "type": "database"
+      },
+      {
+        "id": "userService",
+        "type": "service"
+      },
+      {
+        "id": "userStore",
+        "type": "database"
+      },
+      {
+        "id": "riskEngine",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "ragGateway",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "analyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "database"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "policyEngine",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN_PORTAL",
+        "type": "service"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      },
+      {
+        "id": "analyticssvc",
+        "type": "service"
+      },
+      {
+        "id": "extBank",
+        "type": "service"
+      },
+      {
+        "id": "extML",
+        "type": "service"
+      },
+      {
+        "id": "rdsPrimary",
+        "type": "database"
+      },
+      {
+        "id": "rdsReplica1",
+        "type": "database"
+      },
+      {
+        "id": "rdsReplica2",
+        "type": "database"
+      },
+      {
+        "id": "redisPrimary",
+        "type": "database"
+      },
+      {
+        "id": "redisReplica1",
+        "type": "database"
+      },
+      {
+        "id": "redisReplica2",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "partnerAPI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "edgeEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "edgeWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "edgeEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "edgeEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "edgeWest",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "edgeEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "pkipki",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaKafka",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaKafka",
+        "target": "eventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaKafka",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaKafka",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "txnIngest",
+        "target": "txnStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "txnStore",
+        "target": "txnCache",
+        "label": "Cache"
+      },
+      {
+        "source": "userService",
+        "target": "userStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "riskEngine",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "riskEngine",
+        "target": "ragGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragGateway",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "riskEngine",
+        "target": "txnStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "riskEngine",
+        "target": "userStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "riskEngine",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "txnIngest",
+        "target": "meshA",
+        "label": "HTTP"
+      },
+      {
+        "source": "userService",
+        "target": "meshB",
+        "label": "HTTP"
+      },
+      {
+        "source": "riskEngine",
+        "target": "meshC",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "meshA",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "policyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "policyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "policyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "policyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "policyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "policyEngine",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "policyEngine",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeEast",
+        "target": "meshA",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeWest",
+        "target": "meshC",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeEU",
+        "target": "meshB",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshA",
+        "target": "txnIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshB",
+        "target": "userService",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshC",
+        "target": "riskEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshA",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaKafka",
+        "target": "txnIngest",
+        "label": "Async"
+      },
+      {
+        "source": "kafkaKafka",
+        "target": "riskEngine",
+        "label": "Async"
+      },
+      {
+        "source": "kafkaKafka",
+        "target": "analyticsSvc",
+        "label": "Async"
+      },
+      {
+        "source": "rabbit",
+        "target": "riskEngine",
+        "label": "Async"
+      },
+      {
+        "source": "eventBridge",
+        "target": "riskEngine",
+        "label": "Async"
+      },
+      {
+        "source": "pubsub",
+        "target": "analyticsSvc",
+        "label": "Async"
+      },
+      {
+        "source": "sqs",
+        "target": "riskEngine",
+        "label": "Async"
+      },
+      {
+        "source": "otel",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "ADMIN_PORTAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "adminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "splunk",
+        "target": "security",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "riskEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "analyticssvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "rdsPrimary",
+        "target": "rdsReplica1",
+        "label": "HTTP"
+      },
+      {
+        "source": "rdsPrimary",
+        "target": "rdsReplica2",
+        "label": "HTTP"
+      },
+      {
+        "source": "redisPrimary",
+        "target": "redisReplica1",
+        "label": "HTTP"
+      },
+      {
+        "source": "redisPrimary",
+        "target": "redisReplica2",
+        "label": "HTTP"
+      },
+      {
+        "source": "txnStore",
+        "target": "rdsPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "txnCache",
+        "target": "redisPrimary",
+        "label": "Cache"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Feature Flags",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 99,
+    "source_edges": 107,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

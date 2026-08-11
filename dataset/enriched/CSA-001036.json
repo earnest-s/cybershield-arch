@@ -1,0 +1,453 @@
+{
+  "id": "CSA-001036",
+  "instruction": "Design a Logistics architecture. using a Modular Monolith style. deployed on Hybrid Cloud. satisfying: GraphRAG Integration, Disaster Recovery, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "orderMod",
+        "type": "service"
+      },
+      {
+        "id": "fleetMod",
+        "type": "service"
+      },
+      {
+        "id": "inventoryMod",
+        "type": "service"
+      },
+      {
+        "id": "analyticsMod",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "drSite",
+        "type": "service"
+      },
+      {
+        "id": "drBackup",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "orderMod",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderMod",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "fleetMod",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventoryMod",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsMod",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsMod",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderMod",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "fleetMod",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "orderMod",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "fleetMod",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "inventoryMod",
+        "label": "Async"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsMod",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "graf",
+        "target": "adminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "orderMod",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "fleetMod",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "inventoryMod",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "analyticsMod",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "drBackup",
+        "target": "drSite",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "SECURITY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 28
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "Modular Monolith",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Disaster Recovery",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 48,
+    "source_edges": 42,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

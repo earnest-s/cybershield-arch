@@ -1,0 +1,338 @@
+{
+  "id": "CSA-001930",
+  "instruction": "Design a MLOps architecture. using a Data Mesh style. deployed on AWS. satisfying: Strict Network Segmentation, Data Lakehouse Pattern, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "ui"
+      },
+      {
+        "id": "Observability",
+        "type": "ui"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "IngestService",
+        "type": "queue"
+      },
+      {
+        "id": "RawLake",
+        "type": "service"
+      },
+      {
+        "id": "FS_Service",
+        "type": "service"
+      },
+      {
+        "id": "FeatureLake",
+        "type": "database"
+      },
+      {
+        "id": "Trainer",
+        "type": "service"
+      },
+      {
+        "id": "ModelReg",
+        "type": "service"
+      },
+      {
+        "id": "ServeAPI",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "DR_S3",
+        "type": "service"
+      },
+      {
+        "id": "DR_Redshift",
+        "type": "service"
+      },
+      {
+        "id": "DR_Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IngestService",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "FS_Service",
+        "target": "FeatureLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Trainer",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Trainer",
+        "target": "FeatureLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Trainer",
+        "target": "ModelReg",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServeAPI",
+        "target": "ModelReg",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServeAPI",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "RawLake",
+        "target": "DR_S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureLake",
+        "target": "DR_Redshift",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "DR_Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "IngestService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "FS_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Trainer",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ServeAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Observability",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Data Mesh",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Data Lakehouse Pattern",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 62,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

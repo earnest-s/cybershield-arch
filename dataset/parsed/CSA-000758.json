@@ -1,0 +1,522 @@
+{
+  "id": "CSA-000758",
+  "instruction": "Design a RAG architecture. using a CQRS style. deployed on Hybrid Cloud. satisfying: AI/ML Inference Integration, Blue/Green Deployment, Rate Limiting, High Throughput (100k+ TPS), Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "third_party",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "rate_limit",
+        "type": "ui"
+      },
+      {
+        "id": "authz",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "blue_green",
+        "type": "service"
+      },
+      {
+        "id": "command_svc",
+        "type": "service"
+      },
+      {
+        "id": "query_svc",
+        "type": "service"
+      },
+      {
+        "id": "kafka_cmd",
+        "type": "queue"
+      },
+      {
+        "id": "event_store",
+        "type": "database"
+      },
+      {
+        "id": "saga",
+        "type": "service"
+      },
+      {
+        "id": "inventory_svc",
+        "type": "service"
+      },
+      {
+        "id": "billing_svc",
+        "type": "service"
+      },
+      {
+        "id": "notif_svc",
+        "type": "service"
+      },
+      {
+        "id": "redis_cache",
+        "type": "cache"
+      },
+      {
+        "id": "kafka_query",
+        "type": "queue"
+      },
+      {
+        "id": "pg_olap",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "database"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "search_api",
+        "type": "service"
+      },
+      {
+        "id": "rag_engine",
+        "type": "service"
+      },
+      {
+        "id": "llm_gateway",
+        "type": "service"
+      },
+      {
+        "id": "ai_resp",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "metrics",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "dashboards",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "canary",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "k8s_cluster",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "all_services",
+        "type": "container"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "ai_model",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "third_party",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "rate_limit",
+        "label": "HTTP"
+      },
+      {
+        "source": "rate_limit",
+        "target": "authz",
+        "label": "HTTP"
+      },
+      {
+        "source": "authz",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "blue_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "blue_green",
+        "target": "command_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "blue_green",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "command_svc",
+        "target": "kafka_cmd",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka_cmd",
+        "target": "event_store",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_store",
+        "target": "saga",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "inventory_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "billing_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "notif_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory_svc",
+        "target": "redis_cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing_svc",
+        "target": "redis_cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "notif_svc",
+        "target": "redis_cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "query_svc",
+        "target": "kafka_query",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka_query",
+        "target": "pg_olap",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_olap",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_olap",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "elastic",
+        "target": "search_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector_db",
+        "target": "rag_engine",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_engine",
+        "target": "llm_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm_gateway",
+        "target": "ai_resp",
+        "label": "HTTP"
+      },
+      {
+        "source": "search_api",
+        "target": "ai_resp",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "metrics",
+        "target": "command_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "metrics",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "graf",
+        "target": "dashboards",
+        "label": "HTTP"
+      },
+      {
+        "source": "dashboards",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "blue_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "canary",
+        "label": "HTTP"
+      },
+      {
+        "source": "canary",
+        "target": "blue_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "k8s_cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_cluster",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "command_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_cluster",
+        "target": "redis_cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_cluster",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_cluster",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "all_services",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "authz",
+        "label": "HTTP"
+      },
+      {
+        "source": "command_svc",
+        "target": "event_store",
+        "label": "HTTP"
+      },
+      {
+        "source": "query_svc",
+        "target": "pg_olap",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_engine",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_engine",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm_gateway",
+        "target": "ai_model",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_model",
+        "target": "llm_gateway",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "RAG",
+    "style": "CQRS",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Blue/Green Deployment",
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 70,
+    "source_edges": 63,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

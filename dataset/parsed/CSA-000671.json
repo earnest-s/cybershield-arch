@@ -1,0 +1,680 @@
+{
+  "id": "CSA-000671",
+  "instruction": "Design a GenAI architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: Active-Active Multi-Region, Strict Network Segmentation, High Throughput (100k+ TPS), Data Lakehouse Pattern, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "raw_storage",
+        "type": "database"
+      },
+      {
+        "id": "delta",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "llm_gate",
+        "type": "service"
+      },
+      {
+        "id": "embed_srv",
+        "type": "service"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "rag_engine",
+        "type": "service"
+      },
+      {
+        "id": "cmd_svc",
+        "type": "service"
+      },
+      {
+        "id": "event_store",
+        "type": "service"
+      },
+      {
+        "id": "query_svc",
+        "type": "service"
+      },
+      {
+        "id": "read_cassandra",
+        "type": "service"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "k8s_aws_e1_blue",
+        "type": "container"
+      },
+      {
+        "id": "k8s_aws_e1_green",
+        "type": "container"
+      },
+      {
+        "id": "k8s_aws_w2_blue",
+        "type": "container"
+      },
+      {
+        "id": "k8s_aws_w2_green",
+        "type": "container"
+      },
+      {
+        "id": "k8s_az_east_blue",
+        "type": "container"
+      },
+      {
+        "id": "k8s_az_east_green",
+        "type": "container"
+      },
+      {
+        "id": "k8s_az_west_blue",
+        "type": "container"
+      },
+      {
+        "id": "k8s_az_west_green",
+        "type": "container"
+      },
+      {
+        "id": "k8s_gcp_uc_blue",
+        "type": "container"
+      },
+      {
+        "id": "k8s_gcp_uc_green",
+        "type": "container"
+      },
+      {
+        "id": "k8s_gcp_ue4_blue",
+        "type": "container"
+      },
+      {
+        "id": "k8s_gcp_ue4_green",
+        "type": "container"
+      },
+      {
+        "id": "event_processor",
+        "type": "service"
+      },
+      {
+        "id": "elasticsearch",
+        "type": "service"
+      },
+      {
+        "id": "data_lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "DMZ",
+        "type": "service"
+      },
+      {
+        "id": "Private",
+        "type": "service"
+      },
+      {
+        "id": "Subnet",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_aws_e1_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_aws_e1_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_aws_w2_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_aws_w2_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_az_east_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_az_east_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_az_west_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_az_west_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_gcp_uc_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_gcp_uc_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_gcp_ue4_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s_gcp_ue4_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_aws_e1_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_aws_e1_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_aws_w2_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_aws_w2_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_az_east_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_az_east_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_az_west_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_az_west_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_gcp_uc_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_gcp_uc_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_gcp_ue4_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_gcp_ue4_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws_e1_blue",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws_e1_green",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws_w2_blue",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws_w2_green",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_az_east_blue",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_az_east_green",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_az_west_blue",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_az_west_green",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_gcp_uc_blue",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_gcp_uc_green",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_gcp_ue4_blue",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_gcp_ue4_green",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "event_store",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_store",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "event_store",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "event_processor",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_processor",
+        "target": "read_cassandra",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_processor",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_processor",
+        "target": "embed_srv",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_processor",
+        "target": "llm_gate",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws_e1_blue",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws_e1_green",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws_w2_blue",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws_w2_green",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_az_east_blue",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_az_east_green",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_az_west_blue",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_az_west_green",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_gcp_uc_blue",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_gcp_uc_green",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_gcp_ue4_blue",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_gcp_ue4_green",
+        "target": "query_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "query_svc",
+        "target": "read_cassandra",
+        "label": "HTTP"
+      },
+      {
+        "source": "query_svc",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "query_svc",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed_srv",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm_gate",
+        "target": "rag_engine",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_engine",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_store",
+        "target": "raw_storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "raw_storage",
+        "target": "delta",
+        "label": "HTTP"
+      },
+      {
+        "source": "delta",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elasticsearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "data_lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "data_lakehouse",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Strict Network Segmentation",
+      "High Throughput (100k+ TPS)",
+      "Data Lakehouse Pattern",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 117,
+    "source_edges": 108,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,448 @@
+{
+  "id": "CSA-000882",
+  "instruction": "Design a RAG architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Strict Network Segmentation, AI/ML Inference Integration, Data Lakehouse Pattern, Blue/Green Deployment, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ModMon",
+        "type": "service"
+      },
+      {
+        "id": "ModInj",
+        "type": "service"
+      },
+      {
+        "id": "ModPre",
+        "type": "service"
+      },
+      {
+        "id": "ModIdx",
+        "type": "service"
+      },
+      {
+        "id": "ModRet",
+        "type": "service"
+      },
+      {
+        "id": "ModGen",
+        "type": "service"
+      },
+      {
+        "id": "ModOrc",
+        "type": "service"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "VecDB",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "AI_Zone",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "ModMon",
+        "target": "ModInj",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMon",
+        "target": "ModPre",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMon",
+        "target": "ModIdx",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMon",
+        "target": "ModRet",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMon",
+        "target": "ModGen",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMon",
+        "target": "ModOrc",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ModInj",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ModPre",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ModIdx",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ModRet",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ModGen",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ModOrc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModInj",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModPre",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModIdx",
+        "target": "VecDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModRet",
+        "target": "VecDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModRet",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModGen",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModGen",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModOrc",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "ModMon",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "AI_Zone",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ModMon",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "K8S",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 22
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "RAG",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Strict Network Segmentation",
+      "AI/ML Inference Integration",
+      "Data Lakehouse Pattern",
+      "Blue/Green Deployment",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 42,
+    "source_edges": 45,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,423 @@
+{
+  "id": "CSA-000804",
+  "instruction": "Design a Logistics architecture. using a Serverless style. deployed on On-Premises. satisfying: Strict Network Segmentation, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "orderSvc",
+        "type": "service"
+      },
+      {
+        "id": "trackingSvc",
+        "type": "service"
+      },
+      {
+        "id": "inventorySvc",
+        "type": "service"
+      },
+      {
+        "id": "routingSvc",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "queue"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "trackingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "routingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "trackingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "routingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSvc",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "trackingSvc",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySvc",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "routingSvc",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSvc",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "trackingSvc",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySvc",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "routingSvc",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSvc",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "trackingSvc",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySvc",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "routingSvc",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "security",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "Serverless",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 52,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

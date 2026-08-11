@@ -1,0 +1,606 @@
+{
+  "id": "CSA-000850",
+  "instruction": "Design a FinTech architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Compliance/Audit Logging, Blue/Green Deployment, Auto Scaling, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "partner",
+        "type": "ui"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "zero_trust",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "k8s_aws",
+        "type": "container"
+      },
+      {
+        "id": "k8s_azure",
+        "type": "container"
+      },
+      {
+        "id": "k8s_gcp",
+        "type": "container"
+      },
+      {
+        "id": "argo",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "payments",
+        "type": "service"
+      },
+      {
+        "id": "accounts",
+        "type": "service"
+      },
+      {
+        "id": "risk",
+        "type": "service"
+      },
+      {
+        "id": "notif",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "ai_orch",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventbridge",
+        "type": "service"
+      },
+      {
+        "id": "dp_payments",
+        "type": "database"
+      },
+      {
+        "id": "dp_accounts",
+        "type": "database"
+      },
+      {
+        "id": "dp_risk",
+        "type": "service"
+      },
+      {
+        "id": "dp_analytics",
+        "type": "service"
+      },
+      {
+        "id": "lake_s3",
+        "type": "database"
+      },
+      {
+        "id": "lake_adls",
+        "type": "database"
+      },
+      {
+        "id": "lake_gcs",
+        "type": "database"
+      },
+      {
+        "id": "delta",
+        "type": "service"
+      },
+      {
+        "id": "iceberg",
+        "type": "service"
+      },
+      {
+        "id": "embed",
+        "type": "service"
+      },
+      {
+        "id": "vector",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "partner",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws",
+        "target": "payments",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_azure",
+        "target": "accounts",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_gcp",
+        "target": "risk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_aws",
+        "target": "notif",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_azure",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s_gcp",
+        "target": "ai_orch",
+        "label": "HTTP"
+      },
+      {
+        "source": "payments",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "accounts",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "risk",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "notif",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_orch",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "dp_payments",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "dp_accounts",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "dp_risk",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "dp_analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "dp_payments",
+        "target": "lake_s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "dp_accounts",
+        "target": "lake_adls",
+        "label": "HTTP"
+      },
+      {
+        "source": "dp_risk",
+        "target": "lake_gcs",
+        "label": "HTTP"
+      },
+      {
+        "source": "dp_analytics",
+        "target": "lake_s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "dp_analytics",
+        "target": "lake_adls",
+        "label": "HTTP"
+      },
+      {
+        "source": "dp_analytics",
+        "target": "lake_gcs",
+        "label": "HTTP"
+      },
+      {
+        "source": "lake_s3",
+        "target": "delta",
+        "label": "HTTP"
+      },
+      {
+        "source": "lake_adls",
+        "target": "delta",
+        "label": "HTTP"
+      },
+      {
+        "source": "lake_gcs",
+        "target": "delta",
+        "label": "HTTP"
+      },
+      {
+        "source": "lake_s3",
+        "target": "iceberg",
+        "label": "HTTP"
+      },
+      {
+        "source": "lake_adls",
+        "target": "iceberg",
+        "label": "HTTP"
+      },
+      {
+        "source": "lake_gcs",
+        "target": "iceberg",
+        "label": "HTTP"
+      },
+      {
+        "source": "delta",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "iceberg",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "ai_orch",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_orch",
+        "target": "risk",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "payments",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "accounts",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "risk",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "notif",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "ai_orch",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "k8s_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "k8s_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "k8s_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "argo",
+        "target": "k8s_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "argo",
+        "target": "k8s_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "argo",
+        "target": "k8s_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "argo",
+        "label": "HTTP"
+      },
+      {
+        "source": "zero_trust",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "payments",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "accounts",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "risk",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "notif",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "ai_orch",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "payments",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "accounts",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "risk",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "notif",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Blue/Green Deployment",
+      "Auto Scaling",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 85,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

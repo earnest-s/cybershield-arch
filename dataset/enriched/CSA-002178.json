@@ -1,0 +1,416 @@
+{
+  "id": "CSA-002178",
+  "instruction": "Design a RAG architecture. using a Serverless style. deployed on AWS. satisfying: Zero Trust Architecture, Data Lakehouse Pattern, AI/ML Inference Integration, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "client_web",
+        "type": "ui"
+      },
+      {
+        "id": "cf",
+        "type": "service"
+      },
+      {
+        "id": "client_mobile",
+        "type": "ui"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "ui"
+      },
+      {
+        "id": "sg",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "lambda_func",
+        "type": "service"
+      },
+      {
+        "id": "step_fns",
+        "type": "service"
+      },
+      {
+        "id": "event_bridge",
+        "type": "service"
+      },
+      {
+        "id": "sagemaker_endpoint",
+        "type": "service"
+      },
+      {
+        "id": "vector_search",
+        "type": "service"
+      },
+      {
+        "id": "raw_zone",
+        "type": "service"
+      },
+      {
+        "id": "curated_zone",
+        "type": "service"
+      },
+      {
+        "id": "metadata_glue",
+        "type": "service"
+      },
+      {
+        "id": "glue_etl",
+        "type": "service"
+      },
+      {
+        "id": "dynamodb",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "sns",
+        "type": "database"
+      },
+      {
+        "id": "cw",
+        "type": "service"
+      },
+      {
+        "id": "xray",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "secrets_manager",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "third_party_api",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "client_web",
+        "target": "cf",
+        "label": "HTTP"
+      },
+      {
+        "source": "client_mobile",
+        "target": "cf",
+        "label": "HTTP"
+      },
+      {
+        "source": "cf",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "sg",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "lambda_func",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_func",
+        "target": "step_fns",
+        "label": "HTTP"
+      },
+      {
+        "source": "step_fns",
+        "target": "event_bridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_func",
+        "target": "sagemaker_endpoint",
+        "label": "HTTP"
+      },
+      {
+        "source": "sagemaker_endpoint",
+        "target": "vector_search",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bridge",
+        "target": "raw_zone",
+        "label": "HTTP"
+      },
+      {
+        "source": "raw_zone",
+        "target": "glue_etl",
+        "label": "HTTP"
+      },
+      {
+        "source": "glue_etl",
+        "target": "curated_zone",
+        "label": "HTTP"
+      },
+      {
+        "source": "curated_zone",
+        "target": "metadata_glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_func",
+        "target": "dynamodb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_func",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "step_fns",
+        "target": "sns",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_func",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "step_fns",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_func",
+        "target": "xray",
+        "label": "HTTP"
+      },
+      {
+        "source": "step_fns",
+        "target": "xray",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda_func",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "step_fns",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "secrets_manager",
+        "target": "lambda_func",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "lambda_func",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "step_fns",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "third_party_api",
+        "target": "iam",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 3,
+      "services": 23
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "RAG",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Data Lakehouse Pattern",
+      "AI/ML Inference Integration",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 41,
+    "source_edges": 35,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

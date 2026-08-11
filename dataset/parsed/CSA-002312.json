@@ -1,0 +1,350 @@
+{
+  "id": "CSA-002312",
+  "instruction": "Design a Agriculture architecture. using a Data Mesh style. deployed on Azure. satisfying: Active-Active Multi-Region, Blue/Green Deployment, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AzureTrafficManager",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AzureAPIM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "AzureWAF",
+        "type": "service"
+      },
+      {
+        "id": "AKSIngress",
+        "type": "service"
+      },
+      {
+        "id": "AKSCluster1",
+        "type": "container"
+      },
+      {
+        "id": "AKSCluster2",
+        "type": "container"
+      },
+      {
+        "id": "DeployBlue",
+        "type": "service"
+      },
+      {
+        "id": "DeployGreen",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "mTLS",
+        "type": "service"
+      },
+      {
+        "id": "ProdPostgres",
+        "type": "database"
+      },
+      {
+        "id": "ProdCache",
+        "type": "cache"
+      },
+      {
+        "id": "SensorTimescale",
+        "type": "database"
+      },
+      {
+        "id": "SensorBlob",
+        "type": "database"
+      },
+      {
+        "id": "AnalyticsLake",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "KafkaTopic1",
+        "type": "queue"
+      },
+      {
+        "id": "KafkaTopic2",
+        "type": "queue"
+      },
+      {
+        "id": "Stream",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "AzurePipelines",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "DataMesh",
+        "type": "service"
+      },
+      {
+        "id": "Messaging",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "AzureTrafficManager",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AzureAPIM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAPIM",
+        "target": "AzureWAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureWAF",
+        "target": "AKSIngress",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKSCluster1",
+        "target": "DeployBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKSCluster1",
+        "target": "DeployGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKSCluster2",
+        "target": "DeployBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKSCluster2",
+        "target": "DeployGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "mTLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProdPostgres",
+        "target": "KafkaTopic1",
+        "label": "HTTP"
+      },
+      {
+        "source": "SensorTimescale",
+        "target": "KafkaTopic2",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaTopic1",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AKSCluster1",
+        "label": "Async"
+      },
+      {
+        "source": "Istio",
+        "target": "AKSCluster2",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "AKSCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "AKSCluster2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKSCluster1",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKSCluster2",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "AzurePipelines",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzurePipelines",
+        "target": "DeployBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzurePipelines",
+        "target": "DeployGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeployBlue",
+        "target": "AKSCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeployGreen",
+        "target": "AKSCluster2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureTrafficManager",
+        "target": "AzureAPIM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAPIM",
+        "target": "AKSIngress",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKSIngress",
+        "target": "AKSCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKSIngress",
+        "target": "AKSCluster2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKSCluster1",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKSCluster2",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "DataMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataMesh",
+        "target": "Messaging",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Agriculture",
+    "style": "Data Mesh",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Blue/Green Deployment",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 43,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

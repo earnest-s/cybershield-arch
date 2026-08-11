@@ -1,0 +1,459 @@
+{
+  "id": "CSA-001013",
+  "instruction": "Design a DevSecOps architecture. using a CQRS style. deployed on Hybrid Cloud. satisfying: Observability Stack, Rate Limiting, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "CLI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IdP",
+        "type": "service"
+      },
+      {
+        "id": "ReadServiceA",
+        "type": "service"
+      },
+      {
+        "id": "QueryCacheA",
+        "type": "cache"
+      },
+      {
+        "id": "SearchIdxA",
+        "type": "service"
+      },
+      {
+        "id": "CommandBusA",
+        "type": "database"
+      },
+      {
+        "id": "WriteSvcA",
+        "type": "service"
+      },
+      {
+        "id": "EventStoreA",
+        "type": "database"
+      },
+      {
+        "id": "PromA",
+        "type": "service"
+      },
+      {
+        "id": "GrafA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL_A",
+        "type": "service"
+      },
+      {
+        "id": "ReadServiceB",
+        "type": "service"
+      },
+      {
+        "id": "QueryCacheB",
+        "type": "cache"
+      },
+      {
+        "id": "SearchIdxB",
+        "type": "service"
+      },
+      {
+        "id": "CommandBusB",
+        "type": "database"
+      },
+      {
+        "id": "WriteSvcB",
+        "type": "service"
+      },
+      {
+        "id": "EventStoreB",
+        "type": "database"
+      },
+      {
+        "id": "PromB",
+        "type": "service"
+      },
+      {
+        "id": "GrafB",
+        "type": "service"
+      },
+      {
+        "id": "OTEL_B",
+        "type": "service"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      },
+      {
+        "id": "KafkaCluster",
+        "type": "queue"
+      },
+      {
+        "id": "PagerDuty",
+        "type": "service"
+      },
+      {
+        "id": "SlackAlert",
+        "type": "service"
+      },
+      {
+        "id": "OpsCollector",
+        "type": "service"
+      },
+      {
+        "id": "MeshCtrlPlane",
+        "type": "service"
+      },
+      {
+        "id": "REGION_A",
+        "type": "service"
+      },
+      {
+        "id": "REGION_B",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IdP",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStoreA",
+        "target": "Replicate",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicate",
+        "target": "EventStoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SearchIdxA",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "SearchIdxB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandBusA",
+        "target": "KafkaCluster",
+        "label": "Async"
+      },
+      {
+        "source": "CommandBusB",
+        "target": "KafkaCluster",
+        "label": "Async"
+      },
+      {
+        "source": "ReadServiceA",
+        "target": "QueryCacheA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadServiceA",
+        "target": "SearchIdxA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadServiceB",
+        "target": "QueryCacheB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadServiceB",
+        "target": "SearchIdxB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WriteSvcA",
+        "target": "CommandBusA",
+        "label": "HTTP"
+      },
+      {
+        "source": "WriteSvcB",
+        "target": "CommandBusB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandBusA",
+        "target": "EventStoreA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandBusB",
+        "target": "EventStoreB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PromA",
+        "target": "OTEL_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL_A",
+        "target": "GrafA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PromB",
+        "target": "OTEL_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL_B",
+        "target": "GrafB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL_A",
+        "target": "OpsCollector",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL_B",
+        "target": "OpsCollector",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpsCollector",
+        "target": "PagerDuty",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpsCollector",
+        "target": "SlackAlert",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadServiceA",
+        "target": "MeshCtrlPlane",
+        "label": "HTTP"
+      },
+      {
+        "source": "WriteSvcA",
+        "target": "MeshCtrlPlane",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadServiceB",
+        "target": "MeshCtrlPlane",
+        "label": "HTTP"
+      },
+      {
+        "source": "WriteSvcB",
+        "target": "MeshCtrlPlane",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "REGION_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "REGION_B",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 4,
+      "services": 28
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "CQRS",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Observability Stack",
+      "Rate Limiting",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 51,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

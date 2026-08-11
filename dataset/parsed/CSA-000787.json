@@ -1,0 +1,459 @@
+{
+  "id": "CSA-000787",
+  "instruction": "Design a HR architecture. using a Data Mesh style. deployed on GCP. satisfying: Rate Limiting, AI/ML Inference Integration, Compliance/Audit Logging, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "GitOps",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "PayrollAPI",
+        "type": "service"
+      },
+      {
+        "id": "PayrollDB",
+        "type": "database"
+      },
+      {
+        "id": "PayrollLake",
+        "type": "database"
+      },
+      {
+        "id": "TAAPI",
+        "type": "ui"
+      },
+      {
+        "id": "TAMongo",
+        "type": "database"
+      },
+      {
+        "id": "TALake",
+        "type": "database"
+      },
+      {
+        "id": "LDAPI",
+        "type": "service"
+      },
+      {
+        "id": "LDRedis",
+        "type": "database"
+      },
+      {
+        "id": "LDLake",
+        "type": "database"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "EmbedModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "PayrollAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "TAAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "LDAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollAPI",
+        "target": "PayrollDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollAPI",
+        "target": "PayrollLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "TAAPI",
+        "target": "TAMongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "TAAPI",
+        "target": "TALake",
+        "label": "HTTP"
+      },
+      {
+        "source": "LDAPI",
+        "target": "LDRedis",
+        "label": "HTTP"
+      },
+      {
+        "source": "LDAPI",
+        "target": "LDLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollAPI",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "TAAPI",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "LDAPI",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "EmbedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbedModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitOps",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "PayrollAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "TAAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "LDAPI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Data Mesh",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Rate Limiting",
+      "AI/ML Inference Integration",
+      "Compliance/Audit Logging",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 56,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

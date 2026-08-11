@@ -1,0 +1,649 @@
+{
+  "id": "CSA-001512",
+  "instruction": "Design a Blockchain architecture. using a Hexagonal style. deployed on Azure. satisfying: Strict Network Segmentation, Blue/Green Deployment, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "thirdParty",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "coreService",
+        "type": "service"
+      },
+      {
+        "id": "portsIn",
+        "type": "service"
+      },
+      {
+        "id": "portsOut",
+        "type": "service"
+      },
+      {
+        "id": "ledgerSvc",
+        "type": "service"
+      },
+      {
+        "id": "blockchainGateway",
+        "type": "service"
+      },
+      {
+        "id": "txnProcessor",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "queue"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "aiOrch",
+        "type": "service"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "llmModel",
+        "type": "service"
+      },
+      {
+        "id": "ledgerSaga",
+        "type": "service"
+      },
+      {
+        "id": "txnComp",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redisCache",
+        "type": "cache"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "ledgerEvents",
+        "type": "service"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "asyncTasks",
+        "type": "queue"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elasticStack",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "k8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "k8sCanary",
+        "type": "container"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "bluegreen",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "drRegion",
+        "type": "service"
+      },
+      {
+        "id": "primaryRegion",
+        "type": "service"
+      },
+      {
+        "id": "drSync",
+        "type": "service"
+      },
+      {
+        "id": "drFailover",
+        "type": "service"
+      },
+      {
+        "id": "securityLayer",
+        "type": "service"
+      },
+      {
+        "id": "externalAPIs",
+        "type": "service"
+      },
+      {
+        "id": "microservicesGroup",
+        "type": "service"
+      },
+      {
+        "id": "dataLayerGroup",
+        "type": "service"
+      },
+      {
+        "id": "edgeNetworkGroup",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdParty",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "portsIn",
+        "target": "coreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "portsOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "ledgerSvc",
+        "target": "blockchainGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "txnProcessor",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiOrch",
+        "target": "embeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "llmModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "ledgerSaga",
+        "label": "Async"
+      },
+      {
+        "source": "ledgerSaga",
+        "target": "txnComp",
+        "label": "HTTP"
+      },
+      {
+        "source": "ledgerSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "txnProcessor",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "redisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "aiOrch",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "ledgerEvents",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "asyncTasks",
+        "label": "Async"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elasticStack",
+        "label": "HTTP"
+      },
+      {
+        "source": "splunk",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "k8sCanary",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8sCanary",
+        "label": "HTTP"
+      },
+      {
+        "source": "drSync",
+        "target": "primaryRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "drFailover",
+        "target": "drRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "securityLayer",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityLayer",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityLayer",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "portsIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "portsOut",
+        "target": "externalAPIs",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "microservicesGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "microservicesGroup",
+        "target": "dataLayerGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "coreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCanary",
+        "target": "coreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "edgeNetworkGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCanary",
+        "target": "edgeNetworkGroup",
+        "label": "HTTP"
+      },
+      {
+        "source": "drRegion",
+        "target": "primaryRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "drRegion",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 46
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Blockchain",
+    "style": "Hexagonal",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Blue/Green Deployment",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 85,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

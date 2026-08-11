@@ -1,0 +1,394 @@
+{
+  "id": "CSA-002010",
+  "instruction": "Design a DevSecOps architecture. using a Data Mesh style. deployed on AWS. satisfying: Blue/Green Deployment, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "LoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "Edge",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "SAST",
+        "type": "service"
+      },
+      {
+        "id": "DAST",
+        "type": "service"
+      },
+      {
+        "id": "SBOM",
+        "type": "service"
+      },
+      {
+        "id": "SecretsScan",
+        "type": "service"
+      },
+      {
+        "id": "ContainerRegistry",
+        "type": "container"
+      },
+      {
+        "id": "MeshControlPlane",
+        "type": "service"
+      },
+      {
+        "id": "MeshDataProducts",
+        "type": "service"
+      },
+      {
+        "id": "MeshGovernance",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "OrderService",
+        "type": "service"
+      },
+      {
+        "id": "InventoryService",
+        "type": "service"
+      },
+      {
+        "id": "PaymentService",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "Redshift",
+        "type": "service"
+      },
+      {
+        "id": "ElasticSearch",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region",
+        "type": "service"
+      },
+      {
+        "id": "DR_LoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "DR_MeshControlPlane",
+        "type": "service"
+      },
+      {
+        "id": "DR_DataProducts",
+        "type": "service"
+      },
+      {
+        "id": "DR_Databases",
+        "type": "database"
+      },
+      {
+        "id": "Blue",
+        "type": "service"
+      },
+      {
+        "id": "Green",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "Firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "LoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "LoadBalancer",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "LoadBalancer",
+        "target": "OrderService",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 7,
+      "services": 42
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "Data Mesh",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 67,
+    "source_edges": 14,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

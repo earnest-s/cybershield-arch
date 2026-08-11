@@ -1,0 +1,440 @@
+{
+  "id": "CSA-002296",
+  "instruction": "Design a Government architecture. using a Hexagonal style. deployed on Hybrid Cloud. satisfying: Rate Limiting, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "AdapterIn1",
+        "type": "service"
+      },
+      {
+        "id": "AdapterIn2",
+        "type": "service"
+      },
+      {
+        "id": "PortIn",
+        "type": "service"
+      },
+      {
+        "id": "DomainService",
+        "type": "service"
+      },
+      {
+        "id": "PortOut",
+        "type": "service"
+      },
+      {
+        "id": "AdapterOut1",
+        "type": "queue"
+      },
+      {
+        "id": "AdapterOut2",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "GitHubActions",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "AzureGov",
+        "type": "service"
+      },
+      {
+        "id": "OnPrem",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "ExternalSystem",
+        "type": "database"
+      },
+      {
+        "id": "ORM",
+        "type": "database"
+      },
+      {
+        "id": "Deploy",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "AdapterIn1",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "AdapterIn2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterIn1",
+        "target": "PortIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterIn2",
+        "target": "PortIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortIn",
+        "target": "DomainService",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainService",
+        "target": "PortOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortOut",
+        "target": "AdapterOut1",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortOut",
+        "target": "AdapterOut2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterOut1",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterOut2",
+        "target": "ExternalSystem",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainService",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainService",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "AdapterOut1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "ORM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORM",
+        "target": "DomainService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "DomainService",
+        "label": "Cache"
+      },
+      {
+        "source": "Elastic",
+        "target": "DomainService",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainService",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "DomainService",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "Deploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureGov",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "OnPrem",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "ISO",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "AdapterIn1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "AdapterIn2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Hexagonal",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Feature Flags"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 66,
+    "source_edges": 49,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

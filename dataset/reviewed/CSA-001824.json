@@ -1,0 +1,825 @@
+{
+  "id": "CSA-001824",
+  "instruction": "Design a GenAI architecture. using a CQRS style. deployed on On-Premises. satisfying: Disaster Recovery, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "CmdService1",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "CmdService2",
+        "type": "service"
+      },
+      {
+        "id": "CmdService3",
+        "type": "service"
+      },
+      {
+        "id": "CmdService4",
+        "type": "service"
+      },
+      {
+        "id": "QueryService1",
+        "type": "service"
+      },
+      {
+        "id": "QueryCache",
+        "type": "cache"
+      },
+      {
+        "id": "QueryService2",
+        "type": "service"
+      },
+      {
+        "id": "QueryService3",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "database"
+      },
+      {
+        "id": "QueryService4",
+        "type": "service"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "CMDProjection",
+        "type": "service"
+      },
+      {
+        "id": "LLMGateway",
+        "type": "service"
+      },
+      {
+        "id": "EmbModel",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "AgentOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "PgReplica1",
+        "type": "database"
+      },
+      {
+        "id": "PgReplica2",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "RedisReplica1",
+        "type": "database"
+      },
+      {
+        "id": "RedisReplica2",
+        "type": "database"
+      },
+      {
+        "id": "ESNode1",
+        "type": "database"
+      },
+      {
+        "id": "ESNode2",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "VecNode1",
+        "type": "database"
+      },
+      {
+        "id": "VecNode2",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "RabbitMQ",
+        "type": "queue"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "APP",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "DC1",
+        "type": "service"
+      },
+      {
+        "id": "DC2",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "DRStrategy",
+        "type": "service"
+      },
+      {
+        "id": "RPO_RTO",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService1",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService2",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService3",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService4",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService1",
+        "target": "QueryCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService2",
+        "target": "QueryCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService3",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService4",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "CMDProjection",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMDProjection",
+        "target": "QueryCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMDProjection",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMDProjection",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "EmbModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "AgentOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbModel",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrchestrator",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "PostgreSQL",
+        "target": "PgReplica1",
+        "label": "HTTP"
+      },
+      {
+        "source": "PostgreSQL",
+        "target": "PgReplica2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "RedisReplica1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "RedisReplica2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "ESNode1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "ESNode2",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "VecNode1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "VecNode2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "RabbitMQ",
+        "target": "AgentOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "DC1",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "DC2",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "DC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "DC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRStrategy",
+        "target": "DC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRStrategy",
+        "target": "DC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "RPO_RTO",
+        "target": "DRStrategy",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CmdService1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CmdService2",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CmdService3",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CmdService4",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QueryService1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QueryService2",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QueryService3",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QueryService4",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "CI_CD",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 14,
+      "services": 41
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 94,
+    "source_edges": 106,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

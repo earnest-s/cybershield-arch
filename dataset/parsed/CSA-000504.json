@@ -1,0 +1,652 @@
+{
+  "id": "CSA-000504",
+  "instruction": "Design a Telecom architecture. using a Hexagonal style. deployed on AWS. satisfying: Disaster Recovery, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "EdgeVPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "REST_Adapter",
+        "type": "service"
+      },
+      {
+        "id": "GRPC_Adapter",
+        "type": "service"
+      },
+      {
+        "id": "GraphQL_Adapter",
+        "type": "service"
+      },
+      {
+        "id": "Event_Adapter",
+        "type": "service"
+      },
+      {
+        "id": "BillingPort",
+        "type": "service"
+      },
+      {
+        "id": "ProvisioningPort",
+        "type": "service"
+      },
+      {
+        "id": "CustomerPort",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsPort",
+        "type": "service"
+      },
+      {
+        "id": "AIOrchestratorPort",
+        "type": "service"
+      },
+      {
+        "id": "BillingService",
+        "type": "service"
+      },
+      {
+        "id": "ProvisioningService",
+        "type": "service"
+      },
+      {
+        "id": "CustomerService",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsService",
+        "type": "service"
+      },
+      {
+        "id": "AIOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "BillingRepo",
+        "type": "service"
+      },
+      {
+        "id": "ProvisionRepo",
+        "type": "service"
+      },
+      {
+        "id": "CustomerRepo",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsRepo",
+        "type": "service"
+      },
+      {
+        "id": "AIAgent",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "S3Lake",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "EKS",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "DRRegion",
+        "type": "service"
+      },
+      {
+        "id": "BackupS3",
+        "type": "service"
+      },
+      {
+        "id": "ReplicatedDB",
+        "type": "database"
+      },
+      {
+        "id": "DRFailover",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "EdgeVPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeVPN",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "REST_Adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "GRPC_Adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "GraphQL_Adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Event_Adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST_Adapter",
+        "target": "BillingPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPC_Adapter",
+        "target": "ProvisioningPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQL_Adapter",
+        "target": "CustomerPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "Event_Adapter",
+        "target": "AnalyticsPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "Event_Adapter",
+        "target": "AIOrchestratorPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingPort",
+        "target": "BillingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProvisioningPort",
+        "target": "ProvisioningService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CustomerPort",
+        "target": "CustomerService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsPort",
+        "target": "AnalyticsService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrchestratorPort",
+        "target": "AIOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingService",
+        "target": "BillingRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProvisioningService",
+        "target": "ProvisionRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "CustomerService",
+        "target": "CustomerRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsService",
+        "target": "AnalyticsRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "AIAgent",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingRepo",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProvisionRepo",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CustomerRepo",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsRepo",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsRepo",
+        "target": "S3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIAgent",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProvisioningService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "CustomerService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "Event_Adapter",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIAgent",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIAgent",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIAgent",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingService",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProvisioningService",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CustomerService",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsService",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "ReplicatedDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DynamoDB",
+        "target": "ReplicatedDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3Lake",
+        "target": "BackupS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "DRFailover",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRFailover",
+        "target": "DRRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRRegion",
+        "target": "EKS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Disaster Recovery",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 94,
+    "source_edges": 87,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

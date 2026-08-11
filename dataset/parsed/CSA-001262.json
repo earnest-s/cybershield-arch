@@ -1,0 +1,419 @@
+{
+  "id": "CSA-001262",
+  "instruction": "Design a Energy architecture. using a Serverless style. deployed on GCP. satisfying: Compliance/Audit Logging, Active-Active Multi-Region, Feature Flags, GraphRAG Integration, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "Region1",
+        "type": "service"
+      },
+      {
+        "id": "Region2",
+        "type": "service"
+      },
+      {
+        "id": "FF1",
+        "type": "service"
+      },
+      {
+        "id": "Functions1",
+        "type": "service"
+      },
+      {
+        "id": "EventBus1",
+        "type": "service"
+      },
+      {
+        "id": "GraphQL1",
+        "type": "service"
+      },
+      {
+        "id": "RAG1",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB1",
+        "type": "database"
+      },
+      {
+        "id": "Elastic1",
+        "type": "service"
+      },
+      {
+        "id": "PubSub1",
+        "type": "service"
+      },
+      {
+        "id": "FF2",
+        "type": "service"
+      },
+      {
+        "id": "Functions2",
+        "type": "service"
+      },
+      {
+        "id": "EventBus2",
+        "type": "service"
+      },
+      {
+        "id": "GraphQL2",
+        "type": "service"
+      },
+      {
+        "id": "RAG2",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB2",
+        "type": "database"
+      },
+      {
+        "id": "Elastic2",
+        "type": "service"
+      },
+      {
+        "id": "PubSub2",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "ui"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "GridAPI",
+        "type": "service"
+      },
+      {
+        "id": "WeatherAPI",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Region1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Region2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF1",
+        "target": "Functions1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions1",
+        "target": "EventBus1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions1",
+        "target": "GraphQL1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQL1",
+        "target": "RAG1",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG1",
+        "target": "VectorDB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG1",
+        "target": "Elastic1",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus1",
+        "target": "PubSub1",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub1",
+        "target": "Functions1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF2",
+        "target": "Functions2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions2",
+        "target": "EventBus2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions2",
+        "target": "GraphQL2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQL2",
+        "target": "RAG2",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG2",
+        "target": "VectorDB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG2",
+        "target": "Elastic2",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus2",
+        "target": "PubSub2",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub2",
+        "target": "Functions2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions1",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions2",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions1",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions2",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions1",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions2",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Region1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Region2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions1",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions2",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CICD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "Functions1",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "Functions2",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "GridAPI",
+        "target": "Functions1",
+        "label": "HTTP"
+      },
+      {
+        "source": "WeatherAPI",
+        "target": "Functions2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Active-Active Multi-Region",
+      "Feature Flags",
+      "GraphRAG Integration",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 61,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

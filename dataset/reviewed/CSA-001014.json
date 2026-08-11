@@ -1,0 +1,633 @@
+{
+  "id": "CSA-001014",
+  "instruction": "Design a Smart City architecture. using a Hexagonal style. deployed on Hybrid Cloud. satisfying: Disaster Recovery, Observability Stack, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "CoreService",
+        "type": "service"
+      },
+      {
+        "id": "DomainModel",
+        "type": "service"
+      },
+      {
+        "id": "RestAPI",
+        "type": "service"
+      },
+      {
+        "id": "GraphQLPort",
+        "type": "service"
+      },
+      {
+        "id": "MQTTPort",
+        "type": "service"
+      },
+      {
+        "id": "EventOut",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "database"
+      },
+      {
+        "id": "WebUI",
+        "type": "database"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "database"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "database"
+      },
+      {
+        "id": "IoTGateway",
+        "type": "database"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLB",
+        "type": "service"
+      },
+      {
+        "id": "Region1LB",
+        "type": "service"
+      },
+      {
+        "id": "Region2LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "API",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MTLS",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "TSDB",
+        "type": "database"
+      },
+      {
+        "id": "GeoDB",
+        "type": "database"
+      },
+      {
+        "id": "RelationalDB",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "Lake",
+        "type": "service"
+      },
+      {
+        "id": "Vector",
+        "type": "service"
+      },
+      {
+        "id": "TSDB_R2",
+        "type": "database"
+      },
+      {
+        "id": "GeoDB_R2",
+        "type": "database"
+      },
+      {
+        "id": "RelDB_R2",
+        "type": "database"
+      },
+      {
+        "id": "Cache_R2",
+        "type": "cache"
+      },
+      {
+        "id": "Lake_DR",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Jaeger",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "AI",
+        "type": "service"
+      },
+      {
+        "id": "K8s_AWS",
+        "type": "service"
+      },
+      {
+        "id": "K8s_Azure",
+        "type": "service"
+      },
+      {
+        "id": "GitCI",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "DR_LB",
+        "type": "service"
+      },
+      {
+        "id": "DR_Store",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CoreService",
+        "target": "DomainModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "RestAPI",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQLPort",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "MQTTPort",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "EventOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "RestAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "RestAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "GraphQLPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "RestAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "IoTGateway",
+        "target": "MQTTPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GlobalLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLB",
+        "target": "Region1LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Region1LB",
+        "target": "API",
+        "label": "HTTP"
+      },
+      {
+        "source": "Region2LB",
+        "target": "API",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "RestAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "GraphQLPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "MQTTPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MTLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MTLS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "TSDB",
+        "target": "TSDB_R2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoDB",
+        "target": "GeoDB_R2",
+        "label": "HTTP"
+      },
+      {
+        "source": "RelationalDB",
+        "target": "RelDB_R2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "Cache_R2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lake",
+        "target": "Lake_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "EventOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventOut",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "EventOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Jaeger",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_AWS",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_Azure",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitCI",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "K8s_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "K8s_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_LB",
+        "target": "Region1LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Store",
+        "target": "Lake_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "TSDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "GeoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "RelationalDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "CoreService",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Vault",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 11,
+      "services": 40
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "Hexagonal",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Disaster Recovery",
+      "Observability Stack",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 84,
+    "source_edges": 58,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

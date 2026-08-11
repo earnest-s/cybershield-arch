@@ -1,0 +1,614 @@
+{
+  "id": "CSA-001651",
+  "instruction": "Design a OTT architecture. using a Zero-Trust style. deployed on GCP. satisfying: Active-Active Multi-Region, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "iOSApp",
+        "type": "service"
+      },
+      {
+        "id": "AndroidApp",
+        "type": "service"
+      },
+      {
+        "id": "TVApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLB",
+        "type": "service"
+      },
+      {
+        "id": "APIgw",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "Anthos",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "ui"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "ContainerRegistry",
+        "type": "container"
+      },
+      {
+        "id": "AuthSrv",
+        "type": "service"
+      },
+      {
+        "id": "UserSrv",
+        "type": "service"
+      },
+      {
+        "id": "CatalogSrv",
+        "type": "service"
+      },
+      {
+        "id": "PlaybackSrv",
+        "type": "service"
+      },
+      {
+        "id": "BillingSrv",
+        "type": "service"
+      },
+      {
+        "id": "NotificationSrv",
+        "type": "service"
+      },
+      {
+        "id": "RecommendationSrv",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Spanner",
+        "type": "service"
+      },
+      {
+        "id": "Firestore",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Logging",
+        "type": "service"
+      },
+      {
+        "id": "Tracing",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "StripeGateway",
+        "type": "database"
+      },
+      {
+        "id": "StripePayment",
+        "type": "service"
+      },
+      {
+        "id": "Payment",
+        "type": "service"
+      },
+      {
+        "id": "MultiRegion",
+        "type": "container"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "iOSApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AndroidApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "TVApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "GlobalLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLB",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "ZeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "AuthSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthSrv",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthSrv",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthSrv",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "UserSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CatalogSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "PlaybackSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "BillingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "NotificationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "RecommendationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserSrv",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserSrv",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogSrv",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogSrv",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "PlaybackSrv",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "PlaybackSrv",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSrv",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSrv",
+        "target": "StripeGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSrv",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecommendationSrv",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecommendationSrv",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "PlaybackSrv",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthSrv",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSrv",
+        "target": "Payment",
+        "label": "HTTP"
+      },
+      {
+        "source": "StripePayment",
+        "target": "BillingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Tracing",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContainerRegistry",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "ZeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Spanner",
+        "target": "MultiRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "BigQuery",
+        "target": "MultiRegion",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 39
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "OTT",
+    "style": "Zero-Trust",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 80,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

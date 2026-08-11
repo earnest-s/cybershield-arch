@@ -1,0 +1,469 @@
+{
+  "id": "CSA-001212",
+  "instruction": "Design a Agriculture architecture. using a Hexagonal style. deployed on Hybrid Cloud. satisfying: Blue/Green Deployment, Auto Scaling, Strict Network Segmentation, GraphRAG Integration, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "FIREWALL",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "BG",
+        "type": "service"
+      },
+      {
+        "id": "AS",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_IN",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_OUT",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "GRAGR",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "ADAPTER_IN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "GRAGR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ADAPTER_IN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "DOMAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "ADAPTER_OUT",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "BG",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "DOMAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AS",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AS",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AS",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 29
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Agriculture",
+    "style": "Hexagonal",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Auto Scaling",
+      "Strict Network Segmentation",
+      "GraphRAG Integration",
+      "Feature Flags"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 44,
+    "source_edges": 36,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

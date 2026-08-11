@@ -1,0 +1,709 @@
+{
+  "id": "CSA-000772",
+  "instruction": "Design a E-Commerce architecture. using a Serverless style. deployed on Azure. satisfying: Feature Flags, Disaster Recovery, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "DDoS",
+        "type": "service"
+      },
+      {
+        "id": "LB_A",
+        "type": "service"
+      },
+      {
+        "id": "APIGW_A",
+        "type": "service"
+      },
+      {
+        "id": "VNET_A",
+        "type": "service"
+      },
+      {
+        "id": "IAM_A",
+        "type": "service"
+      },
+      {
+        "id": "OIDC_A",
+        "type": "service"
+      },
+      {
+        "id": "MFA_A",
+        "type": "service"
+      },
+      {
+        "id": "KV_A",
+        "type": "service"
+      },
+      {
+        "id": "SECRETS_A",
+        "type": "service"
+      },
+      {
+        "id": "FUNC_ORDER",
+        "type": "service"
+      },
+      {
+        "id": "FUNC_INVENTORY",
+        "type": "service"
+      },
+      {
+        "id": "FUNC_PAYMENT",
+        "type": "service"
+      },
+      {
+        "id": "FUNC_NOTIF",
+        "type": "service"
+      },
+      {
+        "id": "FEATURE_FLAG_A",
+        "type": "service"
+      },
+      {
+        "id": "COSMOS",
+        "type": "database"
+      },
+      {
+        "id": "REDIS_A",
+        "type": "cache"
+      },
+      {
+        "id": "SEARCH_A",
+        "type": "service"
+      },
+      {
+        "id": "BLOB_A",
+        "type": "database"
+      },
+      {
+        "id": "EVENTHUB_A",
+        "type": "service"
+      },
+      {
+        "id": "PROM_A",
+        "type": "service"
+      },
+      {
+        "id": "LOG_A",
+        "type": "service"
+      },
+      {
+        "id": "AKS_A",
+        "type": "container"
+      },
+      {
+        "id": "IAC_A",
+        "type": "service"
+      },
+      {
+        "id": "PIPELINE_A",
+        "type": "service"
+      },
+      {
+        "id": "LB_B",
+        "type": "service"
+      },
+      {
+        "id": "APIGW_B",
+        "type": "service"
+      },
+      {
+        "id": "VNET_B",
+        "type": "service"
+      },
+      {
+        "id": "IAM_B",
+        "type": "service"
+      },
+      {
+        "id": "OIDC_B",
+        "type": "service"
+      },
+      {
+        "id": "MFA_B",
+        "type": "service"
+      },
+      {
+        "id": "KV_B",
+        "type": "service"
+      },
+      {
+        "id": "SECRETS_B",
+        "type": "service"
+      },
+      {
+        "id": "FUNC_ORDER_B",
+        "type": "service"
+      },
+      {
+        "id": "FUNC_INVENTORY_B",
+        "type": "service"
+      },
+      {
+        "id": "FUNC_PAYMENT_B",
+        "type": "service"
+      },
+      {
+        "id": "FUNC_NOTIF_B",
+        "type": "service"
+      },
+      {
+        "id": "FEATURE_FLAG_B",
+        "type": "service"
+      },
+      {
+        "id": "COSMOS_B",
+        "type": "database"
+      },
+      {
+        "id": "REDIS_B",
+        "type": "cache"
+      },
+      {
+        "id": "SEARCH_B",
+        "type": "service"
+      },
+      {
+        "id": "BLOB_B",
+        "type": "database"
+      },
+      {
+        "id": "EVENTHUB_B",
+        "type": "service"
+      },
+      {
+        "id": "PROM_B",
+        "type": "service"
+      },
+      {
+        "id": "LOG_B",
+        "type": "service"
+      },
+      {
+        "id": "AKS_B",
+        "type": "container"
+      },
+      {
+        "id": "IAC_B",
+        "type": "service"
+      },
+      {
+        "id": "PIPELINE_B",
+        "type": "service"
+      },
+      {
+        "id": "DNS",
+        "type": "service"
+      },
+      {
+        "id": "REPLICATOR",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "BACKUP",
+        "type": "service"
+      },
+      {
+        "id": "FUNC_",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONSUMERS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "DNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DNS",
+        "target": "LB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "DNS",
+        "target": "LB_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_A",
+        "target": "APIGW_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_A",
+        "target": "FUNC_ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_A",
+        "target": "FUNC_INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_A",
+        "target": "FUNC_PAYMENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_A",
+        "target": "FUNC_NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_A",
+        "target": "FEATURE_FLAG_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_ORDER",
+        "target": "EVENTHUB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_INVENTORY",
+        "target": "EVENTHUB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_PAYMENT",
+        "target": "EVENTHUB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_NOTIF",
+        "target": "EVENTHUB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB_A",
+        "target": "COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB_A",
+        "target": "REDIS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB_A",
+        "target": "SEARCH_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "COSMOS",
+        "target": "BLOB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE_FLAG_A",
+        "target": "COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE_FLAG_A",
+        "target": "REDIS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_ORDER",
+        "target": "PROM_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_INVENTORY",
+        "target": "PROM_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_PAYMENT",
+        "target": "PROM_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_NOTIF",
+        "target": "PROM_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB_A",
+        "target": "PROM_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "COSMOS",
+        "target": "LOG_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS_A",
+        "target": "LOG_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM_A",
+        "target": "APIGW_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC_A",
+        "target": "APIGW_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA_A",
+        "target": "APIGW_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "KV_A",
+        "target": "FUNC_",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECRETS_A",
+        "target": "FUNC_",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPELINE_A",
+        "target": "IAC_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAC_A",
+        "target": "VNET_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAC_A",
+        "target": "AKS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAC_A",
+        "target": "FUNC_",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPELINE_A",
+        "target": "REPLICATOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_B",
+        "target": "APIGW_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_B",
+        "target": "FUNC_ORDER_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_B",
+        "target": "FUNC_INVENTORY_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_B",
+        "target": "FUNC_PAYMENT_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_B",
+        "target": "FUNC_NOTIF_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_B",
+        "target": "FEATURE_FLAG_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_ORDER_B",
+        "target": "EVENTHUB_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_INVENTORY_B",
+        "target": "EVENTHUB_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_PAYMENT_B",
+        "target": "EVENTHUB_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC_NOTIF_B",
+        "target": "EVENTHUB_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB_B",
+        "target": "COSMOS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB_B",
+        "target": "REDIS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB_B",
+        "target": "SEARCH_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "COSMOS_B",
+        "target": "BLOB_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE_FLAG_B",
+        "target": "COSMOS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE_FLAG_B",
+        "target": "REDIS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPLICATOR",
+        "target": "COSMOS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPLICATOR",
+        "target": "COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPLICATOR",
+        "target": "REDIS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPLICATOR",
+        "target": "REDIS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPLICATOR",
+        "target": "SEARCH_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPLICATOR",
+        "target": "SEARCH_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "DNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "BACKUP",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "LOG_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "LOG_B",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 5,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 6,
+      "services": 48
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Feature Flags",
+      "Disaster Recovery",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 103,
+    "source_edges": 80,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

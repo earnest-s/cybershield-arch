@@ -1,0 +1,654 @@
+{
+  "id": "CSA-002277",
+  "instruction": "Design a DevSecOps architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: Feature Flags, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB_UI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE_APP",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN_PORTAL",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "EDGE",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "FED",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "DR_LB",
+        "type": "service"
+      },
+      {
+        "id": "DR_APIGW",
+        "type": "service"
+      },
+      {
+        "id": "DR_K8S",
+        "type": "container"
+      },
+      {
+        "id": "DR_SERVICES",
+        "type": "service"
+      },
+      {
+        "id": "DR_DB",
+        "type": "database"
+      },
+      {
+        "id": "DR_ES",
+        "type": "database"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "SERVICES",
+        "type": "service"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "MONITOR",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "FEATURE",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT_BRIDGE",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN_A",
+        "type": "database"
+      },
+      {
+        "id": "DOMAIN_B",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN_C",
+        "type": "database"
+      },
+      {
+        "id": "DOMAIN_D",
+        "type": "service"
+      },
+      {
+        "id": "GRAPHQL",
+        "type": "service"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AGENT_ORCH",
+        "type": "service"
+      },
+      {
+        "id": "AI_GATEWAY",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "AZURE",
+        "type": "service"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      },
+      {
+        "id": "EXTERNAL_LLMS",
+        "type": "service"
+      },
+      {
+        "id": "Internet",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB_UI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE_APP",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN_PORTAL",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WEB_UI",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "EDGE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FED",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLY",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_LB",
+        "target": "DR_APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_K8S",
+        "target": "DR_SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_LB",
+        "target": "DR_K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_APIGW",
+        "target": "DR_SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SERVICES",
+        "target": "DR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SERVICES",
+        "target": "DR_ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONITOR",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BRIDGE",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN_A",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN_B",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN_C",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN_D",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN_A",
+        "target": "GRAPHQL",
+        "label": "DB Query"
+      },
+      {
+        "source": "DOMAIN_B",
+        "target": "GRAPHQL",
+        "label": "DB Query"
+      },
+      {
+        "source": "DOMAIN_C",
+        "target": "GRAPHQL",
+        "label": "DB Query"
+      },
+      {
+        "source": "DOMAIN_D",
+        "target": "GRAPHQL",
+        "label": "DB Query"
+      },
+      {
+        "source": "EMBED",
+        "target": "VECTOR_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VECTOR_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_ORCH",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_GATEWAY",
+        "target": "AGENT_ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "SERVICES",
+        "label": "Cache"
+      },
+      {
+        "source": "ES",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC_DB",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZURE",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "GRAPHQL",
+        "label": "DB Query"
+      },
+      {
+        "source": "GRAPHQL",
+        "target": "SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "SERVICES",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "SERVICES",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICES",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_GATEWAY",
+        "target": "EXTERNAL_LLMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "DR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "DR_ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "DR_K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "EXTERNAL_LLMS",
+        "target": "Internet",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 7,
+      "services": 40
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 72,
+    "source_edges": 70,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

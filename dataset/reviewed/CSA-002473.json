@@ -1,0 +1,463 @@
+{
+  "id": "CSA-002473",
+  "instruction": "Design a Energy architecture. using a Microservices style. deployed on Azure. satisfying: Compliance/Audit Logging, Feature Flags, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "idp",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "feature",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "billing",
+        "type": "service"
+      },
+      {
+        "id": "metering",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "alerts",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "db",
+        "type": "database"
+      },
+      {
+        "id": "audit",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "blob",
+        "type": "database"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "grid",
+        "type": "service"
+      },
+      {
+        "id": "thirdParty",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "idp",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "feature",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ci",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "metering",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "analytics",
+        "target": "db",
+        "label": "DB Query"
+      },
+      {
+        "source": "alerts",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "compliance",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "db",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "db",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "analytics",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "metering",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "alerts",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "feature",
+        "target": "billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "feature",
+        "target": "metering",
+        "label": "HTTP"
+      },
+      {
+        "source": "feature",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "feature",
+        "target": "alerts",
+        "label": "HTTP"
+      },
+      {
+        "source": "grid",
+        "target": "metering",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "thirdParty",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 5,
+      "services": 23
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "Microservices",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Feature Flags",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 52,
+    "source_edges": 49,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

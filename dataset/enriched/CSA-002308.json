@@ -1,0 +1,718 @@
+{
+  "id": "CSA-002308",
+  "instruction": "Design a Insurance architecture. using a Serverless style. deployed on Hybrid Cloud. satisfying: High Throughput (100k+ TPS), Data Lakehouse Pattern, AI/ML Inference Integration, Observability Stack, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "PrivateVPC",
+        "type": "service"
+      },
+      {
+        "id": "LoadBal",
+        "type": "database"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Functions",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "DataLake",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "AuthLambda",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "FunctionRouter",
+        "type": "service"
+      },
+      {
+        "id": "QuoteSvc",
+        "type": "service"
+      },
+      {
+        "id": "PolicySvc",
+        "type": "service"
+      },
+      {
+        "id": "ClaimSvc",
+        "type": "service"
+      },
+      {
+        "id": "BillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "AIInference",
+        "type": "service"
+      },
+      {
+        "id": "QuoteDB",
+        "type": "database"
+      },
+      {
+        "id": "PolicyDB",
+        "type": "database"
+      },
+      {
+        "id": "ClaimDB",
+        "type": "database"
+      },
+      {
+        "id": "BillingDB",
+        "type": "database"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "RawZone",
+        "type": "service"
+      },
+      {
+        "id": "ETLJobs",
+        "type": "service"
+      },
+      {
+        "id": "CuratedZone",
+        "type": "service"
+      },
+      {
+        "id": "BI_Tools",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "DataMesh",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Jaeger",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "IncidentResponse",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "CloudResources",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "DR_LB",
+        "type": "service"
+      },
+      {
+        "id": "DR_DB",
+        "type": "database"
+      },
+      {
+        "id": "CacheRedis",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "UI",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "PrivateVPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LoadBal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FunctionRouter",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthLambda",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionRouter",
+        "target": "QuoteSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionRouter",
+        "target": "PolicySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionRouter",
+        "target": "ClaimSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionRouter",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionRouter",
+        "target": "AIInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuoteSvc",
+        "target": "QuoteDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicySvc",
+        "target": "PolicyDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClaimSvc",
+        "target": "ClaimDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "BillingDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInference",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "RAGEngine",
+        "label": "DB Query"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RawZone",
+        "target": "ETLJobs",
+        "label": "HTTP"
+      },
+      {
+        "source": "CuratedZone",
+        "target": "BI_Tools",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataMesh",
+        "target": "CuratedZone",
+        "label": "HTTP"
+      },
+      {
+        "source": "ETLJobs",
+        "target": "CuratedZone",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataLake",
+        "target": "DR_Region",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "QuoteSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "PolicySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "ClaimSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "AIInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "AuditLog",
+        "label": "Async"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Jaeger",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Splunk",
+        "target": "IncidentResponse",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "CloudResources",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_DB",
+        "target": "QuoteDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_DB",
+        "target": "PolicyDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_DB",
+        "target": "ClaimDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_DB",
+        "target": "BillingDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CacheRedis",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PrivateVPC",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "CacheRedis",
+        "label": "Cache"
+      },
+      {
+        "source": "Functions",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInference",
+        "target": "AuditLog",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 9,
+      "services": 49
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Serverless",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Data Lakehouse Pattern",
+      "AI/ML Inference Integration",
+      "Observability Stack",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 87,
+    "source_edges": 78,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

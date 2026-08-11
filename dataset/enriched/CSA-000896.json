@@ -1,0 +1,475 @@
+{
+  "id": "CSA-000896",
+  "instruction": "Design a Automotive architecture. using a Event-Driven style. deployed on AWS. satisfying: High Throughput (100k+ TPS), Feature Flags, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "FleetOps",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VehicleSvc",
+        "type": "service"
+      },
+      {
+        "id": "TelemetrySvc",
+        "type": "service"
+      },
+      {
+        "id": "CommandSvc",
+        "type": "service"
+      },
+      {
+        "id": "BillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlagSrv",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "RawLake",
+        "type": "service"
+      },
+      {
+        "id": "CuratedLake",
+        "type": "service"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Search",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Jenkins",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "Lambda",
+        "type": "service"
+      },
+      {
+        "id": "VEHICLE_SVC_SECRETS",
+        "type": "service"
+      },
+      {
+        "id": "TELEMETRY_SVC_SECRETS",
+        "type": "service"
+      },
+      {
+        "id": "ENCRYPTED_DATA",
+        "type": "service"
+      },
+      {
+        "id": "PLATFORM",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FleetOps",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "CDN",
+        "target": "WebUI",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "VehicleSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "TelemetrySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FeatureFlagSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "VehicleSvc",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetrySvc",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlagSrv",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "CuratedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetrySvc",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetrySvc",
+        "target": "Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "VehicleSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlagSrv",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "SNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "Lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "Jenkins",
+        "label": "HTTP"
+      },
+      {
+        "source": "Jenkins",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "PLATFORM",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 4,
+      "services": 31
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Automotive",
+    "style": "Event-Driven",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Feature Flags",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 41,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

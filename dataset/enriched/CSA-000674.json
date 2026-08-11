@@ -1,0 +1,520 @@
+{
+  "id": "CSA-000674",
+  "instruction": "Design a Digital Twin architecture. using a CQRS style. deployed on AWS. satisfying: High Throughput (100k+ TPS), Auto Scaling, Feature Flags, Active-Active Multi-Region, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "CommandSvc",
+        "type": "service"
+      },
+      {
+        "id": "QuerySvc",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "queue"
+      },
+      {
+        "id": "ReadModel",
+        "type": "database"
+      },
+      {
+        "id": "WriteModel",
+        "type": "database"
+      },
+      {
+        "id": "FeatureFlag",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "EKS",
+        "type": "container"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "WriteModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "WriteModel",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DynamoDB",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "PostgreSQL",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlag",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlag",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "FeatureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "FeatureFlag",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 23
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Digital Twin",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Auto Scaling",
+      "Feature Flags",
+      "Active-Active Multi-Region",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 48,
+    "source_edges": 61,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

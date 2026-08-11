@@ -1,0 +1,706 @@
+{
+  "id": "CSA-001570",
+  "instruction": "Design a Digital Twin architecture. using a CQRS style. deployed on Azure. satisfying: Auto Scaling, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "APIgw",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "AzureAD",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "KeyVault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "CertMgr",
+        "type": "service"
+      },
+      {
+        "id": "ISO27001",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventStore",
+        "type": "service"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "CommandService",
+        "type": "service"
+      },
+      {
+        "id": "TwinModel",
+        "type": "service"
+      },
+      {
+        "id": "Validation",
+        "type": "service"
+      },
+      {
+        "id": "Outbox",
+        "type": "service"
+      },
+      {
+        "id": "EventPublisher",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "QueryService",
+        "type": "service"
+      },
+      {
+        "id": "ReadModel",
+        "type": "service"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "CosmosDB",
+        "type": "database"
+      },
+      {
+        "id": "BlobStorage",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LogAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Autoscale",
+        "type": "container"
+      },
+      {
+        "id": "Azure",
+        "type": "service"
+      },
+      {
+        "id": "VNet",
+        "type": "service"
+      },
+      {
+        "id": "Subnet1",
+        "type": "ui"
+      },
+      {
+        "id": "Subnet2",
+        "type": "service"
+      },
+      {
+        "id": "Subnet3",
+        "type": "service"
+      },
+      {
+        "id": "NSG",
+        "type": "service"
+      },
+      {
+        "id": "AzureBackup",
+        "type": "service"
+      },
+      {
+        "id": "ExternalLLM",
+        "type": "service"
+      },
+      {
+        "id": "Frontend",
+        "type": "ui"
+      },
+      {
+        "id": "Application",
+        "type": "service"
+      },
+      {
+        "id": "Data",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "AzureAD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "KeyVault",
+        "label": "HTTP"
+      },
+      {
+        "source": "KeyVault",
+        "target": "CertMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "CommandService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandService",
+        "target": "Validation",
+        "label": "HTTP"
+      },
+      {
+        "source": "Validation",
+        "target": "TwinModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "TwinModel",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "TwinModel",
+        "target": "Outbox",
+        "label": "HTTP"
+      },
+      {
+        "source": "Outbox",
+        "target": "EventPublisher",
+        "label": "Async"
+      },
+      {
+        "source": "EventPublisher",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventPublisher",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventPublisher",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "Cache",
+        "label": "Cache"
+      },
+      {
+        "source": "ReadModel",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CosmosDB",
+        "target": "TwinModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlobStorage",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "ExternalLLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogAnalytics",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Autoscale",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Azure",
+        "target": "VNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNet",
+        "target": "Subnet1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNet",
+        "target": "Subnet2",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNet",
+        "target": "Subnet3",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet1",
+        "target": "NSG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet2",
+        "target": "NSG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Subnet3",
+        "target": "NSG",
+        "label": "HTTP"
+      },
+      {
+        "source": "NSG",
+        "target": "Frontend",
+        "label": "HTTP"
+      },
+      {
+        "source": "NSG",
+        "target": "Application",
+        "label": "HTTP"
+      },
+      {
+        "source": "NSG",
+        "target": "Data",
+        "label": "HTTP"
+      },
+      {
+        "source": "Frontend",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Application",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Data",
+        "target": "AzureBackup",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO27001",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Security",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 9,
+      "databases": 4,
+      "services": 48
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Digital Twin",
+    "style": "CQRS",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Auto Scaling",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 79,
+    "source_edges": 71,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

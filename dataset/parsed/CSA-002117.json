@@ -1,0 +1,462 @@
+{
+  "id": "CSA-002117",
+  "instruction": "Design a IoT architecture. using a Hexagonal style. deployed on AWS. satisfying: GraphRAG Integration, Data Lakehouse Pattern, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "IngressCtrl",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "APIAdapter",
+        "type": "service"
+      },
+      {
+        "id": "EventAdapter",
+        "type": "queue"
+      },
+      {
+        "id": "GraphRAGAdapter",
+        "type": "service"
+      },
+      {
+        "id": "UseCases",
+        "type": "service"
+      },
+      {
+        "id": "Ports",
+        "type": "service"
+      },
+      {
+        "id": "DBAdapter",
+        "type": "database"
+      },
+      {
+        "id": "NoSQLAdapter",
+        "type": "database"
+      },
+      {
+        "id": "VectorStoreAdapter",
+        "type": "service"
+      },
+      {
+        "id": "ObjectStorageAdapter",
+        "type": "database"
+      },
+      {
+        "id": "CacheAdapter",
+        "type": "cache"
+      },
+      {
+        "id": "MessagingAdapter",
+        "type": "queue"
+      },
+      {
+        "id": "AIModelAdapter",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "ElasticVectorDB",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "RedisCluster",
+        "type": "cache"
+      },
+      {
+        "id": "KafkaCluster",
+        "type": "queue"
+      },
+      {
+        "id": "AIModule",
+        "type": "service"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "GrafanaObs",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "CQRS",
+        "type": "service"
+      },
+      {
+        "id": "EventSourcing",
+        "type": "service"
+      },
+      {
+        "id": "Saga",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "Canary",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTERS",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "PATTERNS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "IngressCtrl",
+        "label": "HTTP"
+      },
+      {
+        "source": "IngressCtrl",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIAdapter",
+        "target": "Ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventAdapter",
+        "target": "Ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAGAdapter",
+        "target": "Ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ports",
+        "target": "UseCases",
+        "label": "HTTP"
+      },
+      {
+        "source": "DBAdapter",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "NoSQLAdapter",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorStoreAdapter",
+        "target": "ElasticVectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ObjectStorageAdapter",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "CacheAdapter",
+        "target": "RedisCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "MessagingAdapter",
+        "target": "KafkaCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIModelAdapter",
+        "target": "AIModule",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "GrafanaObs",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GrafanaObs",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS",
+        "target": "EventSourcing",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventSourcing",
+        "target": "Saga",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Canary",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "ADAPTERS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATA",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "PATTERNS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "GraphRAG Integration",
+      "Data Lakehouse Pattern",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 71,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

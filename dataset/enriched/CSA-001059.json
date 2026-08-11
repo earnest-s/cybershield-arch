@@ -1,0 +1,601 @@
+{
+  "id": "CSA-001059",
+  "instruction": "Design a Knowledge Graph architecture. using a CQRS style. deployed on On-Premises. satisfying: Rate Limiting, Data Lakehouse Pattern, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "Edge",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Autoscale",
+        "type": "container"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "SQS",
+        "type": "service"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "CmdService",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "QueryService",
+        "type": "service"
+      },
+      {
+        "id": "GraphDB",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Saga",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "RawLake",
+        "type": "service"
+      },
+      {
+        "id": "ProcessedLake",
+        "type": "service"
+      },
+      {
+        "id": "Warehouse",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "Data_Lakehouse",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "GraphDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Saga",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Saga",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventStore",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphDB",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcessedLake",
+        "target": "Warehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "GraphDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Autoscale",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Data_Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "EventStore",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 2,
+      "services": 39
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Knowledge Graph",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Rate Limiting",
+      "Data Lakehouse Pattern",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,332 @@
+{
+  "id": "CSA-002420",
+  "instruction": "Design a Digital Twin architecture. using a Hexagonal style. deployed on On-Premises. satisfying: Blue/Green Deployment, Auto Scaling, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "BGBlue",
+        "type": "service"
+      },
+      {
+        "id": "BGGreen",
+        "type": "service"
+      },
+      {
+        "id": "TwinServiceBlue",
+        "type": "service"
+      },
+      {
+        "id": "TwinServiceGreen",
+        "type": "service"
+      },
+      {
+        "id": "Ports",
+        "type": "service"
+      },
+      {
+        "id": "Domain",
+        "type": "service"
+      },
+      {
+        "id": "AdapterDB",
+        "type": "database"
+      },
+      {
+        "id": "AdapterMsg",
+        "type": "database"
+      },
+      {
+        "id": "AdapterRAG",
+        "type": "database"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "database"
+      },
+      {
+        "id": "GraphRAG",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "DEPLOYMENT",
+        "type": "service"
+      },
+      {
+        "id": "Git",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ClientTraffic",
+        "type": "ui"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "INFRA",
+        "type": "service"
+      },
+      {
+        "id": "OPS",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BGBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BGGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGBlue",
+        "target": "TwinServiceBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGGreen",
+        "target": "TwinServiceGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "TwinServiceBlue",
+        "target": "Ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "TwinServiceGreen",
+        "target": "Ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ports",
+        "target": "Domain",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "AdapterDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "AdapterMsg",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "AdapterRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterDB",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterMsg",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterRAG",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "DEPLOYMENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "Git",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "TwinServiceBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "TwinServiceGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClientTraffic",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PERIMETER",
+        "target": "CLIENTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "DEPLOYMENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEPLOYMENT",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "INFRA",
+        "label": "HTTP"
+      },
+      {
+        "source": "INFRA",
+        "target": "OPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Digital Twin",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Auto Scaling",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 42,
+    "source_edges": 34,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

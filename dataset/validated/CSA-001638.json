@@ -1,0 +1,620 @@
+{
+  "id": "CSA-001638",
+  "instruction": "Design a Media architecture. using a Microservices style. deployed on Hybrid Cloud. satisfying: Auto Scaling, Feature Flags, Observability Stack, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "REGION1",
+        "type": "service"
+      },
+      {
+        "id": "REGION2",
+        "type": "service"
+      },
+      {
+        "id": "FW1",
+        "type": "service"
+      },
+      {
+        "id": "VPC1",
+        "type": "service"
+      },
+      {
+        "id": "FW2",
+        "type": "service"
+      },
+      {
+        "id": "VPC2",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "K8S1",
+        "type": "container"
+      },
+      {
+        "id": "SM1",
+        "type": "service"
+      },
+      {
+        "id": "K8S2",
+        "type": "container"
+      },
+      {
+        "id": "SM2",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "AS",
+        "type": "service"
+      },
+      {
+        "id": "DISC",
+        "type": "service"
+      },
+      {
+        "id": "AUTH",
+        "type": "service"
+      },
+      {
+        "id": "USER",
+        "type": "service"
+      },
+      {
+        "id": "CATA",
+        "type": "service"
+      },
+      {
+        "id": "ENC",
+        "type": "service"
+      },
+      {
+        "id": "DRM",
+        "type": "service"
+      },
+      {
+        "id": "STOR",
+        "type": "database"
+      },
+      {
+        "id": "CDNMG",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "MONGO",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "VAULT",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "REGION1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "REGION2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW1",
+        "target": "VPC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW2",
+        "target": "VPC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "SM1",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "SM2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM1",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "SM2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AS",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "AS",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "DISC",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "USER",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "CATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATA",
+        "target": "ENC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENC",
+        "target": "DRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRM",
+        "target": "STOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "STOR",
+        "target": "CDNMG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDNMG",
+        "target": "NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "DISC",
+        "label": "HTTP"
+      },
+      {
+        "source": "DISC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DISC",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATA",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRM",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "STOR",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDNMG",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "SM1",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "SM2",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "SM1",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONGO",
+        "target": "SM1",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "SM1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "SM1",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM1",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM2",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "ENC",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "DRM",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 6,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Media",
+    "style": "Microservices",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "Feature Flags",
+      "Observability Stack",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 67,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

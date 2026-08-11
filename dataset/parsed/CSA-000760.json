@@ -1,0 +1,292 @@
+{
+  "id": "CSA-000760",
+  "instruction": "Design a Healthcare architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Blue/Green Deployment, Feature Flags, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "IDS",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "PATIENT",
+        "type": "service"
+      },
+      {
+        "id": "APPT",
+        "type": "service"
+      },
+      {
+        "id": "BILL",
+        "type": "service"
+      },
+      {
+        "id": "RECORD",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "container"
+      },
+      {
+        "id": "HL7",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "BG_DEPLOY",
+        "type": "service"
+      },
+      {
+        "id": "DR_POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "DR_REDIS",
+        "type": "database"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVA",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "CORE",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "HL7",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "Replicate",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicate",
+        "target": "DR_POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "Replicate",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicate",
+        "target": "DR_REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "BG_DEPLOY",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_DEPLOY",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVA",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVA",
+        "target": "ELK",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Healthcare",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Feature Flags",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 47,
+    "source_edges": 28,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

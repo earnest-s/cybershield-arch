@@ -1,0 +1,407 @@
+{
+  "id": "CSA-002033",
+  "instruction": "Design a Warehouse architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Auto Scaling, Observability Stack, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Secrets",
+        "type": "service"
+      },
+      {
+        "id": "AWSLambda",
+        "type": "service"
+      },
+      {
+        "id": "AzureFunctions",
+        "type": "service"
+      },
+      {
+        "id": "GCF",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "GCS",
+        "type": "database"
+      },
+      {
+        "id": "KafkaMS",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "Cosmos",
+        "type": "database"
+      },
+      {
+        "id": "Firestore",
+        "type": "service"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Elasticsearch",
+        "type": "container"
+      },
+      {
+        "id": "OT",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "COMPUTE",
+        "type": "service"
+      },
+      {
+        "id": "PCI_DSS",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ISO_27001",
+        "type": "service"
+      },
+      {
+        "id": "autoscale",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Secrets",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWSLambda",
+        "target": "S3",
+        "label": "Async"
+      },
+      {
+        "source": "AzureFunctions",
+        "target": "Blob",
+        "label": "Async"
+      },
+      {
+        "source": "GCF",
+        "target": "GCS",
+        "label": "Async"
+      },
+      {
+        "source": "SNS",
+        "target": "AWSLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "AzureFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "GCF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaMS",
+        "target": "AWSLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "AWSLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cosmos",
+        "target": "AzureFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firestore",
+        "target": "GCF",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "AWSLambda",
+        "label": "Cache"
+      },
+      {
+        "source": "Elasticsearch",
+        "target": "AzureFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWSLambda",
+        "target": "OT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFunctions",
+        "target": "OT",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCF",
+        "target": "OT",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "Terraform",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "AWSLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "AzureFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "GCF",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "COMPUTE",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AWSLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AzureFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "GCF",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "KafkaMS",
+        "label": "Async"
+      },
+      {
+        "source": "APIGW",
+        "target": "EventBridge",
+        "label": "Async"
+      },
+      {
+        "source": "APIGW",
+        "target": "PubSub",
+        "label": "Async"
+      },
+      {
+        "source": "IAM",
+        "target": "PCI_DSS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ISO_27001",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Observability Stack",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 52,
+    "source_edges": 51,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

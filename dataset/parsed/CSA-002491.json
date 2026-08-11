@@ -1,0 +1,209 @@
+{
+  "id": "CSA-002491",
+  "instruction": "Design a FinTech architecture. using a Data Mesh style. deployed on AWS. satisfying: Compliance/Audit Logging, Rate Limiting, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN1",
+        "type": "database"
+      },
+      {
+        "id": "DOMAIN2",
+        "type": "database"
+      },
+      {
+        "id": "DOMAIN3",
+        "type": "database"
+      },
+      {
+        "id": "AUTH",
+        "type": "service"
+      },
+      {
+        "id": "RATE",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "DEPLOY",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "MESH",
+        "type": "service"
+      },
+      {
+        "id": "COMMON",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "COMMON",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "RATE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RATE",
+        "target": "MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "DEPLOY",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEPLOY",
+        "target": "MESH",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Data Mesh",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Rate Limiting",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 33,
+    "source_edges": 22,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

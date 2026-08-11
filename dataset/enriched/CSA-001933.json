@@ -1,0 +1,390 @@
+{
+  "id": "CSA-001933",
+  "instruction": "Design a Media architecture. using a Event-Driven style. deployed on Multi-Cloud. satisfying: Rate Limiting, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "CMS",
+        "type": "service"
+      },
+      {
+        "id": "CF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "BLUE_DEPLOY",
+        "type": "service"
+      },
+      {
+        "id": "GREEN_DEPLOY",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "Rate",
+        "type": "service"
+      },
+      {
+        "id": "Limit",
+        "type": "service"
+      },
+      {
+        "id": "ZT",
+        "type": "service"
+      },
+      {
+        "id": "MS",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Events",
+        "type": "service"
+      },
+      {
+        "id": "S1",
+        "type": "service"
+      },
+      {
+        "id": "EK",
+        "type": "queue"
+      },
+      {
+        "id": "S2",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "S4",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_DRIVEN",
+        "type": "service"
+      },
+      {
+        "id": "DB",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "SEARCH",
+        "type": "container"
+      },
+      {
+        "id": "OBJ",
+        "type": "database"
+      },
+      {
+        "id": "DRM",
+        "type": "service"
+      },
+      {
+        "id": "AD",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMS",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BLUE_DEPLOY",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GREEN_DEPLOY",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "ZT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT",
+        "target": "MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Events",
+        "target": "S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "EK",
+        "target": "S2",
+        "label": "Async"
+      },
+      {
+        "source": "EK",
+        "target": "S3",
+        "label": "Async"
+      },
+      {
+        "source": "EK",
+        "target": "S4",
+        "label": "Async"
+      },
+      {
+        "source": "EVENT_DRIVEN",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_DRIVEN",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB",
+        "target": "SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB",
+        "target": "OBJ",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRM",
+        "target": "S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AD",
+        "target": "EK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "S1",
+        "target": "OBJ",
+        "label": "HTTP"
+      },
+      {
+        "source": "S2",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "S4",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEARCH",
+        "target": "WEB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEARCH",
+        "target": "MOBILE",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "OBS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 1,
+      "databases": 3,
+      "services": 24
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Media",
+    "style": "Event-Driven",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 36,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

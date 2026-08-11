@@ -1,0 +1,273 @@
+{
+  "id": "CSA-000712",
+  "instruction": "Design a RAG architecture. using a Microservices style. deployed on On-Premises. satisfying: Strict Network Segmentation, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "RAG_Service",
+        "type": "service"
+      },
+      {
+        "id": "Gen_Service",
+        "type": "service"
+      },
+      {
+        "id": "Embedding_Service",
+        "type": "service"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "AuditLog",
+        "type": "database"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Microservices",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "LB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RAG_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Gen_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG_Service",
+        "target": "Embedding_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding_Service",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Gen_Service",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG_Service",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "PostgreSQL",
+        "target": "RAG_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "PostgreSQL",
+        "target": "Gen_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "RAG_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "Gen_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "RAG_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Gen_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "RAG_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Gen_Service",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "SOC2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "RAG",
+    "style": "Microservices",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 45,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

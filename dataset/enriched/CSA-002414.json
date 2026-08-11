@@ -1,0 +1,620 @@
+{
+  "id": "CSA-002414",
+  "instruction": "Design a Warehouse architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Disaster Recovery, Observability Stack, Rate Limiting, Strict Network Segmentation, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMER",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "AWS_EKS",
+        "type": "container"
+      },
+      {
+        "id": "AWS_S3",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "ADLS",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "GCS",
+        "type": "database"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "cache"
+      },
+      {
+        "id": "INV_API",
+        "type": "service"
+      },
+      {
+        "id": "INV_DB",
+        "type": "database"
+      },
+      {
+        "id": "INV_ES",
+        "type": "service"
+      },
+      {
+        "id": "ORD_API",
+        "type": "service"
+      },
+      {
+        "id": "ORD_DB",
+        "type": "database"
+      },
+      {
+        "id": "ORD_KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "SHIP_API",
+        "type": "service"
+      },
+      {
+        "id": "SHIP_DB",
+        "type": "database"
+      },
+      {
+        "id": "SHIP_EVENTS",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS_DB",
+        "type": "database"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT_BRIDGE",
+        "type": "service"
+      },
+      {
+        "id": "PUBSUB",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD",
+        "type": "service"
+      },
+      {
+        "id": "PLATFORM",
+        "type": "service"
+      },
+      {
+        "id": "INVENTORY",
+        "type": "service"
+      },
+      {
+        "id": "ORDERS",
+        "type": "service"
+      },
+      {
+        "id": "SHIPPING",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "PROMETHEUS",
+        "type": "service"
+      },
+      {
+        "id": "LOKI",
+        "type": "service"
+      },
+      {
+        "id": "TEMPO",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "ZERO_TRUST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "CLOUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLOUD",
+        "target": "PLATFORM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLATFORM",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ORDERS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "SHIPPING",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "INV_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "INV_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "INV_ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDERS",
+        "target": "ORD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDERS",
+        "target": "ORD_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDERS",
+        "target": "ORD_KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIPPING",
+        "target": "SHIP_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIPPING",
+        "target": "SHIP_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIPPING",
+        "target": "SHIP_EVENTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "ANALYTICS_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "ORDERS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "SHIPPING",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "EVENT_BRIDGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "PROMETHEUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "LOKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "TEMPO",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "AWS_EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "CLOUD",
+        "label": "DB Query"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 7,
+      "databases": 6,
+      "services": 46
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "Observability Stack",
+      "Rate Limiting",
+      "Strict Network Segmentation",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 83,
+    "source_edges": 50,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

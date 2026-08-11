@@ -1,0 +1,499 @@
+{
+  "id": "CSA-000590",
+  "instruction": "Design a Multi-Agent Systems architecture. using a Modular Monolith style. deployed on GCP. satisfying: Zero Trust Architecture, Auto Scaling, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "dmz",
+        "type": "service"
+      },
+      {
+        "id": "appSubnet",
+        "type": "service"
+      },
+      {
+        "id": "dbSubnet",
+        "type": "database"
+      },
+      {
+        "id": "restricted",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "ztap",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "gke",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "autoscale",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "ui"
+      },
+      {
+        "id": "registry",
+        "type": "service"
+      },
+      {
+        "id": "userMgmt",
+        "type": "service"
+      },
+      {
+        "id": "orderProc",
+        "type": "service"
+      },
+      {
+        "id": "inventory",
+        "type": "service"
+      },
+      {
+        "id": "reporting",
+        "type": "service"
+      },
+      {
+        "id": "agentOrch",
+        "type": "service"
+      },
+      {
+        "id": "llmGW",
+        "type": "service"
+      },
+      {
+        "id": "APP",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "firestore",
+        "type": "service"
+      },
+      {
+        "id": "bq",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "logging",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "dmz",
+        "label": "HTTP"
+      },
+      {
+        "source": "dmz",
+        "target": "appSubnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "dmz",
+        "target": "ztap",
+        "label": "HTTP"
+      },
+      {
+        "source": "appSubnet",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "appSubnet",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "appSubnet",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "appSubnet",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "appSubnet",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "dmz",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "userMgmt",
+        "target": "orderProc",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderProc",
+        "target": "inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "reporting",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentOrch",
+        "target": "llmGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderProc",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "userMgmt",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "reporting",
+        "target": "bq",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentOrch",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderProc",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "inventory",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "reporting",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "pubsub",
+        "target": "agentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "k8s",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Multi-Agent Systems",
+    "style": "Modular Monolith",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Auto Scaling",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 57,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

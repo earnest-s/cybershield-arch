@@ -1,0 +1,483 @@
+{
+  "id": "CSA-002475",
+  "instruction": "Design a Healthcare architecture. using a Zero-Trust style. deployed on Azure. satisfying: Compliance/Audit Logging, Blue/Green Deployment, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "frontDoor",
+        "type": "service"
+      },
+      {
+        "id": "apiMgmt",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "vnet",
+        "type": "service"
+      },
+      {
+        "id": "trafficMgr",
+        "type": "service"
+      },
+      {
+        "id": "aks",
+        "type": "container"
+      },
+      {
+        "id": "patientSvc_B",
+        "type": "service"
+      },
+      {
+        "id": "appointmentSvc_B",
+        "type": "service"
+      },
+      {
+        "id": "billingSvc_B",
+        "type": "service"
+      },
+      {
+        "id": "aiInferSvc_B",
+        "type": "service"
+      },
+      {
+        "id": "patientSvc_G",
+        "type": "service"
+      },
+      {
+        "id": "appointmentSvc_G",
+        "type": "service"
+      },
+      {
+        "id": "billingSvc_G",
+        "type": "service"
+      },
+      {
+        "id": "aiInferSvc_G",
+        "type": "service"
+      },
+      {
+        "id": "serviceBus",
+        "type": "service"
+      },
+      {
+        "id": "eventGrid",
+        "type": "service"
+      },
+      {
+        "id": "sqlDb",
+        "type": "database"
+      },
+      {
+        "id": "cosmosDb",
+        "type": "database"
+      },
+      {
+        "id": "blobStorage",
+        "type": "database"
+      },
+      {
+        "id": "search",
+        "type": "service"
+      },
+      {
+        "id": "mlEndpoint",
+        "type": "service"
+      },
+      {
+        "id": "cognitiveSvc",
+        "type": "service"
+      },
+      {
+        "id": "monitor",
+        "type": "service"
+      },
+      {
+        "id": "sentinel",
+        "type": "service"
+      },
+      {
+        "id": "appInsights",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "devops",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "Blue_Env",
+        "type": "service"
+      },
+      {
+        "id": "Green_Env",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "frontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "frontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "frontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "frontDoor",
+        "target": "apiMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiMgmt",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "trafficMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "trafficMgr",
+        "target": "Blue_Env",
+        "label": "HTTP"
+      },
+      {
+        "source": "trafficMgr",
+        "target": "Green_Env",
+        "label": "HTTP"
+      },
+      {
+        "source": "Blue_Env",
+        "target": "patientSvc_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "Blue_Env",
+        "target": "appointmentSvc_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "Blue_Env",
+        "target": "billingSvc_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "Blue_Env",
+        "target": "aiInferSvc_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "Green_Env",
+        "target": "patientSvc_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "Green_Env",
+        "target": "appointmentSvc_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "Green_Env",
+        "target": "billingSvc_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "Green_Env",
+        "target": "aiInferSvc_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc_B",
+        "target": "sqlDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc_B",
+        "target": "cosmosDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc_B",
+        "target": "blobStorage",
+        "label": "HTTP"
+      },
+      {
+        "source": "appointmentSvc_B",
+        "target": "sqlDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingSvc_B",
+        "target": "sqlDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInferSvc_B",
+        "target": "mlEndpoint",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInferSvc_B",
+        "target": "cognitiveSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlEndpoint",
+        "target": "search",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc_G",
+        "target": "sqlDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc_G",
+        "target": "cosmosDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc_G",
+        "target": "blobStorage",
+        "label": "HTTP"
+      },
+      {
+        "source": "appointmentSvc_G",
+        "target": "sqlDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingSvc_G",
+        "target": "sqlDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInferSvc_G",
+        "target": "mlEndpoint",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInferSvc_G",
+        "target": "cognitiveSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc_B",
+        "target": "serviceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "appointmentSvc_B",
+        "target": "eventGrid",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc_G",
+        "target": "serviceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "appointmentSvc_G",
+        "target": "eventGrid",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc_B",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "appointmentSvc_B",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingSvc_B",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInferSvc_B",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "patientSvc_G",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "appointmentSvc_G",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingSvc_G",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInferSvc_G",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitor",
+        "target": "sentinel",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitor",
+        "target": "appInsights",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitor",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitor",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "sentinel",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "devops",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "Blue_Env",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "Green_Env",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "patientSvc_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "appointmentSvc_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "billingSvc_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "aiInferSvc_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "patientSvc_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "appointmentSvc_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "billingSvc_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "aiInferSvc_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "monitor",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Healthcare",
+    "style": "Zero-Trust",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Blue/Green Deployment",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 61,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,727 @@
+{
+  "id": "CSA-002400",
+  "instruction": "Design a RAG architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Auto Scaling, Disaster Recovery, GraphRAG Integration, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "client",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "Edge",
+        "type": "service"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Secrets",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Encryption",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "CoreService",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "GraphRAG",
+        "type": "service"
+      },
+      {
+        "id": "AIOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "DataIngestion",
+        "type": "service"
+      },
+      {
+        "id": "SearchService",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Mongo",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "DataMesh",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "RabbitMQ",
+        "type": "queue"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "OnPrem",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "RegionA",
+        "type": "service"
+      },
+      {
+        "id": "RegionB",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "PCI_DSS",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "Security_Layer",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "AutoScale",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "Canary",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "Neo4j",
+        "type": "service"
+      },
+      {
+        "id": "LLMGateway",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "client",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "Edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "Secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "security",
+        "target": "Encryption",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "AIOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataIngestion",
+        "target": "SearchService",
+        "label": "HTTP"
+      },
+      {
+        "source": "SearchService",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "DataMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mongo",
+        "target": "DataMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "DataMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "DataMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "DataMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "DataMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RabbitMQ",
+        "target": "AIOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "OnPrem",
+        "target": "RegionA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OnPrem",
+        "target": "RegionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionA",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionB",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Security_Layer",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "Security_Layer",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI_DSS",
+        "target": "Security_Layer",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Security_Layer",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "Security_Layer",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "Security_Layer",
+        "label": "HTTP"
+      },
+      {
+        "source": "AutoScale",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Canary",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Postgres",
+        "label": "DB Query"
+      },
+      {
+        "source": "CoreService",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAG",
+        "target": "Neo4j",
+        "label": "DB Query"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataIngestion",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "SearchService",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AIOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "DataIngestion",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "SearchService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionA",
+        "target": "RegionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionB",
+        "target": "RegionA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "RegionA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "RegionB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM",
+      "WAF"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "SQL Injection",
+        "severity": "CRITICAL",
+        "description": "Attackers can execute malicious SQL statements that control a web application's database server.",
+        "missing_control": "WAF",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Deploy a Web Application Firewall.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 4,
+      "services": 51
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, WAF, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "RAG",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Auto Scaling",
+      "Disaster Recovery",
+      "GraphRAG Integration",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 74,
+    "source_edges": 76,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

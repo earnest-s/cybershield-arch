@@ -1,0 +1,666 @@
+{
+  "id": "CSA-000909",
+  "instruction": "Design a Cyber Security architecture. using a CQRS style. deployed on Azure. satisfying: Strict Network Segmentation, Data Lakehouse Pattern, Compliance/Audit Logging, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "Secrets",
+        "type": "service"
+      },
+      {
+        "id": "DMZ_Firewall",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "AKS_A",
+        "type": "container"
+      },
+      {
+        "id": "ServiceMesh_A",
+        "type": "service"
+      },
+      {
+        "id": "Sidecars_A",
+        "type": "service"
+      },
+      {
+        "id": "AKS_B",
+        "type": "container"
+      },
+      {
+        "id": "ServiceMesh_B",
+        "type": "service"
+      },
+      {
+        "id": "Sidecars_B",
+        "type": "service"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "CommandHandler",
+        "type": "service"
+      },
+      {
+        "id": "QueryHandler",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "ReadModel",
+        "type": "database"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "KafkaCluster",
+        "type": "queue"
+      },
+      {
+        "id": "OLTP",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "database"
+      },
+      {
+        "id": "Search",
+        "type": "database"
+      },
+      {
+        "id": "AuditLog",
+        "type": "database"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Sentinel",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "AuditTrail",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "SecurityLog",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "DMZ_Firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ_Firewall",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "AKS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "AKS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_A",
+        "target": "ServiceMesh_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh_A",
+        "target": "Sidecars_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_B",
+        "target": "ServiceMesh_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh_B",
+        "target": "Sidecars_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sidecars_A",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sidecars_B",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sidecars_A",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sidecars_B",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "CommandHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QueryHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "QueryHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryHandler",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "CommandHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "QueryHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "Search",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "AuditTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sentinel",
+        "target": "SecurityLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "SecurityLog",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "Terraform",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "AKS_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "AKS_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "ServiceMesh_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "ServiceMesh_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "AuditTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "AuditTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "AuditTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "AuditTrail",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 7,
+      "services": 44
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Cyber Security",
+    "style": "CQRS",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Data Lakehouse Pattern",
+      "Compliance/Audit Logging",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 92,
+    "source_edges": 71,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

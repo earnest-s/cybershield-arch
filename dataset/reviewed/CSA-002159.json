@@ -1,0 +1,778 @@
+{
+  "id": "CSA-002159",
+  "instruction": "Design a Energy architecture. using a Serverless style. deployed on On-Premises. satisfying: Active-Active Multi-Region, Disaster Recovery, High Throughput (100k+ TPS), AI/ML Inference Integration, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "IstioIngress",
+        "type": "service"
+      },
+      {
+        "id": "ServiceRouter",
+        "type": "service"
+      },
+      {
+        "id": "AuthFn",
+        "type": "service"
+      },
+      {
+        "id": "BillingFn",
+        "type": "service"
+      },
+      {
+        "id": "MeteringFn",
+        "type": "service"
+      },
+      {
+        "id": "ForecastFn",
+        "type": "service"
+      },
+      {
+        "id": "AnomalyFn",
+        "type": "service"
+      },
+      {
+        "id": "ControlFn",
+        "type": "service"
+      },
+      {
+        "id": "ReportingFn",
+        "type": "service"
+      },
+      {
+        "id": "KafkaCluster",
+        "type": "queue"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "TimescaleDB",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "Kibana",
+        "type": "ui"
+      },
+      {
+        "id": "ModelStore",
+        "type": "service"
+      },
+      {
+        "id": "GPUNode",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingSrv",
+        "type": "service"
+      },
+      {
+        "id": "RAGGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTel",
+        "type": "service"
+      },
+      {
+        "id": "Logstash",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "Jenkins",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "Canary",
+        "type": "service"
+      },
+      {
+        "id": "COMPUTE",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_MESH",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region1",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region2",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "CLIENT",
+        "type": "service"
+      },
+      {
+        "id": "NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WebUI",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IstioIngress",
+        "label": "HTTP"
+      },
+      {
+        "source": "IstioIngress",
+        "target": "ServiceRouter",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceRouter",
+        "target": "AuthFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceRouter",
+        "target": "BillingFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceRouter",
+        "target": "MeteringFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceRouter",
+        "target": "ForecastFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceRouter",
+        "target": "AnomalyFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceRouter",
+        "target": "ControlFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceRouter",
+        "target": "ReportingFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaCluster",
+        "target": "MeteringFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaCluster",
+        "target": "ForecastFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaCluster",
+        "target": "AnomalyFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeteringFn",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingFn",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeteringFn",
+        "target": "TimescaleDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingFn",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ForecastFn",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnomalyFn",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ControlFn",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingFn",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "Kibana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ForecastFn",
+        "target": "GPUNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnomalyFn",
+        "target": "GPUNode",
+        "label": "HTTP"
+      },
+      {
+        "source": "GPUNode",
+        "target": "ModelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingSrv",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGGateway",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGGateway",
+        "target": "ReportingFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OTel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "OTel",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingFn",
+        "target": "OTel",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeteringFn",
+        "target": "OTel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ForecastFn",
+        "target": "OTel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnomalyFn",
+        "target": "OTel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ControlFn",
+        "target": "OTel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingFn",
+        "target": "OTel",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTel",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTel",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTel",
+        "target": "Logstash",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logstash",
+        "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "Jenkins",
+        "label": "HTTP"
+      },
+      {
+        "source": "Jenkins",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "Terraform",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "COMPUTE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "Canary",
+        "target": "COMPUTE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region1",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region2",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "KafkaCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "TimescaleDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENT",
+        "target": "NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "NETWORK",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "COMPUTE",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPUTE",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPUTE",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ML",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPUTE",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "COMPUTE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 53
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "Serverless",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Disaster Recovery",
+      "High Throughput (100k+ TPS)",
+      "AI/ML Inference Integration",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 85,
+    "source_edges": 81,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

@@ -1,0 +1,472 @@
+{
+  "id": "CSA-000562",
+  "instruction": "Design a Logistics architecture. using a CQRS style. deployed on GCP. satisfying: Data Lakehouse Pattern, Compliance/Audit Logging, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "SM",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "CMD",
+        "type": "service"
+      },
+      {
+        "id": "EVT",
+        "type": "queue"
+      },
+      {
+        "id": "QRY",
+        "type": "service"
+      },
+      {
+        "id": "ORD",
+        "type": "service"
+      },
+      {
+        "id": "INV",
+        "type": "service"
+      },
+      {
+        "id": "DIS",
+        "type": "service"
+      },
+      {
+        "id": "TRK",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "RED",
+        "type": "cache"
+      },
+      {
+        "id": "VAULT_DB",
+        "type": "database"
+      },
+      {
+        "id": "KAF",
+        "type": "queue"
+      },
+      {
+        "id": "EMB",
+        "type": "service"
+      },
+      {
+        "id": "VEC",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "SPL",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "BIGQUERY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "SM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "EVT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVT",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "ORD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "INV",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "DIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "TRK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORD",
+        "target": "EVT",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV",
+        "target": "EVT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DIS",
+        "target": "EVT",
+        "label": "HTTP"
+      },
+      {
+        "source": "TRK",
+        "target": "EVT",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "ORD",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "INV",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "DIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "TRK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORD",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "DIS",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "TRK",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "RED",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "RED",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "VAULT_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVT",
+        "target": "KAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAF",
+        "target": "ORD",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAF",
+        "target": "INV",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAF",
+        "target": "DIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAF",
+        "target": "TRK",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "EMB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "VEC",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAF",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "SPL",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "KAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Compliance/Audit Logging",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 58,
+    "source_edges": 61,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

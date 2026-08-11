@@ -1,0 +1,450 @@
+{
+  "id": "CSA-001229",
+  "instruction": "Design a Manufacturing architecture. using a Data Mesh style. deployed on GCP. satisfying: Auto Scaling, Feature Flags, Data Lakehouse Pattern, Strict Network Segmentation, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "AUTOSCALE",
+        "type": "container"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "MS1",
+        "type": "service"
+      },
+      {
+        "id": "MS2",
+        "type": "service"
+      },
+      {
+        "id": "MS3",
+        "type": "service"
+      },
+      {
+        "id": "MS4",
+        "type": "service"
+      },
+      {
+        "id": "MS5",
+        "type": "service"
+      },
+      {
+        "id": "FLAG",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "DP_ORDER",
+        "type": "database"
+      },
+      {
+        "id": "DP_INVENTORY",
+        "type": "service"
+      },
+      {
+        "id": "DP_PRODUCTION",
+        "type": "service"
+      },
+      {
+        "id": "DP_QC",
+        "type": "service"
+      },
+      {
+        "id": "DP_AI",
+        "type": "database"
+      },
+      {
+        "id": "RAW_LAKE",
+        "type": "database"
+      },
+      {
+        "id": "CURATED_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "METASTORE",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "GW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AUTOSCALE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MS5",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAG",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAG",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAG",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAG",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAG",
+        "target": "MS5",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MS5",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "DP_ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "DP_INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "DP_PRODUCTION",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "DP_QC",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS5",
+        "target": "DP_AI",
+        "label": "HTTP"
+      },
+      {
+        "source": "DP_ORDER",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DP_INVENTORY",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DP_PRODUCTION",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DP_QC",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DP_AI",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAW_LAKE",
+        "target": "CURATED_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CURATED_LAKE",
+        "target": "METASTORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTOSCALE",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTOSCALE",
+        "target": "DP_ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTOSCALE",
+        "target": "DP_INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTOSCALE",
+        "target": "DP_PRODUCTION",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTOSCALE",
+        "target": "DP_QC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTOSCALE",
+        "target": "DP_AI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "Data Mesh",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "Feature Flags",
+      "Data Lakehouse Pattern",
+      "Strict Network Segmentation",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 53,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,725 @@
+{
+  "id": "CSA-000582",
+  "instruction": "Design a GenAI architecture. using a Modular Monolith style. deployed on Hybrid Cloud. satisfying: Disaster Recovery, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkis",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "federation",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "mod_user",
+        "type": "service"
+      },
+      {
+        "id": "mod_content",
+        "type": "service"
+      },
+      {
+        "id": "mod_prompt",
+        "type": "service"
+      },
+      {
+        "id": "mod_rag",
+        "type": "service"
+      },
+      {
+        "id": "mod_llm",
+        "type": "service"
+      },
+      {
+        "id": "mod_orch",
+        "type": "service"
+      },
+      {
+        "id": "mod_feature",
+        "type": "service"
+      },
+      {
+        "id": "mod_audit",
+        "type": "service"
+      },
+      {
+        "id": "eventbus",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "s3",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "lake",
+        "type": "service"
+      },
+      {
+        "id": "embed",
+        "type": "service"
+      },
+      {
+        "id": "vecsearch",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "ai_gateway",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "tf",
+        "type": "service"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "dr_site",
+        "type": "service"
+      },
+      {
+        "id": "llm_service",
+        "type": "database"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "zero_trust",
+        "type": "service"
+      },
+      {
+        "id": "dr_pg",
+        "type": "database"
+      },
+      {
+        "id": "dr_redis",
+        "type": "database"
+      },
+      {
+        "id": "dr_es",
+        "type": "database"
+      },
+      {
+        "id": "dr_vector",
+        "type": "database"
+      },
+      {
+        "id": "dns_fail",
+        "type": "service"
+      },
+      {
+        "id": "note",
+        "type": "service"
+      },
+      {
+        "id": "data_flow",
+        "type": "service"
+      },
+      {
+        "id": "compliance_check",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "federation",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "mod_user",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "mod_content",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "mod_prompt",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "mod_rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "mod_llm",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "mod_orch",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_user",
+        "target": "mod_feature",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_content",
+        "target": "mod_feature",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_prompt",
+        "target": "mod_feature",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_rag",
+        "target": "mod_feature",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_llm",
+        "target": "mod_feature",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_user",
+        "target": "mod_audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_content",
+        "target": "mod_audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_prompt",
+        "target": "mod_audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_rag",
+        "target": "mod_audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_llm",
+        "target": "mod_audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_user",
+        "target": "eventbus",
+        "label": "Async"
+      },
+      {
+        "source": "mod_content",
+        "target": "eventbus",
+        "label": "Async"
+      },
+      {
+        "source": "mod_prompt",
+        "target": "eventbus",
+        "label": "Async"
+      },
+      {
+        "source": "mod_rag",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_llm",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_user",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_user",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "mod_content",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_content",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_prompt",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_rag",
+        "target": "lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_rag",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_llm",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_rag",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vecsearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "vecsearch",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_llm",
+        "target": "ai_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "llm_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_user",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_content",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_prompt",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_rag",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_llm",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventbus",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "zero_trust",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "dr_site",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg",
+        "target": "dr_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "dr_redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "dr_es",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector",
+        "target": "dr_vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_site",
+        "target": "dns_fail",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "note",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_audit",
+        "target": "data_flow",
+        "label": "HTTP"
+      },
+      {
+        "source": "note",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_user",
+        "target": "compliance_check",
+        "label": "HTTP"
+      },
+      {
+        "source": "mod_content",
+        "target": "compliance_check",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "Modular Monolith",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Disaster Recovery",
+      "Feature Flags"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 89,
+    "source_edges": 86,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

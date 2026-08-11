@@ -1,0 +1,673 @@
+{
+  "id": "CSA-000975",
+  "instruction": "Design a Cyber Security architecture. using a Data Mesh style. deployed on Azure. satisfying: Rate Limiting, High Throughput (100k+ TPS), Compliance/Audit Logging, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "zt",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "pkI",
+        "type": "service"
+      },
+      {
+        "id": "identityFed",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "k8sCluster1",
+        "type": "container"
+      },
+      {
+        "id": "k8sCluster2",
+        "type": "container"
+      },
+      {
+        "id": "k8sCluster3",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "gitOps",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "idService",
+        "type": "service"
+      },
+      {
+        "id": "idDB",
+        "type": "database"
+      },
+      {
+        "id": "idCache",
+        "type": "database"
+      },
+      {
+        "id": "threatAPI",
+        "type": "service"
+      },
+      {
+        "id": "threatDB",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "incidentSvc",
+        "type": "service"
+      },
+      {
+        "id": "incidentDB",
+        "type": "database"
+      },
+      {
+        "id": "sagaMgr",
+        "type": "service"
+      },
+      {
+        "id": "analyticsAPI",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "database"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "redisRL",
+        "type": "database"
+      },
+      {
+        "id": "tokenBucket",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "clientTraffic",
+        "type": "ui"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "zt",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "pkI",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "identityFed",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "redisRL",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "tokenBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster1",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster2",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster3",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "idService",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "threatAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "incidentSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "analyticsAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "idService",
+        "target": "idDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "idService",
+        "target": "idCache",
+        "label": "Cache"
+      },
+      {
+        "source": "threatAPI",
+        "target": "threatDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "threatAPI",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "incidentSvc",
+        "target": "incidentDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "incidentSvc",
+        "target": "sagaMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsAPI",
+        "target": "lakehouse",
+        "label": "DB Query"
+      },
+      {
+        "source": "analyticsAPI",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "idService",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "threatAPI",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "incidentSvc",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "analyticsAPI",
+        "label": "Async"
+      },
+      {
+        "source": "eventBridge",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "rabbit",
+        "target": "incidentSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "gitOps",
+        "label": "HTTP"
+      },
+      {
+        "source": "gitOps",
+        "target": "k8sCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "clientTraffic",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "clientTraffic",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt",
+        "target": "rbac",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 8,
+      "databases": 8,
+      "services": 42
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Cyber Security",
+    "style": "Data Mesh",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)",
+      "Compliance/Audit Logging",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 86,
+    "source_edges": 63,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

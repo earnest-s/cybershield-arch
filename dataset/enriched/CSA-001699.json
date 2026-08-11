@@ -1,0 +1,519 @@
+{
+  "id": "CSA-001699",
+  "instruction": "Design a Automotive architecture. using a Event-Driven style. deployed on Hybrid Cloud. satisfying: AI/ML Inference Integration, Feature Flags, Compliance/Audit Logging, Strict Network Segmentation, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "INT",
+        "type": "service"
+      },
+      {
+        "id": "MS",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "container"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENTBR",
+        "type": "service"
+      },
+      {
+        "id": "VEH",
+        "type": "service"
+      },
+      {
+        "id": "TELEM",
+        "type": "service"
+      },
+      {
+        "id": "DIAG",
+        "type": "service"
+      },
+      {
+        "id": "USER",
+        "type": "service"
+      },
+      {
+        "id": "AI",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "MODEL",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "MONGO",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "LEGACY",
+        "type": "service"
+      },
+      {
+        "id": "FIREWALL",
+        "type": "service"
+      },
+      {
+        "id": "PAYMENT",
+        "type": "service"
+      },
+      {
+        "id": "WAN",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "INT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "INT",
+        "target": "MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "INT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENTBR",
+        "label": "HTTP"
+      },
+      {
+        "source": "INT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEH",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "TELEM",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "DIAG",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI",
+        "target": "MODEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "VEH",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "TELEM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "DIAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "USER",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEH",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "TELEM",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "DIAG",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "VEH",
+        "label": "Cache"
+      },
+      {
+        "source": "ES",
+        "target": "DIAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTBR",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "POSTGRES",
+        "label": "Async"
+      },
+      {
+        "source": "DR",
+        "target": "MONGO",
+        "label": "Async"
+      },
+      {
+        "source": "DR",
+        "target": "VECTOR",
+        "label": "Async"
+      },
+      {
+        "source": "LEGACY",
+        "target": "FIREWALL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT",
+        "target": "WAN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "INT",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAN",
+        "target": "INT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 4,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC, Audit Logging and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Automotive",
+    "style": "Event-Driven",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Feature Flags",
+      "Compliance/Audit Logging",
+      "Strict Network Segmentation",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 59,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

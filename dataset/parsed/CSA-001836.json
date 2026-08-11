@@ -1,0 +1,645 @@
+{
+  "id": "CSA-001836",
+  "instruction": "Design a Supply Chain architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: Rate Limiting, Auto Scaling, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "partnerPortal",
+        "type": "ui"
+      },
+      {
+        "id": "analyticsConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "edgeLB",
+        "type": "service"
+      },
+      {
+        "id": "authService",
+        "type": "service"
+      },
+      {
+        "id": "requestRouter",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "identityFed",
+        "type": "service"
+      },
+      {
+        "id": "serviceMesh",
+        "type": "service"
+      },
+      {
+        "id": "k8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "k8sSecondary",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "monitoring",
+        "type": "ui"
+      },
+      {
+        "id": "logging",
+        "type": "service"
+      },
+      {
+        "id": "procurement",
+        "type": "service"
+      },
+      {
+        "id": "inventory",
+        "type": "service"
+      },
+      {
+        "id": "logistics",
+        "type": "service"
+      },
+      {
+        "id": "demand",
+        "type": "database"
+      },
+      {
+        "id": "finance",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "llm",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "hpaPrimary",
+        "type": "service"
+      },
+      {
+        "id": "hpaSecondary",
+        "type": "service"
+      },
+      {
+        "id": "activeActive",
+        "type": "service"
+      },
+      {
+        "id": "dr",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "supplierAPI",
+        "type": "service"
+      },
+      {
+        "id": "carrierAPI",
+        "type": "service"
+      },
+      {
+        "id": "taxService",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "partnerPortal",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsConsumer",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "edgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeLB",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "authService",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "requestRouter",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "identityFed",
+        "label": "HTTP"
+      },
+      {
+        "source": "authService",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "authService",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "requestRouter",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sSecondary",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sSecondary",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceMesh",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "requestRouter",
+        "target": "procurement",
+        "label": "HTTP"
+      },
+      {
+        "source": "requestRouter",
+        "target": "inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "requestRouter",
+        "target": "logistics",
+        "label": "HTTP"
+      },
+      {
+        "source": "requestRouter",
+        "target": "demand",
+        "label": "HTTP"
+      },
+      {
+        "source": "requestRouter",
+        "target": "finance",
+        "label": "HTTP"
+      },
+      {
+        "source": "requestRouter",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "procurement",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "inventory",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "logistics",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "finance",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "demand",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "compliance",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "procurement",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "inventory",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "logistics",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "demand",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "finance",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "compliance",
+        "label": "Async"
+      },
+      {
+        "source": "procurement",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "finance",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "logistics",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "demand",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "demand",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "demand",
+        "target": "embeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "embeddingModel",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "llm",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "logging",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "hpaPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sSecondary",
+        "target": "hpaSecondary",
+        "label": "HTTP"
+      },
+      {
+        "source": "activeActive",
+        "target": "edgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "k8sSecondary",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "procurement",
+        "target": "supplierAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "logistics",
+        "target": "carrierAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "finance",
+        "target": "taxService",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "elk",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Rate Limiting",
+      "Auto Scaling",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 84,
+    "source_edges": 95,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

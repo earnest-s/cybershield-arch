@@ -1,0 +1,517 @@
+{
+  "id": "CSA-000509",
+  "instruction": "Design a ERP architecture. using a Hexagonal style. deployed on GCP. satisfying: Rate Limiting, Disaster Recovery, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ServiceA",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "DB",
+        "type": "database"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "ServiceB",
+        "type": "service"
+      },
+      {
+        "id": "ServiceC",
+        "type": "service"
+      },
+      {
+        "id": "ServiceD",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "Cache",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "SQS",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "MultiRegion",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "ServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "ServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceB",
+        "target": "ServiceC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceC",
+        "target": "ServiceD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceD",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "ServiceB",
+        "label": "Cache"
+      },
+      {
+        "source": "ES",
+        "target": "ServiceC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ServiceA",
+        "label": "Async"
+      },
+      {
+        "source": "SQS",
+        "target": "ServiceB",
+        "label": "Async"
+      },
+      {
+        "source": "Prom",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MultiRegion",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "ServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceB",
+        "target": "Cache",
+        "label": "Cache"
+      },
+      {
+        "source": "ServiceC",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ServiceB",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "GCP",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 29
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Hexagonal",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Disaster Recovery",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

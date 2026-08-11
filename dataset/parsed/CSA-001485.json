@@ -1,0 +1,388 @@
+{
+  "id": "CSA-001485",
+  "instruction": "Design a IoT architecture. using a Microservices style. deployed on Multi-Cloud. satisfying: GraphRAG Integration, Feature Flags, Active-Active Multi-Region, Rate Limiting, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "DeviceMgr",
+        "type": "service"
+      },
+      {
+        "id": "Telemetry",
+        "type": "service"
+      },
+      {
+        "id": "CommandSvc",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      },
+      {
+        "id": "UserProfile",
+        "type": "service"
+      },
+      {
+        "id": "Notification",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Timescale",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "Events",
+        "type": "service"
+      },
+      {
+        "id": "Commands",
+        "type": "service"
+      },
+      {
+        "id": "Insights",
+        "type": "service"
+      },
+      {
+        "id": "Alerts",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "DeviceMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Telemetry",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "UserProfile",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "Telemetry",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeviceMgr",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeviceMgr",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserProfile",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Telemetry",
+        "target": "Timescale",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Notification",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Timescale",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "ThirdPartyAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Notification",
+        "target": "PaymentGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "DeviceMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "Telemetry",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "Analytics",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "Microservices",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Feature Flags",
+      "Active-Active Multi-Region",
+      "Rate Limiting",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 58,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

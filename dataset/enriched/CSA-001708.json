@@ -1,0 +1,594 @@
+{
+  "id": "CSA-001708",
+  "instruction": "Design a Gaming architecture. using a Hexagonal style. deployed on On-Premises. satisfying: Blue/Green Deployment, Feature Flags, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "GameConsole",
+        "type": "ui"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "EdgeNetwork",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "InboundAPI",
+        "type": "service"
+      },
+      {
+        "id": "OutboundDB",
+        "type": "database"
+      },
+      {
+        "id": "OutboundCache",
+        "type": "cache"
+      },
+      {
+        "id": "OutboundMsg",
+        "type": "service"
+      },
+      {
+        "id": "WebAdapter",
+        "type": "ui"
+      },
+      {
+        "id": "MobileAdapter",
+        "type": "service"
+      },
+      {
+        "id": "ConsoleAdapter",
+        "type": "service"
+      },
+      {
+        "id": "AdminAdapter",
+        "type": "service"
+      },
+      {
+        "id": "DBAdapter",
+        "type": "database"
+      },
+      {
+        "id": "CacheAdapter",
+        "type": "cache"
+      },
+      {
+        "id": "MsgAdapter",
+        "type": "queue"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "Matchmaking",
+        "type": "service"
+      },
+      {
+        "id": "Gameplay",
+        "type": "service"
+      },
+      {
+        "id": "Leaderboard",
+        "type": "service"
+      },
+      {
+        "id": "Inventory",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "SocialLogin",
+        "type": "service"
+      },
+      {
+        "id": "CDNs",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "GameConsole",
+        "target": "EdgeNetwork",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "InboundAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundAPI",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundAPI",
+        "target": "Matchmaking",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundAPI",
+        "target": "Gameplay",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundAPI",
+        "target": "Leaderboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundAPI",
+        "target": "Inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundAPI",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Matchmaking",
+        "target": "OutboundMsg",
+        "label": "HTTP"
+      },
+      {
+        "source": "Gameplay",
+        "target": "OutboundMsg",
+        "label": "HTTP"
+      },
+      {
+        "source": "Leaderboard",
+        "target": "OutboundDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Inventory",
+        "target": "OutboundDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "OutboundDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundDB",
+        "target": "DBAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundCache",
+        "target": "CacheAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundMsg",
+        "target": "MsgAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "DBAdapter",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CacheAdapter",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "MsgAdapter",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Gameplay",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "DBAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "CacheAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MsgAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentGateway",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "SocialLogin",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDNs",
+        "target": "CDN",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 7,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Gaming",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Feature Flags",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 63,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

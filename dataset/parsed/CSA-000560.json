@@ -1,0 +1,397 @@
+{
+  "id": "CSA-000560",
+  "instruction": "Design a Agentic AI architecture. using a Serverless style. deployed on Azure. satisfying: Blue/Green Deployment, Compliance/Audit Logging, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "FUNC1",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "EVENTHUB",
+        "type": "database"
+      },
+      {
+        "id": "FUNC2",
+        "type": "service"
+      },
+      {
+        "id": "AGENT1",
+        "type": "service"
+      },
+      {
+        "id": "AGENT2",
+        "type": "service"
+      },
+      {
+        "id": "FUNC3",
+        "type": "service"
+      },
+      {
+        "id": "COSMOS",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VECTORDB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "DASH",
+        "type": "ui"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "POLICY",
+        "type": "service"
+      },
+      {
+        "id": "REPO",
+        "type": "service"
+      },
+      {
+        "id": "PIPE",
+        "type": "service"
+      },
+      {
+        "id": "BLUE",
+        "type": "service"
+      },
+      {
+        "id": "GREEN",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FUNC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC1",
+        "target": "EVENTHUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC2",
+        "target": "AGENT1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC2",
+        "target": "AGENT2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC3",
+        "target": "COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB",
+        "target": "FUNC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT1",
+        "target": "EVENTHUB",
+        "label": "Async"
+      },
+      {
+        "source": "AGENT2",
+        "target": "EVENTHUB",
+        "label": "Async"
+      },
+      {
+        "source": "COSMOS",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "COSMOS",
+        "target": "SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT1",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT2",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "VECTORDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTORDB",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "FUNC3",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "DASH",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "DASH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "POLICY",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPE",
+        "target": "BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPE",
+        "target": "GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE",
+        "target": "FUNC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GREEN",
+        "target": "FUNC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC1",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC2",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC3",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT1",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT2",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "COSMOS",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEARCH",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Agentic AI",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Compliance/Audit Logging",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 45,
+    "source_edges": 49,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

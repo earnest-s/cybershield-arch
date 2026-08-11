@@ -1,0 +1,484 @@
+{
+  "id": "CSA-001184",
+  "instruction": "Design a Agentic AI architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Blue/Green Deployment, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "AgentOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "PromptProcessor",
+        "type": "service"
+      },
+      {
+        "id": "KnowledgeBase",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "RateLimit",
+        "type": "service"
+      },
+      {
+        "id": "AUTHService",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimit",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimit",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "AgentOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrchestrator",
+        "target": "PromptProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "PromptProcessor",
+        "target": "KnowledgeBase",
+        "label": "HTTP"
+      },
+      {
+        "source": "KnowledgeBase",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrchestrator",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "PromptProcessor",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "KnowledgeBase",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KnowledgeBase",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "KnowledgeBase",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrchestrator",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrchestrator",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "PromptProcessor",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "KnowledgeBase",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "APIGW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Agentic AI",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 47,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,686 @@
+{
+  "id": "CSA-001465",
+  "instruction": "Design a IoT architecture. using a CQRS style. deployed on On-Premises. satisfying: Rate Limiting, GraphRAG Integration, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
+        "id": "loadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "federation",
+        "type": "service"
+      },
+      {
+        "id": "secretsMgr",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "cmd",
+        "type": "service"
+      },
+      {
+        "id": "query",
+        "type": "service"
+      },
+      {
+        "id": "deviceReg",
+        "type": "service"
+      },
+      {
+        "id": "telemetryIngest",
+        "type": "service"
+      },
+      {
+        "id": "firmwareUpdate",
+        "type": "service"
+      },
+      {
+        "id": "deviceStatus",
+        "type": "service"
+      },
+      {
+        "id": "telemetryQuery",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "eventStore",
+        "type": "database"
+      },
+      {
+        "id": "sagaOrch",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "Elasticsearch",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "vectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "graphRAG",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "gitlab",
+        "type": "service"
+      },
+      {
+        "id": "onPrem",
+        "type": "service"
+      },
+      {
+        "id": "dr",
+        "type": "service"
+      },
+      {
+        "id": "backup",
+        "type": "database"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "metrics",
+        "type": "service"
+      },
+      {
+        "id": "0",
+        "type": "service"
+      },
+      {
+        "id": "br",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cmd",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventStore",
+        "target": "sagaOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "sagaOrch",
+        "target": "cmd",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd",
+        "target": "deviceReg",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd",
+        "target": "telemetryIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd",
+        "target": "firmwareUpdate",
+        "label": "HTTP"
+      },
+      {
+        "source": "query",
+        "target": "deviceStatus",
+        "label": "HTTP"
+      },
+      {
+        "source": "query",
+        "target": "telemetryQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "query",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "loadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "edgeNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "cmd",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "query",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "cmd",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "cmd",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "cmd",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "cmd",
+        "label": "HTTP"
+      },
+      {
+        "source": "deviceReg",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemetryIngest",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemetryIngest",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "firmwareUpdate",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "deviceStatus",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemetryQuery",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemetryIngest",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "deviceReg",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "firmwareUpdate",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "sagaOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "embeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "embeddingModel",
+        "target": "vectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorSearch",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "graphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphRAG",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "query",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "query",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "loadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 8,
+      "services": 53
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Rate Limiting",
+      "GraphRAG Integration",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 79,
+    "source_edges": 61,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,476 @@
+{
+  "id": "CSA-002004",
+  "instruction": "Design a Fraud Detection architecture. using a CQRS style. deployed on On-Premises. satisfying: Blue/Green Deployment, Disaster Recovery, Strict Network Segmentation, Observability Stack, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "ESB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "CQRS_WRITE",
+        "type": "service"
+      },
+      {
+        "id": "CQRS_READ",
+        "type": "service"
+      },
+      {
+        "id": "CMD_API",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SVC",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_STORE",
+        "type": "queue"
+      },
+      {
+        "id": "QUERY_API",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_SVC",
+        "type": "service"
+      },
+      {
+        "id": "READ_DB",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "RABBIT",
+        "type": "queue"
+      },
+      {
+        "id": "OLTP",
+        "type": "database"
+      },
+      {
+        "id": "DW",
+        "type": "database"
+      },
+      {
+        "id": "LAKE",
+        "type": "service"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "br",
+        "type": "service"
+      },
+      {
+        "id": "Delta",
+        "type": "service"
+      },
+      {
+        "id": "Lake",
+        "type": "service"
+      },
+      {
+        "id": "on",
+        "type": "service"
+      },
+      {
+        "id": "HDFS",
+        "type": "service"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AGENT",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "BLUE_GREEN",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_MESH",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CQRS_WRITE",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "CQRS_READ",
+        "label": "Async"
+      },
+      {
+        "source": "CQRS_READ",
+        "target": "QUERY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_API",
+        "target": "QUERY_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SVC",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "QUERY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_API",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_DB",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "QUERY_SVC",
+        "label": "Cache"
+      },
+      {
+        "source": "LAKE",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AGENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "BLUE_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE_GREEN",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "SOC2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Disaster Recovery",
+      "Strict Network Segmentation",
+      "Observability Stack",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 61,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

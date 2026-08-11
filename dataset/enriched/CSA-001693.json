@@ -1,0 +1,635 @@
+{
+  "id": "CSA-001693",
+  "instruction": "Design a Insurance architecture. using a Hexagonal style. deployed on Azure. satisfying: Auto Scaling, Active-Active Multi-Region, Rate Limiting, Observability Stack, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "APIM",
+        "type": "service"
+      },
+      {
+        "id": "APIMPolicies",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "Autoscale",
+        "type": "container"
+      },
+      {
+        "id": "ApplicationCore",
+        "type": "service"
+      },
+      {
+        "id": "InboundREST",
+        "type": "service"
+      },
+      {
+        "id": "InboundGraphQL",
+        "type": "service"
+      },
+      {
+        "id": "InboundGRPC",
+        "type": "service"
+      },
+      {
+        "id": "OutboundPostgres",
+        "type": "database"
+      },
+      {
+        "id": "OutboundEventBus",
+        "type": "queue"
+      },
+      {
+        "id": "OutboundSearch",
+        "type": "service"
+      },
+      {
+        "id": "OutboundVector",
+        "type": "database"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "database"
+      },
+      {
+        "id": "Elasticsearch",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "database"
+      },
+      {
+        "id": "BlobStorage",
+        "type": "database"
+      },
+      {
+        "id": "EventHub",
+        "type": "queue"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Tempo",
+        "type": "service"
+      },
+      {
+        "id": "AzureMonitor",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL_EU",
+        "type": "database"
+      },
+      {
+        "id": "Kafka_EU",
+        "type": "queue"
+      },
+      {
+        "id": "ES_EU",
+        "type": "service"
+      },
+      {
+        "id": "VectorEU",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "APIM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "APIM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "APIMPolicies",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIMPolicies",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "InboundREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "InboundGraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "InboundGRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundREST",
+        "target": "ApplicationCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundGraphQL",
+        "target": "ApplicationCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundGRPC",
+        "target": "ApplicationCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ApplicationCore",
+        "target": "OutboundPostgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundPostgres",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ApplicationCore",
+        "target": "OutboundEventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundEventBus",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ApplicationCore",
+        "target": "OutboundSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundSearch",
+        "target": "Elasticsearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "ApplicationCore",
+        "target": "OutboundVector",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundVector",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "OutboundEventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ApplicationCore",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ApplicationCore",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "AzureMonitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIMPolicies",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIMPolicies",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIMPolicies",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIMPolicies",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Autoscale",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "ApplicationCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "PostgreSQL",
+        "target": "PostgreSQL_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Kafka_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elasticsearch",
+        "target": "ES_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "VectorEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "InboundREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "ApplicationCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ApplicationCore",
+        "target": "InboundREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundREST",
+        "target": "WebUI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 10,
+      "services": 37
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Hexagonal",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Auto Scaling",
+      "Active-Active Multi-Region",
+      "Rate Limiting",
+      "Observability Stack",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 83,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

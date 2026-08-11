@@ -1,0 +1,469 @@
+{
+  "id": "CSA-001002",
+  "instruction": "Design a Telecom architecture. using a Data Mesh style. deployed on Azure. satisfying: Observability Stack, High Throughput (100k+ TPS), Data Lakehouse Pattern, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "BG_BLUE",
+        "type": "service"
+      },
+      {
+        "id": "BG_GREEN",
+        "type": "service"
+      },
+      {
+        "id": "CANARY",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "DAPR",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "CALL",
+        "type": "service"
+      },
+      {
+        "id": "SMS",
+        "type": "service"
+      },
+      {
+        "id": "BILL",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "CDR",
+        "type": "database"
+      },
+      {
+        "id": "USAGE",
+        "type": "service"
+      },
+      {
+        "id": "CUSTOMER",
+        "type": "database"
+      },
+      {
+        "id": "NETWORK",
+        "type": "database"
+      },
+      {
+        "id": "ADLS",
+        "type": "service"
+      },
+      {
+        "id": "METASTORE",
+        "type": "service"
+      },
+      {
+        "id": "SPARK",
+        "type": "service"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "BSS",
+        "type": "service"
+      },
+      {
+        "id": "CRM",
+        "type": "service"
+      },
+      {
+        "id": "OTT",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BG_BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_BLUE",
+        "target": "CANARY",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_GREEN",
+        "target": "CANARY",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_BLUE",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_GREEN",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "DAPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "DAPR",
+        "target": "CALL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CALL",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SMS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "BILL",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "CDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "USAGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "CUSTOMER",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDR",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "USAGE",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CUSTOMER",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "NETWORK",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADLS",
+        "target": "METASTORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "METASTORE",
+        "target": "SPARK",
+        "label": "HTTP"
+      },
+      {
+        "source": "SPARK",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "SPARK",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "DAPR",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "BILL",
+        "target": "BSS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CUSTOMER",
+        "target": "CRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CALL",
+        "target": "OTT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Data Mesh",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Observability Stack",
+      "High Throughput (100k+ TPS)",
+      "Data Lakehouse Pattern",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 72,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

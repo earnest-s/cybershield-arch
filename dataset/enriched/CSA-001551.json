@@ -1,0 +1,714 @@
+{
+  "id": "CSA-001551",
+  "instruction": "Design a HR architecture. using a CQRS style. deployed on On-Premises. satisfying: Auto Scaling, High Throughput (100k+ TPS), Feature Flags, Active-Active Multi-Region, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "CMD",
+        "type": "service"
+      },
+      {
+        "id": "QRY",
+        "type": "service"
+      },
+      {
+        "id": "CmdBus",
+        "type": "database"
+      },
+      {
+        "id": "CmdSvc1",
+        "type": "service"
+      },
+      {
+        "id": "CmdSvc2",
+        "type": "service"
+      },
+      {
+        "id": "CmdSvc3",
+        "type": "service"
+      },
+      {
+        "id": "CmdSvc1_DB",
+        "type": "database"
+      },
+      {
+        "id": "CmdSvc1_Logic",
+        "type": "service"
+      },
+      {
+        "id": "CmdSvc2_DB",
+        "type": "database"
+      },
+      {
+        "id": "CmdSvc2_Logic",
+        "type": "service"
+      },
+      {
+        "id": "CmdSvc3_DB",
+        "type": "database"
+      },
+      {
+        "id": "CmdSvc3_Logic",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Kafka_DR",
+        "type": "queue"
+      },
+      {
+        "id": "QueryBus",
+        "type": "queue"
+      },
+      {
+        "id": "EmpReadSvc",
+        "type": "service"
+      },
+      {
+        "id": "PayReadSvc",
+        "type": "service"
+      },
+      {
+        "id": "BenReadSvc",
+        "type": "service"
+      },
+      {
+        "id": "EmpReadCache",
+        "type": "cache"
+      },
+      {
+        "id": "PayReadCache",
+        "type": "cache"
+      },
+      {
+        "id": "BenReadCache",
+        "type": "cache"
+      },
+      {
+        "id": "EmpReadDB",
+        "type": "database"
+      },
+      {
+        "id": "PayReadDB",
+        "type": "database"
+      },
+      {
+        "id": "BenReadDB",
+        "type": "database"
+      },
+      {
+        "id": "GR",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "AsyncQueue",
+        "type": "queue"
+      },
+      {
+        "id": "AsyncWorker",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "database"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Autoscale",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "COMMAND_SIDE",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_SIDE",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_STORE",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL_Write",
+        "type": "database"
+      },
+      {
+        "id": "RegionA",
+        "type": "service"
+      },
+      {
+        "id": "RegionB",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "CmdBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdBus",
+        "target": "CmdSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdBus",
+        "target": "CmdSvc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdBus",
+        "target": "CmdSvc3",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc1_Logic",
+        "target": "CmdSvc1_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc2_Logic",
+        "target": "CmdSvc2_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc3_Logic",
+        "target": "CmdSvc3_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Kafka_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "QueryBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryBus",
+        "target": "EmpReadSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryBus",
+        "target": "PayReadSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryBus",
+        "target": "BenReadSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmpReadSvc",
+        "target": "EmpReadCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayReadSvc",
+        "target": "PayReadCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenReadSvc",
+        "target": "BenReadCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmpReadSvc",
+        "target": "EmpReadDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayReadSvc",
+        "target": "PayReadDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenReadSvc",
+        "target": "BenReadDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmpReadSvc",
+        "target": "GR",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayReadSvc",
+        "target": "GR",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenReadSvc",
+        "target": "GR",
+        "label": "HTTP"
+      },
+      {
+        "source": "GR",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GR",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AsyncQueue",
+        "target": "AsyncWorker",
+        "label": "HTTP"
+      },
+      {
+        "source": "AsyncWorker",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logs",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "Autoscale",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Autoscale",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "COMMAND_SIDE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "QUERY_SIDE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "QRY",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "QueryBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AsyncWorker",
+        "target": "PostgreSQL_Write",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdBus",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "QueryBus",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionA",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionB",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionA",
+        "target": "PostgreSQL_Write",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionB",
+        "target": "PostgreSQL_Write",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 10,
+      "services": 40
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Auto Scaling",
+      "High Throughput (100k+ TPS)",
+      "Feature Flags",
+      "Active-Active Multi-Region",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 86,
+    "source_edges": 73,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

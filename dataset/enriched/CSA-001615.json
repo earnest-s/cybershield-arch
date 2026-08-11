@@ -1,0 +1,579 @@
+{
+  "id": "CSA-001615",
+  "instruction": "Design a Pharma architecture. using a Modular Monolith style. deployed on Azure. satisfying: Disaster Recovery, High Throughput (100k+ TPS), Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ModMonolith",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "PatientService",
+        "type": "service"
+      },
+      {
+        "id": "TrialService",
+        "type": "service"
+      },
+      {
+        "id": "BillingService",
+        "type": "service"
+      },
+      {
+        "id": "ReportingService",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Cosmos",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region",
+        "type": "service"
+      },
+      {
+        "id": "DR_Replication",
+        "type": "service"
+      },
+      {
+        "id": "Data",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "PatientService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "TrialService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "BillingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "ReportingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PatientService",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "TrialService",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingService",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingService",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "PatientService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "TrialService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "BillingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ModMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Data",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModMonolith",
+        "target": "DR_Region",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "DR_Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cosmos",
+        "target": "DR_Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "DR_Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "DR_Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Blob",
+        "target": "DR_Replication",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Modular Monolith",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Disaster Recovery",
+      "High Throughput (100k+ TPS)",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 57,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,463 @@
+{
+  "id": "CSA-002017",
+  "instruction": "Design a Travel architecture. using a Serverless style. deployed on AWS. satisfying: Disaster Recovery, AI/ML Inference Integration, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "EdgeLB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "LambdaAuth",
+        "type": "service"
+      },
+      {
+        "id": "LambdaREST",
+        "type": "service"
+      },
+      {
+        "id": "StepFunctions",
+        "type": "service"
+      },
+      {
+        "id": "LambdaBiz",
+        "type": "service"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "SQS1",
+        "type": "queue"
+      },
+      {
+        "id": "SQS2",
+        "type": "queue"
+      },
+      {
+        "id": "ModelEndpoint",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "QueryProcessor",
+        "type": "service"
+      },
+      {
+        "id": "GraphRAG",
+        "type": "service"
+      },
+      {
+        "id": "Neptune",
+        "type": "database"
+      },
+      {
+        "id": "OpenSearch",
+        "type": "database"
+      },
+      {
+        "id": "ElasticCache",
+        "type": "cache"
+      },
+      {
+        "id": "CW",
+        "type": "service"
+      },
+      {
+        "id": "XRay",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "CodePipeline",
+        "type": "service"
+      },
+      {
+        "id": "CodeBuild",
+        "type": "ui"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "SAM",
+        "type": "service"
+      },
+      {
+        "id": "MultiRegion",
+        "type": "service"
+      },
+      {
+        "id": "DRBackup",
+        "type": "database"
+      },
+      {
+        "id": "RegionB",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "AirlineAPI",
+        "type": "service"
+      },
+      {
+        "id": "HotelAPI",
+        "type": "service"
+      },
+      {
+        "id": "FlightData",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaAuth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaREST",
+        "target": "StepFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunctions",
+        "target": "LambdaBiz",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaBiz",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaBiz",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "LambdaBiz",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "SQS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "SQS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelEndpoint",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryProcessor",
+        "target": "ModelEndpoint",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryProcessor",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryProcessor",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAG",
+        "target": "Neptune",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "OpenSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "CW",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "XRay",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodePipeline",
+        "target": "GitHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodePipeline",
+        "target": "CodeBuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodeBuild",
+        "target": "SAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SAM",
+        "target": "LambdaAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "SAM",
+        "target": "LambdaREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SAM",
+        "target": "LambdaBiz",
+        "label": "HTTP"
+      },
+      {
+        "source": "MultiRegion",
+        "target": "DRBackup",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRBackup",
+        "target": "RegionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LambdaAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LambdaREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaAuth",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaREST",
+        "target": "EventBridge",
+        "label": "Async"
+      },
+      {
+        "source": "EventBridge",
+        "target": "OpenSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaBiz",
+        "target": "ElasticCache",
+        "label": "Cache"
+      },
+      {
+        "source": "QueryProcessor",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAG",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "LambdaAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaBiz",
+        "target": "PaymentGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaBiz",
+        "target": "AirlineAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaBiz",
+        "target": "HotelAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "FlightData",
+        "target": "EventBridge",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Travel",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Disaster Recovery",
+      "AI/ML Inference Integration",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 65,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

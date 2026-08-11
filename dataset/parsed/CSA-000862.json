@@ -1,0 +1,510 @@
+{
+  "id": "CSA-000862",
+  "instruction": "Design a CRM architecture. using a CQRS style. deployed on GCP. satisfying: Data Lakehouse Pattern, Feature Flags, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "authService",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "loggingMw",
+        "type": "service"
+      },
+      {
+        "id": "commandSvc",
+        "type": "service"
+      },
+      {
+        "id": "eventStore",
+        "type": "queue"
+      },
+      {
+        "id": "featureFlagSrv",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "streamProcessor",
+        "type": "queue"
+      },
+      {
+        "id": "readModelUpdater",
+        "type": "service"
+      },
+      {
+        "id": "aiOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "readDB",
+        "type": "database"
+      },
+      {
+        "id": "redisCache",
+        "type": "cache"
+      },
+      {
+        "id": "readAPI",
+        "type": "service"
+      },
+      {
+        "id": "searchService",
+        "type": "service"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "rawBucket",
+        "type": "service"
+      },
+      {
+        "id": "landingZone",
+        "type": "service"
+      },
+      {
+        "id": "curatedLake",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "mlModels",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "logs",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "ui"
+      },
+      {
+        "id": "k8sCluster",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "gke",
+        "type": "container"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "cloudSQL",
+        "type": "database"
+      },
+      {
+        "id": "memorystore",
+        "type": "cache"
+      },
+      {
+        "id": "bigtable",
+        "type": "service"
+      },
+      {
+        "id": "storage",
+        "type": "database"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "CLIENT",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "API",
+        "type": "service"
+      },
+      {
+        "id": "COMMAND",
+        "type": "service"
+      },
+      {
+        "id": "QUERY",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "LAKEHOUSE",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "authService",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "loggingMw",
+        "label": "HTTP"
+      },
+      {
+        "source": "commandSvc",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "commandSvc",
+        "target": "featureFlagSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "commandSvc",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventStore",
+        "target": "streamProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "streamProcessor",
+        "target": "readModelUpdater",
+        "label": "HTTP"
+      },
+      {
+        "source": "streamProcessor",
+        "target": "aiOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiOrchestrator",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModelUpdater",
+        "target": "readDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModelUpdater",
+        "target": "redisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "readAPI",
+        "target": "readDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "readAPI",
+        "target": "redisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "readAPI",
+        "target": "searchService",
+        "label": "HTTP"
+      },
+      {
+        "source": "searchService",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "searchService",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "rawBucket",
+        "target": "landingZone",
+        "label": "HTTP"
+      },
+      {
+        "source": "landingZone",
+        "target": "curatedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "curatedLake",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "curatedLake",
+        "target": "mlModels",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "logs",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "cloudSQL",
+        "target": "readDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "memorystore",
+        "target": "redisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "bigtable",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "storage",
+        "target": "rawBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENT",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PERIMETER",
+        "target": "API",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "COMMAND",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMMAND",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY",
+        "target": "LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKEHOUSE",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "CLOUD",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Feature Flags",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 75,
+    "source_edges": 55,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

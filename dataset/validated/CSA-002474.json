@@ -1,0 +1,501 @@
+{
+  "id": "CSA-002474",
+  "instruction": "Design a ERP architecture. using a CQRS style. deployed on Azure. satisfying: Active-Active Multi-Region, Rate Limiting, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "CmdAPI",
+        "type": "service"
+      },
+      {
+        "id": "CmdSvc",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "Outbox",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "QuerySvc",
+        "type": "service"
+      },
+      {
+        "id": "ReadModel",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "ADLS",
+        "type": "service"
+      },
+      {
+        "id": "Synapse",
+        "type": "service"
+      },
+      {
+        "id": "PowerBI",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "COMMAND",
+        "type": "service"
+      },
+      {
+        "id": "QUERY",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "Azure",
+        "type": "service"
+      },
+      {
+        "id": "AzureB",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdAPI",
+        "target": "CmdSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc",
+        "target": "Outbox",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CmdSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Outbox",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "Synapse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Synapse",
+        "target": "PowerBI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ISO",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "CmdAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdAPI",
+        "target": "COMMAND",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMMAND",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "AzureB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Azure",
+        "target": "DR",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 2,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "CQRS",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Rate Limiting",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 53,
+    "source_edges": 42,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

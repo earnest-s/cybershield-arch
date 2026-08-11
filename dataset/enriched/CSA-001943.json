@@ -1,0 +1,507 @@
+{
+  "id": "CSA-001943",
+  "instruction": "Design a Agentic AI architecture. using a Microservices style. deployed on On-Premises. satisfying: GraphRAG Integration, Zero Trust Architecture, Disaster Recovery, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "edgeCDN",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "agentOrch",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "dataIngest",
+        "type": "service"
+      },
+      {
+        "id": "policySvc",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBus",
+        "type": "database"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "k8sDR",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "drSync",
+        "type": "service"
+      },
+      {
+        "id": "drLB",
+        "type": "service"
+      },
+      {
+        "id": "externalLLM",
+        "type": "service"
+      },
+      {
+        "id": "thirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "edgeCDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "edgeCDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "edgeCDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeCDN",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "k8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "agentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentOrch",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "es",
+        "label": "DB Query"
+      },
+      {
+        "source": "llmGateway",
+        "target": "externalLLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataIngest",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataIngest",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "policySvc",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "agentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "dataIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "agentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongo",
+        "target": "dataIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sDR",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "drLB",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "drLB",
+        "target": "k8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "drSync",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sDR",
+        "target": "Sync",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 29
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Agentic AI",
+    "style": "Microservices",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "GraphRAG Integration",
+      "Zero Trust Architecture",
+      "Disaster Recovery",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 49,
+    "source_edges": 47,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

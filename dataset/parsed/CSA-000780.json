@@ -1,0 +1,422 @@
+{
+  "id": "CSA-000780",
+  "instruction": "Design a HR architecture. using a CQRS style. deployed on On-Premises. satisfying: Disaster Recovery, Auto Scaling, GraphRAG Integration, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMER",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "AUTHZ",
+        "type": "service"
+      },
+      {
+        "id": "CMD_WRAPPER",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_WRAPPER",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SERVICE",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_STORE",
+        "type": "database"
+      },
+      {
+        "id": "PROJECTION",
+        "type": "service"
+      },
+      {
+        "id": "REPLICAS",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "RABBIT",
+        "type": "queue"
+      },
+      {
+        "id": "GRAGRAG",
+        "type": "database"
+      },
+      {
+        "id": "OLTP",
+        "type": "database"
+      },
+      {
+        "id": "DW",
+        "type": "database"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "service"
+      },
+      {
+        "id": "Qdrant",
+        "type": "service"
+      },
+      {
+        "id": "Vector",
+        "type": "service"
+      },
+      {
+        "id": "DB",
+        "type": "service"
+      },
+      {
+        "id": "br",
+        "type": "service"
+      },
+      {
+        "id": "for",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "RAG_ORCH",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOGGING",
+        "type": "service"
+      },
+      {
+        "id": "K8S_CLUSTER",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "database"
+      },
+      {
+        "id": "AI_SERVICES",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONSUMER",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AUTHZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTHZ",
+        "target": "CMD_WRAPPER",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTHZ",
+        "target": "QUERY_WRAPPER",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_WRAPPER",
+        "target": "CMD_SERVICE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SERVICE",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_WRAPPER",
+        "target": "PROJECTION",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROJECTION",
+        "target": "REPLICAS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "RABBIT",
+        "label": "Async"
+      },
+      {
+        "source": "REPLICAS",
+        "target": "GRAGRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGRAG",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "K8S_CLUSTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "RABBIT",
+        "target": "K8S_CLUSTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGRAG",
+        "target": "AI_SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_SERVICES",
+        "target": "EMBEDDING",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_SERVICES",
+        "target": "RAG_ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "LOGGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "CICD",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "K8S_CLUSTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Disaster Recovery",
+      "Auto Scaling",
+      "GraphRAG Integration",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 54,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

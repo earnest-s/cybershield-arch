@@ -1,0 +1,760 @@
+{
+  "id": "CSA-000534",
+  "instruction": "Design a DevSecOps architecture. using a Data Mesh style. deployed on On-Premises. satisfying: Auto Scaling, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webui",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiCons",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkc",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "idFed",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "gitops",
+        "type": "service"
+      },
+      {
+        "id": "monitoring",
+        "type": "ui"
+      },
+      {
+        "id": "autoscale",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "eventbridge",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "svcA",
+        "type": "service"
+      },
+      {
+        "id": "svcB",
+        "type": "service"
+      },
+      {
+        "id": "svcC",
+        "type": "service"
+      },
+      {
+        "id": "svcD",
+        "type": "service"
+      },
+      {
+        "id": "svcE",
+        "type": "service"
+      },
+      {
+        "id": "meshNode1",
+        "type": "service"
+      },
+      {
+        "id": "meshNode2",
+        "type": "service"
+      },
+      {
+        "id": "meshNode3",
+        "type": "service"
+      },
+      {
+        "id": "meshNode4",
+        "type": "service"
+      },
+      {
+        "id": "meshNode5",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "vecSearch",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "cassandra",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "dwh",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "thirdParty",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webui",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiCons",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "svcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "svcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "svcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "svcD",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "svcE",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "svcB",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "svcC",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "svcD",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "svcE",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "meshNode1",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "meshNode2",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "meshNode3",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "meshNode4",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "meshNode5",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshNode1",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshNode2",
+        "target": "cassandra",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshNode3",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshNode4",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshNode5",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "cassandra",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongo",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "dwh",
+        "label": "HTTP"
+      },
+      {
+        "source": "dwh",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "vecSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vecSearch",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "pkc",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "idFed",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcD",
+        "target": "thirdParty",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcE",
+        "target": "thirdParty",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "svcA",
+        "label": "Async"
+      },
+      {
+        "source": "eventbridge",
+        "target": "svcB",
+        "label": "Async"
+      },
+      {
+        "source": "pubsub",
+        "target": "svcC",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "SIEM",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 54
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Authentication, Audit Logging, API Gateway, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "Data Mesh",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Auto Scaling",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 79,
+    "source_edges": 79,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

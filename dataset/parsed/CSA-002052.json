@@ -1,0 +1,268 @@
+{
+  "id": "CSA-002052",
+  "instruction": "Design a AIOps architecture. using a CQRS style. deployed on GCP. satisfying: Data Lakehouse Pattern, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "AG",
+        "type": "service"
+      },
+      {
+        "id": "Mobile",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "CQRS_CMD",
+        "type": "service"
+      },
+      {
+        "id": "CQRS_QRY",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SRV",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT_STORE",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "STREAM_PROC",
+        "type": "queue"
+      },
+      {
+        "id": "LAKEHOUSE",
+        "type": "database"
+      },
+      {
+        "id": "READ_DB",
+        "type": "database"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "ui"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "AG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mobile",
+        "target": "AG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "AG",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AG",
+        "target": "CQRS_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AG",
+        "target": "CQRS_QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SRV",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "STREAM_PROC",
+        "label": "HTTP"
+      },
+      {
+        "source": "STREAM_PROC",
+        "target": "LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS_QRY",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKEHOUSE",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_DB",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AG",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS_CMD",
+        "target": "EVENT_STORE",
+        "label": "Async"
+      },
+      {
+        "source": "STREAM_PROC",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "UI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "AIOps",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 27,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

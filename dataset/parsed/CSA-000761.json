@@ -1,0 +1,401 @@
+{
+  "id": "CSA-000761",
+  "instruction": "Design a Supply Chain architecture. using a Microservices style. deployed on AWS. satisfying: Strict Network Segmentation, Feature Flags, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "alb",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "eks",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "cognito",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "authSrv",
+        "type": "service"
+      },
+      {
+        "id": "orderSrv",
+        "type": "service"
+      },
+      {
+        "id": "inventorySrv",
+        "type": "service"
+      },
+      {
+        "id": "shippingSrv",
+        "type": "service"
+      },
+      {
+        "id": "notifSrv",
+        "type": "service"
+      },
+      {
+        "id": "flagSrv",
+        "type": "service"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "aurora",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "sns",
+        "type": "service"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "cw",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "ui"
+      },
+      {
+        "id": "ci",
+        "type": "ui"
+      },
+      {
+        "id": "repo",
+        "type": "service"
+      },
+      {
+        "id": "tf",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "Connections",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "service"
+      },
+      {
+        "id": "lambda",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "alb",
+        "label": "HTTP"
+      },
+      {
+        "source": "alb",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "authSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "flagSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "orderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "inventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "shippingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "notifSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSrv",
+        "target": "sns",
+        "label": "Async"
+      },
+      {
+        "source": "inventorySrv",
+        "target": "sns",
+        "label": "Async"
+      },
+      {
+        "source": "shippingSrv",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "notifSrv",
+        "target": "sns",
+        "label": "HTTP"
+      },
+      {
+        "source": "flagSrv",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSrv",
+        "target": "aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySrv",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "shippingSrv",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "notifSrv",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "aurora",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "dynamo",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "sns",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "orderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "inventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "shippingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "notifSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "flagSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "repo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "tf",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "lambda",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "Microservices",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Feature Flags",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 50,
+    "source_edges": 45,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

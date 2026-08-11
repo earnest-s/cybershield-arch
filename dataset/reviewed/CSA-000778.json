@@ -1,0 +1,537 @@
+{
+  "id": "CSA-000778",
+  "instruction": "Design a Oil & Gas architecture. using a Hexagonal style. deployed on AWS. satisfying: Active-Active Multi-Region, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "ThirdParty",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "ui"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "CoreDomain",
+        "type": "database"
+      },
+      {
+        "id": "PortsAdapters",
+        "type": "service"
+      },
+      {
+        "id": "IngressAdapter",
+        "type": "service"
+      },
+      {
+        "id": "EgressAdapter",
+        "type": "service"
+      },
+      {
+        "id": "DrillingService",
+        "type": "service"
+      },
+      {
+        "id": "ProductionService",
+        "type": "service"
+      },
+      {
+        "id": "LogisticsService",
+        "type": "service"
+      },
+      {
+        "id": "ComplianceService",
+        "type": "service"
+      },
+      {
+        "id": "BillingService",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "K8sCluster",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_MESH",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "Audit",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdParty",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "PortsAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortsAdapters",
+        "target": "IngressAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortsAdapters",
+        "target": "EgressAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "IngressAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "EgressAdapter",
+        "target": "DrillingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "EgressAdapter",
+        "target": "ProductionService",
+        "label": "HTTP"
+      },
+      {
+        "source": "EgressAdapter",
+        "target": "LogisticsService",
+        "label": "HTTP"
+      },
+      {
+        "source": "EgressAdapter",
+        "target": "ComplianceService",
+        "label": "HTTP"
+      },
+      {
+        "source": "EgressAdapter",
+        "target": "BillingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "DrillingService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ProductionService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "LogisticsService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ComplianceService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "BillingService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "K8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "APIGW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 3,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 47,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

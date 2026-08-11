@@ -1,0 +1,560 @@
+{
+  "id": "CSA-002135",
+  "instruction": "Design a Knowledge Graph architecture. using a Zero-Trust style. deployed on Multi-Cloud. satisfying: Auto Scaling, Data Lakehouse Pattern, High Throughput (100k+ TPS), AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiCons",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "comp",
+        "type": "service"
+      },
+      {
+        "id": "kgsvc",
+        "type": "service"
+      },
+      {
+        "id": "ingest",
+        "type": "queue"
+      },
+      {
+        "id": "query",
+        "type": "service"
+      },
+      {
+        "id": "aiInf",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "bronze",
+        "type": "service"
+      },
+      {
+        "id": "silver",
+        "type": "database"
+      },
+      {
+        "id": "gold",
+        "type": "database"
+      },
+      {
+        "id": "lakeObj",
+        "type": "database"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "vecdb",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "auto",
+        "type": "service"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "gcp",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "elasticsearch",
+        "type": "service"
+      },
+      {
+        "id": "kgservice",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiCons",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "comp",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "comp",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "kgsvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "query",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "aiInf",
+        "label": "HTTP"
+      },
+      {
+        "source": "kgsvc",
+        "target": "query",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "query",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInf",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "kgsvc",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "query",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "aiInf",
+        "label": "Async"
+      },
+      {
+        "source": "kgsvc",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "query",
+        "target": "vecdb",
+        "label": "HTTP"
+      },
+      {
+        "source": "query",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "bronze",
+        "target": "silver",
+        "label": "HTTP"
+      },
+      {
+        "source": "silver",
+        "target": "gold",
+        "label": "HTTP"
+      },
+      {
+        "source": "bronze",
+        "target": "lakeObj",
+        "label": "HTTP"
+      },
+      {
+        "source": "silver",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "gold",
+        "target": "vecdb",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "vecdb",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elasticsearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "ci",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "auto",
+        "label": "HTTP"
+      },
+      {
+        "source": "auto",
+        "target": "kgservice",
+        "label": "HTTP"
+      },
+      {
+        "source": "auto",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "auto",
+        "target": "query",
+        "label": "HTTP"
+      },
+      {
+        "source": "auto",
+        "target": "aiInf",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 5,
+      "services": 35
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Knowledge Graph",
+    "style": "Zero-Trust",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Data Lakehouse Pattern",
+      "High Throughput (100k+ TPS)",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 52,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

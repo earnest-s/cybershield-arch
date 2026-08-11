@@ -1,0 +1,675 @@
+{
+  "id": "CSA-000693",
+  "instruction": "Design a Energy architecture. using a Microservices style. deployed on Hybrid Cloud. satisfying: High Throughput (100k+ TPS), Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "Mobile",
+        "type": "service"
+      },
+      {
+        "id": "Admin",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Edge",
+        "type": "service"
+      },
+      {
+        "id": "Envoy",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "Metering",
+        "type": "service"
+      },
+      {
+        "id": "Billing",
+        "type": "service"
+      },
+      {
+        "id": "Forecast",
+        "type": "service"
+      },
+      {
+        "id": "GridCtrl",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      },
+      {
+        "id": "Notification",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "DataIngest",
+        "type": "service"
+      },
+      {
+        "id": "DeviceMgr",
+        "type": "service"
+      },
+      {
+        "id": "Pricing",
+        "type": "service"
+      },
+      {
+        "id": "LLMGateway",
+        "type": "service"
+      },
+      {
+        "id": "AgentOrch",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Mongo",
+        "type": "database"
+      },
+      {
+        "id": "Cassandra",
+        "type": "service"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Argo",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "Azure",
+        "type": "service"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "MS",
+        "type": "service"
+      },
+      {
+        "id": "AGENT",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "service"
+      },
+      {
+        "id": "All",
+        "type": "service"
+      },
+      {
+        "id": "Data",
+        "type": "service"
+      },
+      {
+        "id": "User",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "Edge",
+        "target": "Envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "Envoy",
+        "target": "Metering",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mobile",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "Admin",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metering",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Billing",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Forecast",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "GridCtrl",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Notification",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Pricing",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataIngest",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeviceMgr",
+        "target": "GridCtrl",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "AgentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Cassandra",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mongo",
+        "target": "DeviceMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cassandra",
+        "target": "Metering",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "Forecast",
+        "label": "Cache"
+      },
+      {
+        "source": "ES",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AGENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "GCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "ADMIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "All",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Data",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "DataIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "User",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 4,
+      "services": 54
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "Microservices",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 70,
+    "source_edges": 64,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

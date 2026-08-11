@@ -1,0 +1,601 @@
+{
+  "id": "CSA-001003",
+  "instruction": "Design a AIOps architecture. using a Serverless style. deployed on Azure. satisfying: Active-Active Multi-Region, Blue/Green Deployment, High Throughput (100k+ TPS), Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "DNS",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Sentinel",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "IoT_Hub",
+        "type": "service"
+      },
+      {
+        "id": "Func_Ingest",
+        "type": "service"
+      },
+      {
+        "id": "Queue",
+        "type": "database"
+      },
+      {
+        "id": "Subgraph1",
+        "type": "service"
+      },
+      {
+        "id": "Metrics",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "Traces",
+        "type": "service"
+      },
+      {
+        "id": "Subgraph2",
+        "type": "service"
+      },
+      {
+        "id": "CorrEngine",
+        "type": "service"
+      },
+      {
+        "id": "AnomDetect",
+        "type": "service"
+      },
+      {
+        "id": "Subgraph3",
+        "type": "service"
+      },
+      {
+        "id": "RCAEngine",
+        "type": "service"
+      },
+      {
+        "id": "KnowledgeBase",
+        "type": "database"
+      },
+      {
+        "id": "Subgraph4",
+        "type": "service"
+      },
+      {
+        "id": "Playbooks",
+        "type": "service"
+      },
+      {
+        "id": "BotAgents",
+        "type": "service"
+      },
+      {
+        "id": "CosmosDB",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "EventGrid",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "AlertMgr",
+        "type": "service"
+      },
+      {
+        "id": "Dashboards",
+        "type": "ui"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Canary",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "RegionA",
+        "type": "service"
+      },
+      {
+        "id": "RegionB",
+        "type": "service"
+      },
+      {
+        "id": "Replicates",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "DNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DNS",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IoT_Hub",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventHub",
+        "target": "Func_Ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "IoT_Hub",
+        "target": "Func_Ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "Func_Ingest",
+        "target": "Queue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Queue",
+        "target": "CorrEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "CorrEngine",
+        "target": "AnomDetect",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnomDetect",
+        "target": "RCAEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RCAEngine",
+        "target": "Playbooks",
+        "label": "HTTP"
+      },
+      {
+        "source": "Playbooks",
+        "target": "BotAgents",
+        "label": "HTTP"
+      },
+      {
+        "source": "CorrEngine",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnomDetect",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RCAEngine",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BotAgents",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BotAgents",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KnowledgeBase",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CorrEngine",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnomDetect",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "RCAEngine",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Playbooks",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "BotAgents",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "EventGrid",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventGrid",
+        "target": "AlertMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metrics",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logs",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Traces",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "AlertMgr",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Dashboards",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "RegionA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "RegionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Canary",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionA",
+        "target": "RegionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionB",
+        "target": "RegionA",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventGrid",
+        "target": "AuditLog",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 5,
+      "services": 41
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "AIOps",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Blue/Green Deployment",
+      "High Throughput (100k+ TPS)",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 74,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

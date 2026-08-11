@@ -1,0 +1,743 @@
+{
+  "id": "CSA-001707",
+  "instruction": "Design a Insurance architecture. using a Serverless style. deployed on Azure. satisfying: Disaster Recovery, Observability Stack, Rate Limiting, Strict Network Segmentation, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "partnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkipki",
+        "type": "service"
+      },
+      {
+        "id": "authZ",
+        "type": "service"
+      },
+      {
+        "id": "funcClaims",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
+        "id": "funcPolicy",
+        "type": "service"
+      },
+      {
+        "id": "funcQuote",
+        "type": "service"
+      },
+      {
+        "id": "funcUnderwrite",
+        "type": "service"
+      },
+      {
+        "id": "funcBilling",
+        "type": "service"
+      },
+      {
+        "id": "funcCustomer",
+        "type": "service"
+      },
+      {
+        "id": "funcRAG",
+        "type": "service"
+      },
+      {
+        "id": "vectorStore",
+        "type": "database"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "storage",
+        "type": "database"
+      },
+      {
+        "id": "queue",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "cosmos",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "securityAudit",
+        "type": "service"
+      },
+      {
+        "id": "complianceDB",
+        "type": "database"
+      },
+      {
+        "id": "drFunc",
+        "type": "service"
+      },
+      {
+        "id": "drStorage",
+        "type": "database"
+      },
+      {
+        "id": "drDB",
+        "type": "database"
+      },
+      {
+        "id": "drCosmos",
+        "type": "database"
+      },
+      {
+        "id": "drQueue",
+        "type": "queue"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "vnetPrimary",
+        "type": "service"
+      },
+      {
+        "id": "vnetDR",
+        "type": "service"
+      },
+      {
+        "id": "segWeb",
+        "type": "ui"
+      },
+      {
+        "id": "segApp",
+        "type": "service"
+      },
+      {
+        "id": "segData",
+        "type": "service"
+      },
+      {
+        "id": "segMgmt",
+        "type": "service"
+      },
+      {
+        "id": "externalPayment",
+        "type": "service"
+      },
+      {
+        "id": "externalDocs",
+        "type": "service"
+      },
+      {
+        "id": "externalAI",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "partnerAPI",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "pkipki",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "authZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcClaims",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcPolicy",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcQuote",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcUnderwrite",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcBilling",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcCustomer",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcRAG",
+        "target": "vectorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcRAG",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "queue",
+        "label": "HTTP"
+      },
+      {
+        "source": "storage",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "queue",
+        "target": "funcClaims",
+        "label": "HTTP"
+      },
+      {
+        "source": "queue",
+        "target": "funcPolicy",
+        "label": "HTTP"
+      },
+      {
+        "source": "queue",
+        "target": "funcQuote",
+        "label": "HTTP"
+      },
+      {
+        "source": "queue",
+        "target": "funcUnderwrite",
+        "label": "HTTP"
+      },
+      {
+        "source": "queue",
+        "target": "funcBilling",
+        "label": "HTTP"
+      },
+      {
+        "source": "queue",
+        "target": "funcCustomer",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcClaims",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcPolicy",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcUnderwrite",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcBilling",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcCustomer",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcQuote",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcQuote",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcClaims",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcPolicy",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcQuote",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcUnderwrite",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcBilling",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcCustomer",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityAudit",
+        "target": "complianceDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityAudit",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityAudit",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityAudit",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityAudit",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "vnetPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "drFunc",
+        "target": "vnetDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "segWeb",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "segApp",
+        "target": "funcClaims",
+        "label": "HTTP"
+      },
+      {
+        "source": "segData",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "segMgmt",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "segWeb",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcClaims",
+        "target": "segApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcPolicy",
+        "target": "segApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcQuote",
+        "target": "segApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcUnderwrite",
+        "target": "segApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcBilling",
+        "target": "segApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcCustomer",
+        "target": "segApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "segData",
+        "label": "HTTP"
+      },
+      {
+        "source": "cosmos",
+        "target": "segData",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "segData",
+        "label": "HTTP"
+      },
+      {
+        "source": "elastic",
+        "target": "segData",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalPayment",
+        "target": "funcBilling",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalDocs",
+        "target": "funcUnderwrite",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalAI",
+        "target": "llmGateway",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 9,
+      "services": 44
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Disaster Recovery",
+      "Observability Stack",
+      "Rate Limiting",
+      "Strict Network Segmentation",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 81,
+    "source_edges": 107,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

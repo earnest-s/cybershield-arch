@@ -1,0 +1,606 @@
+{
+  "id": "CSA-002070",
+  "instruction": "Design a MLOps architecture. using a Microservices style. deployed on Azure. satisfying: Compliance/Audit Logging, Active-Active Multi-Region, GraphRAG Integration, Feature Flags, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "AKS1",
+        "type": "container"
+      },
+      {
+        "id": "AKS2",
+        "type": "container"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Ingest",
+        "type": "service"
+      },
+      {
+        "id": "Preprocess",
+        "type": "service"
+      },
+      {
+        "id": "Train",
+        "type": "service"
+      },
+      {
+        "id": "Register",
+        "type": "service"
+      },
+      {
+        "id": "Deploy",
+        "type": "service"
+      },
+      {
+        "id": "Monitor",
+        "type": "service"
+      },
+      {
+        "id": "Explain",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "MetadataDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AKS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AKS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS1",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS2",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "FeatureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS1",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS2",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "Preprocess",
+        "label": "HTTP"
+      },
+      {
+        "source": "Preprocess",
+        "target": "Train",
+        "label": "HTTP"
+      },
+      {
+        "source": "Train",
+        "target": "Register",
+        "label": "HTTP"
+      },
+      {
+        "source": "Register",
+        "target": "Deploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "Monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitor",
+        "target": "Explain",
+        "label": "HTTP"
+      },
+      {
+        "source": "Explain",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Preprocess",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Train",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Register",
+        "target": "MetadataDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "MetadataDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitor",
+        "target": "MetadataDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Preprocess",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Train",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS1",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS2",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS1",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS2",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS1",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "AKS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetadataDB",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "MetadataDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "Ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "Preprocess",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "Train",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "Deploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "Monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "RAG",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 31
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Microservices",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Active-Active Multi-Region",
+      "GraphRAG Integration",
+      "Feature Flags",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 51,
+    "source_edges": 70,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

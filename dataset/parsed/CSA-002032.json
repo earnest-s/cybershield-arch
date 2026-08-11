@@ -1,0 +1,435 @@
+{
+  "id": "CSA-002032",
+  "instruction": "Design a IoT architecture. using a Serverless style. deployed on Hybrid Cloud. satisfying: Compliance/Audit Logging, Zero Trust Architecture, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "ingest",
+        "type": "service"
+      },
+      {
+        "id": "process",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "ai_gateway",
+        "type": "service"
+      },
+      {
+        "id": "api_handler",
+        "type": "service"
+      },
+      {
+        "id": "blue",
+        "type": "service"
+      },
+      {
+        "id": "green",
+        "type": "service"
+      },
+      {
+        "id": "eventbus",
+        "type": "service"
+      },
+      {
+        "id": "kinesis",
+        "type": "service"
+      },
+      {
+        "id": "s3",
+        "type": "service"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "cd",
+        "type": "service"
+      },
+      {
+        "id": "tf",
+        "type": "service"
+      },
+      {
+        "id": "monitor",
+        "type": "service"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "gcp",
+        "type": "service"
+      },
+      {
+        "id": "azure_blob",
+        "type": "database"
+      },
+      {
+        "id": "gcp_bucket",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "Cache"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "eventbus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventbus",
+        "target": "kinesis",
+        "label": "HTTP"
+      },
+      {
+        "source": "kinesis",
+        "target": "process",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "ai_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_handler",
+        "target": "blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_handler",
+        "target": "green",
+        "label": "HTTP"
+      },
+      {
+        "source": "blue",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "green",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_handler",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "tf",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "cd",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "green",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "api_handler",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "prom",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "Serverless",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Zero Trust Architecture",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

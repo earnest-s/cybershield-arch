@@ -1,0 +1,283 @@
+{
+  "id": "CSA-001611",
+  "instruction": "Design a DevSecOps architecture. using a Event-Driven style. deployed on AWS. satisfying: Auto Scaling, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD_Tool",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "ALB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "GitOps",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Ingest",
+        "type": "service"
+      },
+      {
+        "id": "Scan",
+        "type": "service"
+      },
+      {
+        "id": "Build",
+        "type": "ui"
+      },
+      {
+        "id": "Monitor",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD_Tool",
+        "target": "APIGW",
+        "label": "Async"
+      },
+      {
+        "source": "APIGW",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "Scan",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scan",
+        "target": "Build",
+        "label": "HTTP"
+      },
+      {
+        "source": "Build",
+        "target": "Monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "Build",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitor",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scan",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Build",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitor",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Kafka",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "Event-Driven",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 37,
+    "source_edges": 32,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

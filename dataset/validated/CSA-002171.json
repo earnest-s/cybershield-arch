@@ -1,0 +1,703 @@
+{
+  "id": "CSA-002171",
+  "instruction": "Design a Multi-Agent Systems architecture. using a Event-Driven style. deployed on GCP. satisfying: Disaster Recovery, Observability Stack, Strict Network Segmentation, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "gitRepo",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "eventStore",
+        "type": "database"
+      },
+      {
+        "id": "router",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "llmGw",
+        "type": "service"
+      },
+      {
+        "id": "knowledge",
+        "type": "database"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "billing",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "lake",
+        "type": "database"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "drRegion",
+        "type": "service"
+      },
+      {
+        "id": "drBackup",
+        "type": "service"
+      },
+      {
+        "id": "backupJob",
+        "type": "service"
+      },
+      {
+        "id": "failover",
+        "type": "service"
+      },
+      {
+        "id": "thirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "paymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "rabbit",
+        "type": "service"
+      },
+      {
+        "id": "complianceTeam",
+        "type": "service"
+      },
+      {
+        "id": "ZONE1",
+        "type": "service"
+      },
+      {
+        "id": "ZONE2",
+        "type": "service"
+      },
+      {
+        "id": "ZONE3",
+        "type": "service"
+      },
+      {
+        "id": "ZONE4",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "pki",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ciCd",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "gitRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "gitRepo",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "router",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "llmGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGw",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "knowledge",
+        "label": "HTTP"
+      },
+      {
+        "source": "knowledge",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGw",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "knowledge",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector",
+        "target": "lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "drRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "drRegion",
+        "target": "drBackup",
+        "label": "HTTP"
+      },
+      {
+        "source": "drBackup",
+        "target": "backupJob",
+        "label": "HTTP"
+      },
+      {
+        "source": "backupJob",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "backupJob",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "backupJob",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "failover",
+        "target": "drRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "failover",
+        "target": "drBackup",
+        "label": "HTTP"
+      },
+      {
+        "source": "drBackup",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "drBackup",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "llmGw",
+        "target": "thirdPartyAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing",
+        "target": "paymentGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "paymentGateway",
+        "target": "complianceTeam",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZONE1",
+        "target": "ZONE2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZONE2",
+        "target": "ZONE3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZONE3",
+        "target": "ZONE4",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZONE4",
+        "target": "ZONE2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Require Multi-Factor Authentication for user access."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 6,
+      "services": 47
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS, SIEM and MFA. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Multi-Agent Systems",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Disaster Recovery",
+      "Observability Stack",
+      "Strict Network Segmentation",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 87,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

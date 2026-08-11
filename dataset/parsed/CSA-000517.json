@@ -1,0 +1,589 @@
+{
+  "id": "CSA-000517",
+  "instruction": "Design a OTT architecture. using a CQRS style. deployed on AWS. satisfying: Blue/Green Deployment, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "EdgeLB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "CommandBus",
+        "type": "database"
+      },
+      {
+        "id": "QueryBus",
+        "type": "queue"
+      },
+      {
+        "id": "CommandSvc",
+        "type": "service"
+      },
+      {
+        "id": "QuerySvc",
+        "type": "service"
+      },
+      {
+        "id": "CmdValidator",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "EventStream",
+        "type": "database"
+      },
+      {
+        "id": "WriteModelProcessor",
+        "type": "service"
+      },
+      {
+        "id": "ReadModelDB",
+        "type": "database"
+      },
+      {
+        "id": "CacheLayer",
+        "type": "cache"
+      },
+      {
+        "id": "Ingest",
+        "type": "service"
+      },
+      {
+        "id": "RawBucket",
+        "type": "service"
+      },
+      {
+        "id": "Transcode",
+        "type": "service"
+      },
+      {
+        "id": "ProcessedBucket",
+        "type": "database"
+      },
+      {
+        "id": "DRM",
+        "type": "service"
+      },
+      {
+        "id": "ProtectedBucket",
+        "type": "database"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "AccessLogDB",
+        "type": "database"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "DataRetentionJob",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8sProd",
+        "type": "container"
+      },
+      {
+        "id": "K8sBlue",
+        "type": "container"
+      },
+      {
+        "id": "K8sGreen",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "DockerImages",
+        "type": "container"
+      },
+      {
+        "id": "ECR",
+        "type": "container"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "Canary",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "PrivateSubnet",
+        "type": "service"
+      },
+      {
+        "id": "PublicSubnet",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "S3Buckets",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CommandBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QueryBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandBus",
+        "target": "CommandSvc",
+        "label": "Async"
+      },
+      {
+        "source": "QueryBus",
+        "target": "QuerySvc",
+        "label": "Async"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "CmdValidator",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdValidator",
+        "target": "EventStore",
+        "label": "Async"
+      },
+      {
+        "source": "EventStore",
+        "target": "EventStream",
+        "label": "Async"
+      },
+      {
+        "source": "EventStream",
+        "target": "WriteModelProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "WriteModelProcessor",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "CacheLayer",
+        "label": "Cache"
+      },
+      {
+        "source": "CacheLayer",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "RawBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "Transcode",
+        "target": "ProcessedBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRM",
+        "target": "ProtectedBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "ProtectedBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "EventStore",
+        "label": "Async"
+      },
+      {
+        "source": "AuditLog",
+        "target": "AccessLogDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DataRetentionJob",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataRetentionJob",
+        "target": "RawBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataRetentionJob",
+        "target": "ProcessedBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sProd",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sProd",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sBlue",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sBlue",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sGreen",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sGreen",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "DockerImages",
+        "label": "HTTP"
+      },
+      {
+        "source": "DockerImages",
+        "target": "ECR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ECR",
+        "target": "K8sProd",
+        "label": "HTTP"
+      },
+      {
+        "source": "ECR",
+        "target": "K8sBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "ECR",
+        "target": "K8sGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "K8sBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "K8sGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "Canary",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "PrivateSubnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "PublicSubnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "PrivateSubnet",
+        "target": "K8sProd",
+        "label": "HTTP"
+      },
+      {
+        "source": "PrivateSubnet",
+        "target": "K8sBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "PrivateSubnet",
+        "target": "K8sGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "PublicSubnet",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PublicSubnet",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "S3Buckets",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "EventStore",
+        "label": "Async"
+      },
+      {
+        "source": "EventStore",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModelDB",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "K8sProd",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "K8sBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "K8sGreen",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "OTT",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 78,
+    "source_edges": 79,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

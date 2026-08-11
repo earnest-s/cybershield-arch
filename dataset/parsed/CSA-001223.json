@@ -1,0 +1,333 @@
+{
+  "id": "CSA-001223",
+  "instruction": "Design a Knowledge Graph architecture. using a Modular Monolith style. deployed on Hybrid Cloud. satisfying: Disaster Recovery, Observability Stack, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "KGCore",
+        "type": "service"
+      },
+      {
+        "id": "KGIngest",
+        "type": "service"
+      },
+      {
+        "id": "KGQuery",
+        "type": "service"
+      },
+      {
+        "id": "KGAdmin",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "Neo4j",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "DRRegion",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "Azure",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGCore",
+        "target": "KGIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGCore",
+        "target": "KGQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGCore",
+        "target": "KGAdmin",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "KGCore",
+        "label": "DB Query"
+      },
+      {
+        "source": "Neo4j",
+        "target": "KGCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "KGQuery",
+        "label": "Cache"
+      },
+      {
+        "source": "S3",
+        "target": "KGIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGIngest",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "KGCore",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGCore",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGIngest",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGQuery",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGCore",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGIngest",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGAdmin",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGAdmin",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "KGAdmin",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "DRRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "Neo4j",
+        "target": "DRRegion",
+        "label": "Async"
+      },
+      {
+        "source": "S3",
+        "target": "DRRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "Azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "CLOUD",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Knowledge Graph",
+    "style": "Modular Monolith",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Disaster Recovery",
+      "Observability Stack",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 54,
+    "source_edges": 45,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

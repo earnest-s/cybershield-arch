@@ -1,0 +1,661 @@
+{
+  "id": "CSA-002121",
+  "instruction": "Design a Banking architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Strict Network Segmentation, Feature Flags, Compliance/Audit Logging, Active-Active Multi-Region, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "loadBalancers",
+        "type": "database"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "observability",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "microA",
+        "type": "service"
+      },
+      {
+        "id": "microB",
+        "type": "service"
+      },
+      {
+        "id": "microC",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "vectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "s3Compliance",
+        "type": "service"
+      },
+      {
+        "id": "glueCatalog",
+        "type": "service"
+      },
+      {
+        "id": "usE_K8s",
+        "type": "service"
+      },
+      {
+        "id": "usE_Postgres",
+        "type": "database"
+      },
+      {
+        "id": "usE_Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "usE_Lake",
+        "type": "service"
+      },
+      {
+        "id": "euW_K8s",
+        "type": "service"
+      },
+      {
+        "id": "euW_Postgres",
+        "type": "database"
+      },
+      {
+        "id": "euW_Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "euW_Lake",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "loadBalancers",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancers",
+        "target": "zeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ciCd",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "microA",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "microB",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "microC",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "eventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBridge",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "microA",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "microB",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "microC",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "microA",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "microB",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "microC",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "vectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "microA",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "microB",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "microC",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorSearch",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "microA",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "microB",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "microA",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "microB",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "microC",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "s3Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3Compliance",
+        "target": "glueCatalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "microA",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "microB",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "microC",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "usE_K8s",
+        "target": "euW_K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "usE_Postgres",
+        "target": "euW_Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "usE_Dynamo",
+        "target": "euW_Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "usE_Lake",
+        "target": "euW_Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "usE_K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "euW_K8s",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 9,
+      "services": 41
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Feature Flags",
+      "Compliance/Audit Logging",
+      "Active-Active Multi-Region",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 78,
+    "source_edges": 65,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

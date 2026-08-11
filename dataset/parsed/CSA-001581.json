@@ -1,0 +1,321 @@
+{
+  "id": "CSA-001581",
+  "instruction": "Design a Logistics architecture. using a CQRS style. deployed on On-Premises. satisfying: Feature Flags, Observability Stack, High Throughput (100k+ TPS), Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "CMD_API",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SVC",
+        "type": "service"
+      },
+      {
+        "id": "CMD_DB",
+        "type": "database"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_API",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_SVC",
+        "type": "service"
+      },
+      {
+        "id": "READ_DB",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_PROC",
+        "type": "service"
+      },
+      {
+        "id": "PROJECTION",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "QUERY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT_PROC",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_PROC",
+        "target": "PROJECTION",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROJECTION",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROJECTION",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROJECTION",
+        "target": "NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "CMD_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_API",
+        "target": "QUERY_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SVC",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SVC",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SVC",
+        "target": "AUDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SVC",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_PROC",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_API",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WEB",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Feature Flags",
+      "Observability Stack",
+      "High Throughput (100k+ TPS)",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 44,
+    "source_edges": 36,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

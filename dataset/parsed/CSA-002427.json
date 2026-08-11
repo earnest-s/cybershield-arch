@@ -1,0 +1,627 @@
+{
+  "id": "CSA-002427",
+  "instruction": "Design a E-Commerce architecture. using a Microservices style. deployed on Azure. satisfying: Rate Limiting, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "AzureLoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "SecretsVault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI_DSS",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "CatalogService",
+        "type": "service"
+      },
+      {
+        "id": "InventoryService",
+        "type": "service"
+      },
+      {
+        "id": "OrderService",
+        "type": "service"
+      },
+      {
+        "id": "PaymentService",
+        "type": "service"
+      },
+      {
+        "id": "NotificationService",
+        "type": "service"
+      },
+      {
+        "id": "RecommendationEngine",
+        "type": "service"
+      },
+      {
+        "id": "SearchService",
+        "type": "service"
+      },
+      {
+        "id": "CartService",
+        "type": "service"
+      },
+      {
+        "id": "UserProfileService",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsService",
+        "type": "service"
+      },
+      {
+        "id": "FraudDetection",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "CosmosDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "BlobStorage",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "DataWarehouse",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "GithubActions",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "ShippingProvider",
+        "type": "service"
+      },
+      {
+        "id": "TaxService",
+        "type": "service"
+      },
+      {
+        "id": "EmailSvc",
+        "type": "service"
+      },
+      {
+        "id": "SMSsvc",
+        "type": "service"
+      },
+      {
+        "id": "JWT",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "JWT",
+        "label": "HTTP"
+      },
+      {
+        "source": "JWT",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "CartService",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentService",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationService",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecommendationEngine",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "SearchService",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserProfileService",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsService",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudDetection",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserProfileService",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogService",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventoryService",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "CartService",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "SearchService",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecommendationEngine",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsService",
+        "target": "DataWarehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudDetection",
+        "target": "DataWarehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "PaymentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "InventoryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "NotificationService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CartService",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "RecommendationEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "SearchService",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "AnalyticsService",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecommendationEngine",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SearchService",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationService",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentService",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudDetection",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI_DSS",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentService",
+        "target": "PaymentGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "ShippingProvider",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderService",
+        "target": "TaxService",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationService",
+        "target": "EmailSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationService",
+        "target": "SMSsvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "GithubActions",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "PCI_DSS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "GDPR",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Microservices",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Rate Limiting",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 73,
+    "source_edges": 78,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

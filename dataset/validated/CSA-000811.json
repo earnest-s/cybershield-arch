@@ -1,0 +1,588 @@
+{
+  "id": "CSA-000811",
+  "instruction": "Design a Travel architecture. using a Hexagonal style. deployed on Azure. satisfying: Zero Trust Architecture, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiCons",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "ztfw",
+        "type": "service"
+      },
+      {
+        "id": "serviceMesh",
+        "type": "service"
+      },
+      {
+        "id": "k8s1",
+        "type": "ui"
+      },
+      {
+        "id": "k8s2",
+        "type": "container"
+      },
+      {
+        "id": "k8s3",
+        "type": "container"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "registry",
+        "type": "container"
+      },
+      {
+        "id": "adapterIn1",
+        "type": "service"
+      },
+      {
+        "id": "adapterIn2",
+        "type": "service"
+      },
+      {
+        "id": "portIn",
+        "type": "service"
+      },
+      {
+        "id": "core",
+        "type": "service"
+      },
+      {
+        "id": "portOut",
+        "type": "service"
+      },
+      {
+        "id": "adapterOut1",
+        "type": "service"
+      },
+      {
+        "id": "adapterOut2",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventStore",
+        "type": "service"
+      },
+      {
+        "id": "rawLake",
+        "type": "service"
+      },
+      {
+        "id": "curatedLake",
+        "type": "service"
+      },
+      {
+        "id": "dw",
+        "type": "service"
+      },
+      {
+        "id": "vecDB",
+        "type": "database"
+      },
+      {
+        "id": "redisCache",
+        "type": "cache"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "log",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "dr",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "ztfw",
+        "label": "HTTP"
+      },
+      {
+        "source": "ztfw",
+        "target": "serviceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceMesh",
+        "target": "k8s1",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceMesh",
+        "target": "k8s2",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceMesh",
+        "target": "k8s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "registry",
+        "label": "HTTP"
+      },
+      {
+        "source": "registry",
+        "target": "k8s1",
+        "label": "HTTP"
+      },
+      {
+        "source": "registry",
+        "target": "k8s2",
+        "label": "HTTP"
+      },
+      {
+        "source": "registry",
+        "target": "k8s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s2",
+        "target": "adapterIn1",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterIn1",
+        "target": "portIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "portIn",
+        "target": "core",
+        "label": "HTTP"
+      },
+      {
+        "source": "core",
+        "target": "portOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "portOut",
+        "target": "adapterOut1",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s2",
+        "target": "adapterIn2",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterIn2",
+        "target": "portIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "core",
+        "target": "adapterOut2",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "adapterOut1",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "adapterIn1",
+        "label": "HTTP"
+      },
+      {
+        "source": "portOut",
+        "target": "rawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventStore",
+        "target": "curatedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "curatedLake",
+        "target": "dw",
+        "label": "HTTP"
+      },
+      {
+        "source": "dw",
+        "target": "vecDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "dw",
+        "target": "redisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "vecDB",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "web",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "mobile",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "log",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s1",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s2",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s3",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiCons",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "rawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "dw",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "vecDB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 2,
+      "services": 37
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Travel",
+    "style": "Hexagonal",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 67,
+    "source_edges": 65,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

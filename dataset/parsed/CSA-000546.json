@@ -1,0 +1,425 @@
+{
+  "id": "CSA-000546",
+  "instruction": "Design a Manufacturing architecture. using a Zero-Trust style. deployed on AWS. satisfying: Auto Scaling, Strict Network Segmentation, GraphRAG Integration, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "K8SCluster",
+        "type": "container"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "Ingress",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "MicroA",
+        "type": "service"
+      },
+      {
+        "id": "MicroB",
+        "type": "service"
+      },
+      {
+        "id": "MicroC",
+        "type": "service"
+      },
+      {
+        "id": "AIOrch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "database"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Build",
+        "type": "ui"
+      },
+      {
+        "id": "Deploy",
+        "type": "service"
+      },
+      {
+        "id": "ASG",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "ExternalLLM",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "K8SCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "K8SCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "K8SCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "K8SCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingress",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "MicroA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "MicroB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "MicroC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "AIOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "MicroA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "MicroB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "MicroC",
+        "label": "Cache"
+      },
+      {
+        "source": "VectorDB",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "MicroA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MicroA",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "MicroB",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "MicroC",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "AIOrch",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "MicroA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MicroB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MicroC",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrch",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "Build",
+        "label": "HTTP"
+      },
+      {
+        "source": "Build",
+        "target": "Deploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "K8SCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASG",
+        "target": "K8SCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Ingress",
+        "label": "HTTP"
+      },
+      {
+        "source": "MicroA",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "MicroB",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "MicroC",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "AIOrch",
+        "target": "ExternalLLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ExternalLLM",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "MicroA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "MicroB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "MicroC",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "Zero-Trust",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Strict Network Segmentation",
+      "GraphRAG Integration",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 57,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

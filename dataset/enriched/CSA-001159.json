@@ -1,0 +1,619 @@
+{
+  "id": "CSA-001159",
+  "instruction": "Design a ERP architecture. using a Event-Driven style. deployed on Multi-Cloud. satisfying: Feature Flags, Strict Network Segmentation, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "OrderSvc",
+        "type": "service"
+      },
+      {
+        "id": "InvSrv",
+        "type": "service"
+      },
+      {
+        "id": "FinSrv",
+        "type": "service"
+      },
+      {
+        "id": "HRsvc",
+        "type": "service"
+      },
+      {
+        "id": "CPUSvc",
+        "type": "ui"
+      },
+      {
+        "id": "IntegrationHub",
+        "type": "service"
+      },
+      {
+        "id": "SagaOrch",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Mongo",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_MESH",
+        "type": "service"
+      },
+      {
+        "id": "SecurityControls",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "InvSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FinSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "HRsvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CPUSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "InvSrv",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "FinSrv",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "HRsvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "CPUSvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "SagaOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "SagaOrch",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "SagaOrch",
+        "target": "InvSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "SagaOrch",
+        "target": "FinSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "SagaOrch",
+        "target": "HRsvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "IntegrationHub",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "InvSrv",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "FinSrv",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "HRsvc",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "CPUSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mongo",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "Postgres",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mongo",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mongo",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "InvSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "FinSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "HRsvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "CPUSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "IntegrationHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "FeatureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "InvSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "FinSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "HRsvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "CPUSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "SecurityControls",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "AuditLog",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 35
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Event-Driven",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Strict Network Segmentation",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 64,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

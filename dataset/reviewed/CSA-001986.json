@@ -1,0 +1,556 @@
+{
+  "id": "CSA-001986",
+  "instruction": "Design a Supply Chain architecture. using a Data Mesh style. deployed on GCP. satisfying: Auto Scaling, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "partnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "ui"
+      },
+      {
+        "id": "autoscale",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "procPostgres",
+        "type": "database"
+      },
+      {
+        "id": "procRedis",
+        "type": "database"
+      },
+      {
+        "id": "procGraphRAG",
+        "type": "database"
+      },
+      {
+        "id": "manufMongo",
+        "type": "database"
+      },
+      {
+        "id": "manufElastic",
+        "type": "database"
+      },
+      {
+        "id": "manufVector",
+        "type": "database"
+      },
+      {
+        "id": "distDynamo",
+        "type": "database"
+      },
+      {
+        "id": "distLake",
+        "type": "database"
+      },
+      {
+        "id": "retailCassandra",
+        "type": "database"
+      },
+      {
+        "id": "retailAnalytics",
+        "type": "database"
+      },
+      {
+        "id": "orderSvc",
+        "type": "service"
+      },
+      {
+        "id": "inventorySvc",
+        "type": "service"
+      },
+      {
+        "id": "shipmentSvc",
+        "type": "service"
+      },
+      {
+        "id": "demandForecast",
+        "type": "service"
+      },
+      {
+        "id": "ragOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "restAPI",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "partnerAPI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "zeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "autoscale",
+        "target": "ciCd",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "restAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "inventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "restAPI",
+        "target": "shipmentSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "restAPI",
+        "target": "demandForecast",
+        "label": "HTTP"
+      },
+      {
+        "source": "demandForecast",
+        "target": "ragOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSvc",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySvc",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipmentSvc",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "demandForecast",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragOrchestrator",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSvc",
+        "target": "procPostgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSvc",
+        "target": "procRedis",
+        "label": "Cache"
+      },
+      {
+        "source": "inventorySvc",
+        "target": "manufMongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySvc",
+        "target": "manufElastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySvc",
+        "target": "manufVector",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipmentSvc",
+        "target": "distDynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipmentSvc",
+        "target": "distLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "demandForecast",
+        "target": "retailCassandra",
+        "label": "HTTP"
+      },
+      {
+        "source": "demandForecast",
+        "target": "retailAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragOrchestrator",
+        "target": "procGraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragOrchestrator",
+        "target": "manufVector",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "soc2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 10,
+      "services": 29
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "Data Mesh",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 64,
+    "source_edges": 51,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

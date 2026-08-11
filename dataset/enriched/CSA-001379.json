@@ -1,0 +1,601 @@
+{
+  "id": "CSA-001379",
+  "instruction": "Design a SCM architecture. using a Data Mesh style. deployed on GCP. satisfying: High Throughput (100k+ TPS), Blue/Green Deployment, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROC_MS",
+        "type": "service"
+      },
+      {
+        "id": "PROC_DB",
+        "type": "database"
+      },
+      {
+        "id": "PROC_SEARCH",
+        "type": "database"
+      },
+      {
+        "id": "INV_MS",
+        "type": "service"
+      },
+      {
+        "id": "INV_DB",
+        "type": "database"
+      },
+      {
+        "id": "INV_VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "ORDER_MS",
+        "type": "service"
+      },
+      {
+        "id": "ORDER_DB",
+        "type": "database"
+      },
+      {
+        "id": "ORDER_CACHE",
+        "type": "database"
+      },
+      {
+        "id": "SHIP_MS",
+        "type": "service"
+      },
+      {
+        "id": "SHIP_DB",
+        "type": "database"
+      },
+      {
+        "id": "DISCOVERY",
+        "type": "service"
+      },
+      {
+        "id": "GOVERNANCE",
+        "type": "service"
+      },
+      {
+        "id": "ACCESS",
+        "type": "service"
+      },
+      {
+        "id": "PROC_VECTOR",
+        "type": "service"
+      },
+      {
+        "id": "GCS",
+        "type": "database"
+      },
+      {
+        "id": "BIGQUERY",
+        "type": "service"
+      },
+      {
+        "id": "PUBSUB",
+        "type": "service"
+      },
+      {
+        "id": "CLOUDDNS",
+        "type": "service"
+      },
+      {
+        "id": "CLOUDIAM",
+        "type": "service"
+      },
+      {
+        "id": "ERP",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      },
+      {
+        "id": "CRM",
+        "type": "service"
+      },
+      {
+        "id": "THIRD_PARTY",
+        "type": "service"
+      },
+      {
+        "id": "Calls",
+        "type": "service"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "COMPLY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "RL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "CICD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROC_MS",
+        "target": "PROC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROC_MS",
+        "target": "PROC_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV_MS",
+        "target": "INV_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV_MS",
+        "target": "INV_VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_MS",
+        "target": "ORDER_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_MS",
+        "target": "ORDER_CACHE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIP_MS",
+        "target": "SHIP_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROC_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "INV_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "ORDER_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "SHIP_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROC_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "INV_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "ORDER_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "SHIP_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROC_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "INV_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ORDER_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "SHIP_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DISCOVERY",
+        "target": "GOVERNANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GOVERNANCE",
+        "target": "ACCESS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROC_DB",
+        "target": "DISCOVERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV_DB",
+        "target": "DISCOVERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_DB",
+        "target": "DISCOVERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIP_DB",
+        "target": "DISCOVERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROC_VECTOR",
+        "target": "DISCOVERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV_VECTOR",
+        "target": "DISCOVERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "PROC_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "INV_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "ORDER_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "SHIP_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCS",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "BIGQUERY",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ERP",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "PROC_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CRM",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "ORDER_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "THIRD_PARTY",
+        "target": "Calls",
+        "label": "HTTP"
+      },
+      {
+        "source": "Calls",
+        "target": "SHIP_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "CLOUDIAM",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 8,
+      "services": 35
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "Data Mesh",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Blue/Green Deployment",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 65,
+    "source_edges": 72,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

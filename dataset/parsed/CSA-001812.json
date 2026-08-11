@@ -1,0 +1,585 @@
+{
+  "id": "CSA-001812",
+  "instruction": "Design a E-Commerce architecture. using a Serverless style. deployed on Hybrid Cloud. satisfying: Auto Scaling, Blue/Green Deployment, Disaster Recovery, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "AGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPC1",
+        "type": "service"
+      },
+      {
+        "id": "SEG1",
+        "type": "service"
+      },
+      {
+        "id": "SEG2",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "LambdaAuth",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Secrets",
+        "type": "service"
+      },
+      {
+        "id": "Functions",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "DataStore",
+        "type": "service"
+      },
+      {
+        "id": "AuthFn",
+        "type": "service"
+      },
+      {
+        "id": "OrderFn",
+        "type": "service"
+      },
+      {
+        "id": "PaymentFn",
+        "type": "service"
+      },
+      {
+        "id": "InventoryFn",
+        "type": "service"
+      },
+      {
+        "id": "CatalogFn",
+        "type": "service"
+      },
+      {
+        "id": "NotificationFn",
+        "type": "service"
+      },
+      {
+        "id": "StepFn",
+        "type": "service"
+      },
+      {
+        "id": "GraphQL",
+        "type": "service"
+      },
+      {
+        "id": "RestAPI",
+        "type": "service"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "Aurora",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "Elasticsearch",
+        "type": "database"
+      },
+      {
+        "id": "SNS",
+        "type": "database"
+      },
+      {
+        "id": "SQS",
+        "type": "database"
+      },
+      {
+        "id": "EventBridge",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "database"
+      },
+      {
+        "id": "Grafana",
+        "type": "database"
+      },
+      {
+        "id": "OTEL",
+        "type": "database"
+      },
+      {
+        "id": "ELK",
+        "type": "database"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "AutoScale",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "MultiCluster",
+        "type": "database"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "VPC1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC1",
+        "target": "SEG1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC1",
+        "target": "SEG2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "UI",
+        "label": "Cache"
+      },
+      {
+        "source": "CDN",
+        "target": "MobileApp",
+        "label": "Cache"
+      },
+      {
+        "source": "FW",
+        "target": "SEG1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "SEG2",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "SEG2",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "LambdaAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaAuth",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "Secrets",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "DataStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthFn",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderFn",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentFn",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventoryFn",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogFn",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationFn",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFn",
+        "target": "OrderFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFn",
+        "target": "PaymentFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFn",
+        "target": "InventoryFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFn",
+        "target": "NotificationFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQL",
+        "target": "CatalogFn",
+        "label": "DB Query"
+      },
+      {
+        "source": "RestAPI",
+        "target": "OrderFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "DynamoDB",
+        "target": "OrderFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "CatalogFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "Aurora",
+        "target": "PaymentFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "InventoryFn",
+        "label": "Cache"
+      },
+      {
+        "source": "Elasticsearch",
+        "target": "CatalogFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "NotificationFn",
+        "label": "Async"
+      },
+      {
+        "source": "SQS",
+        "target": "OrderFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "StepFn",
+        "label": "Async"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AutoScale",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MultiCluster",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DataStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderFn",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CatalogFn",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentFn",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventoryFn",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "NotificationFn",
+        "target": "SNS",
+        "label": "Async"
+      },
+      {
+        "source": "StepFn",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Serverless",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Blue/Green Deployment",
+      "Disaster Recovery",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 77,
+    "source_edges": 89,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

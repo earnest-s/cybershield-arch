@@ -1,0 +1,663 @@
+{
+  "id": "CSA-000979",
+  "instruction": "Design a HR architecture. using a Event-Driven style. deployed on GCP. satisfying: AI/ML Inference Integration, Active-Active Multi-Region, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "LB_A",
+        "type": "service"
+      },
+      {
+        "id": "GW_A",
+        "type": "service"
+      },
+      {
+        "id": "WAF_A",
+        "type": "service"
+      },
+      {
+        "id": "FW_A",
+        "type": "service"
+      },
+      {
+        "id": "IAM_A",
+        "type": "service"
+      },
+      {
+        "id": "LB_B",
+        "type": "service"
+      },
+      {
+        "id": "GW_B",
+        "type": "service"
+      },
+      {
+        "id": "WAF_B",
+        "type": "service"
+      },
+      {
+        "id": "FW_B",
+        "type": "service"
+      },
+      {
+        "id": "IAM_B",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "database"
+      },
+      {
+        "id": "EmployeeSvcA",
+        "type": "service"
+      },
+      {
+        "id": "PayrollSvcA",
+        "type": "service"
+      },
+      {
+        "id": "BenefitsSvcA",
+        "type": "service"
+      },
+      {
+        "id": "RecruitSvcA",
+        "type": "ui"
+      },
+      {
+        "id": "AIInferenceA",
+        "type": "service"
+      },
+      {
+        "id": "EmployeeSvcB",
+        "type": "service"
+      },
+      {
+        "id": "PayrollSvcB",
+        "type": "service"
+      },
+      {
+        "id": "BenefitsSvcB",
+        "type": "service"
+      },
+      {
+        "id": "RecruitSvcB",
+        "type": "ui"
+      },
+      {
+        "id": "AIInferenceB",
+        "type": "service"
+      },
+      {
+        "id": "PG_A",
+        "type": "database"
+      },
+      {
+        "id": "Redis_A",
+        "type": "cache"
+      },
+      {
+        "id": "ES_A",
+        "type": "service"
+      },
+      {
+        "id": "PG_B",
+        "type": "database"
+      },
+      {
+        "id": "Redis_B",
+        "type": "cache"
+      },
+      {
+        "id": "ES_B",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "MESH",
+        "type": "service"
+      },
+      {
+        "id": "ExternalModel",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "LB_A",
+        "target": "GW_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW_A",
+        "target": "WAF_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF_A",
+        "target": "FW_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW_A",
+        "target": "IAM_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_B",
+        "target": "GW_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW_B",
+        "target": "WAF_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF_B",
+        "target": "FW_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW_B",
+        "target": "IAM_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "LB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "LB_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "LB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "LB_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "LB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "LB_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW_A",
+        "target": "MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW_B",
+        "target": "MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "EmployeeSvcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "PayrollSvcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "BenefitsSvcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "RecruitSvcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "AIInferenceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "EmployeeSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "PayrollSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "BenefitsSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "RecruitSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "AIInferenceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmployeeSvcA",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "PayrollSvcA",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "BenefitsSvcA",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "RecruitSvcA",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "EmployeeSvcB",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "PayrollSvcB",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "BenefitsSvcB",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "RecruitSvcB",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "EmployeeSvcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "PayrollSvcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "BenefitsSvcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "RecruitSvcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "EmployeeSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "PayrollSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "BenefitsSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "RecruitSvcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmployeeSvcA",
+        "target": "PG_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollSvcA",
+        "target": "PG_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenefitsSvcA",
+        "target": "PG_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitSvcA",
+        "target": "PG_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmployeeSvcB",
+        "target": "PG_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollSvcB",
+        "target": "PG_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenefitsSvcB",
+        "target": "PG_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitSvcB",
+        "target": "PG_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmployeeSvcA",
+        "target": "Redis_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollSvcA",
+        "target": "Redis_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenefitsSvcA",
+        "target": "Redis_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitSvcA",
+        "target": "Redis_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmployeeSvcB",
+        "target": "Redis_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollSvcB",
+        "target": "Redis_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenefitsSvcB",
+        "target": "Redis_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitSvcB",
+        "target": "Redis_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitSvcA",
+        "target": "ES_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitSvcB",
+        "target": "ES_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInferenceA",
+        "target": "ExternalModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInferenceB",
+        "target": "ExternalModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmployeeSvcA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollSvcA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenefitsSvcA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitSvcA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInferenceA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmployeeSvcB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollSvcB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenefitsSvcB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitSvcB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInferenceB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Prom",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 5,
+      "services": 29
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Active-Active Multi-Region",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 82,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

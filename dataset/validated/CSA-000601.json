@@ -1,0 +1,485 @@
+{
+  "id": "CSA-000601",
+  "instruction": "Design a GenAI architecture. using a Zero-Trust style. deployed on AWS. satisfying: Blue/Green Deployment, Active-Active Multi-Region, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "CF",
+        "type": "service"
+      },
+      {
+        "id": "MOB",
+        "type": "service"
+      },
+      {
+        "id": "API",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "R53",
+        "type": "service"
+      },
+      {
+        "id": "LB_EAST",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO_EAST",
+        "type": "service"
+      },
+      {
+        "id": "SG_INFER_EAST",
+        "type": "service"
+      },
+      {
+        "id": "SG_GREEN_EAST",
+        "type": "service"
+      },
+      {
+        "id": "MSG_EAST",
+        "type": "service"
+      },
+      {
+        "id": "DDB_EAST",
+        "type": "database"
+      },
+      {
+        "id": "S3_EAST",
+        "type": "service"
+      },
+      {
+        "id": "OS_EAST",
+        "type": "service"
+      },
+      {
+        "id": "CW_EAST",
+        "type": "service"
+      },
+      {
+        "id": "XRAY_EAST",
+        "type": "service"
+      },
+      {
+        "id": "LB_WEST",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO_WEST",
+        "type": "service"
+      },
+      {
+        "id": "SG_INFER_WEST",
+        "type": "service"
+      },
+      {
+        "id": "SG_GREEN_WEST",
+        "type": "service"
+      },
+      {
+        "id": "MSG_WEST",
+        "type": "service"
+      },
+      {
+        "id": "DDB_WEST",
+        "type": "database"
+      },
+      {
+        "id": "S3_WEST",
+        "type": "service"
+      },
+      {
+        "id": "OS_WEST",
+        "type": "service"
+      },
+      {
+        "id": "CW_WEST",
+        "type": "service"
+      },
+      {
+        "id": "XRAY_WEST",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "SM",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOB",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CF",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "R53",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO_EAST",
+        "target": "SG_INFER_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO_EAST",
+        "target": "SG_GREEN_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "MSG_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "MSG_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "DDB_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "DDB_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "S3_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "S3_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "OS_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "OS_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "CW_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "CW_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "XRAY_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "XRAY_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_EAST",
+        "target": "SG_INFER_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_EAST",
+        "target": "SG_GREEN_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO_WEST",
+        "target": "SG_INFER_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO_WEST",
+        "target": "SG_GREEN_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "MSG_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "MSG_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "DDB_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "DDB_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "S3_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "S3_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "OS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "OS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "CW_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "CW_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "XRAY_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "XRAY_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_WEST",
+        "target": "SG_INFER_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_WEST",
+        "target": "SG_GREEN_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "LB_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "LB_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "SG_INFER_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "SG_GREEN_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "SG_INFER_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "SG_GREEN_WEST",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 2,
+      "services": 26
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "Zero-Trust",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Active-Active Multi-Region",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 55,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

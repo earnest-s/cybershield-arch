@@ -1,0 +1,358 @@
+{
+  "id": "CSA-001995",
+  "instruction": "Design a Banking architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: Blue/Green Deployment, Rate Limiting, High Throughput (100k+ TPS), Data Lakehouse Pattern, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "EDGE",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "REG",
+        "type": "container"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PAY_MS",
+        "type": "service"
+      },
+      {
+        "id": "PAY_DB",
+        "type": "database"
+      },
+      {
+        "id": "ACC_MS",
+        "type": "service"
+      },
+      {
+        "id": "ACC_DB",
+        "type": "database"
+      },
+      {
+        "id": "FRAUD_MS",
+        "type": "service"
+      },
+      {
+        "id": "FRAUD_DB",
+        "type": "database"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "LAKE",
+        "type": "database"
+      },
+      {
+        "id": "BLUE",
+        "type": "service"
+      },
+      {
+        "id": "GREEN",
+        "type": "service"
+      },
+      {
+        "id": "highThroughput",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PAY_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "ACC_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "FRAUD_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAY_MS",
+        "target": "PAY_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ACC_MS",
+        "target": "ACC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FRAUD_MS",
+        "target": "FRAUD_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAY_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "ACC_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "FRAUD_MS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAY_MS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ACC_MS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FRAUD_MS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "PAY_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "ACC_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GREEN",
+        "target": "LB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)",
+      "Data Lakehouse Pattern",
+      "Observability Stack"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 54,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

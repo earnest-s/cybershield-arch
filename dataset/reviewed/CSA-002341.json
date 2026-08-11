@@ -1,0 +1,557 @@
+{
+  "id": "CSA-002341",
+  "instruction": "Design a Cyber Security architecture. using a CQRS style. deployed on On-Premises. satisfying: Rate Limiting, GraphRAG Integration, Data Lakehouse Pattern, Disaster Recovery, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONS",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "SECRETS",
+        "type": "service"
+      },
+      {
+        "id": "AUTHZ",
+        "type": "service"
+      },
+      {
+        "id": "RATE",
+        "type": "service"
+      },
+      {
+        "id": "CMD",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_STORE",
+        "type": "database"
+      },
+      {
+        "id": "QUERY",
+        "type": "service"
+      },
+      {
+        "id": "READ_DB",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "RAW_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "PROC_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "METASTORE",
+        "type": "service"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "GRAPH_RAG",
+        "type": "service"
+      },
+      {
+        "id": "RABBIT",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT_BRIDGE",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "DR_SITE",
+        "type": "service"
+      },
+      {
+        "id": "REPL",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONS",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WEB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "SECRETS",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AUTHZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTHZ",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RATE",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "READ_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAW_LAKE",
+        "target": "PROC_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROC_LAKE",
+        "target": "METASTORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROC_LAKE",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC_DB",
+        "target": "GRAPH_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "RABBIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "RABBIT",
+        "target": "EVENT_BRIDGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SITE",
+        "target": "REPL",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPL",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPL",
+        "target": "PROC_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_DB",
+        "target": "METASTORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "METASTORE",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPH_RAG",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTHZ",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "QUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "GRAPH_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "AUDIT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 3,
+      "services": 35
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Cyber Security",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "GraphRAG Integration",
+      "Data Lakehouse Pattern",
+      "Disaster Recovery",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 56,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

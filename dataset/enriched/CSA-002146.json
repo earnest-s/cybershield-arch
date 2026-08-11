@@ -1,0 +1,590 @@
+{
+  "id": "CSA-002146",
+  "instruction": "Design a Supply Chain architecture. using a CQRS style. deployed on Hybrid Cloud. satisfying: Observability Stack, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "PARTNER",
+        "type": "ui"
+      },
+      {
+        "id": "EVENTHUB",
+        "type": "database"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "CMD",
+        "type": "service"
+      },
+      {
+        "id": "QRY",
+        "type": "service"
+      },
+      {
+        "id": "ES",
+        "type": "queue"
+      },
+      {
+        "id": "EVENTPROC",
+        "type": "service"
+      },
+      {
+        "id": "WRITEREP",
+        "type": "database"
+      },
+      {
+        "id": "DOMAIN_EVT",
+        "type": "queue"
+      },
+      {
+        "id": "READAPI",
+        "type": "service"
+      },
+      {
+        "id": "REDIS_Q",
+        "type": "cache"
+      },
+      {
+        "id": "READREP",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "ML_SERV",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "REDIS_W",
+        "type": "cache"
+      },
+      {
+        "id": "ESDB",
+        "type": "database"
+      },
+      {
+        "id": "CLICK",
+        "type": "database"
+      },
+      {
+        "id": "BACKUP",
+        "type": "service"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VECDB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "METRICS",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "ui"
+      },
+      {
+        "id": "LOGS",
+        "type": "service"
+      },
+      {
+        "id": "ALERT",
+        "type": "service"
+      },
+      {
+        "id": "TRACES",
+        "type": "service"
+      },
+      {
+        "id": "SPAN",
+        "type": "ui"
+      },
+      {
+        "id": "APP_METRICS",
+        "type": "service"
+      },
+      {
+        "id": "APP_LOGS",
+        "type": "service"
+      },
+      {
+        "id": "APP_TRACES",
+        "type": "service"
+      },
+      {
+        "id": "K8S_HYB",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "SAGA",
+        "type": "service"
+      },
+      {
+        "id": "FLAG",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PARTNER",
+        "target": "EVENTHUB",
+        "label": "Async"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "EVENTPROC",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTPROC",
+        "target": "WRITEREP",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTPROC",
+        "target": "DOMAIN_EVT",
+        "label": "Async"
+      },
+      {
+        "source": "QRY",
+        "target": "READAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "READAPI",
+        "target": "REDIS_Q",
+        "label": "Cache"
+      },
+      {
+        "source": "READAPI",
+        "target": "READREP",
+        "label": "DB Query"
+      },
+      {
+        "source": "DOMAIN_EVT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ML_SERV",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WRITEREP",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "WRITEREP",
+        "target": "REDIS_W",
+        "label": "HTTP"
+      },
+      {
+        "source": "READREP",
+        "target": "ESDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "READREP",
+        "target": "CLICK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "BACKUP",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "VECDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECDB",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ML_SERV",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "METRICS",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOGS",
+        "target": "ALERT",
+        "label": "HTTP"
+      },
+      {
+        "source": "TRACES",
+        "target": "SPAN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP_METRICS",
+        "target": "METRICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP_LOGS",
+        "target": "LOGS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP_TRACES",
+        "target": "TRACES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "K8S_HYB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "K8S_HYB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "K8S_HYB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "LOGS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "SAGA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SAGA",
+        "target": "EVENTPROC",
+        "label": "HTTP"
+      },
+      {
+        "source": "READAPI",
+        "target": "FLAG",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 7,
+      "databases": 8,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "CQRS",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Observability Stack",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 76,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

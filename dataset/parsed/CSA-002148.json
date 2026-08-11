@@ -1,0 +1,418 @@
+{
+  "id": "CSA-002148",
+  "instruction": "Design a FinTech architecture. using a Data Mesh style. deployed on On-Premises. satisfying: High Throughput (100k+ TPS), AI/ML Inference Integration, Auto Scaling, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "partnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "idp",
+        "type": "container"
+      },
+      {
+        "id": "authZ",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "loadBal",
+        "type": "database"
+      },
+      {
+        "id": "kubeMaster",
+        "type": "container"
+      },
+      {
+        "id": "svcA1",
+        "type": "service"
+      },
+      {
+        "id": "svcA2",
+        "type": "service"
+      },
+      {
+        "id": "svcA3",
+        "type": "service"
+      },
+      {
+        "id": "svcB1",
+        "type": "service"
+      },
+      {
+        "id": "svcB2",
+        "type": "service"
+      },
+      {
+        "id": "svcB3",
+        "type": "service"
+      },
+      {
+        "id": "CLUSTER_A",
+        "type": "service"
+      },
+      {
+        "id": "CLUSTER_B",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "database"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "modelSrv",
+        "type": "service"
+      },
+      {
+        "id": "embeddingSrv",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "gitlab",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "argocd",
+        "type": "service"
+      },
+      {
+        "id": "observ",
+        "type": "service"
+      },
+      {
+        "id": "vectordb",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "partnerAPI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "Cache"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "authZ",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "loadBal",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBal",
+        "target": "kubeMaster",
+        "label": "HTTP"
+      },
+      {
+        "source": "kubeMaster",
+        "target": "CLUSTER_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "kubeMaster",
+        "target": "CLUSTER_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svcA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svcA2",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svcA3",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svcB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svcB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "svcB3",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongo",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "elastic",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "modelSrv",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "embeddingSrv",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "modelSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "embeddingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "gitlab",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "argocd",
+        "label": "HTTP"
+      },
+      {
+        "source": "argocd",
+        "target": "kubeMaster",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "svcA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "svcA2",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "svcA3",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "svcB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "svcB2",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "svcB3",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA1",
+        "target": "observ",
+        "label": "HTTP"
+      },
+      {
+        "source": "observ",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB2",
+        "target": "observ",
+        "label": "HTTP"
+      },
+      {
+        "source": "modelSrv",
+        "target": "observ",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "observ",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectordb",
+        "target": "observ",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Data Mesh",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "AI/ML Inference Integration",
+      "Auto Scaling",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 64,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,368 @@
+{
+  "id": "CSA-001565",
+  "instruction": "Design a Digital Twin architecture. using a Modular Monolith style. deployed on Hybrid Cloud. satisfying: Blue/Green Deployment, AI/ML Inference Integration, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "EdgeNet",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ISO27001",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ModCore",
+        "type": "service"
+      },
+      {
+        "id": "TwinMgr",
+        "type": "service"
+      },
+      {
+        "id": "SimEngine",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      },
+      {
+        "id": "API",
+        "type": "service"
+      },
+      {
+        "id": "ModelStore",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "Inferencing",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "container"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "GitLabCI",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "API",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeNet",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "ModCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModCore",
+        "target": "TwinMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModCore",
+        "target": "SimEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModCore",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModCore",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModCore",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "ModCore",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModCore",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Analytics",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "ModelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Inferencing",
+        "target": "ModelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Inferencing",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "TwinMgr",
+        "target": "Inferencing",
+        "label": "HTTP"
+      },
+      {
+        "source": "SimEngine",
+        "target": "Inferencing",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ZeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "API",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO27001",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "ModCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitLabCI",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Digital Twin",
+    "style": "Modular Monolith",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Blue/Green Deployment",
+      "AI/ML Inference Integration",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 47,
+    "source_edges": 41,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

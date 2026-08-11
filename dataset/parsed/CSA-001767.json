@@ -1,0 +1,577 @@
+{
+  "id": "CSA-001767",
+  "instruction": "Design a Automotive architecture. using a Microservices style. deployed on AWS. satisfying: Data Lakehouse Pattern, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webui",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "dealer",
+        "type": "ui"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "embedding",
+        "type": "service"
+      },
+      {
+        "id": "vectorsearch",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "telemetry",
+        "type": "service"
+      },
+      {
+        "id": "fleet",
+        "type": "service"
+      },
+      {
+        "id": "maintenance",
+        "type": "service"
+      },
+      {
+        "id": "billing",
+        "type": "service"
+      },
+      {
+        "id": "notification",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "authsvc",
+        "type": "service"
+      },
+      {
+        "id": "s3raw",
+        "type": "service"
+      },
+      {
+        "id": "glue",
+        "type": "service"
+      },
+      {
+        "id": "emr",
+        "type": "service"
+      },
+      {
+        "id": "curated",
+        "type": "service"
+      },
+      {
+        "id": "redshift",
+        "type": "service"
+      },
+      {
+        "id": "dynamodb",
+        "type": "database"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "eks",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "bluegreen",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "vpc",
+        "type": "service"
+      },
+      {
+        "id": "igw",
+        "type": "service"
+      },
+      {
+        "id": "alb",
+        "type": "service"
+      },
+      {
+        "id": "route53",
+        "type": "service"
+      },
+      {
+        "id": "s3",
+        "type": "service"
+      },
+      {
+        "id": "ecr",
+        "type": "service"
+      },
+      {
+        "id": "secretsmgr",
+        "type": "service"
+      },
+      {
+        "id": "embedd_ing",
+        "type": "service"
+      },
+      {
+        "id": "kibana",
+        "type": "service"
+      },
+      {
+        "id": "ms_group",
+        "type": "service"
+      },
+      {
+        "id": "all",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webui",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "dealer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "telemetry",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "fleet",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "maintenance",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemetry",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "fleet",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "maintenance",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "notification",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "embedd_ing",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "vectorsearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedding",
+        "target": "vectorsearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "maintenance",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemetry",
+        "target": "s3raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fleet",
+        "target": "s3raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "maintenance",
+        "target": "s3raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "s3raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3raw",
+        "target": "glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "glue",
+        "target": "emr",
+        "label": "HTTP"
+      },
+      {
+        "source": "emr",
+        "target": "curated",
+        "label": "HTTP"
+      },
+      {
+        "source": "curated",
+        "target": "redshift",
+        "label": "HTTP"
+      },
+      {
+        "source": "curated",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "redshift",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "kibana",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "bluegreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ms_group",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemetry",
+        "target": "ms_group",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_group",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "vpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "igw",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "route53",
+        "label": "HTTP"
+      },
+      {
+        "source": "route53",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "secretsmgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "secretsmgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "all",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Automotive",
+    "style": "Microservices",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 84,
+    "source_edges": 77,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

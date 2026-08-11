@@ -1,0 +1,493 @@
+{
+  "id": "CSA-000527",
+  "instruction": "Design a RAG architecture. using a Serverless style. deployed on AWS. satisfying: Blue/Green Deployment, Data Lakehouse Pattern, AI/ML Inference Integration, Auto Scaling, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "Ingest",
+        "type": "service"
+      },
+      {
+        "id": "RAGProcessor",
+        "type": "service"
+      },
+      {
+        "id": "Embedder",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "RawLake",
+        "type": "service"
+      },
+      {
+        "id": "CuratedLake",
+        "type": "service"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "EmbModel",
+        "type": "service"
+      },
+      {
+        "id": "GenModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "Metrics",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "Traces",
+        "type": "service"
+      },
+      {
+        "id": "Dashboard",
+        "type": "ui"
+      },
+      {
+        "id": "CodeRepo",
+        "type": "service"
+      },
+      {
+        "id": "Build",
+        "type": "ui"
+      },
+      {
+        "id": "Deploy",
+        "type": "service"
+      },
+      {
+        "id": "Canary",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "Ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "Embedder",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedder",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedder",
+        "target": "CuratedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGProcessor",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGProcessor",
+        "target": "GenModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGProcessor",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GenModel",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbModel",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGProcessor",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "RAGProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGProcessor",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGProcessor",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGProcessor",
+        "target": "Traces",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metrics",
+        "target": "Dashboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logs",
+        "target": "Dashboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "Traces",
+        "target": "Dashboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodeRepo",
+        "target": "Build",
+        "label": "HTTP"
+      },
+      {
+        "source": "Build",
+        "target": "Deploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "OBS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 1,
+      "services": 33
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "RAG",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Data Lakehouse Pattern",
+      "AI/ML Inference Integration",
+      "Auto Scaling",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

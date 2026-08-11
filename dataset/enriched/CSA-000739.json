@@ -1,0 +1,565 @@
+{
+  "id": "CSA-000739",
+  "instruction": "Design a Banking architecture. using a Microservices style. deployed on Azure. satisfying: Feature Flags, Disaster Recovery, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "internet",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "authz",
+        "type": "service"
+      },
+      {
+        "id": "featureflags",
+        "type": "service"
+      },
+      {
+        "id": "ingress",
+        "type": "service"
+      },
+      {
+        "id": "meshgateway",
+        "type": "service"
+      },
+      {
+        "id": "acct",
+        "type": "service"
+      },
+      {
+        "id": "txn",
+        "type": "service"
+      },
+      {
+        "id": "loan",
+        "type": "service"
+      },
+      {
+        "id": "cust",
+        "type": "service"
+      },
+      {
+        "id": "notif",
+        "type": "service"
+      },
+      {
+        "id": "fraud",
+        "type": "service"
+      },
+      {
+        "id": "reporting",
+        "type": "service"
+      },
+      {
+        "id": "cache",
+        "type": "cache"
+      },
+      {
+        "id": "search",
+        "type": "service"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "mq",
+        "type": "queue"
+      },
+      {
+        "id": "ai",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "obs",
+        "type": "ui"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "CORE_MS",
+        "type": "service"
+      },
+      {
+        "id": "SUPPORT",
+        "type": "service"
+      },
+      {
+        "id": "cosmos_rw",
+        "type": "database"
+      },
+      {
+        "id": "cosmos_ro",
+        "type": "database"
+      },
+      {
+        "id": "blob",
+        "type": "database"
+      },
+      {
+        "id": "sql",
+        "type": "service"
+      },
+      {
+        "id": "redis_cluster",
+        "type": "cache"
+      },
+      {
+        "id": "dr",
+        "type": "container"
+      },
+      {
+        "id": "dr_sync",
+        "type": "service"
+      },
+      {
+        "id": "alert",
+        "type": "service"
+      },
+      {
+        "id": "incident",
+        "type": "service"
+      },
+      {
+        "id": "ext_bank",
+        "type": "service"
+      },
+      {
+        "id": "payment",
+        "type": "service"
+      },
+      {
+        "id": "MESH",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "internet",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PERIMETER",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "authz",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureflags",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "authz",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingress",
+        "target": "meshgateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "ingress",
+        "label": "HTTP"
+      },
+      {
+        "source": "acct",
+        "target": "txn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cust",
+        "target": "acct",
+        "label": "HTTP"
+      },
+      {
+        "source": "txn",
+        "target": "loan",
+        "label": "HTTP"
+      },
+      {
+        "source": "txn",
+        "target": "fraud",
+        "label": "HTTP"
+      },
+      {
+        "source": "txn",
+        "target": "notif",
+        "label": "HTTP"
+      },
+      {
+        "source": "txn",
+        "target": "reporting",
+        "label": "HTTP"
+      },
+      {
+        "source": "cache",
+        "target": "acct",
+        "label": "Cache"
+      },
+      {
+        "source": "search",
+        "target": "txn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector",
+        "target": "ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "mq",
+        "target": "txn",
+        "label": "Async"
+      },
+      {
+        "source": "ai",
+        "target": "txn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "CORE_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "obs",
+        "target": "CORE_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE_MS",
+        "target": "SUPPORT",
+        "label": "HTTP"
+      },
+      {
+        "source": "cosmos_rw",
+        "target": "cosmos_ro",
+        "label": "HTTP"
+      },
+      {
+        "source": "cosmos_rw",
+        "target": "blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "cosmos_rw",
+        "target": "sql",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis_cluster",
+        "target": "cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE_MS",
+        "target": "cosmos_rw",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE_MS",
+        "target": "sql",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "dr_sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_sync",
+        "target": "cosmos_ro",
+        "label": "Async"
+      },
+      {
+        "source": "dr_sync",
+        "target": "featureflags",
+        "label": "HTTP"
+      },
+      {
+        "source": "alert",
+        "target": "obs",
+        "label": "HTTP"
+      },
+      {
+        "source": "incident",
+        "target": "dr",
+        "label": "HTTP"
+      },
+      {
+        "source": "ext_bank",
+        "target": "mq",
+        "label": "HTTP"
+      },
+      {
+        "source": "payment",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "CORE_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH",
+        "target": "dr",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE_MS",
+        "target": "obs",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "obs",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureflags",
+        "target": "CORE_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "authz",
+        "target": "CORE_MS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Require Multi-Factor Authentication for user access."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 5,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, SIEM and MFA. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Microservices",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Disaster Recovery",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

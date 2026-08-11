@@ -1,0 +1,513 @@
+{
+  "id": "CSA-001474",
+  "instruction": "Design a Telecom architecture. using a Serverless style. deployed on GCP. satisfying: High Throughput (100k+ TPS), Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "API_Gateway",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "CloudFunctions",
+        "type": "service"
+      },
+      {
+        "id": "CloudRun",
+        "type": "container"
+      },
+      {
+        "id": "Dataflow",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "Firestore",
+        "type": "service"
+      },
+      {
+        "id": "Spanner",
+        "type": "service"
+      },
+      {
+        "id": "Memorystore",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Stackdriver",
+        "type": "ui"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "CloudBuild",
+        "type": "ui"
+      },
+      {
+        "id": "ArtifactRegistry",
+        "type": "service"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "RegionUS",
+        "type": "service"
+      },
+      {
+        "id": "RegionEU",
+        "type": "service"
+      },
+      {
+        "id": "RegionAP",
+        "type": "service"
+      },
+      {
+        "id": "ClientLayer",
+        "type": "service"
+      },
+      {
+        "id": "MultiRegion",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "ClientLayer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GlobalLoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLoadBalancer",
+        "target": "API_Gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_Gateway",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_Gateway",
+        "target": "CloudFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_Gateway",
+        "target": "CloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudFunctions",
+        "target": "PubSub",
+        "label": "Async"
+      },
+      {
+        "source": "CloudRun",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "Dataflow",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dataflow",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dataflow",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dataflow",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "Memorystore",
+        "label": "Cache"
+      },
+      {
+        "source": "CloudRun",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "VertexAI",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "CloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "Stackdriver",
+        "label": "HTTP"
+      },
+      {
+        "source": "Stackdriver",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Stackdriver",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudBuild",
+        "target": "CloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudBuild",
+        "target": "CloudFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudBuild",
+        "target": "ArtifactRegistry",
+        "label": "HTTP"
+      },
+      {
+        "source": "Terraform",
+        "target": "MultiRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "MultiRegion",
+        "target": "RegionUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MultiRegion",
+        "target": "RegionEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "MultiRegion",
+        "target": "RegionAP",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionUS",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionEU",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionAP",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionUS",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionEU",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionAP",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionUS",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionEU",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionAP",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "Stackdriver",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CloudFunctions",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 7,
+      "databases": 2,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 50,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

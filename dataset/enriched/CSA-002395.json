@@ -1,0 +1,598 @@
+{
+  "id": "CSA-002395",
+  "instruction": "Design a Fraud Detection architecture. using a Hexagonal style. deployed on On-Premises. satisfying: Data Lakehouse Pattern, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "Mobile",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Edge",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "InPorts",
+        "type": "database"
+      },
+      {
+        "id": "OutPorts",
+        "type": "database"
+      },
+      {
+        "id": "ServiceA",
+        "type": "service"
+      },
+      {
+        "id": "ServiceB",
+        "type": "service"
+      },
+      {
+        "id": "ServiceC",
+        "type": "service"
+      },
+      {
+        "id": "AdapterREST",
+        "type": "service"
+      },
+      {
+        "id": "AdapterGRPC",
+        "type": "service"
+      },
+      {
+        "id": "AdapterKafka",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "database"
+      },
+      {
+        "id": "SQS",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "database"
+      },
+      {
+        "id": "Grafana",
+        "type": "database"
+      },
+      {
+        "id": "OTEL",
+        "type": "database"
+      },
+      {
+        "id": "ELK",
+        "type": "database"
+      },
+      {
+        "id": "K8s",
+        "type": "database"
+      },
+      {
+        "id": "Docker",
+        "type": "database"
+      },
+      {
+        "id": "Istio",
+        "type": "database"
+      },
+      {
+        "id": "CI",
+        "type": "database"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mobile",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "Edge",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "UI",
+        "label": "Cache"
+      },
+      {
+        "source": "CDN",
+        "target": "Mobile",
+        "label": "Cache"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "ZeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "ServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "ServiceC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "AdapterREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceB",
+        "target": "AdapterGRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceC",
+        "target": "AdapterKafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterREST",
+        "target": "InPorts",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterGRPC",
+        "target": "InPorts",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterKafka",
+        "target": "InPorts",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutPorts",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutPorts",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "OutPorts",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutPorts",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutPorts",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceB",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceC",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ServiceC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceB",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceC",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ServiceC",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AdapterREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AdapterGRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AdapterKafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "ServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "ServiceC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "ServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "ServiceC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "Security",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 17,
+      "services": 25
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 63,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

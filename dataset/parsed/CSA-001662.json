@@ -1,0 +1,374 @@
+{
+  "id": "CSA-001662",
+  "instruction": "Design a Pharma architecture. using a Modular Monolith style. deployed on Azure. satisfying: AI/ML Inference Integration, Auto Scaling, Active-Active Multi-Region, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "AIModule",
+        "type": "service"
+      },
+      {
+        "id": "AKS_DR",
+        "type": "container"
+      },
+      {
+        "id": "ServiceMesh_DR",
+        "type": "service"
+      },
+      {
+        "id": "Postgres_DR",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache_DR",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic_DR",
+        "type": "service"
+      },
+      {
+        "id": "Blob_DR",
+        "type": "database"
+      },
+      {
+        "id": "ServiceBus_DR",
+        "type": "service"
+      },
+      {
+        "id": "AIModule_DR",
+        "type": "service"
+      },
+      {
+        "id": "FrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "AZURE_CORE",
+        "type": "service"
+      },
+      {
+        "id": "AZURE_DR",
+        "type": "service"
+      },
+      {
+        "id": "KeyVault",
+        "type": "service"
+      },
+      {
+        "id": "Sentinel",
+        "type": "service"
+      },
+      {
+        "id": "Monitor",
+        "type": "service"
+      },
+      {
+        "id": "LogAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Entra",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "AKS",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "ServiceBus",
+        "label": "Async"
+      },
+      {
+        "source": "AKS",
+        "target": "AIModule",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_DR",
+        "target": "ServiceMesh_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_DR",
+        "target": "Postgres_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_DR",
+        "target": "RedisCache_DR",
+        "label": "Cache"
+      },
+      {
+        "source": "AKS_DR",
+        "target": "Elastic_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_DR",
+        "target": "Blob_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_DR",
+        "target": "ServiceBus_DR",
+        "label": "Async"
+      },
+      {
+        "source": "AKS_DR",
+        "target": "AIModule_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontDoor",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontDoor",
+        "target": "AZURE_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontDoor",
+        "target": "AZURE_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Entra",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Entra",
+        "target": "KeyVault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Entra",
+        "target": "Sentinel",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "FrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "PERIMETER",
+        "target": "FrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh_DR",
+        "target": "AKS_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_DR",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIModule",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIModule_DR",
+        "target": "Elastic_DR",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Modular Monolith",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Auto Scaling",
+      "Active-Active Multi-Region",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 47,
+    "source_edges": 42,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

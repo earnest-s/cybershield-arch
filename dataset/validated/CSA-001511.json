@@ -1,0 +1,604 @@
+{
+  "id": "CSA-001511",
+  "instruction": "Design a AIOps architecture. using a Zero-Trust style. deployed on Azure. satisfying: High Throughput (100k+ TPS), Blue/Green Deployment, Compliance/Audit Logging, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "RegionA_GW",
+        "type": "service"
+      },
+      {
+        "id": "RegionB_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "AudLog",
+        "type": "service"
+      },
+      {
+        "id": "SecurityProxy_A",
+        "type": "service"
+      },
+      {
+        "id": "SecurityProxy_B",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "K8sA",
+        "type": "container"
+      },
+      {
+        "id": "K8sB",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "Canary",
+        "type": "service"
+      },
+      {
+        "id": "Ingest",
+        "type": "service"
+      },
+      {
+        "id": "Analyzer",
+        "type": "service"
+      },
+      {
+        "id": "Correlator",
+        "type": "service"
+      },
+      {
+        "id": "Remediator",
+        "type": "service"
+      },
+      {
+        "id": "Dashboard",
+        "type": "ui"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "DLQ",
+        "type": "queue"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Blob",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "EmbedModel",
+        "type": "service"
+      },
+      {
+        "id": "AnomModel",
+        "type": "service"
+      },
+      {
+        "id": "RAGGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WebUI",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "RegionA_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "RegionB_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AudLog",
+        "target": "APIGW",
+        "label": "Async"
+      },
+      {
+        "source": "RegionA_GW",
+        "target": "SecurityProxy_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionB_GW",
+        "target": "SecurityProxy_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "Canary",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analyzer",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Correlator",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Remediator",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dashboard",
+        "target": "Observability",
+        "label": "DB Query"
+      },
+      {
+        "source": "AuthZ",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "DLQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "Analyzer",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "Correlator",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Analyzer",
+        "label": "HTTP"
+      },
+      {
+        "source": "Blob",
+        "target": "Ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "Remediator",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbedModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnomModel",
+        "target": "Analyzer",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGGateway",
+        "target": "Dashboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "AudLog",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "SecurityProxy_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "SecurityProxy_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "SecurityProxy_A",
+        "target": "RegionA_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "SecurityProxy_B",
+        "target": "RegionB_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionA_GW",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionB_GW",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "Ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "Analyzer",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "Correlator",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "Remediator",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "Dashboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "AuthZ",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 3,
+      "services": 39
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "AIOps",
+    "style": "Zero-Trust",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Blue/Green Deployment",
+      "Compliance/Audit Logging",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "graph TD",
+    "source_nodes": 76,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

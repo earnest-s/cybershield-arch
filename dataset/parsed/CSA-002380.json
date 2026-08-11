@@ -1,0 +1,400 @@
+{
+  "id": "CSA-002380",
+  "instruction": "Design a CRM architecture. using a Serverless style. deployed on AWS. satisfying: Compliance/Audit Logging, Data Lakehouse Pattern, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "partner",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "cognito",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "ingest",
+        "type": "service"
+      },
+      {
+        "id": "process",
+        "type": "service"
+      },
+      {
+        "id": "orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "rawLake",
+        "type": "service"
+      },
+      {
+        "id": "curatedLake",
+        "type": "service"
+      },
+      {
+        "id": "glue",
+        "type": "service"
+      },
+      {
+        "id": "athena",
+        "type": "service"
+      },
+      {
+        "id": "redshift",
+        "type": "service"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "container"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "cd",
+        "type": "ui"
+      },
+      {
+        "id": "repo",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "partner",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "process",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "orchestrator",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "athena",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "rawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "process",
+        "target": "curatedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "rawLake",
+        "target": "glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "curatedLake",
+        "target": "glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "glue",
+        "target": "athena",
+        "label": "HTTP"
+      },
+      {
+        "source": "athena",
+        "target": "redshift",
+        "label": "HTTP"
+      },
+      {
+        "source": "redshift",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "process",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "repo",
+        "target": "ci",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "cd",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "process",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "aiGateway",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Data Lakehouse Pattern",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 49,
+    "source_edges": 67,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

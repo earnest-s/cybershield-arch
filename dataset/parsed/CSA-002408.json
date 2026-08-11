@@ -1,0 +1,320 @@
+{
+  "id": "CSA-002408",
+  "instruction": "Design a Autonomous Vehicles architecture. using a Serverless style. deployed on On-Premises. satisfying: Zero Trust Architecture, Disaster Recovery, Blue/Green Deployment, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Secrets",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "VehicleEdge",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "Ingest",
+        "type": "service"
+      },
+      {
+        "id": "Telemetry",
+        "type": "service"
+      },
+      {
+        "id": "Decision",
+        "type": "service"
+      },
+      {
+        "id": "OTA",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "TSDB",
+        "type": "database"
+      },
+      {
+        "id": "GeoDB",
+        "type": "database"
+      },
+      {
+        "id": "ObjStore",
+        "type": "service"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "Vector",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "BG_Prod",
+        "type": "service"
+      },
+      {
+        "id": "BG_Canary",
+        "type": "service"
+      },
+      {
+        "id": "Functions",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "Secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "VehicleEdge",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "Functions",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingest",
+        "target": "Telemetry",
+        "label": "HTTP"
+      },
+      {
+        "source": "Telemetry",
+        "target": "Decision",
+        "label": "HTTP"
+      },
+      {
+        "source": "Decision",
+        "target": "OTA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Decision",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "Vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vector",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "OTA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTA",
+        "target": "ObjStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Telemetry",
+        "target": "TSDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Telemetry",
+        "target": "GeoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Functions",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "TSDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "GeoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "ObjStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_Prod",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_Canary",
+        "target": "API_GW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Autonomous Vehicles",
+    "style": "Serverless",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Disaster Recovery",
+      "Blue/Green Deployment",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 58,
+    "source_edges": 38,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

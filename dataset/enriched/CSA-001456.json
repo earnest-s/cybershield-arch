@@ -1,0 +1,586 @@
+{
+  "id": "CSA-001456",
+  "instruction": "Design a Telecom architecture. using a CQRS style. deployed on GCP. satisfying: Blue/Green Deployment, Zero Trust Architecture, Active-Active Multi-Region, Auto Scaling, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "RateLimit",
+        "type": "service"
+      },
+      {
+        "id": "CommandService",
+        "type": "service"
+      },
+      {
+        "id": "CmdEventStore",
+        "type": "service"
+      },
+      {
+        "id": "CmdSaga",
+        "type": "service"
+      },
+      {
+        "id": "CmdValidator",
+        "type": "service"
+      },
+      {
+        "id": "QueryService",
+        "type": "service"
+      },
+      {
+        "id": "ReadModelDB",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Logging",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "ui"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "Argo",
+        "type": "service"
+      },
+      {
+        "id": "K8sCluster1",
+        "type": "container"
+      },
+      {
+        "id": "K8sCluster2",
+        "type": "container"
+      },
+      {
+        "id": "K8sCluster3",
+        "type": "container"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "Autoscale",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Mongo",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "DWH",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GlobalLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLB",
+        "target": "K8sCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLB",
+        "target": "K8sCluster2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLB",
+        "target": "K8sCluster3",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster1",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster2",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster3",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster1",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster2",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster3",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimit",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimit",
+        "target": "CommandService",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimit",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandService",
+        "target": "CmdValidator",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdValidator",
+        "target": "CmdEventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdEventStore",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "CmdSaga",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSaga",
+        "target": "CommandService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "ReadModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModelDB",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandService",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandService",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "Argo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "K8sCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "K8sCluster2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "K8sCluster3",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster1",
+        "target": "Autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster2",
+        "target": "Autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCluster3",
+        "target": "Autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "Autoscale",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Elastic",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 31
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Zero Trust Architecture",
+      "Active-Active Multi-Region",
+      "Auto Scaling",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 56,
+    "source_edges": 63,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

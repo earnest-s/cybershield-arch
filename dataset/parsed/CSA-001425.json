@@ -1,0 +1,310 @@
+{
+  "id": "CSA-001425",
+  "instruction": "Design a Manufacturing architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Zero Trust Architecture, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "IDS",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "MONO",
+        "type": "service"
+      },
+      {
+        "id": "AUTH",
+        "type": "service"
+      },
+      {
+        "id": "BATCH",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "MONGODB",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "DMZ",
+        "type": "service"
+      },
+      {
+        "id": "SEGMENTS",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "BATCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "MONGODB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "BATCH",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "BATCH",
+        "target": "MONGODB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONGODB",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "IDS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IDS",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "DMZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ",
+        "target": "SEGMENTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "SECURITY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 36,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

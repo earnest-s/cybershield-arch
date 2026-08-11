@@ -1,0 +1,261 @@
+{
+  "id": "CSA-002284",
+  "instruction": "Design a Fraud Detection architecture. using a Serverless style. deployed on Azure. satisfying: Disaster Recovery, Compliance/Audit Logging, GraphRAG Integration, Auto Scaling, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "VNET",
+        "type": "service"
+      },
+      {
+        "id": "FuncIngest",
+        "type": "service"
+      },
+      {
+        "id": "Queue",
+        "type": "queue"
+      },
+      {
+        "id": "FuncDetect",
+        "type": "service"
+      },
+      {
+        "id": "FuncAlert",
+        "type": "service"
+      },
+      {
+        "id": "FuncRAG",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "Cosmo",
+        "type": "database"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "ui"
+      },
+      {
+        "id": "Trace",
+        "type": "service"
+      },
+      {
+        "id": "Log",
+        "type": "service"
+      },
+      {
+        "id": "BGBlue",
+        "type": "service"
+      },
+      {
+        "id": "BGGreen",
+        "type": "service"
+      },
+      {
+        "id": "Switch",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "VNET",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncIngest",
+        "target": "Queue",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncDetect",
+        "target": "Queue",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncAlert",
+        "target": "Queue",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncRAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Queue",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "Queue",
+        "target": "Cosmo",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Cosmo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cosmo",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Trace",
+        "target": "Log",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGBlue",
+        "target": "FuncIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGGreen",
+        "target": "FuncIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "Switch",
+        "target": "BGBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Switch",
+        "target": "BGGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "FuncIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncIngest",
+        "target": "OBSERVE",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncDetect",
+        "target": "OBSERVE",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncAlert",
+        "target": "OBSERVE",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncRAG",
+        "target": "OBSERVE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Disaster Recovery",
+      "Compliance/Audit Logging",
+      "GraphRAG Integration",
+      "Auto Scaling",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "graph TD",
+    "source_nodes": 32,
+    "source_edges": 30,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,378 @@
+{
+  "id": "CSA-001239",
+  "instruction": "Design a Automotive architecture. using a CQRS style. deployed on Azure. satisfying: AI/ML Inference Integration, Data Lakehouse Pattern, Zero Trust Architecture, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "CommandService",
+        "type": "service"
+      },
+      {
+        "id": "QueryService",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "service"
+      },
+      {
+        "id": "ReadModel",
+        "type": "database"
+      },
+      {
+        "id": "SagaOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "ADLS",
+        "type": "service"
+      },
+      {
+        "id": "Synapse",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "GitHubActions",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "CommandService",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "QueryService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "SagaOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "SagaOrchestrator",
+        "target": "CommandService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandService",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "Synapse",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADLS",
+        "target": "Synapse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Synapse",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandService",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHubActions",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "APIGateway",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Automotive",
+    "style": "CQRS",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Data Lakehouse Pattern",
+      "Zero Trust Architecture",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 44,
+    "source_edges": 45,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

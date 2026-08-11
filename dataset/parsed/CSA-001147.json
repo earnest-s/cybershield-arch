@@ -1,0 +1,325 @@
+{
+  "id": "CSA-001147",
+  "instruction": "Design a Smart City architecture. using a Modular Monolith style. deployed on Azure. satisfying: Observability Stack, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apigw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "mod1",
+        "type": "service"
+      },
+      {
+        "id": "mod2",
+        "type": "service"
+      },
+      {
+        "id": "mod3",
+        "type": "service"
+      },
+      {
+        "id": "mod4",
+        "type": "service"
+      },
+      {
+        "id": "mod5",
+        "type": "service"
+      },
+      {
+        "id": "mono",
+        "type": "database"
+      },
+      {
+        "id": "sql",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "cosmos",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "sb",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "aks",
+        "type": "container"
+      },
+      {
+        "id": "vnet",
+        "type": "service"
+      },
+      {
+        "id": "dns",
+        "type": "service"
+      },
+      {
+        "id": "storage",
+        "type": "database"
+      },
+      {
+        "id": "backup",
+        "type": "service"
+      },
+      {
+        "id": "dr",
+        "type": "service"
+      },
+      {
+        "id": "aps",
+        "type": "service"
+      },
+      {
+        "id": "infra",
+        "type": "service"
+      },
+      {
+        "id": "connections",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apigw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mono",
+        "target": "mod1",
+        "label": "HTTP"
+      },
+      {
+        "source": "mono",
+        "target": "mod2",
+        "label": "HTTP"
+      },
+      {
+        "source": "mono",
+        "target": "mod3",
+        "label": "HTTP"
+      },
+      {
+        "source": "mono",
+        "target": "mod4",
+        "label": "HTTP"
+      },
+      {
+        "source": "mono",
+        "target": "mod5",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "mono",
+        "label": "HTTP"
+      },
+      {
+        "source": "mono",
+        "target": "sql",
+        "label": "HTTP"
+      },
+      {
+        "source": "mono",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "mono",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "mono",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "mono",
+        "target": "sb",
+        "label": "Async"
+      },
+      {
+        "source": "sb",
+        "target": "sql",
+        "label": "Async"
+      },
+      {
+        "source": "mono",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "mono",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks",
+        "target": "mono",
+        "label": "HTTP"
+      },
+      {
+        "source": "vnet",
+        "target": "aps",
+        "label": "HTTP"
+      },
+      {
+        "source": "dns",
+        "target": "apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "storage",
+        "target": "mono",
+        "label": "HTTP"
+      },
+      {
+        "source": "backup",
+        "target": "sql",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "aks",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "Modular Monolith",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Observability Stack",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 43,
+    "source_edges": 36,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

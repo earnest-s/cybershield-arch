@@ -1,0 +1,844 @@
+{
+  "id": "CSA-001521",
+  "instruction": "Design a HR architecture. using a Zero-Trust style. deployed on AWS. satisfying: Data Lakehouse Pattern, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "fedId",
+        "type": "service"
+      },
+      {
+        "id": "secretMgr",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "msAuth",
+        "type": "service"
+      },
+      {
+        "id": "msEmp",
+        "type": "service"
+      },
+      {
+        "id": "msPayroll",
+        "type": "service"
+      },
+      {
+        "id": "msRecruit",
+        "type": "ui"
+      },
+      {
+        "id": "msAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "gql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "eventHub",
+        "type": "service"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "agentOrch",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "sqs",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "dataMesh",
+        "type": "service"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8sCluster",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "awsVPC",
+        "type": "service"
+      },
+      {
+        "id": "privateSubnet",
+        "type": "service"
+      },
+      {
+        "id": "publicSubnet",
+        "type": "service"
+      },
+      {
+        "id": "drSite",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "securityCompliance",
+        "type": "service"
+      },
+      {
+        "id": "data",
+        "type": "service"
+      },
+      {
+        "id": "mlData",
+        "type": "service"
+      },
+      {
+        "id": "devOpsTools",
+        "type": "service"
+      },
+      {
+        "id": "dbSubnets",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "edgeNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "pki",
+        "label": "HTTP"
+      },
+      {
+        "source": "pki",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "fedId",
+        "label": "HTTP"
+      },
+      {
+        "source": "fedId",
+        "target": "secretMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityCompliance",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityCompliance",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityCompliance",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityCompliance",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "gql",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "gql",
+        "target": "msAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "gql",
+        "target": "msEmp",
+        "label": "HTTP"
+      },
+      {
+        "source": "gql",
+        "target": "msPayroll",
+        "label": "HTTP"
+      },
+      {
+        "source": "gql",
+        "target": "msRecruit",
+        "label": "HTTP"
+      },
+      {
+        "source": "gql",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "msAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "msEmp",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "msPayroll",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "msRecruit",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAuth",
+        "target": "eventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "msEmp",
+        "target": "eventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "msPayroll",
+        "target": "eventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "msRecruit",
+        "target": "eventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAnalytics",
+        "target": "eventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventHub",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventHub",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "msPayroll",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "agentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentOrch",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentOrch",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAuth",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "msEmp",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "msPayroll",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "msRecruit",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAnalytics",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAnalytics",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "data",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlData",
+        "target": "dataMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "msEmp",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "msPayroll",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "msAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "msEmp",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "msPayroll",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "msRecruit",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "llmGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "agentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster",
+        "target": "devOpsTools",
+        "label": "HTTP"
+      },
+      {
+        "source": "devOpsTools",
+        "target": "ciCd",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "awsVPC",
+        "target": "publicSubnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "awsVPC",
+        "target": "privateSubnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "publicSubnet",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "privateSubnet",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "privateSubnet",
+        "target": "dbSubnets",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbSubnets",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbSubnets",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbSubnets",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "dbSubnets",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "drSite",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "drSite",
+        "target": "lakehouse",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 6,
+      "services": 56
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Zero-Trust",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 81,
+    "source_edges": 91,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

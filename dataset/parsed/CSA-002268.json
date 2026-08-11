@@ -1,0 +1,564 @@
+{
+  "id": "CSA-002268",
+  "instruction": "Design a Fraud Detection architecture. using a Data Mesh style. deployed on Azure. satisfying: Compliance/Audit Logging, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "federation",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventHub",
+        "type": "service"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "txnIngest",
+        "type": "service"
+      },
+      {
+        "id": "txnRaw",
+        "type": "database"
+      },
+      {
+        "id": "scoringSvc",
+        "type": "service"
+      },
+      {
+        "id": "modelStore",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "warehouse",
+        "type": "service"
+      },
+      {
+        "id": "alertSvc",
+        "type": "service"
+      },
+      {
+        "id": "caseMgmt",
+        "type": "service"
+      },
+      {
+        "id": "featureStore",
+        "type": "database"
+      },
+      {
+        "id": "authService",
+        "type": "service"
+      },
+      {
+        "id": "policyEngine",
+        "type": "service"
+      },
+      {
+        "id": "thirdPartyFraud",
+        "type": "service"
+      },
+      {
+        "id": "lawEnforcement",
+        "type": "service"
+      },
+      {
+        "id": "kubeMetrics",
+        "type": "service"
+      },
+      {
+        "id": "appLogs",
+        "type": "service"
+      },
+      {
+        "id": "dataMasking",
+        "type": "service"
+      },
+      {
+        "id": "catalog",
+        "type": "service"
+      },
+      {
+        "id": "policies",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN_A",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN_B",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN_C",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN_D",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN_E",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "webUI",
+        "target": "authService",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "authService",
+        "label": "HTTP"
+      },
+      {
+        "source": "authService",
+        "target": "policyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "policyEngine",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "eventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "txnIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventHub",
+        "target": "txnIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "scoringSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "txnIngest",
+        "target": "txnRaw",
+        "label": "HTTP"
+      },
+      {
+        "source": "txnIngest",
+        "target": "scoringSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "scoringSvc",
+        "target": "modelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "scoringSvc",
+        "target": "featureStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "scoringSvc",
+        "target": "alertSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "alertSvc",
+        "target": "caseMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "warehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "featureStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "kubeMetrics",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "appLogs",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "authService",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "scoringSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "alertSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdPartyFraud",
+        "target": "scoringSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "lawEnforcement",
+        "target": "caseMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "dataMasking",
+        "label": "HTTP"
+      },
+      {
+        "source": "catalog",
+        "target": "DOMAIN_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "catalog",
+        "target": "DOMAIN_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "catalog",
+        "target": "DOMAIN_C",
+        "label": "HTTP"
+      },
+      {
+        "source": "catalog",
+        "target": "DOMAIN_D",
+        "label": "HTTP"
+      },
+      {
+        "source": "catalog",
+        "target": "DOMAIN_E",
+        "label": "HTTP"
+      },
+      {
+        "source": "policies",
+        "target": "DOMAIN_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "policies",
+        "target": "DOMAIN_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "policies",
+        "target": "DOMAIN_C",
+        "label": "HTTP"
+      },
+      {
+        "source": "policies",
+        "target": "DOMAIN_D",
+        "label": "HTTP"
+      },
+      {
+        "source": "policies",
+        "target": "DOMAIN_E",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "txnIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "alertSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "caseMgmt",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Data Mesh",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 74,
+    "source_edges": 64,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

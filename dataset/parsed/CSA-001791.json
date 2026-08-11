@@ -1,0 +1,506 @@
+{
+  "id": "CSA-001791",
+  "instruction": "Design a Oil & Gas architecture. using a Data Mesh style. deployed on Azure. satisfying: Zero Trust Architecture, High Throughput (100k+ TPS), AI/ML Inference Integration, GraphRAG Integration, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "SCADA",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "DDoS",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "PIM",
+        "type": "service"
+      },
+      {
+        "id": "OPA",
+        "type": "service"
+      },
+      {
+        "id": "Sentinel",
+        "type": "service"
+      },
+      {
+        "id": "KeyVault",
+        "type": "service"
+      },
+      {
+        "id": "CertMgr",
+        "type": "service"
+      },
+      {
+        "id": "AKS_MultiCluster",
+        "type": "container"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "HelmRepo",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "ProdIngest",
+        "type": "queue"
+      },
+      {
+        "id": "ProdRaw",
+        "type": "service"
+      },
+      {
+        "id": "ProdCurated",
+        "type": "service"
+      },
+      {
+        "id": "GeoAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "RefineIngest",
+        "type": "service"
+      },
+      {
+        "id": "RefineRaw",
+        "type": "service"
+      },
+      {
+        "id": "RefineCurated",
+        "type": "service"
+      },
+      {
+        "id": "ProcessControl",
+        "type": "service"
+      },
+      {
+        "id": "LogIngest",
+        "type": "service"
+      },
+      {
+        "id": "LogRaw",
+        "type": "database"
+      },
+      {
+        "id": "LogCurated",
+        "type": "database"
+      },
+      {
+        "id": "RouteOpt",
+        "type": "service"
+      },
+      {
+        "id": "SensorStream",
+        "type": "service"
+      },
+      {
+        "id": "AssetRaw",
+        "type": "service"
+      },
+      {
+        "id": "AssetFeatureStore",
+        "type": "database"
+      },
+      {
+        "id": "PredModels",
+        "type": "service"
+      },
+      {
+        "id": "InferService",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "GraphEngine",
+        "type": "service"
+      },
+      {
+        "id": "RAGOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "LLMGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "SAP",
+        "type": "service"
+      },
+      {
+        "id": "GIS",
+        "type": "service"
+      },
+      {
+        "id": "WeatherAPI",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "SCADA",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AKS_MultiCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_MultiCluster",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OPA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OPA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIM",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KeyVault",
+        "target": "AKS_MultiCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "CertMgr",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProdIngest",
+        "target": "ProdRaw",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProdRaw",
+        "target": "ProdCurated",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProdCurated",
+        "target": "GeoAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoAnalytics",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoAnalytics",
+        "target": "GraphEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RefineIngest",
+        "target": "RefineRaw",
+        "label": "HTTP"
+      },
+      {
+        "source": "RefineRaw",
+        "target": "RefineCurated",
+        "label": "HTTP"
+      },
+      {
+        "source": "RefineCurated",
+        "target": "ProcessControl",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogIngest",
+        "target": "LogRaw",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogRaw",
+        "target": "LogCurated",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogCurated",
+        "target": "RouteOpt",
+        "label": "HTTP"
+      },
+      {
+        "source": "SensorStream",
+        "target": "AssetRaw",
+        "label": "HTTP"
+      },
+      {
+        "source": "AssetRaw",
+        "target": "AssetFeatureStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "AssetFeatureStore",
+        "target": "PredModels",
+        "label": "HTTP"
+      },
+      {
+        "source": "PredModels",
+        "target": "InferService",
+        "label": "HTTP"
+      },
+      {
+        "source": "InferService",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "RAGOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphEngine",
+        "target": "RAGOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGOrchestrator",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "WebUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "MobileApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoAnalytics",
+        "target": "RefineCurated",
+        "label": "DB Query"
+      },
+      {
+        "source": "RouteOpt",
+        "target": "AssetFeatureStore",
+        "label": "DB Query"
+      },
+      {
+        "source": "RAGOrchestrator",
+        "target": "ProdCurated",
+        "label": "DB Query"
+      },
+      {
+        "source": "RAGOrchestrator",
+        "target": "RefineCurated",
+        "label": "DB Query"
+      },
+      {
+        "source": "RAGOrchestrator",
+        "target": "LogCurated",
+        "label": "DB Query"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "OPA",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "KeyVault",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "SAP",
+        "target": "RefineCurated",
+        "label": "HTTP"
+      },
+      {
+        "source": "GIS",
+        "target": "ProdCurated",
+        "label": "HTTP"
+      },
+      {
+        "source": "WeatherAPI",
+        "target": "GeoAnalytics",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Data Mesh",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Zero Trust Architecture",
+      "High Throughput (100k+ TPS)",
+      "AI/ML Inference Integration",
+      "GraphRAG Integration",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 86,
+    "source_edges": 56,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

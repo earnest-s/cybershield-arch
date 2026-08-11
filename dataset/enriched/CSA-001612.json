@@ -1,0 +1,522 @@
+{
+  "id": "CSA-001612",
+  "instruction": "Design a MLOps architecture. using a Serverless style. deployed on Azure. satisfying: Observability Stack, Data Lakehouse Pattern, Blue/Green Deployment, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "AzureAPIManagement",
+        "type": "service"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "AzureAD",
+        "type": "service"
+      },
+      {
+        "id": "AzureKeyVault",
+        "type": "service"
+      },
+      {
+        "id": "AzurePolicy",
+        "type": "service"
+      },
+      {
+        "id": "AzureSentinel",
+        "type": "service"
+      },
+      {
+        "id": "FunctionRouter",
+        "type": "service"
+      },
+      {
+        "id": "ModelTraining",
+        "type": "service"
+      },
+      {
+        "id": "ModelServing",
+        "type": "container"
+      },
+      {
+        "id": "DataIngestion",
+        "type": "service"
+      },
+      {
+        "id": "FeatureStore",
+        "type": "service"
+      },
+      {
+        "id": "MonitoringAgent",
+        "type": "service"
+      },
+      {
+        "id": "ObservabilityStack",
+        "type": "database"
+      },
+      {
+        "id": "RawLake",
+        "type": "service"
+      },
+      {
+        "id": "ProcessedLake",
+        "type": "service"
+      },
+      {
+        "id": "MetadataCatalog",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "queue"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "LogAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "ApplicationInsights",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "GitHubActions",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreenDeploy",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "ISO27001",
+        "type": "service"
+      },
+      {
+        "id": "PCI_DSS",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "PartnerDataFeed",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "AzureAPIManagement",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAPIManagement",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "FunctionRouter",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionRouter",
+        "target": "DataIngestion",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionRouter",
+        "target": "ModelTraining",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionRouter",
+        "target": "ModelServing",
+        "label": "HTTP"
+      },
+      {
+        "source": "FunctionRouter",
+        "target": "FeatureStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelTraining",
+        "target": "ObservabilityStack",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelServing",
+        "target": "ObservabilityStack",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataIngestion",
+        "target": "ObservabilityStack",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureStore",
+        "target": "ObservabilityStack",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonitoringAgent",
+        "target": "ObservabilityStack",
+        "label": "HTTP"
+      },
+      {
+        "source": "RawLake",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcessedLake",
+        "target": "MetadataCatalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcessedLake",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataIngestion",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelTraining",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureStore",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataIngestion",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelTraining",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelServing",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogAnalytics",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ApplicationInsights",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "GitHubActions",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHubActions",
+        "target": "BlueGreenDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreenDeploy",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "AzureAPIManagement",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "FunctionRouter",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "ModelTraining",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "ModelServing",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureKeyVault",
+        "target": "FunctionRouter",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureKeyVault",
+        "target": "ModelTraining",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureKeyVault",
+        "target": "ModelServing",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzurePolicy",
+        "target": "DEVOPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureSentinel",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerDataFeed",
+        "target": "DataIngestion",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "SQL Injection",
+        "severity": "CRITICAL",
+        "description": "Attackers can execute malicious SQL statements that control a web application's database server.",
+        "missing_control": "WAF",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "SIEM",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Deploy a Web Application Firewall.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 2,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, WAF, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Observability Stack",
+      "Data Lakehouse Pattern",
+      "Blue/Green Deployment",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 61,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

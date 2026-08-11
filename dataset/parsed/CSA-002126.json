@@ -1,0 +1,544 @@
+{
+  "id": "CSA-002126",
+  "instruction": "Design a Oil & Gas architecture. using a Serverless style. deployed on AWS. satisfying: Observability Stack, Strict Network Segmentation, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "DMZ",
+        "type": "service"
+      },
+      {
+        "id": "Private",
+        "type": "service"
+      },
+      {
+        "id": "Restricted",
+        "type": "service"
+      },
+      {
+        "id": "Lambda1",
+        "type": "service"
+      },
+      {
+        "id": "Lambda2",
+        "type": "service"
+      },
+      {
+        "id": "StepFunc",
+        "type": "service"
+      },
+      {
+        "id": "Glue",
+        "type": "service"
+      },
+      {
+        "id": "Athena",
+        "type": "service"
+      },
+      {
+        "id": "RawLake",
+        "type": "service"
+      },
+      {
+        "id": "RefinedLake",
+        "type": "service"
+      },
+      {
+        "id": "DWH",
+        "type": "service"
+      },
+      {
+        "id": "Meta",
+        "type": "service"
+      },
+      {
+        "id": "Delta",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AIGW",
+        "type": "service"
+      },
+      {
+        "id": "Metrics",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "Traces",
+        "type": "service"
+      },
+      {
+        "id": "Dash",
+        "type": "ui"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Repo",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      },
+      {
+        "id": "LOGS",
+        "type": "service"
+      },
+      {
+        "id": "SEGMENT",
+        "type": "service"
+      },
+      {
+        "id": "COMPUTE",
+        "type": "service"
+      },
+      {
+        "id": "DATA_LAKEHOUSE",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "Lambda1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "Lambda2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "SQS",
+        "label": "Async"
+      },
+      {
+        "source": "GW",
+        "target": "SNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lambda1",
+        "target": "RawLake",
+        "label": "Async"
+      },
+      {
+        "source": "Lambda1",
+        "target": "EventBridge",
+        "label": "Async"
+      },
+      {
+        "source": "Lambda2",
+        "target": "RawLake",
+        "label": "Async"
+      },
+      {
+        "source": "Lambda2",
+        "target": "RefinedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "StepFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunc",
+        "target": "Glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Glue",
+        "target": "RefinedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Glue",
+        "target": "Meta",
+        "label": "HTTP"
+      },
+      {
+        "source": "RefinedLake",
+        "target": "Athena",
+        "label": "DB Query"
+      },
+      {
+        "source": "Athena",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "DWH",
+        "target": "AdminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQS",
+        "target": "Lambda2",
+        "label": "Async"
+      },
+      {
+        "source": "SNS",
+        "target": "AdminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Lambda1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Lambda2",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "RefinedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "LOGS",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "LOGS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ",
+        "target": "Private",
+        "label": "HTTP"
+      },
+      {
+        "source": "Private",
+        "target": "Lambda1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Private",
+        "target": "Lambda2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Private",
+        "target": "Glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Private",
+        "target": "Athena",
+        "label": "HTTP"
+      },
+      {
+        "source": "Restricted",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "Delta",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "AIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGW",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGW",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lambda1",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lambda2",
+        "target": "Metrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Glue",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "Traces",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunc",
+        "target": "Traces",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metrics",
+        "target": "Dash",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logs",
+        "target": "Dash",
+        "label": "HTTP"
+      },
+      {
+        "source": "Traces",
+        "target": "Dash",
+        "label": "HTTP"
+      },
+      {
+        "source": "Repo",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "IaC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "SEGMENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "COMPUTE",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "DATA_LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitoring",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Observability Stack",
+      "Strict Network Segmentation",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 66,
+    "source_edges": 66,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

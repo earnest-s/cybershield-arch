@@ -1,0 +1,640 @@
+{
+  "id": "CSA-002257",
+  "instruction": "Design a Government architecture. using a Modular Monolith style. deployed on Azure. satisfying: GraphRAG Integration, Auto Scaling, Observability Stack, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CONSUMERS",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VNET",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "MOD_MONO",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "database"
+      },
+      {
+        "id": "SIEM",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_A",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_B",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_C",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_D",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_BUS",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "MONGO",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VECTORDB",
+        "type": "database"
+      },
+      {
+        "id": "GRAGRAPH",
+        "type": "service"
+      },
+      {
+        "id": "AZ_LOGSTORAGE",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "ui"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "AUTOSCALE",
+        "type": "service"
+      },
+      {
+        "id": "REGION1",
+        "type": "service"
+      },
+      {
+        "id": "REGION2",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "RPO",
+        "type": "service"
+      },
+      {
+        "id": "RTO",
+        "type": "service"
+      },
+      {
+        "id": "CQRS",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_SOURCING",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "CANARY",
+        "type": "service"
+      },
+      {
+        "id": "FEATURE_FLAGS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONSUMERS",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "VNET",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNET",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNET",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNET",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLY",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "SIEM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "SERVICE_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "SERVICE_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "SERVICE_C",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "SERVICE_D",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_A",
+        "target": "EVENT_BUS",
+        "label": "Async"
+      },
+      {
+        "source": "SERVICE_B",
+        "target": "EVENT_BUS",
+        "label": "Async"
+      },
+      {
+        "source": "SERVICE_C",
+        "target": "EVENT_BUS",
+        "label": "Async"
+      },
+      {
+        "source": "SERVICE_D",
+        "target": "EVENT_BUS",
+        "label": "Async"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONGO",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "MOD_MONO",
+        "label": "Cache"
+      },
+      {
+        "source": "ES",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTORDB",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGRAPH",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "AZ_LOGSTORAGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BUS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAFANA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "SPLUNK",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "MOD_MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTOSCALE",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION1",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION2",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "REGION1",
+        "label": "HTTP"
+      },
+      {
+        "source": "RPO",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "RTO",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS",
+        "target": "SERVICE_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_SOURCING",
+        "target": "EVENT_BUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CANARY",
+        "target": "CICD",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE_FLAGS",
+        "target": "CICD",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "VECTORDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "GRAGRAPH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_MONO",
+        "target": "AUTOSCALE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 6,
+      "services": 36
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Modular Monolith",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "GraphRAG Integration",
+      "Auto Scaling",
+      "Observability Stack",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 75,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

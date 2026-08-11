@@ -1,0 +1,665 @@
+{
+  "id": "CSA-002368",
+  "instruction": "Design a Media architecture. using a Microservices style. deployed on Hybrid Cloud. satisfying: Blue/Green Deployment, Rate Limiting, Observability Stack, Active-Active Multi-Region, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIgw",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "EdgeNet",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "BGDeploy",
+        "type": "service"
+      },
+      {
+        "id": "RateLim",
+        "type": "service"
+      },
+      {
+        "id": "UserMS",
+        "type": "service"
+      },
+      {
+        "id": "AuthMS",
+        "type": "service"
+      },
+      {
+        "id": "MediaIngest",
+        "type": "service"
+      },
+      {
+        "id": "Transcode",
+        "type": "service"
+      },
+      {
+        "id": "Metadata",
+        "type": "service"
+      },
+      {
+        "id": "Recommendation",
+        "type": "service"
+      },
+      {
+        "id": "Billing",
+        "type": "service"
+      },
+      {
+        "id": "Notification",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Mongo",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "container"
+      },
+      {
+        "id": "ObjectStore",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "AWS_Network",
+        "type": "container"
+      },
+      {
+        "id": "AWS_K8s",
+        "type": "service"
+      },
+      {
+        "id": "Azure_Network",
+        "type": "container"
+      },
+      {
+        "id": "Azure_K8s",
+        "type": "service"
+      },
+      {
+        "id": "USER_MS",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "REGION_A",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      },
+      {
+        "id": "REGION_B",
+        "type": "service"
+      },
+      {
+        "id": "Replicates",
+        "type": "service"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "ClientPath",
+        "type": "ui"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BGDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGDeploy",
+        "target": "RateLim",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLim",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "USER_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AuthMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "MediaIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Transcode",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Metadata",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Recommendation",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "USER_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AuthMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "MediaIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Transcode",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Metadata",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Recommendation",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER_MS",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaIngest",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Transcode",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Recommendation",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthMS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserMS",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metadata",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Recommendation",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Transcode",
+        "target": "ObjectStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaIngest",
+        "target": "ObjectStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Recommendation",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Billing",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserMS",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "Recommendation",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "APIgw",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthMS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaIngest",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Transcode",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Recommendation",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Billing",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Notification",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_A",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "REGION_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "MediaIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentGateway",
+        "target": "Billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClientPath",
+        "target": "WebUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClientPath",
+        "target": "MobileApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClientPath",
+        "target": "AdminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClientPath",
+        "target": "APIConsumers",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Media",
+    "style": "Microservices",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Rate Limiting",
+      "Observability Stack",
+      "Active-Active Multi-Region",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 84,
+    "source_edges": 93,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

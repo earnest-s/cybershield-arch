@@ -1,0 +1,476 @@
+{
+  "id": "CSA-001526",
+  "instruction": "Design a DevSecOps architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Feature Flags, Rate Limiting, Disaster Recovery, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "Mobile",
+        "type": "service"
+      },
+      {
+        "id": "CLI",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "LB1",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "RateLimit",
+        "type": "service"
+      },
+      {
+        "id": "FB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "Auditing",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "KafkaMirror",
+        "type": "queue"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlagSrv",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiterSrv",
+        "type": "service"
+      },
+      {
+        "id": "SecScan",
+        "type": "service"
+      },
+      {
+        "id": "ContainerBuild",
+        "type": "ui"
+      },
+      {
+        "id": "DeployOrch",
+        "type": "service"
+      },
+      {
+        "id": "PolicyEnforcer",
+        "type": "service"
+      },
+      {
+        "id": "IncidentMgr",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "ArtifactRepo",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "AlertManager",
+        "type": "service"
+      },
+      {
+        "id": "K8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "K8sDR",
+        "type": "container"
+      },
+      {
+        "id": "GitLabCI",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "DRLB",
+        "type": "service"
+      },
+      {
+        "id": "DRKafka",
+        "type": "queue"
+      },
+      {
+        "id": "DRPostgres",
+        "type": "database"
+      },
+      {
+        "id": "DRRedis",
+        "type": "cache"
+      },
+      {
+        "id": "code",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "LB1",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "RateLimit",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimit",
+        "target": "FB",
+        "label": "HTTP"
+      },
+      {
+        "source": "UI",
+        "target": "LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mobile",
+        "target": "LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLI",
+        "target": "LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "LB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB1",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "RateLimiterSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "FeatureFlagSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiterSrv",
+        "target": "RateLimit",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlagSrv",
+        "target": "FB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "SecScan",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "PolicyEnforcer",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sPrimary",
+        "target": "DeployOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeployOrch",
+        "target": "ContainerBuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeployOrch",
+        "target": "ArtifactRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeployOrch",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeployOrch",
+        "target": "PolicyEnforcer",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeployOrch",
+        "target": "IncidentMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "ContainerBuild",
+        "target": "ArtifactRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArtifactRepo",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sPrimary",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sPrimary",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "K8sPrimary",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "DRPostgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "DRRedis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "KafkaMirror",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaMirror",
+        "target": "DRKafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sPrimary",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "AlertManager",
+        "label": "HTTP"
+      },
+      {
+        "source": "AlertManager",
+        "target": "IncidentMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitLabCI",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRKafka",
+        "target": "DRLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRPostgres",
+        "target": "DRLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRRedis",
+        "target": "DRLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRLB",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auditing",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Postgres",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "DevSecOps",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Rate Limiting",
+      "Disaster Recovery",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 71,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

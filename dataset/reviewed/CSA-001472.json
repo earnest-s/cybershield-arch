@@ -1,0 +1,519 @@
+{
+  "id": "CSA-001472",
+  "instruction": "Design a Digital Twin architecture. using a Data Mesh style. deployed on GCP. satisfying: AI/ML Inference Integration, Active-Active Multi-Region, Auto Scaling, Observability Stack, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "ZT",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "LB_US",
+        "type": "service"
+      },
+      {
+        "id": "ESB_US",
+        "type": "service"
+      },
+      {
+        "id": "DT_US",
+        "type": "service"
+      },
+      {
+        "id": "MD_US",
+        "type": "database"
+      },
+      {
+        "id": "VDB_US",
+        "type": "database"
+      },
+      {
+        "id": "EVENT_US",
+        "type": "service"
+      },
+      {
+        "id": "LB_EU",
+        "type": "service"
+      },
+      {
+        "id": "ESB_EU",
+        "type": "service"
+      },
+      {
+        "id": "DT_EU",
+        "type": "service"
+      },
+      {
+        "id": "MD_EU",
+        "type": "database"
+      },
+      {
+        "id": "VDB_EU",
+        "type": "database"
+      },
+      {
+        "id": "EVENT_EU",
+        "type": "service"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      },
+      {
+        "id": "MODEL",
+        "type": "service"
+      },
+      {
+        "id": "INFRA",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "CATALOG",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_US",
+        "target": "ESB_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "ESB_US",
+        "target": "DT_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "DT_US",
+        "target": "MD_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "DT_US",
+        "target": "VDB_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "DT_US",
+        "target": "EVENT_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_EU",
+        "target": "ESB_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "ESB_EU",
+        "target": "DT_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "DT_EU",
+        "target": "MD_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "DT_EU",
+        "target": "VDB_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "DT_EU",
+        "target": "EVENT_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "MD_US",
+        "target": "Replicate",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicate",
+        "target": "MD_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "VDB_US",
+        "target": "Replicate",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicate",
+        "target": "VDB_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_US",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "EVENT_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODEL",
+        "target": "VDB_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODEL",
+        "target": "VDB_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "INFRA",
+        "target": "MODEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DT_US",
+        "target": "INFRA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DT_EU",
+        "target": "INFRA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "DT_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "DT_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAF",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "DT_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "DT_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "DT_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "DT_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATALOG",
+        "target": "MD_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATALOG",
+        "target": "MD_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATALOG",
+        "target": "VDB_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATALOG",
+        "target": "VDB_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "ZT",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "LB_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "LB_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLY",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLY",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 1,
+      "databases": 4,
+      "services": 31
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Digital Twin",
+    "style": "Data Mesh",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Active-Active Multi-Region",
+      "Auto Scaling",
+      "Observability Stack",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 52,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

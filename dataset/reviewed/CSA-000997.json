@@ -1,0 +1,448 @@
+{
+  "id": "CSA-000997",
+  "instruction": "Design a Blockchain architecture. using a CQRS style. deployed on On-Premises. satisfying: AI/ML Inference Integration, Strict Network Segmentation, Auto Scaling, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "FW1",
+        "type": "service"
+      },
+      {
+        "id": "FW2",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "CQRS_Write",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "CQRS_Read",
+        "type": "service"
+      },
+      {
+        "id": "AI_Infer",
+        "type": "service"
+      },
+      {
+        "id": "VectorStore",
+        "type": "database"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Jenkins",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Autoscale",
+        "type": "service"
+      },
+      {
+        "id": "HW",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW1",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW2",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS_Write",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "CQRS_Read",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "AI_Infer",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_Infer",
+        "target": "VectorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "CQRS_Write",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "CQRS_Read",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "AI_Infer",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "Jenkins",
+        "label": "HTTP"
+      },
+      {
+        "source": "Jenkins",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "HW",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "HW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "UI",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "CQRS_Write",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "CQRS_Read",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "AI_Infer",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "FW1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "FW2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "threats": [
+      {
+        "name": "SQL Injection",
+        "severity": "CRITICAL",
+        "description": "Attackers can execute malicious SQL statements that control a web application's database server.",
+        "missing_control": "WAF",
+        "severity_level": "danger"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "WAF",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Deploy a Web Application Firewall.",
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 4,
+      "services": 25
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks WAF, Monitoring, Authentication, Encryption Service, RBAC, Audit Logging, API Gateway, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Blockchain",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Strict Network Segmentation",
+      "Auto Scaling",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 50,
+    "source_edges": 46,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

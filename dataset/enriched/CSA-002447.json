@@ -1,0 +1,669 @@
+{
+  "id": "CSA-002447",
+  "instruction": "Design a Oil & Gas architecture. using a Event-Driven style. deployed on GCP. satisfying: Strict Network Segmentation, Rate Limiting, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "EdgeLB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "VPC_Main",
+        "type": "service"
+      },
+      {
+        "id": "VPC_DR",
+        "type": "service"
+      },
+      {
+        "id": "FW_Main",
+        "type": "service"
+      },
+      {
+        "id": "FW_DR",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "K8s_Main",
+        "type": "container"
+      },
+      {
+        "id": "K8s_DR",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "GitOps",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "DrillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "ProductionSvc",
+        "type": "service"
+      },
+      {
+        "id": "MaintenanceSvc",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "LLMGateway",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "database"
+      },
+      {
+        "id": "AgentOrch",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "Spanner",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "GCS_Lake",
+        "type": "database"
+      },
+      {
+        "id": "Sentry",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "Mirror",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ZeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VPC_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "VPC_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "VPC_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "VPC_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_Main",
+        "target": "FW_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_DR",
+        "target": "FW_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW_Main",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW_DR",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_Main",
+        "target": "K8s_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_DR",
+        "target": "K8s_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_Main",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_DR",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitOps",
+        "target": "K8s_Main",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitOps",
+        "target": "K8s_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "DrillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ProductionSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DrillingSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProductionSvc",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "MaintenanceSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "DrillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MaintenanceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "ProductionSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "AnalyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "DrillingSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProductionSvc",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "MaintenanceSvc",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSvc",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCS_Lake",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_Main",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_DR",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Sentry",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 6,
+      "services": 43
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Rate Limiting",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 65,
+    "source_edges": 84,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

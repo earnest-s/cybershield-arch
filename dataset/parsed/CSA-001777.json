@@ -1,0 +1,445 @@
+{
+  "id": "CSA-001777",
+  "instruction": "Design a IoT architecture. using a Hexagonal style. deployed on On-Premises. satisfying: Strict Network Segmentation, High Throughput (100k+ TPS), Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IngestPort",
+        "type": "service"
+      },
+      {
+        "id": "CmdPort",
+        "type": "service"
+      },
+      {
+        "id": "QueryPort",
+        "type": "service"
+      },
+      {
+        "id": "MQTTAdapter",
+        "type": "service"
+      },
+      {
+        "id": "HTTPAdapter",
+        "type": "service"
+      },
+      {
+        "id": "DBAdapter",
+        "type": "database"
+      },
+      {
+        "id": "DeviceService",
+        "type": "service"
+      },
+      {
+        "id": "TelemetryService",
+        "type": "service"
+      },
+      {
+        "id": "AlertService",
+        "type": "service"
+      },
+      {
+        "id": "KafkaCluster",
+        "type": "queue"
+      },
+      {
+        "id": "Topic_Ingest",
+        "type": "service"
+      },
+      {
+        "id": "Topic_Telemetry",
+        "type": "service"
+      },
+      {
+        "id": "Topic_Alerts",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Timescale",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "ObjectStore",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "DR_Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "DR_DB",
+        "type": "database"
+      },
+      {
+        "id": "DR_Object",
+        "type": "service"
+      },
+      {
+        "id": "AllComponents",
+        "type": "service"
+      },
+      {
+        "id": "SecurityLayer",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "IngestPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CmdPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "QueryPort",
+        "label": "HTTP"
+      },
+      {
+        "source": "IngestPort",
+        "target": "MQTTAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdPort",
+        "target": "HTTPAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryPort",
+        "target": "HTTPAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "MQTTAdapter",
+        "target": "Topic_Ingest",
+        "label": "Async"
+      },
+      {
+        "source": "HTTPAdapter",
+        "target": "Topic_Ingest",
+        "label": "Async"
+      },
+      {
+        "source": "Topic_Ingest",
+        "target": "DeviceService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Topic_Telemetry",
+        "target": "TelemetryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Topic_Alerts",
+        "target": "AlertService",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeviceService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeviceService",
+        "target": "Timescale",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryService",
+        "target": "Timescale",
+        "label": "HTTP"
+      },
+      {
+        "source": "AlertService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "AlertService",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "DBAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "Timescale",
+        "target": "DBAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "DBAdapter",
+        "label": "Cache"
+      },
+      {
+        "source": "Elastic",
+        "target": "DBAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "ObjectStore",
+        "target": "DBAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "DBAdapter",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeviceService",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryService",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AlertService",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AllComponents",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "AllComponents",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "SecurityLayer",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "SecurityLayer",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "SecurityLayer",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "DR_Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "DR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "DR_Object",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Strict Network Segmentation",
+      "High Throughput (100k+ TPS)",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 74,
+    "source_edges": 70,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

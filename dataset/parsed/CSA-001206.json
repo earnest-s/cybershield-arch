@@ -1,0 +1,410 @@
+{
+  "id": "CSA-001206",
+  "instruction": "Design a Digital Twin architecture. using a Serverless style. deployed on AWS. satisfying: AI/ML Inference Integration, Disaster Recovery, Compliance/Audit Logging, Rate Limiting, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "EdgeLB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "SecretsMgr",
+        "type": "service"
+      },
+      {
+        "id": "GuardDuty",
+        "type": "service"
+      },
+      {
+        "id": "CloudTrail",
+        "type": "service"
+      },
+      {
+        "id": "Config",
+        "type": "service"
+      },
+      {
+        "id": "Athena",
+        "type": "service"
+      },
+      {
+        "id": "DTProcessor",
+        "type": "service"
+      },
+      {
+        "id": "AIInfer",
+        "type": "service"
+      },
+      {
+        "id": "StepFunc",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "Notify",
+        "type": "service"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "Timestream",
+        "type": "service"
+      },
+      {
+        "id": "S3Assets",
+        "type": "service"
+      },
+      {
+        "id": "OpenSearch",
+        "type": "service"
+      },
+      {
+        "id": "SageEndpoint",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "CWLogs",
+        "type": "service"
+      },
+      {
+        "id": "CWMetrics",
+        "type": "service"
+      },
+      {
+        "id": "XRay",
+        "type": "service"
+      },
+      {
+        "id": "MSProm",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "CodePipeline",
+        "type": "service"
+      },
+      {
+        "id": "CodeBuild",
+        "type": "ui"
+      },
+      {
+        "id": "SAM",
+        "type": "service"
+      },
+      {
+        "id": "Route53",
+        "type": "service"
+      },
+      {
+        "id": "S3CRR",
+        "type": "service"
+      },
+      {
+        "id": "DynamoGTS",
+        "type": "database"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "DTProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "DTProcessor",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "StepFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunc",
+        "target": "AIInfer",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInfer",
+        "target": "SageEndpoint",
+        "label": "HTTP"
+      },
+      {
+        "source": "SageEndpoint",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "OpenSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInfer",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "DTProcessor",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "DTProcessor",
+        "target": "Timestream",
+        "label": "HTTP"
+      },
+      {
+        "source": "DTProcessor",
+        "target": "S3Assets",
+        "label": "HTTP"
+      },
+      {
+        "source": "Notify",
+        "target": "SNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "MobileApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "AdminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "CloudTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "CloudTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CloudTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "DTProcessor",
+        "target": "CloudTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInfer",
+        "target": "CloudTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3Assets",
+        "target": "CloudTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "DTProcessor",
+        "target": "CWLogs",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInfer",
+        "target": "CWLogs",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunc",
+        "target": "CWLogs",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CWLogs",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "XRay",
+        "label": "HTTP"
+      },
+      {
+        "source": "DTProcessor",
+        "target": "XRay",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInfer",
+        "target": "XRay",
+        "label": "HTTP"
+      },
+      {
+        "source": "CWMetrics",
+        "target": "MSProm",
+        "label": "HTTP"
+      },
+      {
+        "source": "MSProm",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "SAM",
+        "target": "CodePipeline",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodePipeline",
+        "target": "CodeBuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodeBuild",
+        "target": "DTProcessor",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodeBuild",
+        "target": "AIInfer",
+        "label": "HTTP"
+      },
+      {
+        "source": "Route53",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3Assets",
+        "target": "S3CRR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "DynamoGTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudTrail",
+        "target": "Athena",
+        "label": "HTTP"
+      },
+      {
+        "source": "Config",
+        "target": "CloudTrail",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Digital Twin",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Disaster Recovery",
+      "Compliance/Audit Logging",
+      "Rate Limiting",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 58,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

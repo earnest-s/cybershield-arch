@@ -1,0 +1,343 @@
+{
+  "id": "CSA-001065",
+  "instruction": "Design a Defense architecture. using a Modular Monolith style. deployed on Multi-Cloud. satisfying: High Throughput (100k+ TPS), Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMER",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "MOD_CORE",
+        "type": "service"
+      },
+      {
+        "id": "MOD_AUTH",
+        "type": "service"
+      },
+      {
+        "id": "MOD_PAY",
+        "type": "service"
+      },
+      {
+        "id": "MOD_ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "MOD_CMD",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONSUMER",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MOD_ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MOD_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_AUTH",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_PAY",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Defense",
+    "style": "Modular Monolith",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 56,
+    "source_edges": 35,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

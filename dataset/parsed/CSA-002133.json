@@ -1,0 +1,484 @@
+{
+  "id": "CSA-002133",
+  "instruction": "Design a FinTech architecture. using a CQRS style. deployed on GCP. satisfying: Zero Trust Architecture, Disaster Recovery, Auto Scaling, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "svcMesh",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "cmdBus",
+        "type": "database"
+      },
+      {
+        "id": "queryBus",
+        "type": "service"
+      },
+      {
+        "id": "commandSvc1",
+        "type": "service"
+      },
+      {
+        "id": "commandSvc2",
+        "type": "service"
+      },
+      {
+        "id": "agg1",
+        "type": "service"
+      },
+      {
+        "id": "readModel",
+        "type": "service"
+      },
+      {
+        "id": "querySvc1",
+        "type": "service"
+      },
+      {
+        "id": "querySvc2",
+        "type": "service"
+      },
+      {
+        "id": "eventStore",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "database"
+      },
+      {
+        "id": "spanner",
+        "type": "database"
+      },
+      {
+        "id": "bigquery",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "database"
+      },
+      {
+        "id": "vectordb",
+        "type": "database"
+      },
+      {
+        "id": "storage",
+        "type": "database"
+      },
+      {
+        "id": "pubsub",
+        "type": "database"
+      },
+      {
+        "id": "eventbridge",
+        "type": "database"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "vectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "gke",
+        "type": "container"
+      },
+      {
+        "id": "gkeNodePool",
+        "type": "service"
+      },
+      {
+        "id": "cloudRun",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "ui"
+      },
+      {
+        "id": "terraform",
+        "type": "service"
+      },
+      {
+        "id": "multiRegion",
+        "type": "service"
+      },
+      {
+        "id": "backup",
+        "type": "service"
+      },
+      {
+        "id": "failover",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "data",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "commandSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "querySvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "commandSvc1",
+        "target": "cmdBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "commandSvc2",
+        "target": "cmdBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdBus",
+        "target": "eventStore",
+        "label": "Async"
+      },
+      {
+        "source": "eventStore",
+        "target": "spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventStore",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "agg1",
+        "label": "Async"
+      },
+      {
+        "source": "agg1",
+        "target": "readModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "querySvc1",
+        "target": "queryBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "querySvc2",
+        "target": "queryBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryBus",
+        "target": "readModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModel",
+        "target": "bigquery",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModel",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModel",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "readModel",
+        "target": "vectordb",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectordb",
+        "target": "vectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorSearch",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "embeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "web",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "mobile",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "commandSvc1",
+        "label": "Async"
+      },
+      {
+        "source": "pubsub",
+        "target": "querySvc1",
+        "label": "Async"
+      },
+      {
+        "source": "gke",
+        "target": "commandSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "querySvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "agg1",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "svcMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "cloudRun",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "svcMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcMesh",
+        "target": "pki",
+        "label": "HTTP"
+      },
+      {
+        "source": "storage",
+        "target": "backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "backup",
+        "target": "multiRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "multiRegion",
+        "target": "failover",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "cloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "terraform",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "data",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Disaster Recovery",
+      "Auto Scaling",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 86,
+    "source_edges": 65,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

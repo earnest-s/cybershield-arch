@@ -1,0 +1,296 @@
+{
+  "id": "CSA-001217",
+  "instruction": "Design a Retail architecture. using a Event-Driven style. deployed on GCP. satisfying: Data Lakehouse Pattern, Disaster Recovery, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "CLOUDSQL",
+        "type": "database"
+      },
+      {
+        "id": "BIGQUERY",
+        "type": "database"
+      },
+      {
+        "id": "PUBSUB",
+        "type": "database"
+      },
+      {
+        "id": "STORAGE",
+        "type": "database"
+      },
+      {
+        "id": "ORDER_SVC",
+        "type": "service"
+      },
+      {
+        "id": "INV_SVC",
+        "type": "service"
+      },
+      {
+        "id": "PAY_SVC",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF_SVC",
+        "type": "service"
+      },
+      {
+        "id": "GRAPH_RAG",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "DR_GKE",
+        "type": "container"
+      },
+      {
+        "id": "DR_BIGQUERY",
+        "type": "service"
+      },
+      {
+        "id": "DR_STORAGE",
+        "type": "database"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ORDER_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "INV_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "PAY_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "NOTIF_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_SVC",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "INV_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAY_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF_SVC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PUBSUB",
+        "target": "GRAPH_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPH_RAG",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER_SVC",
+        "target": "CLOUDSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV_SVC",
+        "target": "CLOUDSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAY_SVC",
+        "target": "CLOUDSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "BIGQUERY",
+        "target": "STORAGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPH_RAG",
+        "target": "STORAGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAF",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Retail",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Disaster Recovery",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 39,
+    "source_edges": 37,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

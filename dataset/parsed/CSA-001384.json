@@ -1,0 +1,392 @@
+{
+  "id": "CSA-001384",
+  "instruction": "Design a Oil & Gas architecture. using a Microservices style. deployed on Hybrid Cloud. satisfying: Blue/Green Deployment, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "PARTNER",
+        "type": "service"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "K8S_HYB",
+        "type": "container"
+      },
+      {
+        "id": "FIREWALL",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "MS1",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "DB_POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "BG_V1",
+        "type": "service"
+      },
+      {
+        "id": "BG_G2",
+        "type": "service"
+      },
+      {
+        "id": "MS2",
+        "type": "service"
+      },
+      {
+        "id": "MS3",
+        "type": "service"
+      },
+      {
+        "id": "MS4",
+        "type": "service"
+      },
+      {
+        "id": "MS5",
+        "type": "service"
+      },
+      {
+        "id": "MS6",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "DB_REDIS",
+        "type": "database"
+      },
+      {
+        "id": "DB_ES",
+        "type": "database"
+      },
+      {
+        "id": "DB_LAKE",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "LOGS",
+        "type": "service"
+      },
+      {
+        "id": "METRIC",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "AUTO",
+        "type": "service"
+      },
+      {
+        "id": "BLUE_GREEN",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PARTNER",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "WAF",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "K8S_HYB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "K8S_HYB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "DB_POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "BG_V1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "BG_G2",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG_V1",
+        "target": "BG_G2",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS5",
+        "target": "MS6",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS6",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MS5",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "DB_REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "DB_ES",
+        "label": "Async"
+      },
+      {
+        "source": "MS5",
+        "target": "DB_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS6",
+        "target": "DB_POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOGS",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "METRIC",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "BG_V1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "BG_G2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTO",
+        "target": "K8S_HYB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE_GREEN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS5",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "DB_POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "K8S_HYB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "K8S_HYB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "AUTO",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Microservices",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Auto Scaling"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 48,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

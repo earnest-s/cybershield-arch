@@ -1,0 +1,522 @@
+{
+  "id": "CSA-000592",
+  "instruction": "Design a Logistics architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, High Throughput (100k+ TPS), AI/ML Inference Integration, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "b2b",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "token_service",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "lambda1",
+        "type": "service"
+      },
+      {
+        "id": "lambda2",
+        "type": "service"
+      },
+      {
+        "id": "stepfunc",
+        "type": "service"
+      },
+      {
+        "id": "s3",
+        "type": "service"
+      },
+      {
+        "id": "ddb",
+        "type": "database"
+      },
+      {
+        "id": "sns",
+        "type": "service"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "kinesis",
+        "type": "service"
+      },
+      {
+        "id": "ai_lambda",
+        "type": "service"
+      },
+      {
+        "id": "sage_endpoint",
+        "type": "service"
+      },
+      {
+        "id": "func_order",
+        "type": "service"
+      },
+      {
+        "id": "func_track",
+        "type": "service"
+      },
+      {
+        "id": "durable",
+        "type": "service"
+      },
+      {
+        "id": "blob",
+        "type": "database"
+      },
+      {
+        "id": "cosmos",
+        "type": "database"
+      },
+      {
+        "id": "eventgrid",
+        "type": "service"
+      },
+      {
+        "id": "servicebus",
+        "type": "queue"
+      },
+      {
+        "id": "ai_func",
+        "type": "service"
+      },
+      {
+        "id": "ml_endpoint",
+        "type": "service"
+      },
+      {
+        "id": "cf_order",
+        "type": "service"
+      },
+      {
+        "id": "cf_track",
+        "type": "service"
+      },
+      {
+        "id": "workflows",
+        "type": "service"
+      },
+      {
+        "id": "bucket",
+        "type": "service"
+      },
+      {
+        "id": "bigtable",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "cloudrun_inf",
+        "type": "service"
+      },
+      {
+        "id": "vertex_ml",
+        "type": "service"
+      },
+      {
+        "id": "bg_blue",
+        "type": "service"
+      },
+      {
+        "id": "bg_green",
+        "type": "service"
+      },
+      {
+        "id": "dr_aws",
+        "type": "service"
+      },
+      {
+        "id": "dr_sync",
+        "type": "service"
+      },
+      {
+        "id": "dr_azure",
+        "type": "service"
+      },
+      {
+        "id": "dr_gcp",
+        "type": "service"
+      },
+      {
+        "id": "failover_route",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "alerting",
+        "type": "service"
+      },
+      {
+        "id": "ai_output",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "backend_api",
+        "type": "service"
+      },
+      {
+        "id": "kube_monitor",
+        "type": "service"
+      },
+      {
+        "id": "slack",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "b2b",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "token_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_aws",
+        "target": "dr_sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_azure",
+        "target": "dr_sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_gcp",
+        "target": "dr_sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_sync",
+        "target": "failover_route",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lambda1",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "func_order",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "cf_order",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda1",
+        "target": "stepfunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "func_order",
+        "target": "durable",
+        "label": "HTTP"
+      },
+      {
+        "source": "cf_order",
+        "target": "workflows",
+        "label": "HTTP"
+      },
+      {
+        "source": "stepfunc",
+        "target": "sns",
+        "label": "HTTP"
+      },
+      {
+        "source": "durable",
+        "target": "eventgrid",
+        "label": "HTTP"
+      },
+      {
+        "source": "workflows",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "sns",
+        "target": "ddb",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventgrid",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "bigtable",
+        "label": "HTTP"
+      },
+      {
+        "source": "ddb",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "cosmos",
+        "target": "servicebus",
+        "label": "HTTP"
+      },
+      {
+        "source": "bigtable",
+        "target": "cloudrun_inf",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "ai_lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "servicebus",
+        "target": "ai_func",
+        "label": "HTTP"
+      },
+      {
+        "source": "cloudrun_inf",
+        "target": "vertex_ml",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_lambda",
+        "target": "sage_endpoint",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_func",
+        "target": "ml_endpoint",
+        "label": "HTTP"
+      },
+      {
+        "source": "sage_endpoint",
+        "target": "ai_output",
+        "label": "HTTP"
+      },
+      {
+        "source": "ml_endpoint",
+        "target": "ai_output",
+        "label": "HTTP"
+      },
+      {
+        "source": "vertex_ml",
+        "target": "ai_output",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_output",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "backend_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "backend_api",
+        "target": "ddb",
+        "label": "HTTP"
+      },
+      {
+        "source": "backend_api",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "backend_api",
+        "target": "bigtable",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "token_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "token_service",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "kube_monitor",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "alerting",
+        "label": "HTTP"
+      },
+      {
+        "source": "alerting",
+        "target": "slack",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "bg_blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "bg_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "bg_blue",
+        "target": "lambda1",
+        "label": "HTTP"
+      },
+      {
+        "source": "bg_green",
+        "target": "func_order",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Blue/Green Deployment",
+      "High Throughput (100k+ TPS)",
+      "AI/ML Inference Integration",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 88,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

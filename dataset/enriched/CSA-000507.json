@@ -1,0 +1,697 @@
+{
+  "id": "CSA-000507",
+  "instruction": "Design a HR architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: Zero Trust Architecture, High Throughput (100k+ TPS), Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "EdgeLB",
+        "type": "service"
+      },
+      {
+        "id": "ZT_Firewall",
+        "type": "service"
+      },
+      {
+        "id": "ZT_Proxy",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "IdFederation",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "CommandSvc",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "queue"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "CQRS_Saga",
+        "type": "service"
+      },
+      {
+        "id": "QuerySvc",
+        "type": "service"
+      },
+      {
+        "id": "ReadModel",
+        "type": "database"
+      },
+      {
+        "id": "PayrollSrv",
+        "type": "service"
+      },
+      {
+        "id": "BenefitsSrv",
+        "type": "service"
+      },
+      {
+        "id": "RecruitingSrv",
+        "type": "ui"
+      },
+      {
+        "id": "OnboardingSrv",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "S3Lake",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8sAWS",
+        "type": "service"
+      },
+      {
+        "id": "K8sAzure",
+        "type": "service"
+      },
+      {
+        "id": "K8sGCP",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "RegionA",
+        "type": "service"
+      },
+      {
+        "id": "RegionB",
+        "type": "service"
+      },
+      {
+        "id": "RegionC",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "database"
+      },
+      {
+        "id": "Secrets",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "ZT_Firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT_Firewall",
+        "target": "ZT_Proxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZT_Proxy",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "IdFederation",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "CQRS_Saga",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "PayrollSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "BenefitsSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "RecruitingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "OnboardingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollSrv",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenefitsSrv",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitingSrv",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "OnboardingSrv",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "PayrollSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "BenefitsSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "RecruitingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "OnboardingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollSrv",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "BenefitsSrv",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitingSrv",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OnboardingSrv",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQS",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "RecruitingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "K8sAzure",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "K8sGCP",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "RegionA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAzure",
+        "target": "RegionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sGCP",
+        "target": "RegionC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionA",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionB",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionC",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionA",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionB",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionC",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "GitRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CI_CD",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 5,
+      "services": 44
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Zero Trust Architecture",
+      "High Throughput (100k+ TPS)",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 86,
+    "source_edges": 89,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

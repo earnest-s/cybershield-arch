@@ -1,0 +1,525 @@
+{
+  "id": "CSA-000536",
+  "instruction": "Design a Supply Chain architecture. using a Serverless style. deployed on On-Premises. satisfying: Rate Limiting, Compliance/Audit Logging, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "OrderProc",
+        "type": "service"
+      },
+      {
+        "id": "InventoryFunc",
+        "type": "service"
+      },
+      {
+        "id": "ShipmentFunc",
+        "type": "service"
+      },
+      {
+        "id": "NotificationFunc",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsFunc",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "Queue",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      },
+      {
+        "id": "SERVERLESS_COMPUTE",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA_STORAGE",
+        "type": "service"
+      },
+      {
+        "id": "Alert",
+        "type": "service"
+      },
+      {
+        "id": "SupplierSys",
+        "type": "container"
+      },
+      {
+        "id": "CarrierSys",
+        "type": "container"
+      },
+      {
+        "id": "ERP",
+        "type": "container"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OrderProc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "InventoryFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ShipmentFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "NotificationFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderProc",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventoryFunc",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShipmentFunc",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationFunc",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Queue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Queue",
+        "target": "OrderProc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Queue",
+        "target": "InventoryFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Queue",
+        "target": "ShipmentFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Queue",
+        "target": "NotificationFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderProc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventoryFunc",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShipmentFunc",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationFunc",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderProc",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventoryFunc",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShipmentFunc",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsFunc",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsFunc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderProc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventoryFunc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShipmentFunc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationFunc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsFunc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "IaC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "SERVERLESS_COMPUTE",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "DATA_STORAGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitoring",
+        "target": "Alert",
+        "label": "HTTP"
+      },
+      {
+        "source": "Alert",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupplierSys",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CarrierSys",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ERP",
+        "target": "API_GW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 20,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 5,
+      "services": 26
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "Serverless",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Rate Limiting",
+      "Compliance/Audit Logging",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 42,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,502 @@
+{
+  "id": "CSA-001117",
+  "instruction": "Design a Fraud Detection architecture. using a Event-Driven style. deployed on GCP. satisfying: Active-Active Multi-Region, Zero Trust Architecture, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "PARTNERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "FIREWALL",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "REGION_US",
+        "type": "service"
+      },
+      {
+        "id": "REGION_EU",
+        "type": "service"
+      },
+      {
+        "id": "US_APIGW",
+        "type": "service"
+      },
+      {
+        "id": "US_ESB",
+        "type": "service"
+      },
+      {
+        "id": "US_FRAUD_MS",
+        "type": "service"
+      },
+      {
+        "id": "US_PROFILE_MS",
+        "type": "service"
+      },
+      {
+        "id": "US_RULES_MS",
+        "type": "service"
+      },
+      {
+        "id": "EU_APIGW",
+        "type": "service"
+      },
+      {
+        "id": "EU_ESB",
+        "type": "service"
+      },
+      {
+        "id": "EU_FRAUD_MS",
+        "type": "service"
+      },
+      {
+        "id": "EU_PROFILE_MS",
+        "type": "service"
+      },
+      {
+        "id": "EU_RULES_MS",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "ALERTS",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "BIGQUERY",
+        "type": "service"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "ANOMALY",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "HELM",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "US_REGION",
+        "type": "service"
+      },
+      {
+        "id": "EU_REGION",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "ui"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PARTNERS",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FIREWALL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SSO",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "US_APIGW",
+        "target": "US_ESB",
+        "label": "HTTP"
+      },
+      {
+        "source": "US_ESB",
+        "target": "US_FRAUD_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "US_ESB",
+        "target": "US_PROFILE_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "US_ESB",
+        "target": "US_RULES_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EU_APIGW",
+        "target": "EU_ESB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EU_ESB",
+        "target": "EU_FRAUD_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EU_ESB",
+        "target": "EU_PROFILE_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EU_ESB",
+        "target": "EU_RULES_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "US_ESB",
+        "target": "EU_ESB",
+        "label": "HTTP"
+      },
+      {
+        "source": "US_FRAUD_MS",
+        "target": "EU_FRAUD_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "US_FRAUD_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EU_FRAUD_MS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ALERTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANOMALY",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "HELM",
+        "label": "HTTP"
+      },
+      {
+        "source": "HELM",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "REGION_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "REGION_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "US_FRAUD_MS",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "EU_FRAUD_MS",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "US_PROFILE_MS",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "EU_PROFILE_MS",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "US_RULES_MS",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "EU_RULES_MS",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALERTS",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALERTS",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "US_REGION",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "EU_REGION",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "BIGQUERY",
+        "target": "SPLUNK",
+        "label": "DB Query"
+      },
+      {
+        "source": "SPLUNK",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Zero Trust Architecture",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 76,
+    "source_edges": 73,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,442 @@
+{
+  "id": "CSA-000719",
+  "instruction": "Design a Warehouse architecture. using a Hexagonal style. deployed on GCP. satisfying: Strict Network Segmentation, GraphRAG Integration, Blue/Green Deployment, High Throughput (100k+ TPS), Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "K8sBlue",
+        "type": "container"
+      },
+      {
+        "id": "K8sGreen",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "SM",
+        "type": "service"
+      },
+      {
+        "id": "AdapterIn1",
+        "type": "service"
+      },
+      {
+        "id": "AdapterIn2",
+        "type": "service"
+      },
+      {
+        "id": "AdapterOut1",
+        "type": "service"
+      },
+      {
+        "id": "AdapterOut2",
+        "type": "service"
+      },
+      {
+        "id": "Core",
+        "type": "service"
+      },
+      {
+        "id": "PortIn1",
+        "type": "service"
+      },
+      {
+        "id": "PortIn2",
+        "type": "service"
+      },
+      {
+        "id": "PortOut1",
+        "type": "service"
+      },
+      {
+        "id": "PortOut2",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "AdapterIn1",
+        "target": "PortIn1",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterIn2",
+        "target": "PortIn2",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortIn1",
+        "target": "Core",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortIn2",
+        "target": "Core",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "PortOut1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "PortOut2",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortOut1",
+        "target": "AdapterOut1",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortOut2",
+        "target": "AdapterOut2",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8sBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8sGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sBlue",
+        "target": "AdapterIn1",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sBlue",
+        "target": "AdapterIn2",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sGreen",
+        "target": "AdapterIn1",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sGreen",
+        "target": "AdapterIn2",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "AdapterOut1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "AdapterOut2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterOut1",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterOut2",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Core",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "K8sBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "K8sGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "Loki",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 4,
+      "services": 24
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Hexagonal",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "GraphRAG Integration",
+      "Blue/Green Deployment",
+      "High Throughput (100k+ TPS)",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 45,
+    "source_edges": 40,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

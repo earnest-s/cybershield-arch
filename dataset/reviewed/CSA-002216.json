@@ -1,0 +1,543 @@
+{
+  "id": "CSA-002216",
+  "instruction": "Design a IoT architecture. using a Hexagonal style. deployed on GCP. satisfying: GraphRAG Integration, Auto Scaling, High Throughput (100k+ TPS), Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "mTLS",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "CoreDomain",
+        "type": "service"
+      },
+      {
+        "id": "InboundAdapters",
+        "type": "service"
+      },
+      {
+        "id": "OutboundPorts",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "ReadModelDB",
+        "type": "database"
+      },
+      {
+        "id": "WriteModelDB",
+        "type": "database"
+      },
+      {
+        "id": "RESTAdapter",
+        "type": "service"
+      },
+      {
+        "id": "MQTTAdapter",
+        "type": "queue"
+      },
+      {
+        "id": "GRPCAdapter",
+        "type": "service"
+      },
+      {
+        "id": "TelemetryPort",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "StoragePort",
+        "type": "database"
+      },
+      {
+        "id": "QueryPort",
+        "type": "service"
+      },
+      {
+        "id": "EventPubPort",
+        "type": "service"
+      },
+      {
+        "id": "AIInferencePort",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "VectorStore",
+        "type": "database"
+      },
+      {
+        "id": "DeviceRegistry",
+        "type": "database"
+      },
+      {
+        "id": "LLMGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LogStack",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "ui"
+      },
+      {
+        "id": "Adapters",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LoadBalancer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mTLS",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "InboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OutboundPorts",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "ReadModelDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "WriteModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RESTAdapter",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "MQTTAdapter",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPCAdapter",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryPort",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "StoragePort",
+        "target": "WriteModelDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "QueryPort",
+        "target": "ReadModelDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "EventPubPort",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "AIInferencePort",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "VectorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "VectorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LogStack",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "WriteModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "AuditLog",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Adapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "mTLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "DeviceRegistry",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Compliance",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 6,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "Hexagonal",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "GraphRAG Integration",
+      "Auto Scaling",
+      "High Throughput (100k+ TPS)",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 69,
+    "source_edges": 52,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

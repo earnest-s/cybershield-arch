@@ -1,0 +1,639 @@
+{
+  "id": "CSA-000921",
+  "instruction": "Design a Supply Chain architecture. using a Modular Monolith style. deployed on Hybrid Cloud. satisfying: High Throughput (100k+ TPS), Observability Stack, Rate Limiting, Compliance/Audit Logging, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "SEG",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "MOD_CORE",
+        "type": "service"
+      },
+      {
+        "id": "MOD_ORD",
+        "type": "service"
+      },
+      {
+        "id": "MOD_INV",
+        "type": "service"
+      },
+      {
+        "id": "MOD_TRK",
+        "type": "service"
+      },
+      {
+        "id": "MOD_PAY",
+        "type": "service"
+      },
+      {
+        "id": "MOD_ANAL",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "DYNAMO",
+        "type": "database"
+      },
+      {
+        "id": "LAKE",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "database"
+      },
+      {
+        "id": "SQS",
+        "type": "database"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VEC_SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "BLUE_GREEN",
+        "type": "service"
+      },
+      {
+        "id": "CANARY",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "SUPPLIER",
+        "type": "service"
+      },
+      {
+        "id": "CARRIER",
+        "type": "service"
+      },
+      {
+        "id": "FIN_BANK",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "RL",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "SEG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_ORD",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_INV",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_TRK",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_PAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_ANAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEG",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEG",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEG",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEG",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEG",
+        "target": "DYNAMO",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "DYNAMO",
+        "label": "DB Query"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_ORD",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "MOD_INV",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "MOD_TRK",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "MOD_PAY",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_ANAL",
+        "target": "LAKE",
+        "label": "DB Query"
+      },
+      {
+        "source": "MOD_ANAL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "VEC_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "BLUE_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "CANARY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "SUPPLIER",
+        "target": "MOD_INV",
+        "label": "HTTP"
+      },
+      {
+        "source": "CARRIER",
+        "target": "MOD_TRK",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIN_BANK",
+        "target": "MOD_PAY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Require Multi-Factor Authentication for user access."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 7,
+      "services": 39
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS, SIEM and MFA. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "Modular Monolith",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Observability Stack",
+      "Rate Limiting",
+      "Compliance/Audit Logging",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 74,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

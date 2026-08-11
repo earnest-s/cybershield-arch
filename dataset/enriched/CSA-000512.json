@@ -1,0 +1,734 @@
+{
+  "id": "CSA-000512",
+  "instruction": "Design a Telecom architecture. using a Modular Monolith style. deployed on AWS. satisfying: Strict Network Segmentation, Active-Active Multi-Region, AI/ML Inference Integration, Rate Limiting, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "vpcA",
+        "type": "service"
+      },
+      {
+        "id": "dmzA",
+        "type": "service"
+      },
+      {
+        "id": "appVPC_A",
+        "type": "service"
+      },
+      {
+        "id": "billing",
+        "type": "service"
+      },
+      {
+        "id": "provisioning",
+        "type": "service"
+      },
+      {
+        "id": "custMgmt",
+        "type": "service"
+      },
+      {
+        "id": "usage",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "aiInference",
+        "type": "service"
+      },
+      {
+        "id": "dataVPC_A",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "vpcB",
+        "type": "service"
+      },
+      {
+        "id": "dmzB",
+        "type": "service"
+      },
+      {
+        "id": "appVPC_B",
+        "type": "service"
+      },
+      {
+        "id": "billingB",
+        "type": "service"
+      },
+      {
+        "id": "provisioningB",
+        "type": "service"
+      },
+      {
+        "id": "custMgmtB",
+        "type": "service"
+      },
+      {
+        "id": "usageB",
+        "type": "service"
+      },
+      {
+        "id": "featureFlagsB",
+        "type": "service"
+      },
+      {
+        "id": "aiInferenceB",
+        "type": "service"
+      },
+      {
+        "id": "dataVPC_B",
+        "type": "service"
+      },
+      {
+        "id": "postgresB",
+        "type": "database"
+      },
+      {
+        "id": "redisB",
+        "type": "cache"
+      },
+      {
+        "id": "esB",
+        "type": "service"
+      },
+      {
+        "id": "vectorDBB",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "dmzA",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "dmzB",
+        "label": "HTTP"
+      },
+      {
+        "source": "dmzA",
+        "target": "appVPC_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "dmzB",
+        "target": "appVPC_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_A",
+        "target": "billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_A",
+        "target": "provisioning",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_A",
+        "target": "custMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_A",
+        "target": "usage",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_A",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_A",
+        "target": "aiInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_B",
+        "target": "billingB",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_B",
+        "target": "provisioningB",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_B",
+        "target": "custMgmtB",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_B",
+        "target": "usageB",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_B",
+        "target": "featureFlagsB",
+        "label": "HTTP"
+      },
+      {
+        "source": "appVPC_B",
+        "target": "aiInferenceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "provisioning",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "custMgmt",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "usage",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingB",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "provisioningB",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "custMgmtB",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "usageB",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInference",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInferenceB",
+        "target": "vectorDBB",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "provisioning",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "custMgmt",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "usage",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingB",
+        "target": "postgresB",
+        "label": "HTTP"
+      },
+      {
+        "source": "provisioningB",
+        "target": "postgresB",
+        "label": "HTTP"
+      },
+      {
+        "source": "custMgmtB",
+        "target": "postgresB",
+        "label": "HTTP"
+      },
+      {
+        "source": "usageB",
+        "target": "postgresB",
+        "label": "HTTP"
+      },
+      {
+        "source": "usage",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "usageB",
+        "target": "redisB",
+        "label": "HTTP"
+      },
+      {
+        "source": "usage",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "usageB",
+        "target": "esB",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlagsB",
+        "target": "redisB",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "provisioning",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "custMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "usage",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "provisioning",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "custMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "usage",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "provisioning",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "custMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "usage",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "appVPC_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "appVPC_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "appVPC_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "appVPC_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "web",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "mobile",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "admin",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "aiInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "aiInferenceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "postgresB",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "elk",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 6,
+      "services": 43
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Active-Active Multi-Region",
+      "AI/ML Inference Integration",
+      "Rate Limiting",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 72,
+    "source_edges": 93,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

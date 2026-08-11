@@ -1,0 +1,450 @@
+{
+  "id": "CSA-002307",
+  "instruction": "Design a Retail architecture. using a CQRS style. deployed on AWS. satisfying: Feature Flags, Data Lakehouse Pattern, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "ALB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "GitOps",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "CmdDB",
+        "type": "database"
+      },
+      {
+        "id": "QueryDB",
+        "type": "database"
+      },
+      {
+        "id": "RawLake",
+        "type": "database"
+      },
+      {
+        "id": "Bronze",
+        "type": "database"
+      },
+      {
+        "id": "Silver",
+        "type": "database"
+      },
+      {
+        "id": "Gold",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "CommandSvc",
+        "type": "service"
+      },
+      {
+        "id": "QuerySvc",
+        "type": "service"
+      },
+      {
+        "id": "InventorySvc",
+        "type": "service"
+      },
+      {
+        "id": "PricingSvc",
+        "type": "service"
+      },
+      {
+        "id": "OrderSvc",
+        "type": "service"
+      },
+      {
+        "id": "PaymentSvc",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlagSvc",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "PaymentProvider",
+        "type": "service"
+      },
+      {
+        "id": "ShippingAPI",
+        "type": "service"
+      },
+      {
+        "id": "ThirdPartyAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "AIModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "CmdDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "QueryDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "CmdDB",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "QueryDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryDB",
+        "target": "Bronze",
+        "label": "HTTP"
+      },
+      {
+        "source": "Bronze",
+        "target": "Silver",
+        "label": "HTTP"
+      },
+      {
+        "source": "Silver",
+        "target": "Gold",
+        "label": "HTTP"
+      },
+      {
+        "source": "Gold",
+        "target": "ThirdPartyAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventorySvc",
+        "target": "CmdDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PricingSvc",
+        "target": "CmdDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "CmdDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentSvc",
+        "target": "CmdDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "PaymentSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentSvc",
+        "target": "PaymentProvider",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "ShippingAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlagSvc",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlagSvc",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlagSvc",
+        "target": "InventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlagSvc",
+        "target": "PricingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "AIModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "Gold",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitOps",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "ELK",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Retail",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Data Lakehouse Pattern",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 67,
+    "source_edges": 55,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,703 @@
+{
+  "id": "CSA-000647",
+  "instruction": "Design a CRM architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: Observability Stack, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "EdgeLB",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "FrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AuthN",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "IdP",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "CloudA",
+        "type": "service"
+      },
+      {
+        "id": "CloudB",
+        "type": "database"
+      },
+      {
+        "id": "OnPrem",
+        "type": "service"
+      },
+      {
+        "id": "K8sA",
+        "type": "container"
+      },
+      {
+        "id": "K8sB",
+        "type": "container"
+      },
+      {
+        "id": "K8sC",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "SalesAPI",
+        "type": "service"
+      },
+      {
+        "id": "SalesMS",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "SalesDW",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "MarketingAPI",
+        "type": "service"
+      },
+      {
+        "id": "MarketingMS",
+        "type": "service"
+      },
+      {
+        "id": "MarketingLake",
+        "type": "service"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "SupportAPI",
+        "type": "service"
+      },
+      {
+        "id": "SupportMS",
+        "type": "service"
+      },
+      {
+        "id": "SupportDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "AnalyticsAPI",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsMS",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsLake",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "DLQ",
+        "type": "queue"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Jaeger",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "AlertMgr",
+        "type": "service"
+      },
+      {
+        "id": "PagerDuty",
+        "type": "service"
+      },
+      {
+        "id": "PolicyEngine",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "MeshGateway",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "FrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthN",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthN",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthN",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthN",
+        "target": "IdP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudA",
+        "target": "CloudB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudA",
+        "target": "OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudB",
+        "target": "OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudA",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudB",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OnPrem",
+        "target": "K8sC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "K8sC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "SalesAPI",
+        "target": "SalesMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SalesMS",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "SalesMS",
+        "target": "SalesDW",
+        "label": "HTTP"
+      },
+      {
+        "source": "SalesDW",
+        "target": "VectorDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "MarketingAPI",
+        "target": "MarketingMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MarketingMS",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "MarketingMS",
+        "target": "MarketingLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "MarketingLake",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupportAPI",
+        "target": "SupportMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupportMS",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "SupportMS",
+        "target": "SupportDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupportDB",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "AnalyticsAPI",
+        "target": "AnalyticsMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsMS",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsMS",
+        "target": "AnalyticsLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsLake",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "DLQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Jaeger",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Jaeger",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "AlertMgr",
+        "target": "PagerDuty",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicyEngine",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicyEngine",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "SalesAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "MarketingAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "SupportAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AnalyticsAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "K8sC",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshGateway",
+        "target": "SalesDW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshGateway",
+        "target": "MarketingLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshGateway",
+        "target": "SupportDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshGateway",
+        "target": "AnalyticsLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshGateway",
+        "target": "PolicyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "SalesAPI",
+        "target": "MeshGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "MarketingAPI",
+        "target": "MeshGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupportAPI",
+        "target": "MeshGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsAPI",
+        "target": "MeshGateway",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 10,
+      "databases": 5,
+      "services": 40
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Observability Stack",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 82,
+    "source_edges": 78,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

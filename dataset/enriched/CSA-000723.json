@@ -1,0 +1,503 @@
+{
+  "id": "CSA-000723",
+  "instruction": "Design a Oil & Gas architecture. using a Hexagonal style. deployed on AWS. satisfying: Auto Scaling, Compliance/Audit Logging, AI/ML Inference Integration, Disaster Recovery, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "eksCluster",
+        "type": "container"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "authSrv",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "ingress",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "coreService",
+        "type": "service"
+      },
+      {
+        "id": "inboundAdapter1",
+        "type": "service"
+      },
+      {
+        "id": "inboundAdapter2",
+        "type": "service"
+      },
+      {
+        "id": "outboundAdapter1",
+        "type": "service"
+      },
+      {
+        "id": "outboundAdapter2",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "s3Raw",
+        "type": "service"
+      },
+      {
+        "id": "glue",
+        "type": "service"
+      },
+      {
+        "id": "deltaLake",
+        "type": "service"
+      },
+      {
+        "id": "redshift",
+        "type": "service"
+      },
+      {
+        "id": "athena",
+        "type": "service"
+      },
+      {
+        "id": "modelStore",
+        "type": "service"
+      },
+      {
+        "id": "inferenceSrv",
+        "type": "service"
+      },
+      {
+        "id": "vectorDb",
+        "type": "database"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "loki",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "asg",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "complianceEngine",
+        "type": "service"
+      },
+      {
+        "id": "drRegion",
+        "type": "service"
+      },
+      {
+        "id": "drBackup",
+        "type": "service"
+      },
+      {
+        "id": "sap",
+        "type": "service"
+      },
+      {
+        "id": "dataSync",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGW",
+        "label": "Cache"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "eksCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "authSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "authSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "eksCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "ingress",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingress",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "inboundAdapter1",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "inboundAdapter2",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "outboundAdapter1",
+        "label": "HTTP"
+      },
+      {
+        "source": "coreService",
+        "target": "outboundAdapter2",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "inboundAdapter1",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "inboundAdapter2",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "outboundAdapter1",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBridge",
+        "target": "outboundAdapter1",
+        "label": "HTTP"
+      },
+      {
+        "source": "outboundAdapter2",
+        "target": "s3Raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3Raw",
+        "target": "glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "glue",
+        "target": "deltaLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "deltaLake",
+        "target": "redshift",
+        "label": "HTTP"
+      },
+      {
+        "source": "glue",
+        "target": "athena",
+        "label": "HTTP"
+      },
+      {
+        "source": "inferenceSrv",
+        "target": "modelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "inferenceSrv",
+        "target": "vectorDb",
+        "label": "DB Query"
+      },
+      {
+        "source": "coreService",
+        "target": "inferenceSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "loki",
+        "target": "eksCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "eksCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "eksCluster",
+        "target": "asg",
+        "label": "HTTP"
+      },
+      {
+        "source": "eksCluster",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "complianceEngine",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "drRegion",
+        "target": "eksCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "drBackup",
+        "target": "s3Raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "drBackup",
+        "target": "redshift",
+        "label": "HTTP"
+      },
+      {
+        "source": "sap",
+        "target": "dataSync",
+        "label": "HTTP"
+      },
+      {
+        "source": "dataSync",
+        "target": "outboundAdapter2",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 1,
+      "services": 38
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Compliance/Audit Logging",
+      "AI/ML Inference Integration",
+      "Disaster Recovery",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 57,
+    "source_edges": 42,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

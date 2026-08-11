@@ -1,0 +1,691 @@
+{
+  "id": "CSA-001604",
+  "instruction": "Design a Insurance architecture. using a Event-Driven style. deployed on AWS. satisfying: Compliance/Audit Logging, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "CloudFront",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "ALB",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "SecretsMgr",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "CloudTrail",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "PolicySvc",
+        "type": "service"
+      },
+      {
+        "id": "ClaimsSvc",
+        "type": "service"
+      },
+      {
+        "id": "Underwrite",
+        "type": "service"
+      },
+      {
+        "id": "BillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "NotifySvc",
+        "type": "service"
+      },
+      {
+        "id": "FraudSvc",
+        "type": "service"
+      },
+      {
+        "id": "AIAgentOrch",
+        "type": "service"
+      },
+      {
+        "id": "Aurora",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "OpenSearch",
+        "type": "service"
+      },
+      {
+        "id": "S3Lake",
+        "type": "service"
+      },
+      {
+        "id": "Redshift",
+        "type": "service"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "CloudWatch",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "EKS",
+        "type": "container"
+      },
+      {
+        "id": "Fargate",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "CodePipeline",
+        "type": "service"
+      },
+      {
+        "id": "GuardDuty",
+        "type": "service"
+      },
+      {
+        "id": "SecurityHub",
+        "type": "service"
+      },
+      {
+        "id": "NACL",
+        "type": "service"
+      },
+      {
+        "id": "SG",
+        "type": "service"
+      },
+      {
+        "id": "CrossRegion",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "Segmentation",
+        "type": "service"
+      },
+      {
+        "id": "Public",
+        "type": "service"
+      },
+      {
+        "id": "DMZ",
+        "type": "service"
+      },
+      {
+        "id": "Microservices",
+        "type": "service"
+      },
+      {
+        "id": "Application",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CloudFront",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CloudFront",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudFront",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "SecretsMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "SecretsMgr",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "PolicySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ClaimsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Underwrite",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "NotifySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicySvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClaimsSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Underwrite",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotifySvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIAgentOrch",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "SNS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudSvc",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIAgentOrch",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "OpenSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicySvc",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClaimsSvc",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Underwrite",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotifySvc",
+        "target": "S3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpenSearch",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redshift",
+        "target": "S3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudTrail",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "PCI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudWatch",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "CloudWatch",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "PolicySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "ClaimsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "Underwrite",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "NotifySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "FraudSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "AIAgentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "Fargate",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodePipeline",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GuardDuty",
+        "target": "CloudWatch",
+        "label": "HTTP"
+      },
+      {
+        "source": "SecurityHub",
+        "target": "CloudWatch",
+        "label": "HTTP"
+      },
+      {
+        "source": "CrossRegion",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "CrossRegion",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "S3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "PolicySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "ClaimsSvc",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 2,
+      "services": 51
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Event-Driven",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 64,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

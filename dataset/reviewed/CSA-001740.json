@@ -1,0 +1,615 @@
+{
+  "id": "CSA-001740",
+  "instruction": "Design a Warehouse architecture. using a Zero-Trust style. deployed on GCP. satisfying: Data Lakehouse Pattern, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "thirdParty",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "ingress",
+        "type": "service"
+      },
+      {
+        "id": "mesh",
+        "type": "service"
+      },
+      {
+        "id": "authz",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "sidecars",
+        "type": "service"
+      },
+      {
+        "id": "orderSrv",
+        "type": "service"
+      },
+      {
+        "id": "inventorySrv",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "queue"
+      },
+      {
+        "id": "shippingSrv",
+        "type": "service"
+      },
+      {
+        "id": "paymentSrv",
+        "type": "service"
+      },
+      {
+        "id": "schemaReg",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "biTool",
+        "type": "ui"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "ui"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "dataPrivacy",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdParty",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ingress",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingress",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "authz",
+        "label": "HTTP"
+      },
+      {
+        "source": "authz",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "sidecars",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSrv",
+        "target": "inventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySrv",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "shippingSrv",
+        "target": "paymentSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "paymentSrv",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "eventBus",
+        "target": "schemaReg",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "biTool",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "orderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongo",
+        "target": "inventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "shippingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "elastic",
+        "target": "webUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "adminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "dataPrivacy",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "orderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "inventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "shippingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "paymentSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderSrv",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventorySrv",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "shippingSrv",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "paymentSrv",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "orderSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "inventorySrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "shippingSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "paymentSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "postgres",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Require Multi-Factor Authentication for user access."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 35
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, SIEM and MFA. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Zero-Trust",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 70,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

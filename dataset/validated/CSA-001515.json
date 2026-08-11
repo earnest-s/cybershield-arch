@@ -1,0 +1,671 @@
+{
+  "id": "CSA-001515",
+  "instruction": "Design a AIOps architecture. using a Modular Monolith style. deployed on AWS. satisfying: Disaster Recovery, Active-Active Multi-Region, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "loadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "amCore",
+        "type": "service"
+      },
+      {
+        "id": "mlEngine",
+        "type": "service"
+      },
+      {
+        "id": "apiLayer",
+        "type": "service"
+      },
+      {
+        "id": "scheduler",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "ragService",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "gitRepo",
+        "type": "service"
+      },
+      {
+        "id": "drLoadBal",
+        "type": "database"
+      },
+      {
+        "id": "drApp",
+        "type": "service"
+      },
+      {
+        "id": "drDb",
+        "type": "database"
+      },
+      {
+        "id": "drCache",
+        "type": "cache"
+      },
+      {
+        "id": "drSite",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "loadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "amCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "drLoadBal",
+        "label": "HTTP"
+      },
+      {
+        "source": "amCore",
+        "target": "apiLayer",
+        "label": "HTTP"
+      },
+      {
+        "source": "amCore",
+        "target": "scheduler",
+        "label": "HTTP"
+      },
+      {
+        "source": "amCore",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiLayer",
+        "target": "mlEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiLayer",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiLayer",
+        "target": "ragService",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiLayer",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "scheduler",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlEngine",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragService",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "mlEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "drDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "drCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "drSite",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "drDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "amCore",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "amCore",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "mlEngine",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragService",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "amCore",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "mlEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "ragService",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "gitRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "drLoadBal",
+        "target": "drApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "drApp",
+        "target": "apiLayer",
+        "label": "HTTP"
+      },
+      {
+        "source": "drApp",
+        "target": "scheduler",
+        "label": "HTTP"
+      },
+      {
+        "source": "drApp",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "drApp",
+        "target": "mlEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "drApp",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "drApp",
+        "target": "ragService",
+        "label": "HTTP"
+      },
+      {
+        "source": "drApp",
+        "target": "aiGateway",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 6,
+      "services": 36
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "AIOps",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Disaster Recovery",
+      "Active-Active Multi-Region",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 67,
+    "source_edges": 83,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

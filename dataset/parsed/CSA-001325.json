@@ -1,0 +1,613 @@
+{
+  "id": "CSA-001325",
+  "instruction": "Design a Energy architecture. using a CQRS style. deployed on AWS. satisfying: Rate Limiting, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "DataStore",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlagService",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "CommandSide",
+        "type": "service"
+      },
+      {
+        "id": "QuerySide",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "AIOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "ObservabilityStack",
+        "type": "service"
+      },
+      {
+        "id": "Kubernetes",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "CommandHandler",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "ReadModelUpdater",
+        "type": "service"
+      },
+      {
+        "id": "ReadModelCache",
+        "type": "cache"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "ReadReplica",
+        "type": "database"
+      },
+      {
+        "id": "DataWarehouse",
+        "type": "database"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "database"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "KnowledgeBase",
+        "type": "database"
+      },
+      {
+        "id": "AuditLog",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "PagerDuty",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "PCI_DSS",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "CLIENT",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "COMMAND_SIDE",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_SIDE",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_MESH",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "PLATFORM",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "DataStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlagService",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FeatureFlagService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "CommandSide",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "QuerySide",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "AIOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "ObservabilityStack",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kubernetes",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "Kubernetes",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "CommandHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandHandler",
+        "target": "ReadModelUpdater",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModelUpdater",
+        "target": "ReadModelCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "ReadModelCache",
+        "label": "Cache"
+      },
+      {
+        "source": "ReadModelCache",
+        "target": "ReadReplica",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadReplica",
+        "target": "DataWarehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "CommandHandler",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "ReadModelUpdater",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "AIOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "KnowledgeBase",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "PagerDuty",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logs",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI_DSS",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "DataStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "DataStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENT",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PERIMETER",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "COMMAND_SIDE",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QUERY_SIDE",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMMAND_SIDE",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SIDE",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ML",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMMAND_SIDE",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SIDE",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLATFORM",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "DATA",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Rate Limiting",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 71,
+    "source_edges": 79,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

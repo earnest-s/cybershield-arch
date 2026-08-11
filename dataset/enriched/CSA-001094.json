@@ -1,0 +1,554 @@
+{
+  "id": "CSA-001094",
+  "instruction": "Design a Banking architecture. using a Hexagonal style. deployed on AWS. satisfying: Feature Flags, AI/ML Inference Integration, GraphRAG Integration, High Throughput (100k+ TPS), Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "EDGE",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ADAPTER_IN",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_OUT",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT_BRIDGE",
+        "type": "service"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "INFER",
+        "type": "service"
+      },
+      {
+        "id": "LAKEHOUSE",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "PAYMENT",
+        "type": "service"
+      },
+      {
+        "id": "CREDIT",
+        "type": "service"
+      },
+      {
+        "id": "THIRD_PARTY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONSUMERS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "SSO",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ADAPTER_IN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "DOMAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "ADAPTER_OUT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "EVENT_BRIDGE",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "DOMAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BRIDGE",
+        "target": "DOMAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "EMBEDDING",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "INFER",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDING",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "INFER",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKEHOUSE",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "ADAPTER_IN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "ADAPTER_OUT",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_IN",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_OUT",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "PAYMENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "CREDIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "THIRD_PARTY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Require Multi-Factor Authentication for user access."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 5,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, SIEM and MFA. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Feature Flags",
+      "AI/ML Inference Integration",
+      "GraphRAG Integration",
+      "High Throughput (100k+ TPS)",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

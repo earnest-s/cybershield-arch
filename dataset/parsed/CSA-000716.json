@@ -1,0 +1,470 @@
+{
+  "id": "CSA-000716",
+  "instruction": "Design a AIOps architecture. using a Event-Driven style. deployed on GCP. satisfying: Blue/Green Deployment, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IstioIngress",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "CLIENT",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "MTLS",
+        "type": "service"
+      },
+      {
+        "id": "K8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "K8sCanary",
+        "type": "container"
+      },
+      {
+        "id": "BlueDeploy",
+        "type": "service"
+      },
+      {
+        "id": "CanaryDeploy",
+        "type": "service"
+      },
+      {
+        "id": "ServiceA",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "DataStore",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "Processor1",
+        "type": "service"
+      },
+      {
+        "id": "Processor2",
+        "type": "service"
+      },
+      {
+        "id": "ModelStore",
+        "type": "database"
+      },
+      {
+        "id": "Alerting",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Storage",
+        "type": "database"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "database"
+      },
+      {
+        "id": "CI",
+        "type": "ui"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      },
+      {
+        "id": "Switch",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "MongoDB",
+        "type": "database"
+      },
+      {
+        "id": "BigQuery",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "ITSM",
+        "type": "service"
+      },
+      {
+        "id": "Slack",
+        "type": "service"
+      },
+      {
+        "id": "Email",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "IstioIngress",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "IstioIngress",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENT",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "IstioIngress",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "MTLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sPrimary",
+        "target": "BlueDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sCanary",
+        "target": "CanaryDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueDeploy",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CanaryDeploy",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "DataStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "IstioIngress",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "IstioIngress",
+        "target": "K8sCanary",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Processor1",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Processor2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Processor1",
+        "target": "ModelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Processor2",
+        "target": "ModelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Processor1",
+        "target": "Alerting",
+        "label": "HTTP"
+      },
+      {
+        "source": "Processor2",
+        "target": "Alerting",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelStore",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "ServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "Storage",
+        "target": "Compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "K8sCanary",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "Switch",
+        "label": "HTTP"
+      },
+      {
+        "source": "Switch",
+        "target": "IstioIngress",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "MongoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceA",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "Processor1",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Processor2",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Alerting",
+        "target": "ITSM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Alerting",
+        "target": "Slack",
+        "label": "HTTP"
+      },
+      {
+        "source": "Alerting",
+        "target": "Email",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "AIOps",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 66,
+    "source_edges": 58,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,451 @@
+{
+  "id": "CSA-001125",
+  "instruction": "Design a Automotive architecture. using a Event-Driven style. deployed on On-Premises. satisfying: Active-Active Multi-Region, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "database"
+      },
+      {
+        "id": "grpcRouter",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "vehicleSvc",
+        "type": "service"
+      },
+      {
+        "id": "telemSvc",
+        "type": "service"
+      },
+      {
+        "id": "maintenanceSvc",
+        "type": "service"
+      },
+      {
+        "id": "billingSvc",
+        "type": "service"
+      },
+      {
+        "id": "analyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "telemSrv",
+        "type": "service"
+      },
+      {
+        "id": "rawLake",
+        "type": "service"
+      },
+      {
+        "id": "bronzeTable",
+        "type": "service"
+      },
+      {
+        "id": "silverTable",
+        "type": "service"
+      },
+      {
+        "id": "goldTable",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "warehouse",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "telemetryInj",
+        "type": "service"
+      },
+      {
+        "id": "cache",
+        "type": "cache"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "services",
+        "type": "service"
+      },
+      {
+        "id": "SERVICES",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "mesh",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "regionA",
+        "type": "service"
+      },
+      {
+        "id": "regionB",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "grpcRouter",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpcRouter",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "vehicleSvc",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "telemSrv",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "maintenanceSvc",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "billingSvc",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "eventBus",
+        "label": "Async"
+      },
+      {
+        "source": "rawLake",
+        "target": "bronzeTable",
+        "label": "HTTP"
+      },
+      {
+        "source": "bronzeTable",
+        "target": "silverTable",
+        "label": "HTTP"
+      },
+      {
+        "source": "silverTable",
+        "target": "goldTable",
+        "label": "HTTP"
+      },
+      {
+        "source": "goldTable",
+        "target": "warehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "goldTable",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemetryInj",
+        "target": "telemSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "vehicleSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemSvc",
+        "target": "rawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "maintenanceSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "billingSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "warehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "cache",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "services",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "services",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "regionA",
+        "target": "regionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "regionB",
+        "target": "regionA",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Automotive",
+    "style": "Event-Driven",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 73,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

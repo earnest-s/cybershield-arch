@@ -1,0 +1,568 @@
+{
+  "id": "CSA-001158",
+  "instruction": "Design a FinTech architecture. using a Hexagonal style. deployed on Azure. satisfying: Observability Stack, GraphRAG Integration, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "frontdoor",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "kv",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "core_services",
+        "type": "service"
+      },
+      {
+        "id": "core_service1",
+        "type": "service"
+      },
+      {
+        "id": "core_service2",
+        "type": "service"
+      },
+      {
+        "id": "core_service3",
+        "type": "service"
+      },
+      {
+        "id": "rest_api",
+        "type": "service"
+      },
+      {
+        "id": "graphql_api",
+        "type": "service"
+      },
+      {
+        "id": "grpc_adapter",
+        "type": "service"
+      },
+      {
+        "id": "db_adapter",
+        "type": "database"
+      },
+      {
+        "id": "cache_adapter",
+        "type": "cache"
+      },
+      {
+        "id": "event_bus_adapter",
+        "type": "service"
+      },
+      {
+        "id": "third_party_adapter",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "sql_db",
+        "type": "database"
+      },
+      {
+        "id": "cosmos",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "blob",
+        "type": "database"
+      },
+      {
+        "id": "sbus",
+        "type": "service"
+      },
+      {
+        "id": "eg",
+        "type": "service"
+      },
+      {
+        "id": "ai_ml",
+        "type": "service"
+      },
+      {
+        "id": "rag_engine",
+        "type": "service"
+      },
+      {
+        "id": "cognitive",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "monitor",
+        "type": "service"
+      },
+      {
+        "id": "log_analytics",
+        "type": "service"
+      },
+      {
+        "id": "elks",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "payment_provider",
+        "type": "service"
+      },
+      {
+        "id": "embedding_model",
+        "type": "service"
+      },
+      {
+        "id": "vector_search",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "frontdoor",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "kv",
+        "target": "core_services",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "core_services",
+        "label": "HTTP"
+      },
+      {
+        "source": "core_service1",
+        "target": "core_services",
+        "label": "HTTP"
+      },
+      {
+        "source": "core_service2",
+        "target": "core_services",
+        "label": "HTTP"
+      },
+      {
+        "source": "core_service3",
+        "target": "core_services",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "frontdoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "frontdoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "frontdoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "frontdoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "rest_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "graphql_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "grpc_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "rest_api",
+        "target": "core_service1",
+        "label": "HTTP"
+      },
+      {
+        "source": "rest_api",
+        "target": "core_service2",
+        "label": "HTTP"
+      },
+      {
+        "source": "rest_api",
+        "target": "core_service3",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql_api",
+        "target": "core_services",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc_adapter",
+        "target": "core_services",
+        "label": "HTTP"
+      },
+      {
+        "source": "core_services",
+        "target": "db_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "core_services",
+        "target": "cache_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "core_services",
+        "target": "event_bus_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "core_services",
+        "target": "third_party_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "db_adapter",
+        "target": "sql_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "db_adapter",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "cache_adapter",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bus_adapter",
+        "target": "sbus",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bus_adapter",
+        "target": "eg",
+        "label": "HTTP"
+      },
+      {
+        "source": "third_party_adapter",
+        "target": "payment_provider",
+        "label": "HTTP"
+      },
+      {
+        "source": "core_services",
+        "target": "ai_ml",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_ml",
+        "target": "embedding_model",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_ml",
+        "target": "vector_search",
+        "label": "HTTP"
+      },
+      {
+        "source": "core_services",
+        "target": "rag_engine",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_engine",
+        "target": "blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_engine",
+        "target": "cognitive",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitor",
+        "target": "log_analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "log_analytics",
+        "target": "elks",
+        "label": "HTTP"
+      },
+      {
+        "source": "core_services",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "db_adapter",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bus_adapter",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "web",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "mobile",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "admin",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "kv",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "core_services",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "core_services",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "core_services",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "SIEM",
+      "WAF"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "SQL Injection",
+        "severity": "CRITICAL",
+        "description": "Attackers can execute malicious SQL statements that control a web application's database server.",
+        "missing_control": "WAF",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Deploy a Web Application Firewall.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 5,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, WAF, Monitoring, Encryption Service, Audit Logging and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Hexagonal",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Observability Stack",
+      "GraphRAG Integration",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 70,
+    "source_edges": 58,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

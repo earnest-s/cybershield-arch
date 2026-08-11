@@ -1,0 +1,474 @@
+{
+  "id": "CSA-000910",
+  "instruction": "Design a Defense architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Strict Network Segmentation, Rate Limiting, Auto Scaling, Active-Active Multi-Region, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "I",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VPNGW",
+        "type": "service"
+      },
+      {
+        "id": "MonolithA",
+        "type": "container"
+      },
+      {
+        "id": "AuthA",
+        "type": "service"
+      },
+      {
+        "id": "MP_A",
+        "type": "service"
+      },
+      {
+        "id": "IntelA",
+        "type": "service"
+      },
+      {
+        "id": "LogiA",
+        "type": "service"
+      },
+      {
+        "id": "RepA",
+        "type": "service"
+      },
+      {
+        "id": "KafkaA",
+        "type": "queue"
+      },
+      {
+        "id": "PG_A",
+        "type": "database"
+      },
+      {
+        "id": "ES_A",
+        "type": "container"
+      },
+      {
+        "id": "RedisA",
+        "type": "cache"
+      },
+      {
+        "id": "K8sA",
+        "type": "container"
+      },
+      {
+        "id": "IstioA",
+        "type": "service"
+      },
+      {
+        "id": "PromA",
+        "type": "service"
+      },
+      {
+        "id": "GrafA",
+        "type": "service"
+      },
+      {
+        "id": "ELKA",
+        "type": "service"
+      },
+      {
+        "id": "MonolithB",
+        "type": "container"
+      },
+      {
+        "id": "AuthB",
+        "type": "service"
+      },
+      {
+        "id": "MP_B",
+        "type": "service"
+      },
+      {
+        "id": "IntelB",
+        "type": "service"
+      },
+      {
+        "id": "LogiB",
+        "type": "service"
+      },
+      {
+        "id": "RepB",
+        "type": "service"
+      },
+      {
+        "id": "KafkaB",
+        "type": "queue"
+      },
+      {
+        "id": "PG_B",
+        "type": "database"
+      },
+      {
+        "id": "ES_B",
+        "type": "container"
+      },
+      {
+        "id": "RedisB",
+        "type": "cache"
+      },
+      {
+        "id": "K8sB",
+        "type": "container"
+      },
+      {
+        "id": "IstioB",
+        "type": "service"
+      },
+      {
+        "id": "PromB",
+        "type": "service"
+      },
+      {
+        "id": "GrafB",
+        "type": "service"
+      },
+      {
+        "id": "ELKB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "STIG",
+        "type": "service"
+      },
+      {
+        "id": "NIST",
+        "type": "service"
+      },
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "Mobile",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "I",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "MonolithA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "MonolithB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPNGW",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPNGW",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mobile",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithA",
+        "target": "AuthA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithA",
+        "target": "MP_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithA",
+        "target": "IntelA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithA",
+        "target": "LogiA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithA",
+        "target": "RepA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithB",
+        "target": "AuthB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithB",
+        "target": "MP_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithB",
+        "target": "IntelB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithB",
+        "target": "LogiB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithB",
+        "target": "RepB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthA",
+        "target": "MonolithA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthB",
+        "target": "MonolithB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithA",
+        "target": "KafkaA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithB",
+        "target": "KafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaA",
+        "target": "KafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG_A",
+        "target": "PG_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES_A",
+        "target": "ES_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisA",
+        "target": "RedisB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithA",
+        "target": "PG_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithA",
+        "target": "ES_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithA",
+        "target": "RedisA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithB",
+        "target": "PG_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithB",
+        "target": "ES_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "MonolithB",
+        "target": "RedisB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sA",
+        "target": "IstioA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sB",
+        "target": "IstioB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IstioA",
+        "target": "MonolithA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IstioB",
+        "target": "MonolithB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PromA",
+        "target": "GrafA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PromB",
+        "target": "GrafB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELKA",
+        "target": "GrafA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELKB",
+        "target": "GrafB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sA",
+        "target": "PromA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sA",
+        "target": "ELKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sB",
+        "target": "PromB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sB",
+        "target": "ELKB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "STIG",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "NIST",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "STIG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "NIST",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Defense",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Rate Limiting",
+      "Auto Scaling",
+      "Active-Active Multi-Region",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 60,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

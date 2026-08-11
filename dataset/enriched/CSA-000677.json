@@ -1,0 +1,776 @@
+{
+  "id": "CSA-000677",
+  "instruction": "Design a E-Commerce architecture. using a Data Mesh style. deployed on Hybrid Cloud. satisfying: GraphRAG Integration, Blue/Green Deployment, Feature Flags, Strict Network Segmentation, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "EDGE",
+        "type": "service"
+      },
+      {
+        "id": "ENVOY",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "FED",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "K8S_BG",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "CATALOG_DB",
+        "type": "database"
+      },
+      {
+        "id": "CATALOG_SEARCH",
+        "type": "database"
+      },
+      {
+        "id": "ORDERS_DB",
+        "type": "database"
+      },
+      {
+        "id": "ORDERS_CACHE",
+        "type": "database"
+      },
+      {
+        "id": "PAYMENTS_DB",
+        "type": "database"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "database"
+      },
+      {
+        "id": "LAKE",
+        "type": "database"
+      },
+      {
+        "id": "MESH_GATEWAY",
+        "type": "database"
+      },
+      {
+        "id": "BFF",
+        "type": "ui"
+      },
+      {
+        "id": "AUTH",
+        "type": "service"
+      },
+      {
+        "id": "CART",
+        "type": "service"
+      },
+      {
+        "id": "INVENTORY",
+        "type": "service"
+      },
+      {
+        "id": "ORDER",
+        "type": "service"
+      },
+      {
+        "id": "PAYMENT",
+        "type": "service"
+      },
+      {
+        "id": "RECO",
+        "type": "service"
+      },
+      {
+        "id": "SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF",
+        "type": "service"
+      },
+      {
+        "id": "AI_GATE",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "PAYMENT_P",
+        "type": "service"
+      },
+      {
+        "id": "EMAIL",
+        "type": "service"
+      },
+      {
+        "id": "SMS",
+        "type": "service"
+      },
+      {
+        "id": "DATA_NODES",
+        "type": "service"
+      },
+      {
+        "id": "FIREWALL",
+        "type": "service"
+      },
+      {
+        "id": "INTERNAL",
+        "type": "service"
+      },
+      {
+        "id": "DMZ",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ENVOY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENVOY",
+        "target": "BFF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONS",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "CART",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "PAYMENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "RECO",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "AI_GATE",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CART",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "RECO",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER",
+        "target": "ORDERS_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER",
+        "target": "ORDERS_CACHE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT",
+        "target": "PAYMENTS_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CART",
+        "target": "CATALOG_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "INVENTORY",
+        "target": "CATALOG_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEARCH",
+        "target": "CATALOG_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "RECO",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RECO",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_GATE",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_GATE",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT",
+        "target": "PAYMENT_P",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF",
+        "target": "EMAIL",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF",
+        "target": "SMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATALOG_DB",
+        "target": "MESH_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDERS_DB",
+        "target": "MESH_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENTS_DB",
+        "target": "MESH_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC_DB",
+        "target": "MESH_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "MESH_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESH_GATEWAY",
+        "target": "BFF",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "FED",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUDIT",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENVOY",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_BG",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "BFF",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "BFF",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CART",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PAYMENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "RECO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "AI_GATE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_BG",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "INTERNAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FIREWALL",
+        "target": "DMZ",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 9,
+      "services": 46
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Data Mesh",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "GraphRAG Integration",
+      "Blue/Green Deployment",
+      "Feature Flags",
+      "Strict Network Segmentation",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 88,
+    "source_edges": 84,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

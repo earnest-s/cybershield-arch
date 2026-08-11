@@ -1,0 +1,523 @@
+{
+  "id": "CSA-001761",
+  "instruction": "Design a Digital Twin architecture. using a CQRS style. deployed on On-Premises. satisfying: Rate Limiting, AI/ML Inference Integration, Compliance/Audit Logging, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "k8sIngress",
+        "type": "container"
+      },
+      {
+        "id": "rl",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "cmdSvc",
+        "type": "service"
+      },
+      {
+        "id": "eventStore",
+        "type": "database"
+      },
+      {
+        "id": "querySvc",
+        "type": "service"
+      },
+      {
+        "id": "readModel",
+        "type": "database"
+      },
+      {
+        "id": "projection",
+        "type": "service"
+      },
+      {
+        "id": "twinSrv",
+        "type": "service"
+      },
+      {
+        "id": "simSrv",
+        "type": "service"
+      },
+      {
+        "id": "analyticsSrv",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "inference",
+        "type": "service"
+      },
+      {
+        "id": "embedding",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "database"
+      },
+      {
+        "id": "configVault",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "loki",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "logging",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "k8sCluster",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "externalSys",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "consumer",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "k8sIngress",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "rl",
+        "label": "HTTP"
+      },
+      {
+        "source": "rl",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "k8sIngress",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sIngress",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "querySvc",
+        "target": "readModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventStore",
+        "target": "projection",
+        "label": "HTTP"
+      },
+      {
+        "source": "projection",
+        "target": "readModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "twinSrv",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "simSrv",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSrv",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "inference",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedding",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "inference",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "twinSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "simSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "loki",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "twinSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "analyticsSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "simSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "twinSrv",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSrv",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "simSrv",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalSys",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalSys",
+        "target": "twinSrv",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 31
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Digital Twin",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Rate Limiting",
+      "AI/ML Inference Integration",
+      "Compliance/Audit Logging",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 54,
+    "source_edges": 50,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

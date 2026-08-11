@@ -1,0 +1,705 @@
+{
+  "id": "CSA-001799",
+  "instruction": "Design a Oil & Gas architecture. using a Zero-Trust style. deployed on Multi-Cloud. satisfying: High Throughput (100k+ TPS), Compliance/Audit Logging, Zero Trust Architecture, Feature Flags, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web_ui",
+        "type": "ui"
+      },
+      {
+        "id": "mobile_app",
+        "type": "service"
+      },
+      {
+        "id": "admin_portal",
+        "type": "ui"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb_global",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkipki",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "eks_aws",
+        "type": "container"
+      },
+      {
+        "id": "rds_aws",
+        "type": "database"
+      },
+      {
+        "id": "dynamo_aws",
+        "type": "database"
+      },
+      {
+        "id": "redis_aws",
+        "type": "database"
+      },
+      {
+        "id": "kafka_aws",
+        "type": "database"
+      },
+      {
+        "id": "es_aws",
+        "type": "database"
+      },
+      {
+        "id": "aks_azure",
+        "type": "container"
+      },
+      {
+        "id": "sql_azure",
+        "type": "database"
+      },
+      {
+        "id": "cosmos_azure",
+        "type": "database"
+      },
+      {
+        "id": "redis_azure",
+        "type": "database"
+      },
+      {
+        "id": "eventhub_azure",
+        "type": "database"
+      },
+      {
+        "id": "search_azure",
+        "type": "database"
+      },
+      {
+        "id": "gke_gcp",
+        "type": "container"
+      },
+      {
+        "id": "spanner_gcp",
+        "type": "database"
+      },
+      {
+        "id": "bigtable_gcp",
+        "type": "database"
+      },
+      {
+        "id": "memorystore_gcp",
+        "type": "database"
+      },
+      {
+        "id": "pubsub_gcp",
+        "type": "database"
+      },
+      {
+        "id": "vertex_ai",
+        "type": "database"
+      },
+      {
+        "id": "api_svc",
+        "type": "service"
+      },
+      {
+        "id": "authz_svc",
+        "type": "service"
+      },
+      {
+        "id": "data_ingest",
+        "type": "service"
+      },
+      {
+        "id": "processing",
+        "type": "service"
+      },
+      {
+        "id": "ai_gateway",
+        "type": "service"
+      },
+      {
+        "id": "feature_flags",
+        "type": "service"
+      },
+      {
+        "id": "kafka_cluster",
+        "type": "queue"
+      },
+      {
+        "id": "rabbitmq",
+        "type": "queue"
+      },
+      {
+        "id": "sqs",
+        "type": "container"
+      },
+      {
+        "id": "eventbus",
+        "type": "database"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "gitlab",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "argocd",
+        "type": "service"
+      },
+      {
+        "id": "tf",
+        "type": "service"
+      },
+      {
+        "id": "istio_aws",
+        "type": "service"
+      },
+      {
+        "id": "istio_azure",
+        "type": "service"
+      },
+      {
+        "id": "anthos",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web_ui",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile_app",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin_portal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb_global",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb_global",
+        "target": "eks_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb_global",
+        "target": "aks_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb_global",
+        "target": "gke_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_aws",
+        "target": "istio_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks_azure",
+        "target": "istio_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke_gcp",
+        "target": "anthos",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_aws",
+        "target": "api_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks_azure",
+        "target": "api_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke_gcp",
+        "target": "api_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_svc",
+        "target": "authz_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "authz_svc",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "authz_svc",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "authz_svc",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_svc",
+        "target": "data_ingest",
+        "label": "HTTP"
+      },
+      {
+        "source": "data_ingest",
+        "target": "kafka_cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "data_ingest",
+        "target": "rabbitmq",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka_cluster",
+        "target": "processing",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbitmq",
+        "target": "processing",
+        "label": "HTTP"
+      },
+      {
+        "source": "processing",
+        "target": "rds_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "processing",
+        "target": "sql_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "processing",
+        "target": "spanner_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "processing",
+        "target": "dynamo_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "processing",
+        "target": "cosmos_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "processing",
+        "target": "bigtable_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "processing",
+        "target": "ai_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "vertex_ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "es_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "search_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "redis_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "redis_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "memorystore_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "feature_flags",
+        "target": "api_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "feature_flags",
+        "target": "processing",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka_cluster",
+        "target": "eventbus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventbus",
+        "target": "pubsub_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventbus",
+        "target": "eventhub_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_svc",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "processing",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "splunk",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "gitlab",
+        "target": "tf",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "eks_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "aks_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "argocd",
+        "label": "HTTP"
+      },
+      {
+        "source": "argocd",
+        "target": "eks_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "argocd",
+        "target": "aks_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "argocd",
+        "target": "gke_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "eks_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "aks_azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "gke_gcp",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "pkipki",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "authz_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "authz_svc",
+        "target": "api_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_svc",
+        "target": "cdn",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 16,
+      "services": 31
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Zero-Trust",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Compliance/Audit Logging",
+      "Zero Trust Architecture",
+      "Feature Flags",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 80,
+    "source_edges": 70,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,530 @@
+{
+  "id": "CSA-000830",
+  "instruction": "Design a Smart City architecture. using a Microservices style. deployed on Azure. satisfying: Strict Network Segmentation, Observability Stack, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "AzureAD",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "IAM_DB",
+        "type": "database"
+      },
+      {
+        "id": "IoTHub",
+        "type": "service"
+      },
+      {
+        "id": "StreamIngest",
+        "type": "service"
+      },
+      {
+        "id": "RT_Analytics",
+        "type": "service"
+      },
+      {
+        "id": "GeoCache",
+        "type": "cache"
+      },
+      {
+        "id": "MS1",
+        "type": "service"
+      },
+      {
+        "id": "MS2",
+        "type": "service"
+      },
+      {
+        "id": "MS3",
+        "type": "service"
+      },
+      {
+        "id": "MS4",
+        "type": "service"
+      },
+      {
+        "id": "MS5",
+        "type": "service"
+      },
+      {
+        "id": "MS6",
+        "type": "service"
+      },
+      {
+        "id": "MS7",
+        "type": "service"
+      },
+      {
+        "id": "MS8",
+        "type": "service"
+      },
+      {
+        "id": "MS9",
+        "type": "service"
+      },
+      {
+        "id": "MS10",
+        "type": "service"
+      },
+      {
+        "id": "sidecar1",
+        "type": "service"
+      },
+      {
+        "id": "sidecar2",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "CosmosDB",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "MLModels",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "database"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "database"
+      },
+      {
+        "id": "EventBridge",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "database"
+      },
+      {
+        "id": "Grafana",
+        "type": "database"
+      },
+      {
+        "id": "OTEL",
+        "type": "database"
+      },
+      {
+        "id": "Loki",
+        "type": "database"
+      },
+      {
+        "id": "Tempo",
+        "type": "database"
+      },
+      {
+        "id": "AlertMgr",
+        "type": "database"
+      },
+      {
+        "id": "PolicyEngine",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "RegionA",
+        "type": "service"
+      },
+      {
+        "id": "RegionB",
+        "type": "service"
+      },
+      {
+        "id": "GeoSync",
+        "type": "service"
+      },
+      {
+        "id": "MS_CLUSTER",
+        "type": "service"
+      },
+      {
+        "id": "AI_Req",
+        "type": "service"
+      },
+      {
+        "id": "Elasticsearch",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "IoTHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "MS_CLUSTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "IAM_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MS_CLUSTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "IoTHub",
+        "target": "StreamIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "StreamIngest",
+        "target": "RT_Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "RT_Analytics",
+        "target": "GeoCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "RT_Analytics",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "MS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "MS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "MS4",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "MS5",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS5",
+        "target": "MS6",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS6",
+        "target": "MS7",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS7",
+        "target": "MS8",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS8",
+        "target": "MS9",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS9",
+        "target": "MS10",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS10",
+        "target": "AI_Req",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_Req",
+        "target": "MLModels",
+        "label": "HTTP"
+      },
+      {
+        "source": "MLModels",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS4",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS5",
+        "target": "Elasticsearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS9",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS10",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "GeoCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "GeoCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_CLUSTER",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RT_Analytics",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "AlertMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS_CLUSTER",
+        "target": "PolicyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicyEngine",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionA",
+        "target": "GeoSync",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionB",
+        "target": "GeoSync",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoSync",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoSync",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoSync",
+        "target": "Elasticsearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoSync",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GeoSync",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdPartyAPI",
+        "target": "IoTHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "Grafana",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "Microservices",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Observability Stack",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 82,
+    "source_edges": 64,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,629 @@
+{
+  "id": "CSA-001751",
+  "instruction": "Design a CRM architecture. using a CQRS style. deployed on AWS. satisfying: GraphRAG Integration, Active-Active Multi-Region, Rate Limiting, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGateway",
+        "type": "service"
+      },
+      {
+        "id": "loadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "idFederation",
+        "type": "service"
+      },
+      {
+        "id": "secretsMgmt",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "cmdServiceA",
+        "type": "service"
+      },
+      {
+        "id": "cmdServiceB",
+        "type": "service"
+      },
+      {
+        "id": "cmdSvcMesh",
+        "type": "service"
+      },
+      {
+        "id": "sagaMgr",
+        "type": "service"
+      },
+      {
+        "id": "eventStore",
+        "type": "database"
+      },
+      {
+        "id": "queryServiceA",
+        "type": "service"
+      },
+      {
+        "id": "queryServiceB",
+        "type": "service"
+      },
+      {
+        "id": "readModelDB",
+        "type": "database"
+      },
+      {
+        "id": "cacheRedis",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "sqs",
+        "type": "service"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "pubSub",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "vectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "agentOrch",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "k8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "k8sSecondary",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "argo",
+        "type": "service"
+      },
+      {
+        "id": "tf",
+        "type": "service"
+      },
+      {
+        "id": "rds",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "s3",
+        "type": "service"
+      },
+      {
+        "id": "backup",
+        "type": "service"
+      },
+      {
+        "id": "globalAccelerator",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "loadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBalancer",
+        "target": "edgeNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "apiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "pki",
+        "label": "HTTP"
+      },
+      {
+        "source": "pki",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "idFederation",
+        "label": "HTTP"
+      },
+      {
+        "source": "idFederation",
+        "target": "secretsMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGateway",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "cmdServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "queryServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdServiceA",
+        "target": "sagaMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "sagaMgr",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdServiceB",
+        "target": "sagaMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventStore",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdServiceA",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "eventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryServiceA",
+        "target": "readModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryServiceB",
+        "target": "readModelDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModelDB",
+        "target": "cacheRedis",
+        "label": "HTTP"
+      },
+      {
+        "source": "cacheRedis",
+        "target": "queryServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModelDB",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "embeddingModel",
+        "target": "vectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorSearch",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "queryServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "agentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentOrch",
+        "target": "embeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "splunk",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "cmdServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "queryServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sSecondary",
+        "target": "cmdServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sSecondary",
+        "target": "queryServiceB",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "k8sSecondary",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sSecondary",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "cmdSvcMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "queryServiceA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8sSecondary",
+        "label": "HTTP"
+      },
+      {
+        "source": "argo",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "argo",
+        "target": "k8sSecondary",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "CLOUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "rds",
+        "target": "readModelDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "dynamo",
+        "target": "eventStore",
+        "label": "Async"
+      },
+      {
+        "source": "elastic",
+        "target": "vectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3",
+        "target": "backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "globalAccelerator",
+        "target": "edgeNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "compliance",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "GraphRAG Integration",
+      "Active-Active Multi-Region",
+      "Rate Limiting",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 84,
+    "source_edges": 81,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

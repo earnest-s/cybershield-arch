@@ -1,0 +1,308 @@
+{
+  "id": "CSA-001247",
+  "instruction": "Design a FinTech architecture. using a Modular Monolith style. deployed on Azure. satisfying: Compliance/Audit Logging, High Throughput (100k+ TPS), Active-Active Multi-Region, Zero Trust Architecture, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "DDoS",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "RateLimit",
+        "type": "service"
+      },
+      {
+        "id": "App",
+        "type": "service"
+      },
+      {
+        "id": "Scheduler",
+        "type": "service"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "OLTP",
+        "type": "database"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Metrics",
+        "type": "service"
+      },
+      {
+        "id": "Traces",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "Dashboard",
+        "type": "ui"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VNet",
+        "type": "service"
+      },
+      {
+        "id": "NSG",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "RateLimit",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimit",
+        "target": "App",
+        "label": "HTTP"
+      },
+      {
+        "source": "App",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "App",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "App",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "App",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scheduler",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "App",
+        "label": "HTTP"
+      },
+      {
+        "source": "App",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metrics",
+        "target": "Dashboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "Traces",
+        "target": "Dashboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "Logs",
+        "target": "Dashboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "App",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNet",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "VNet",
+        "target": "NSG",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "OBS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Modular Monolith",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "High Throughput (100k+ TPS)",
+      "Active-Active Multi-Region",
+      "Zero Trust Architecture",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 45,
+    "source_edges": 32,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

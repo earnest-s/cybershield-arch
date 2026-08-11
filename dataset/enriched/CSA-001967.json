@@ -1,0 +1,600 @@
+{
+  "id": "CSA-001967",
+  "instruction": "Design a Smart City architecture. using a Serverless style. deployed on GCP. satisfying: Auto Scaling, Blue/Green Deployment, GraphRAG Integration, Rate Limiting, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "iot",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "funcA",
+        "type": "service"
+      },
+      {
+        "id": "funcB",
+        "type": "service"
+      },
+      {
+        "id": "workflow",
+        "type": "service"
+      },
+      {
+        "id": "run",
+        "type": "container"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "eventarc",
+        "type": "service"
+      },
+      {
+        "id": "spanner",
+        "type": "service"
+      },
+      {
+        "id": "firestore",
+        "type": "service"
+      },
+      {
+        "id": "bigquery",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "embed",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "agentOrch",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "logging",
+        "type": "service"
+      },
+      {
+        "id": "tracing",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "ui"
+      },
+      {
+        "id": "cd",
+        "type": "service"
+      },
+      {
+        "id": "tf",
+        "type": "service"
+      },
+      {
+        "id": "monitoring",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "EDGE_NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY_COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "COMPUTE",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS_PLATFORM",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "iot",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "run",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "eventarc",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "eventarc",
+        "label": "HTTP"
+      },
+      {
+        "source": "run",
+        "target": "eventarc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventarc",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "workflow",
+        "label": "HTTP"
+      },
+      {
+        "source": "workflow",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "workflow",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "workflow",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "run",
+        "target": "firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "bigquery",
+        "label": "DB Query"
+      },
+      {
+        "source": "funcA",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "run",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "tracing",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "cd",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "cd",
+        "target": "run",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "EDGE_NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "SECURITY_COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "COMPUTE",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "tf",
+        "target": "DEVOPS_PLATFORM",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "tracing",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "SIEM",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 2,
+      "services": 42
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Authentication, Audit Logging, API Gateway, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Auto Scaling",
+      "Blue/Green Deployment",
+      "GraphRAG Integration",
+      "Rate Limiting",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 56,
+    "source_edges": 67,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,493 @@
+{
+  "id": "CSA-001195",
+  "instruction": "Design a Manufacturing architecture. using a Serverless style. deployed on GCP. satisfying: Disaster Recovery, GraphRAG Integration, Data Lakehouse Pattern, Rate Limiting, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "loadBal",
+        "type": "database"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "funcIngest",
+        "type": "service"
+      },
+      {
+        "id": "funcProcess",
+        "type": "service"
+      },
+      {
+        "id": "funcRAG",
+        "type": "service"
+      },
+      {
+        "id": "funcAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "rawLake",
+        "type": "service"
+      },
+      {
+        "id": "curatedLake",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "metadataStore",
+        "type": "service"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "logging",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "ui"
+      },
+      {
+        "id": "infraIaC",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "drBucket",
+        "type": "service"
+      },
+      {
+        "id": "drBQ",
+        "type": "service"
+      },
+      {
+        "id": "externalERP",
+        "type": "service"
+      },
+      {
+        "id": "externalMES",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "funcIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcIngest",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "pubsub",
+        "target": "funcProcess",
+        "label": "Async"
+      },
+      {
+        "source": "funcProcess",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "pubsub",
+        "target": "funcRAG",
+        "label": "Async"
+      },
+      {
+        "source": "funcRAG",
+        "target": "vectorDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "funcRAG",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcRAG",
+        "target": "curatedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcProcess",
+        "target": "curatedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcIngest",
+        "target": "rawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcAnalytics",
+        "target": "curatedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcAnalytics",
+        "target": "metadataStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "rawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "curatedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "funcIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "funcProcess",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "funcRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "funcIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "funcProcess",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "funcRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "logging",
+        "target": "funcIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "logging",
+        "target": "funcProcess",
+        "label": "HTTP"
+      },
+      {
+        "source": "logging",
+        "target": "funcRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "funcIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "funcProcess",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "funcRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "funcAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "infraIaC",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "funcRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "funcAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "rawLake",
+        "target": "drBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "curatedLake",
+        "target": "drBQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalERP",
+        "target": "funcIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalMES",
+        "target": "pubsub",
+        "label": "Async"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 2,
+      "services": 28
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "GraphRAG Integration",
+      "Data Lakehouse Pattern",
+      "Rate Limiting",
+      "Feature Flags"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 48,
+    "source_edges": 45,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

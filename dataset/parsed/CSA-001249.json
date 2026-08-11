@@ -1,0 +1,299 @@
+{
+  "id": "CSA-001249",
+  "instruction": "Design a Telecom architecture. using a Serverless style. deployed on On-Premises. satisfying: High Throughput (100k+ TPS), GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "FN1",
+        "type": "service"
+      },
+      {
+        "id": "FN2",
+        "type": "database"
+      },
+      {
+        "id": "FN3",
+        "type": "service"
+      },
+      {
+        "id": "FN4",
+        "type": "service"
+      },
+      {
+        "id": "KAF",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "VEC",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "FN1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN1",
+        "target": "KAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAF",
+        "target": "FN2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN2",
+        "target": "VEC",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN2",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN2",
+        "target": "FN3",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN3",
+        "target": "FN4",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN4",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN4",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN1",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "KAF",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "FN1",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN1",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN2",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN3",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FN4",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAF",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "FN1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "FN2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "FN3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "FN4",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Serverless",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 39,
+    "source_edges": 40,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

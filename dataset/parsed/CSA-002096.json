@@ -1,0 +1,423 @@
+{
+  "id": "CSA-002096",
+  "instruction": "Design a Autonomous Vehicles architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Auto Scaling, Rate Limiting, Disaster Recovery, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "thirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "perception",
+        "type": "service"
+      },
+      {
+        "id": "planning",
+        "type": "service"
+      },
+      {
+        "id": "control",
+        "type": "service"
+      },
+      {
+        "id": "telematics",
+        "type": "service"
+      },
+      {
+        "id": "authz",
+        "type": "service"
+      },
+      {
+        "id": "rateLim",
+        "type": "service"
+      },
+      {
+        "id": "saga",
+        "type": "service"
+      },
+      {
+        "id": "pgA",
+        "type": "database"
+      },
+      {
+        "id": "redisA",
+        "type": "database"
+      },
+      {
+        "id": "esA",
+        "type": "database"
+      },
+      {
+        "id": "pgB",
+        "type": "database"
+      },
+      {
+        "id": "redisB",
+        "type": "database"
+      },
+      {
+        "id": "esB",
+        "type": "database"
+      },
+      {
+        "id": "pgC",
+        "type": "database"
+      },
+      {
+        "id": "redisC",
+        "type": "database"
+      },
+      {
+        "id": "esC",
+        "type": "database"
+      },
+      {
+        "id": "mesh",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBus",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "argo",
+        "type": "service"
+      },
+      {
+        "id": "drSite",
+        "type": "database"
+      },
+      {
+        "id": "backup",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      },
+      {
+        "id": "NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "thirdPartyAPI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "edgeNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "perception",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "planning",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "control",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "telematics",
+        "label": "HTTP"
+      },
+      {
+        "source": "perception",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "planning",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "control",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "telematics",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "pgA",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "pgB",
+        "label": "HTTP"
+      },
+      {
+        "source": "mesh",
+        "target": "pgC",
+        "label": "HTTP"
+      },
+      {
+        "source": "authz",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "authz",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLim",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "perception",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "planning",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "control",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "telematics",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "argo",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "drSite",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "backup",
+        "target": "pgA",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "security",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "security",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "security",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Autonomous Vehicles",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "Rate Limiting",
+      "Disaster Recovery",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 63,
+    "source_edges": 40,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

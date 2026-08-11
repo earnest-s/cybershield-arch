@@ -1,0 +1,490 @@
+{
+  "id": "CSA-002226",
+  "instruction": "Design a FinTech architecture. using a Hexagonal style. deployed on GCP. satisfying: Observability Stack, Blue/Green Deployment, AI/ML Inference Integration, GraphRAG Integration, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "PARTNERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "RATE_LIMIT",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "PORTS",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTERS",
+        "type": "database"
+      },
+      {
+        "id": "DOMAIN",
+        "type": "service"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "MONGO",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "BIGQUERY",
+        "type": "database"
+      },
+      {
+        "id": "VECTORDB",
+        "type": "database"
+      },
+      {
+        "id": "GRAPH_RAG",
+        "type": "database"
+      },
+      {
+        "id": "POSTGRES_REPL",
+        "type": "database"
+      },
+      {
+        "id": "MONGO_SHARD",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EMBED_MODEL",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_STORE",
+        "type": "service"
+      },
+      {
+        "id": "LLM_GATEWAY",
+        "type": "service"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "SPLUNK",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "REPO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "ui"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "PAYMENT_GATEWAY",
+        "type": "service"
+      },
+      {
+        "id": "CREDIT_BUREAU",
+        "type": "service"
+      },
+      {
+        "id": "KYC",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PARTNERS",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RATE_LIMIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "ZERO_TRUST",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORTS",
+        "target": "DOMAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "ADAPTERS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PORTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "POSTGRES_REPL",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONGO",
+        "target": "MONGO_SHARD",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTORDB",
+        "target": "EMBED_MODEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPH_RAG",
+        "target": "VECTORDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "VECTORDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "GRAPH_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT_STORE",
+        "label": "Async"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED_MODEL",
+        "target": "VECTORDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM_GATEWAY",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "LLM_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "SPLUNK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ZERO_TRUST",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "ADAPTERS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZERO_TRUST",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "REPO",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT_GATEWAY",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CREDIT_BUREAU",
+        "target": "DOMAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "KYC",
+        "target": "DOMAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "PAYMENT_GATEWAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "CREDIT_BUREAU",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "KYC",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Hexagonal",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Observability Stack",
+      "Blue/Green Deployment",
+      "AI/ML Inference Integration",
+      "GraphRAG Integration",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 72,
+    "source_edges": 73,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

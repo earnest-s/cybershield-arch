@@ -1,0 +1,464 @@
+{
+  "id": "CSA-000890",
+  "instruction": "Design a OTT architecture. using a Serverless style. deployed on GCP. satisfying: Blue/Green Deployment, AI/ML Inference Integration, Disaster Recovery, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "TVApp",
+        "type": "service"
+      },
+      {
+        "id": "ThirdParty",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "BG",
+        "type": "service"
+      },
+      {
+        "id": "VideoIngest",
+        "type": "service"
+      },
+      {
+        "id": "Transcode",
+        "type": "service"
+      },
+      {
+        "id": "Metadata",
+        "type": "service"
+      },
+      {
+        "id": "DRM",
+        "type": "service"
+      },
+      {
+        "id": "Recommendation",
+        "type": "service"
+      },
+      {
+        "id": "Personalization",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "VideoStore",
+        "type": "database"
+      },
+      {
+        "id": "MetadataDB",
+        "type": "database"
+      },
+      {
+        "id": "UserDB",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "OT",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "CloudBuild",
+        "type": "ui"
+      },
+      {
+        "id": "Artifact",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "Serverless_Deploy",
+        "type": "service"
+      },
+      {
+        "id": "MultiRegion",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "TVApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdParty",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "VideoIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "VideoIngest",
+        "target": "Transcode",
+        "label": "HTTP"
+      },
+      {
+        "source": "Transcode",
+        "target": "DRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRM",
+        "target": "Metadata",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metadata",
+        "target": "Recommendation",
+        "label": "HTTP"
+      },
+      {
+        "source": "Recommendation",
+        "target": "Personalization",
+        "label": "HTTP"
+      },
+      {
+        "source": "VideoIngest",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "Transcode",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRM",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metadata",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "Recommendation",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "Personalization",
+        "label": "HTTP"
+      },
+      {
+        "source": "Transcode",
+        "target": "VideoStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRM",
+        "target": "VideoStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metadata",
+        "target": "MetadataDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Recommendation",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Personalization",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserDB",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Recommendation",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "Personalization",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VideoIngest",
+        "target": "OT",
+        "label": "HTTP"
+      },
+      {
+        "source": "Transcode",
+        "target": "OT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRM",
+        "target": "OT",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metadata",
+        "target": "OT",
+        "label": "HTTP"
+      },
+      {
+        "source": "Recommendation",
+        "target": "OT",
+        "label": "HTTP"
+      },
+      {
+        "source": "Personalization",
+        "target": "OT",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "VideoIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Transcode",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "DRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Recommendation",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Personalization",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "CloudBuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudBuild",
+        "target": "Artifact",
+        "label": "HTTP"
+      },
+      {
+        "source": "Artifact",
+        "target": "Serverless_Deploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "VideoStore",
+        "target": "MultiRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetadataDB",
+        "target": "MultiRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserDB",
+        "target": "MultiRegion",
+        "label": "HTTP"
+      },
+      {
+        "source": "MultiRegion",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG",
+        "target": "Serverless_Deploy",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "OTT",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Blue/Green Deployment",
+      "AI/ML Inference Integration",
+      "Disaster Recovery",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 68,
+    "source_edges": 63,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,545 @@
+{
+  "id": "CSA-001403",
+  "instruction": "Design a Education architecture. using a Data Mesh style. deployed on On-Premises. satisfying: Auto Scaling, Compliance/Audit Logging, Observability Stack, GraphRAG Integration, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "registry",
+        "type": "container"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "postgresA",
+        "type": "database"
+      },
+      {
+        "id": "redisA",
+        "type": "database"
+      },
+      {
+        "id": "mongodbB",
+        "type": "database"
+      },
+      {
+        "id": "vectorB",
+        "type": "database"
+      },
+      {
+        "id": "dynamoC",
+        "type": "database"
+      },
+      {
+        "id": "esC",
+        "type": "database"
+      },
+      {
+        "id": "embedModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "inference",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "storage",
+        "type": "database"
+      },
+      {
+        "id": "backup",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "ci",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "registry",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "postgresA",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "mongodbB",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "dynamoC",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "embedModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "inference",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedModel",
+        "target": "vectorB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "esC",
+        "label": "HTTP"
+      },
+      {
+        "source": "inference",
+        "target": "dynamoC",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgresA",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongodbB",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "dynamoC",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorB",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgresA",
+        "target": "storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongodbB",
+        "target": "storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "dynamoC",
+        "target": "storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorB",
+        "target": "storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "backup",
+        "target": "storage",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 7,
+      "services": 29
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Education",
+    "style": "Data Mesh",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Auto Scaling",
+      "Compliance/Audit Logging",
+      "Observability Stack",
+      "GraphRAG Integration",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 61,
+    "source_edges": 52,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

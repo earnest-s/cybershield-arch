@@ -1,0 +1,353 @@
+{
+  "id": "CSA-000665",
+  "instruction": "Design a GenAI architecture. using a Hexagonal style. deployed on Multi-Cloud. satisfying: AI/ML Inference Integration, Active-Active Multi-Region, Rate Limiting, Observability Stack, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "PortIn",
+        "type": "service"
+      },
+      {
+        "id": "PortOut",
+        "type": "service"
+      },
+      {
+        "id": "Domain",
+        "type": "service"
+      },
+      {
+        "id": "Adapters",
+        "type": "queue"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Tempo",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "Build",
+        "type": "ui"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "container"
+      },
+      {
+        "id": "K8sA",
+        "type": "service"
+      },
+      {
+        "id": "K8sB",
+        "type": "service"
+      },
+      {
+        "id": "Messaging",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "GlobalLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "PortIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortIn",
+        "target": "Domain",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "PortOut",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortOut",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortOut",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Messaging",
+        "label": "HTTP"
+      },
+      {
+        "source": "Messaging",
+        "target": "Adapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Domain",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Tempo",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortIn",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "PortOut",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "Build",
+        "label": "HTTP"
+      },
+      {
+        "source": "Build",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sA",
+        "target": "GlobalLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sB",
+        "target": "GlobalLB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "Hexagonal",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Active-Active Multi-Region",
+      "Rate Limiting",
+      "Observability Stack",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 53,
+    "source_edges": 42,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

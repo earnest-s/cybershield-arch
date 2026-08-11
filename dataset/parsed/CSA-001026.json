@@ -1,0 +1,390 @@
+{
+  "id": "CSA-001026",
+  "instruction": "Design a Banking architecture. using a Microservices style. deployed on On-Premises. satisfying: Compliance/Audit Logging, Feature Flags, Zero Trust Architecture, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "zta",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "feature_flags",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "account",
+        "type": "service"
+      },
+      {
+        "id": "txn",
+        "type": "service"
+      },
+      {
+        "id": "customer",
+        "type": "service"
+      },
+      {
+        "id": "notif",
+        "type": "service"
+      },
+      {
+        "id": "fraud",
+        "type": "service"
+      },
+      {
+        "id": "reporting",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "cass",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "audit_log",
+        "type": "service"
+      },
+      {
+        "id": "log_shipper",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "feature_flags",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "zta",
+        "label": "HTTP"
+      },
+      {
+        "source": "zta",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "account",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "txn",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "customer",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "notif",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "fraud",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "reporting",
+        "label": "HTTP"
+      },
+      {
+        "source": "account",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "txn",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "customer",
+        "target": "cass",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraud",
+        "target": "cass",
+        "label": "HTTP"
+      },
+      {
+        "source": "notif",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "reporting",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "txn",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraud",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "reporting",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "cass",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "cass",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit_log",
+        "target": "audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "log_shipper",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "log_shipper",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Microservices",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Feature Flags",
+      "Zero Trust Architecture",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 56,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

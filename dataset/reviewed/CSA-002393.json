@@ -1,0 +1,585 @@
+{
+  "id": "CSA-002393",
+  "instruction": "Design a Oil & Gas architecture. using a Event-Driven style. deployed on Hybrid Cloud. satisfying: Strict Network Segmentation, Compliance/Audit Logging, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "MongoDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Kafka1",
+        "type": "database"
+      },
+      {
+        "id": "Kafka2",
+        "type": "database"
+      },
+      {
+        "id": "Kafka3",
+        "type": "database"
+      },
+      {
+        "id": "DrillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "ProductionSvc",
+        "type": "service"
+      },
+      {
+        "id": "MaintenanceSvc",
+        "type": "service"
+      },
+      {
+        "id": "ComplianceSvc",
+        "type": "service"
+      },
+      {
+        "id": "AIOrchestrator",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "Azure",
+        "type": "service"
+      },
+      {
+        "id": "OnPrem",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "DirectConnect",
+        "type": "service"
+      },
+      {
+        "id": "SupplierAPI",
+        "type": "service"
+      },
+      {
+        "id": "RegulatorAPI",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "DrillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "ProductionSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "MaintenanceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "ComplianceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "AIOrchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "DrillingSvc",
+        "target": "Kafka1",
+        "label": "Async"
+      },
+      {
+        "source": "ProductionSvc",
+        "target": "Kafka2",
+        "label": "Async"
+      },
+      {
+        "source": "MaintenanceSvc",
+        "target": "Kafka1",
+        "label": "Async"
+      },
+      {
+        "source": "MaintenanceSvc",
+        "target": "Kafka2",
+        "label": "Async"
+      },
+      {
+        "source": "ComplianceSvc",
+        "target": "Kafka3",
+        "label": "Async"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "Kafka3",
+        "label": "Async"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "DrillingSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProductionSvc",
+        "target": "MongoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MaintenanceSvc",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComplianceSvc",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIOrchestrator",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka1",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka2",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka3",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "AuditLog",
+        "label": "Async"
+      },
+      {
+        "source": "Vault",
+        "target": "DrillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ProductionSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MaintenanceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "DirectConnect",
+        "target": "AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "Azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "Azure",
+        "target": "OnPrem",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "MongoDB",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisCache",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "ComplianceSvc",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupplierAPI",
+        "target": "Kafka1",
+        "label": "Async"
+      },
+      {
+        "source": "RegulatorAPI",
+        "target": "ComplianceSvc",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 7,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Event-Driven",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Compliance/Audit Logging",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 67,
+    "source_edges": 65,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

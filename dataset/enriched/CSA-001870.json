@@ -1,0 +1,692 @@
+{
+  "id": "CSA-001870",
+  "instruction": "Design a Banking architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Disaster Recovery, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkikms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "identity_fed",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "payments_ms",
+        "type": "service"
+      },
+      {
+        "id": "payments_evt",
+        "type": "queue"
+      },
+      {
+        "id": "accounts_ms",
+        "type": "service"
+      },
+      {
+        "id": "accounts_evt",
+        "type": "queue"
+      },
+      {
+        "id": "loans_ms",
+        "type": "service"
+      },
+      {
+        "id": "loans_evt",
+        "type": "queue"
+      },
+      {
+        "id": "fraud_ai",
+        "type": "service"
+      },
+      {
+        "id": "fraud_evt",
+        "type": "queue"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "postgres_a",
+        "type": "database"
+      },
+      {
+        "id": "postgres_b",
+        "type": "database"
+      },
+      {
+        "id": "mongo_a",
+        "type": "database"
+      },
+      {
+        "id": "mongo_b",
+        "type": "database"
+      },
+      {
+        "id": "redis_a",
+        "type": "cache"
+      },
+      {
+        "id": "redis_b",
+        "type": "cache"
+      },
+      {
+        "id": "es_cluster",
+        "type": "container"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "service"
+      },
+      {
+        "id": "aks",
+        "type": "service"
+      },
+      {
+        "id": "gke",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "dr_site",
+        "type": "service"
+      },
+      {
+        "id": "backup",
+        "type": "database"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "gcp",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "pkikms",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "identity_fed",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "payments_ms",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "accounts_ms",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "loans_ms",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "fraud_ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "payments_ms",
+        "target": "payments_evt",
+        "label": "Async"
+      },
+      {
+        "source": "accounts_ms",
+        "target": "accounts_evt",
+        "label": "Async"
+      },
+      {
+        "source": "loans_ms",
+        "target": "loans_evt",
+        "label": "Async"
+      },
+      {
+        "source": "fraud_ai",
+        "target": "fraud_evt",
+        "label": "Async"
+      },
+      {
+        "source": "payments_evt",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "accounts_evt",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "loans_evt",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraud_evt",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "payments_ms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "accounts_ms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "loans_ms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "fraud_ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "payments_ms",
+        "target": "postgres_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "accounts_ms",
+        "target": "postgres_b",
+        "label": "HTTP"
+      },
+      {
+        "source": "loans_ms",
+        "target": "mongo_a",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraud_ai",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "fraud_ai",
+        "target": "es_cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres_a",
+        "target": "dr_site",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres_b",
+        "target": "dr_site",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongo_a",
+        "target": "dr_site",
+        "label": "HTTP"
+      },
+      {
+        "source": "es_cluster",
+        "target": "dr_site",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector_db",
+        "target": "backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "payments_ms",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "accounts_ms",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "loans_ms",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "fraud_ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks",
+        "target": "payments_ms",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "payments_ms",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "aks",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "aws",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "azure",
+        "target": "aks",
+        "label": "HTTP"
+      },
+      {
+        "source": "gcp",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_site",
+        "target": "aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_site",
+        "target": "azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr_site",
+        "target": "gcp",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 8,
+      "services": 38
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Disaster Recovery",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 94,
+    "source_edges": 72,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

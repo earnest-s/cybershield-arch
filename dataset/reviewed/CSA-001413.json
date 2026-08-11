@@ -1,0 +1,513 @@
+{
+  "id": "CSA-001413",
+  "instruction": "Design a Education architecture. using a Event-Driven style. deployed on Azure. satisfying: Data Lakehouse Pattern, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventStore",
+        "type": "service"
+      },
+      {
+        "id": "AuthSrv",
+        "type": "service"
+      },
+      {
+        "id": "CourseSrv",
+        "type": "service"
+      },
+      {
+        "id": "EnrollmentSrv",
+        "type": "service"
+      },
+      {
+        "id": "ContentSrv",
+        "type": "service"
+      },
+      {
+        "id": "AnalyticsSrv",
+        "type": "service"
+      },
+      {
+        "id": "ReportingSrv",
+        "type": "service"
+      },
+      {
+        "id": "Bronze",
+        "type": "service"
+      },
+      {
+        "id": "Silver",
+        "type": "service"
+      },
+      {
+        "id": "Gold",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Cosmos",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "database"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "LogicApps",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "database"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "Storage",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GOLD",
+        "type": "service"
+      },
+      {
+        "id": "LMS",
+        "type": "service"
+      },
+      {
+        "id": "CRM",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthSrv",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CourseSrv",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "EnrollmentSrv",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ContentSrv",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "AnalyticsSrv",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "ReportingSrv",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Bronze",
+        "target": "Silver",
+        "label": "HTTP"
+      },
+      {
+        "source": "Silver",
+        "target": "Gold",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "LogicApps",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Storage",
+        "label": "DB Query"
+      },
+      {
+        "source": "PCI",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "MICROSERVICES",
+        "target": "EventStore",
+        "label": "Async"
+      },
+      {
+        "source": "EventStore",
+        "target": "Bronze",
+        "label": "HTTP"
+      },
+      {
+        "source": "Gold",
+        "target": "AnalyticsSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsSrv",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingSrv",
+        "target": "GOLD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingSrv",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "LMS",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "CRM",
+        "target": "Kafka",
+        "label": "Async"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 6,
+      "services": 36
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Education",
+    "style": "Event-Driven",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 59,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

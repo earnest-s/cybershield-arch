@@ -1,0 +1,590 @@
+{
+  "id": "CSA-001241",
+  "instruction": "Design a FinTech architecture. using a Data Mesh style. deployed on On-Premises. satisfying: Rate Limiting, Feature Flags, Blue/Green Deployment, GraphRAG Integration, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "fw",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "msOrders",
+        "type": "service"
+      },
+      {
+        "id": "msPayments",
+        "type": "service"
+      },
+      {
+        "id": "msAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "blueGreen",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "domainSales",
+        "type": "service"
+      },
+      {
+        "id": "domainRisk",
+        "type": "service"
+      },
+      {
+        "id": "domainCustomer",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "gitRepo",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "externalBanking",
+        "type": "service"
+      },
+      {
+        "id": "externalCredit",
+        "type": "service"
+      },
+      {
+        "id": "msRisk",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "fw",
+        "label": "HTTP"
+      },
+      {
+        "source": "fw",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "secrets",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "blueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "msOrders",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "msPayments",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "msOrders",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "msPayments",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "msOrders",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "msPayments",
+        "label": "HTTP"
+      },
+      {
+        "source": "blueGreen",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "msOrders",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "msPayments",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAnalytics",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "domainSales",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "domainRisk",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "domainCustomer",
+        "label": "HTTP"
+      },
+      {
+        "source": "domainSales",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "domainRisk",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "domainCustomer",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "msAnalytics",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "msOrders",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "msPayments",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "msAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "blueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "gitRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "blueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "msPayments",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "domainCustomer",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "domainCustomer",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalBanking",
+        "target": "msPayments",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalCredit",
+        "target": "msRisk",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 1,
+      "services": 39
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Data Mesh",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Feature Flags",
+      "Blue/Green Deployment",
+      "GraphRAG Integration",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 55,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

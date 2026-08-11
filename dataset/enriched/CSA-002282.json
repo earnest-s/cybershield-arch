@@ -1,0 +1,394 @@
+{
+  "id": "CSA-002282",
+  "instruction": "Design a Agentic AI architecture. using a CQRS style. deployed on AWS. satisfying: Compliance/Audit Logging, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WA",
+        "type": "ui"
+      },
+      {
+        "id": "AGW",
+        "type": "service"
+      },
+      {
+        "id": "MA",
+        "type": "service"
+      },
+      {
+        "id": "AP",
+        "type": "ui"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "CMD",
+        "type": "service"
+      },
+      {
+        "id": "QRY",
+        "type": "service"
+      },
+      {
+        "id": "KFK",
+        "type": "queue"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "KFK2",
+        "type": "queue"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "AGM",
+        "type": "service"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "RESP",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "AUD",
+        "type": "service"
+      },
+      {
+        "id": "K8S1",
+        "type": "container"
+      },
+      {
+        "id": "K8S2",
+        "type": "container"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "EdgeNetwork",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WA",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MA",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AP",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "AGW",
+        "label": "Cache"
+      },
+      {
+        "source": "FW",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "KFK",
+        "label": "Async"
+      },
+      {
+        "source": "QRY",
+        "target": "KFK",
+        "label": "Async"
+      },
+      {
+        "source": "QRY",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "KFK2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGM",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM",
+        "target": "RESP",
+        "label": "HTTP"
+      },
+      {
+        "source": "RESP",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "AUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "EdgeNetwork",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "PG",
+        "label": "Async"
+      },
+      {
+        "source": "KFK2",
+        "target": "KFK",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 2,
+      "services": 17
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Agentic AI",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 39,
+    "source_edges": 42,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

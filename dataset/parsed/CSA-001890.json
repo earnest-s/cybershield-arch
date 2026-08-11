@@ -1,0 +1,453 @@
+{
+  "id": "CSA-001890",
+  "instruction": "Design a Retail architecture. using a Event-Driven style. deployed on GCP. satisfying: Auto Scaling, High Throughput (100k+ TPS), Observability Stack, GraphRAG Integration, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "POS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "database"
+      },
+      {
+        "id": "SCHEMA",
+        "type": "service"
+      },
+      {
+        "id": "ORDER",
+        "type": "service"
+      },
+      {
+        "id": "INV",
+        "type": "service"
+      },
+      {
+        "id": "PAY",
+        "type": "service"
+      },
+      {
+        "id": "USER",
+        "type": "service"
+      },
+      {
+        "id": "RECOMM",
+        "type": "service"
+      },
+      {
+        "id": "GRAGRAG",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "VECDB",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "GCS",
+        "type": "database"
+      },
+      {
+        "id": "BIGQUERY",
+        "type": "service"
+      },
+      {
+        "id": "PUBSUB",
+        "type": "database"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "POS",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "INV",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "USER",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "RECOMM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "GRAGRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAY",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "RECOMM",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGRAG",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "SCHEMA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SCHEMA",
+        "target": "ORDER",
+        "label": "HTTP"
+      },
+      {
+        "source": "SCHEMA",
+        "target": "INV",
+        "label": "HTTP"
+      },
+      {
+        "source": "SCHEMA",
+        "target": "PAY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAY",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAY",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "RECOMM",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGRAG",
+        "target": "VECDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECDB",
+        "target": "GRAGRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "RECOMM",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "PUBSUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PUBSUB",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORDER",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAY",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "RECOMM",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGRAG",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCS",
+        "target": "BIGQUERY",
+        "label": "HTTP"
+      },
+      {
+        "source": "BIGQUERY",
+        "target": "ADMIN",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Retail",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "High Throughput (100k+ TPS)",
+      "Observability Stack",
+      "GraphRAG Integration",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

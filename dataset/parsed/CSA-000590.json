@@ -1,0 +1,390 @@
+{
+  "id": "CSA-000590",
+  "instruction": "Design a Multi-Agent Systems architecture. using a Modular Monolith style. deployed on GCP. satisfying: Zero Trust Architecture, Auto Scaling, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "dmz",
+        "type": "service"
+      },
+      {
+        "id": "appSubnet",
+        "type": "service"
+      },
+      {
+        "id": "dbSubnet",
+        "type": "database"
+      },
+      {
+        "id": "restricted",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "ztap",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "gke",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "autoscale",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "ui"
+      },
+      {
+        "id": "registry",
+        "type": "service"
+      },
+      {
+        "id": "userMgmt",
+        "type": "service"
+      },
+      {
+        "id": "orderProc",
+        "type": "service"
+      },
+      {
+        "id": "inventory",
+        "type": "service"
+      },
+      {
+        "id": "reporting",
+        "type": "service"
+      },
+      {
+        "id": "agentOrch",
+        "type": "service"
+      },
+      {
+        "id": "llmGW",
+        "type": "service"
+      },
+      {
+        "id": "APP",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "firestore",
+        "type": "service"
+      },
+      {
+        "id": "bq",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "logging",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "dmz",
+        "label": "HTTP"
+      },
+      {
+        "source": "dmz",
+        "target": "appSubnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "dmz",
+        "target": "ztap",
+        "label": "HTTP"
+      },
+      {
+        "source": "appSubnet",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "appSubnet",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "appSubnet",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "appSubnet",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "appSubnet",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "dmz",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "autoscale",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "userMgmt",
+        "target": "orderProc",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderProc",
+        "target": "inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "reporting",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentOrch",
+        "target": "llmGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderProc",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "userMgmt",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "reporting",
+        "target": "bq",
+        "label": "HTTP"
+      },
+      {
+        "source": "agentOrch",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderProc",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "inventory",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "reporting",
+        "target": "pubsub",
+        "label": "Async"
+      },
+      {
+        "source": "pubsub",
+        "target": "agentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "k8s",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Multi-Agent Systems",
+    "style": "Modular Monolith",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Auto Scaling",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 57,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

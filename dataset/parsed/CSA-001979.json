@@ -1,0 +1,487 @@
+{
+  "id": "CSA-001979",
+  "instruction": "Design a Telecom architecture. using a Modular Monolith style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, High Throughput (100k+ TPS), Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "B2BAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "BlueLB",
+        "type": "service"
+      },
+      {
+        "id": "BlueMonolith",
+        "type": "service"
+      },
+      {
+        "id": "GreenLB",
+        "type": "service"
+      },
+      {
+        "id": "GreenMonolith",
+        "type": "service"
+      },
+      {
+        "id": "AZBlueLB",
+        "type": "service"
+      },
+      {
+        "id": "AZBlueMono",
+        "type": "service"
+      },
+      {
+        "id": "AZGreenLB",
+        "type": "service"
+      },
+      {
+        "id": "AZGreenMono",
+        "type": "service"
+      },
+      {
+        "id": "Billing",
+        "type": "service"
+      },
+      {
+        "id": "Provisioning",
+        "type": "service"
+      },
+      {
+        "id": "Customer",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      },
+      {
+        "id": "IoTGateway",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "Cassandra",
+        "type": "container"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VaultDB",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "Build",
+        "type": "ui"
+      },
+      {
+        "id": "Test",
+        "type": "service"
+      },
+      {
+        "id": "Deploy",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "MODULES",
+        "type": "service"
+      },
+      {
+        "id": "Elasticsearch",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "B2BAPI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "GlobalLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalLB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "BlueLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "GreenLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AZBlueLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AZGreenLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueLB",
+        "target": "BlueMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "GreenLB",
+        "target": "GreenMonolith",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZBlueLB",
+        "target": "AZBlueMono",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZGreenLB",
+        "target": "AZGreenMono",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueMonolith",
+        "target": "MODULES",
+        "label": "HTTP"
+      },
+      {
+        "source": "GreenMonolith",
+        "target": "MODULES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZBlueMono",
+        "target": "MODULES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AZGreenMono",
+        "target": "MODULES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODULES",
+        "target": "Billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODULES",
+        "target": "Provisioning",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODULES",
+        "target": "Customer",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODULES",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODULES",
+        "target": "IoTGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Billing",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Provisioning",
+        "target": "Cassandra",
+        "label": "HTTP"
+      },
+      {
+        "source": "Customer",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "Elasticsearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "IoTGateway",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Billing",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Provisioning",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Customer",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "IoTGateway",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MODULES",
+        "label": "Async"
+      },
+      {
+        "source": "MODULES",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "MODULES",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "Build",
+        "label": "HTTP"
+      },
+      {
+        "source": "Build",
+        "target": "Test",
+        "label": "HTTP"
+      },
+      {
+        "source": "Test",
+        "target": "Deploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "BlueLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "GreenLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "AZBlueLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "AZGreenLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "VaultDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "VaultDB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "Modular Monolith",
+    "cloud": "Multi-Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Blue/Green Deployment",
+      "High Throughput (100k+ TPS)",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 72,
+    "source_edges": 61,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,414 @@
+{
+  "id": "CSA-000887",
+  "instruction": "Design a Logistics architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: Zero Trust Architecture, Auto Scaling, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "partnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "cmdService",
+        "type": "service"
+      },
+      {
+        "id": "evtStore",
+        "type": "database"
+      },
+      {
+        "id": "saga",
+        "type": "service"
+      },
+      {
+        "id": "queryAPI",
+        "type": "service"
+      },
+      {
+        "id": "readCache",
+        "type": "database"
+      },
+      {
+        "id": "readDB",
+        "type": "database"
+      },
+      {
+        "id": "search",
+        "type": "service"
+      },
+      {
+        "id": "orderMS",
+        "type": "service"
+      },
+      {
+        "id": "inventoryMS",
+        "type": "service"
+      },
+      {
+        "id": "shipmentMS",
+        "type": "service"
+      },
+      {
+        "id": "trackingMS",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "k8sA",
+        "type": "service"
+      },
+      {
+        "id": "k8sB",
+        "type": "service"
+      },
+      {
+        "id": "k8sC",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "gcp",
+        "type": "service"
+      },
+      {
+        "id": "dr",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "partnerAPI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "cmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "queryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdService",
+        "target": "orderMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdService",
+        "target": "inventoryMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdService",
+        "target": "shipmentMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdService",
+        "target": "trackingMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "orderMS",
+        "target": "evtStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventoryMS",
+        "target": "evtStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipmentMS",
+        "target": "evtStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "trackingMS",
+        "target": "evtStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "evtStore",
+        "target": "saga",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "orderMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "inventoryMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdService",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryAPI",
+        "target": "readCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryAPI",
+        "target": "readDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryAPI",
+        "target": "search",
+        "label": "HTTP"
+      },
+      {
+        "source": "readCache",
+        "target": "readDB",
+        "label": "Cache"
+      },
+      {
+        "source": "readDB",
+        "target": "search",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sA",
+        "target": "cmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sA",
+        "target": "queryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sB",
+        "target": "cmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sB",
+        "target": "queryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sC",
+        "target": "cmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sC",
+        "target": "queryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8sC",
+        "label": "HTTP"
+      },
+      {
+        "source": "aws",
+        "target": "k8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "azure",
+        "target": "k8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "gcp",
+        "target": "k8sC",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "dr",
+        "target": "gcp",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Auto Scaling",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

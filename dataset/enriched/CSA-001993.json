@@ -1,0 +1,610 @@
+{
+  "id": "CSA-001993",
+  "instruction": "Design a OTT architecture. using a CQRS style. deployed on GCP. satisfying: Feature Flags, GraphRAG Integration, Zero Trust Architecture, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "TV",
+        "type": "service"
+      },
+      {
+        "id": "OTT_API",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "K8S_CLUSTER_1",
+        "type": "container"
+      },
+      {
+        "id": "K8S_CLUSTER_2",
+        "type": "container"
+      },
+      {
+        "id": "K8S_CLUSTER_3",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "PUBSUB",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_STORE",
+        "type": "service"
+      },
+      {
+        "id": "CMD_API",
+        "type": "service"
+      },
+      {
+        "id": "INGEST",
+        "type": "service"
+      },
+      {
+        "id": "USER_CMD",
+        "type": "service"
+      },
+      {
+        "id": "SUB_CMD",
+        "type": "service"
+      },
+      {
+        "id": "FEATURE_FLAG",
+        "type": "service"
+      },
+      {
+        "id": "RATE_LIMIT",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_API",
+        "type": "service"
+      },
+      {
+        "id": "CATALOG",
+        "type": "service"
+      },
+      {
+        "id": "RECOMMEND",
+        "type": "service"
+      },
+      {
+        "id": "SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "GRAGR",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "MONGODB",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VEC_DB",
+        "type": "database"
+      },
+      {
+        "id": "GCS",
+        "type": "database"
+      },
+      {
+        "id": "PAYMENT",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "DRM",
+        "type": "service"
+      },
+      {
+        "id": "K2S_CLUSTER_2",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "TV",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OTT_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTT_API",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTT_API",
+        "target": "QUERY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "CMD_API",
+        "target": "INGEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "USER_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "SUB_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "FEATURE_FLAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_API",
+        "target": "RATE_LIMIT",
+        "label": "HTTP"
+      },
+      {
+        "source": "INGEST",
+        "target": "GCS",
+        "label": "HTTP"
+      },
+      {
+        "source": "INGEST",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER_CMD",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SUB_CMD",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE_FLAG",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "RATE_LIMIT",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PUBSUB",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "QUERY_API",
+        "label": "Async"
+      },
+      {
+        "source": "QUERY_API",
+        "target": "CATALOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_API",
+        "target": "RECOMMEND",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_API",
+        "target": "SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_API",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATALOG",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "RECOMMEND",
+        "target": "MONGODB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SEARCH",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_DB",
+        "target": "VEC_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGR",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGR",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "GCS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONGODB",
+        "target": "GCS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "POSTGRES",
+        "label": "Cache"
+      },
+      {
+        "source": "ES",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT",
+        "target": "SUB_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "RECOMMEND",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRM",
+        "target": "INGEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "K8S_CLUSTER_1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "K8S_CLUSTER_2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "K8S_CLUSTER_3",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER_1",
+        "target": "INGEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER_2",
+        "target": "CMD_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER_2",
+        "target": "QUERY_API",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER_3",
+        "target": "GRAGR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_CLUSTER_1",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_CLUSTER_2",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S_CLUSTER_3",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "K8S_CLUSTER_1",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "K2S_CLUSTER_2",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "K8S_CLUSTER_3",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 5,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 6,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "OTT",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Feature Flags",
+      "GraphRAG Integration",
+      "Zero Trust Architecture",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 63,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

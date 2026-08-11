@@ -1,0 +1,634 @@
+{
+  "id": "CSA-000565",
+  "instruction": "Design a CRM architecture. using a Serverless style. deployed on Azure. satisfying: Observability Stack, Zero Trust Architecture, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "UI",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "Federated",
+        "type": "service"
+      },
+      {
+        "id": "IDP",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "KV",
+        "type": "service"
+      },
+      {
+        "id": "SecretMgmt",
+        "type": "service"
+      },
+      {
+        "id": "Certs",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "Func1",
+        "type": "service"
+      },
+      {
+        "id": "Func2",
+        "type": "service"
+      },
+      {
+        "id": "Func3",
+        "type": "service"
+      },
+      {
+        "id": "Func4",
+        "type": "service"
+      },
+      {
+        "id": "LogicApps",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "Cosmos",
+        "type": "database"
+      },
+      {
+        "id": "SQLDB",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "Search",
+        "type": "database"
+      },
+      {
+        "id": "BlobStore",
+        "type": "database"
+      },
+      {
+        "id": "DataWarehouse",
+        "type": "service"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "queue"
+      },
+      {
+        "id": "EventGrid",
+        "type": "service"
+      },
+      {
+        "id": "EventHub",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "Orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "Monitor",
+        "type": "service"
+      },
+      {
+        "id": "LogAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "AppInsights",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Policy",
+        "type": "service"
+      },
+      {
+        "id": "Blueprint",
+        "type": "service"
+      },
+      {
+        "id": "Audit",
+        "type": "service"
+      },
+      {
+        "id": "All",
+        "type": "service"
+      },
+      {
+        "id": "Repo",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "ContainerRegistry",
+        "type": "container"
+      },
+      {
+        "id": "MicroSeg",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrustGateway",
+        "type": "service"
+      },
+      {
+        "id": "DLP",
+        "type": "service"
+      },
+      {
+        "id": "Data",
+        "type": "service"
+      },
+      {
+        "id": "ScaleFunc",
+        "type": "service"
+      },
+      {
+        "id": "ScaleServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "ScaleCache",
+        "type": "cache"
+      },
+      {
+        "id": "Edge",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "Application",
+        "type": "service"
+      },
+      {
+        "id": "Messaging",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "DevOps",
+        "type": "service"
+      },
+      {
+        "id": "ZTA",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "UI",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Federated",
+        "target": "IDP",
+        "label": "HTTP"
+      },
+      {
+        "source": "IDP",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Func1",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Func2",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Func3",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Func4",
+        "label": "HTTP"
+      },
+      {
+        "source": "Func1",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Func2",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Func3",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Func4",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "LogicApps",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApps",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApps",
+        "target": "SQLDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApps",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApps",
+        "target": "Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApps",
+        "target": "BlobStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApps",
+        "target": "DataWarehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "EventHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "Func3",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "Orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "Func1",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Func2",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Func3",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Func4",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogicApps",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "AppInsights",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitor",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Policy",
+        "target": "All",
+        "label": "HTTP"
+      },
+      {
+        "source": "Blueprint",
+        "target": "All",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Repo",
+        "target": "CICD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "IaC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "All",
+        "label": "HTTP"
+      },
+      {
+        "source": "MicroSeg",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrustGateway",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DLP",
+        "target": "Data",
+        "label": "HTTP"
+      },
+      {
+        "source": "ScaleFunc",
+        "target": "Func1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ScaleFunc",
+        "target": "Func2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ScaleFunc",
+        "target": "Func3",
+        "label": "HTTP"
+      },
+      {
+        "source": "ScaleFunc",
+        "target": "Func4",
+        "label": "HTTP"
+      },
+      {
+        "source": "ScaleServiceBus",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ScaleCache",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Edge",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "Application",
+        "label": "HTTP"
+      },
+      {
+        "source": "Application",
+        "target": "Data",
+        "label": "HTTP"
+      },
+      {
+        "source": "Application",
+        "target": "Messaging",
+        "label": "HTTP"
+      },
+      {
+        "source": "Application",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "Data",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "Messaging",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ML",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "DevOps",
+        "target": "Application",
+        "label": "HTTP"
+      },
+      {
+        "source": "DevOps",
+        "target": "Data",
+        "label": "HTTP"
+      },
+      {
+        "source": "DevOps",
+        "target": "Messaging",
+        "label": "HTTP"
+      },
+      {
+        "source": "DevOps",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA",
+        "target": "Application",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA",
+        "target": "Data",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTA",
+        "target": "Messaging",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "CRM",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Observability Stack",
+      "Zero Trust Architecture",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 94,
+    "source_edges": 85,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

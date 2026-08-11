@@ -1,0 +1,359 @@
+{
+  "id": "CSA-001316",
+  "instruction": "Design a Education architecture. using a CQRS style. deployed on On-Premises. satisfying: Zero Trust Architecture, Active-Active Multi-Region, Rate Limiting, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "LMSConsumer",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "SegPublic",
+        "type": "service"
+      },
+      {
+        "id": "SegDMZ",
+        "type": "service"
+      },
+      {
+        "id": "SegApp",
+        "type": "service"
+      },
+      {
+        "id": "SegData",
+        "type": "service"
+      },
+      {
+        "id": "SegMgmt",
+        "type": "service"
+      },
+      {
+        "id": "CmdAPI",
+        "type": "service"
+      },
+      {
+        "id": "CmdSvc",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "Outbox",
+        "type": "service"
+      },
+      {
+        "id": "KafkaBroker",
+        "type": "service"
+      },
+      {
+        "id": "BR",
+        "type": "queue"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "QuerySvc",
+        "type": "service"
+      },
+      {
+        "id": "ReadModel",
+        "type": "service"
+      },
+      {
+        "id": "br",
+        "type": "database"
+      },
+      {
+        "id": "ReadReplica1",
+        "type": "database"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "Active",
+        "type": "service"
+      },
+      {
+        "id": "across",
+        "type": "service"
+      },
+      {
+        "id": "the",
+        "type": "service"
+      },
+      {
+        "id": "g",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LMSConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "CLIENTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "ZeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrust",
+        "target": "PERIMETER",
+        "label": "HTTP"
+      },
+      {
+        "source": "SegPublic",
+        "target": "SegDMZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "SegDMZ",
+        "target": "SegApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "SegApp",
+        "target": "SegData",
+        "label": "HTTP"
+      },
+      {
+        "source": "SegApp",
+        "target": "SegMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdAPI",
+        "target": "CmdSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdSvc",
+        "target": "Outbox",
+        "label": "Async"
+      },
+      {
+        "source": "Outbox",
+        "target": "KafkaBroker",
+        "label": "Async"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "ReadReplica1",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 7,
+      "databases": 3,
+      "services": 24
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Education",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Active-Active Multi-Region",
+      "Rate Limiting",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 32,
+    "source_edges": 23,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

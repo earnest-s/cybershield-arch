@@ -1,0 +1,544 @@
+{
+  "id": "CSA-000911",
+  "instruction": "Design a Warehouse architecture. using a Data Mesh style. deployed on On-Premises. satisfying: Active-Active Multi-Region, GraphRAG Integration, Auto Scaling, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "certPKI",
+        "type": "service"
+      },
+      {
+        "id": "k8sCluster1",
+        "type": "container"
+      },
+      {
+        "id": "k8sCluster2",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "autoScale",
+        "type": "service"
+      },
+      {
+        "id": "inbound",
+        "type": "service"
+      },
+      {
+        "id": "inventory",
+        "type": "service"
+      },
+      {
+        "id": "shipping",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "orderSvc",
+        "type": "service"
+      },
+      {
+        "id": "stockSvc",
+        "type": "service"
+      },
+      {
+        "id": "shipSvc",
+        "type": "service"
+      },
+      {
+        "id": "reportSvc",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "supplierSys",
+        "type": "service"
+      },
+      {
+        "id": "carrierSys",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "certPKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "certPKI",
+        "target": "k8sCluster1",
+        "label": "HTTP"
+      },
+      {
+        "source": "certPKI",
+        "target": "k8sCluster2",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster1",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster2",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ciCd",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "autoScale",
+        "label": "HTTP"
+      },
+      {
+        "source": "inbound",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "inventory",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "shipping",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "analytics",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "stockSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "shipSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "reportSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "reportSvc",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "reportSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "inbound",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "shipping",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sCluster1",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "k8sCluster2",
+        "label": "HTTP"
+      },
+      {
+        "source": "inbound",
+        "target": "Replicate",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicate",
+        "target": "inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "Replicate",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicate",
+        "target": "shipping",
+        "label": "HTTP"
+      },
+      {
+        "source": "shipping",
+        "target": "Replicate",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replicate",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "supplierSys",
+        "target": "orderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "carrierSys",
+        "target": "shipSvc",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 1,
+      "services": 33
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Data Mesh",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "GraphRAG Integration",
+      "Auto Scaling",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 59,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

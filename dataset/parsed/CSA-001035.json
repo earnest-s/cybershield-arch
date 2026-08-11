@@ -1,0 +1,460 @@
+{
+  "id": "CSA-001035",
+  "instruction": "Design a Cyber Security architecture. using a CQRS style. deployed on GCP. satisfying: Active-Active Multi-Region, Zero Trust Architecture, Feature Flags, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "ThirdParty",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "K8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "K8sDR",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "CmdAPI",
+        "type": "service"
+      },
+      {
+        "id": "CmdHandler",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "Outbox",
+        "type": "service"
+      },
+      {
+        "id": "Saga",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "ReadModel1",
+        "type": "database"
+      },
+      {
+        "id": "ReadModel2",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdParty",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThirdParty",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sPrimary",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sDR",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "CmdAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdAPI",
+        "target": "CmdHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdHandler",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "Saga",
+        "label": "HTTP"
+      },
+      {
+        "source": "Saga",
+        "target": "Outbox",
+        "label": "HTTP"
+      },
+      {
+        "source": "Outbox",
+        "target": "K8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "Outbox",
+        "target": "K8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "ReadModel1",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "ReadModel2",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "CmdAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "AdminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdHandler",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdAPI",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Cyber Security",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Zero Trust Architecture",
+      "Feature Flags",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 52,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

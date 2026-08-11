@@ -1,0 +1,330 @@
+{
+  "id": "CSA-000863",
+  "instruction": "Design a RAG architecture. using a Zero-Trust style. deployed on GCP. satisfying: GraphRAG Integration, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      },
+      {
+        "id": "ragSrv",
+        "type": "service"
+      },
+      {
+        "id": "graphRag",
+        "type": "service"
+      },
+      {
+        "id": "llmGw",
+        "type": "service"
+      },
+      {
+        "id": "microSvc",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "vecDB",
+        "type": "database"
+      },
+      {
+        "id": "dr1",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "gcpServices",
+        "type": "service"
+      },
+      {
+        "id": "db",
+        "type": "database"
+      },
+      {
+        "id": "redisGC",
+        "type": "cache"
+      },
+      {
+        "id": "vertexAI",
+        "type": "service"
+      },
+      {
+        "id": "client",
+        "type": "service"
+      },
+      {
+        "id": "observability",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "security",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "security",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragSrv",
+        "target": "graphRag",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragSrv",
+        "target": "llmGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGw",
+        "target": "microSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg",
+        "target": "dr1",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "dr1",
+        "label": "HTTP"
+      },
+      {
+        "source": "vecDB",
+        "target": "dr1",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "gcpServices",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "gcpServices",
+        "target": "db",
+        "label": "HTTP"
+      },
+      {
+        "source": "gcpServices",
+        "target": "redisGC",
+        "label": "HTTP"
+      },
+      {
+        "source": "gcpServices",
+        "target": "vertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "ragSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragSrv",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "graphRag",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphRag",
+        "target": "vecDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGw",
+        "target": "vertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "client",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "client",
+        "target": "observability",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "RAG",
+    "style": "Zero-Trust",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 53,
+    "source_edges": 33,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,795 @@
+{
+  "id": "CSA-000781",
+  "instruction": "Design a OTT architecture. using a Serverless style. deployed on AWS. satisfying: Observability Stack, AI/ML Inference Integration, Active-Active Multi-Region, Strict Network Segmentation, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "iOSApp",
+        "type": "service"
+      },
+      {
+        "id": "AndroidApp",
+        "type": "service"
+      },
+      {
+        "id": "SmartTV",
+        "type": "service"
+      },
+      {
+        "id": "ThirdPartyAPI",
+        "type": "service"
+      },
+      {
+        "id": "Route53",
+        "type": "container"
+      },
+      {
+        "id": "CloudFront",
+        "type": "database"
+      },
+      {
+        "id": "WAF",
+        "type": "database"
+      },
+      {
+        "id": "VPC_US_EAST_1",
+        "type": "service"
+      },
+      {
+        "id": "VPC_US_WEST_2",
+        "type": "service"
+      },
+      {
+        "id": "TransitGateway",
+        "type": "service"
+      },
+      {
+        "id": "SubnetPublicUS1",
+        "type": "service"
+      },
+      {
+        "id": "SubnetAppUS1",
+        "type": "service"
+      },
+      {
+        "id": "SubnetDataUS1",
+        "type": "service"
+      },
+      {
+        "id": "SubnetIsolateUS1",
+        "type": "service"
+      },
+      {
+        "id": "SubnetPublicUS2",
+        "type": "service"
+      },
+      {
+        "id": "SubnetAppUS2",
+        "type": "service"
+      },
+      {
+        "id": "SubnetDataUS2",
+        "type": "service"
+      },
+      {
+        "id": "SubnetIsolateUS2",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "database"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "SecretsMgr",
+        "type": "database"
+      },
+      {
+        "id": "KMS",
+        "type": "database"
+      },
+      {
+        "id": "APIGW_US1",
+        "type": "database"
+      },
+      {
+        "id": "APIGW_US2",
+        "type": "database"
+      },
+      {
+        "id": "GlobalAccelerator",
+        "type": "database"
+      },
+      {
+        "id": "LambdaAuth",
+        "type": "service"
+      },
+      {
+        "id": "LambdaEdge",
+        "type": "service"
+      },
+      {
+        "id": "StepFunctions",
+        "type": "database"
+      },
+      {
+        "id": "MediaIngest",
+        "type": "service"
+      },
+      {
+        "id": "TranscodeFn",
+        "type": "service"
+      },
+      {
+        "id": "TranscodeJob",
+        "type": "service"
+      },
+      {
+        "id": "ThumbnailFn",
+        "type": "service"
+      },
+      {
+        "id": "MetadataFn",
+        "type": "service"
+      },
+      {
+        "id": "DRMFn",
+        "type": "service"
+      },
+      {
+        "id": "ContentDeliveryFn",
+        "type": "service"
+      },
+      {
+        "id": "MediaIngestW2",
+        "type": "service"
+      },
+      {
+        "id": "TranscodeFnW2",
+        "type": "service"
+      },
+      {
+        "id": "TranscodeJobW2",
+        "type": "service"
+      },
+      {
+        "id": "ThumbnailFnW2",
+        "type": "service"
+      },
+      {
+        "id": "MetadataFnW2",
+        "type": "service"
+      },
+      {
+        "id": "DRMFnW2",
+        "type": "service"
+      },
+      {
+        "id": "ContentDeliveryFnW2",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "database"
+      },
+      {
+        "id": "SNS_Topic",
+        "type": "database"
+      },
+      {
+        "id": "S3Raw",
+        "type": "database"
+      },
+      {
+        "id": "S3Processed",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "ElasticSearch",
+        "type": "database"
+      },
+      {
+        "id": "SageMakerEndpoint",
+        "type": "database"
+      },
+      {
+        "id": "BedrockModel",
+        "type": "database"
+      },
+      {
+        "id": "CWLogs",
+        "type": "database"
+      },
+      {
+        "id": "CWMetrics",
+        "type": "database"
+      },
+      {
+        "id": "XRay",
+        "type": "database"
+      },
+      {
+        "id": "Grafana",
+        "type": "database"
+      },
+      {
+        "id": "Prometheus",
+        "type": "database"
+      },
+      {
+        "id": "CloudTrail",
+        "type": "database"
+      },
+      {
+        "id": "ConfigRecorder",
+        "type": "database"
+      },
+      {
+        "id": "ClientFlows",
+        "type": "service"
+      },
+      {
+        "id": "Lambda",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "ClientFlows",
+        "target": "Route53",
+        "label": "HTTP"
+      },
+      {
+        "source": "Route53",
+        "target": "CloudFront",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudFront",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GlobalAccelerator",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalAccelerator",
+        "target": "APIGW_US1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalAccelerator",
+        "target": "APIGW_US2",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_US1",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_US2",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_US1",
+        "target": "LambdaAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaAuth",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_US2",
+        "target": "LambdaAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClientFlows",
+        "target": "MediaIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaIngest",
+        "target": "S3Raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaIngest",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "TranscodeFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "TranscodeFn",
+        "target": "TranscodeJob",
+        "label": "HTTP"
+      },
+      {
+        "source": "TranscodeJob",
+        "target": "S3Processed",
+        "label": "HTTP"
+      },
+      {
+        "source": "TranscodeJob",
+        "target": "ThumbnailFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "ThumbnailFn",
+        "target": "S3Processed",
+        "label": "HTTP"
+      },
+      {
+        "source": "TranscodeJob",
+        "target": "MetadataFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "MetadataFn",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "TranscodeJob",
+        "target": "DRMFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRMFn",
+        "target": "S3Processed",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3Processed",
+        "target": "SNS_Topic",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS_Topic",
+        "target": "WebUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS_Topic",
+        "target": "iOSApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS_Topic",
+        "target": "AndroidApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClientFlows",
+        "target": "APIGW_US1",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_US1",
+        "target": "StepFunctions",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunctions",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunctions",
+        "target": "ElasticSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunctions",
+        "target": "SageMakerEndpoint",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunctions",
+        "target": "BedrockModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunctions",
+        "target": "Lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunctions",
+        "target": "WebUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaAuth",
+        "target": "CWLogs",
+        "label": "HTTP"
+      },
+      {
+        "source": "MediaIngest",
+        "target": "CWLogs",
+        "label": "HTTP"
+      },
+      {
+        "source": "TranscodeFn",
+        "target": "CWLogs",
+        "label": "HTTP"
+      },
+      {
+        "source": "StepFunctions",
+        "target": "CWLogs",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_US1",
+        "target": "CWMetrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW_US2",
+        "target": "CWMetrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "CWMetrics",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudTrail",
+        "target": "CWLogs",
+        "label": "HTTP"
+      },
+      {
+        "source": "ConfigRecorder",
+        "target": "CWLogs",
+        "label": "HTTP"
+      },
+      {
+        "source": "CWLogs",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CWMetrics",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "XRay",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SecretsMgr",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VPC_US_EAST_1",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VPC_US_WEST_2",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_US_EAST_1",
+        "target": "SubnetPublicUS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_US_EAST_1",
+        "target": "SubnetAppUS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_US_EAST_1",
+        "target": "SubnetDataUS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_US_EAST_1",
+        "target": "SubnetIsolateUS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_US_WEST_2",
+        "target": "SubnetPublicUS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_US_WEST_2",
+        "target": "SubnetAppUS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_US_WEST_2",
+        "target": "SubnetDataUS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC_US_WEST_2",
+        "target": "SubnetIsolateUS2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetPublicUS1",
+        "target": "APIGW_US1",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS1",
+        "target": "MediaIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS1",
+        "target": "TranscodeFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS1",
+        "target": "ThumbnailFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS1",
+        "target": "MetadataFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS1",
+        "target": "DRMFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS1",
+        "target": "ContentDeliveryFn",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetDataUS1",
+        "target": "S3Raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetDataUS1",
+        "target": "S3Processed",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetDataUS1",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetDataUS1",
+        "target": "ElasticSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetPublicUS2",
+        "target": "APIGW_US2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS2",
+        "target": "MediaIngestW2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS2",
+        "target": "TranscodeFnW2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS2",
+        "target": "ThumbnailFnW2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS2",
+        "target": "MetadataFnW2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS2",
+        "target": "DRMFnW2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetAppUS2",
+        "target": "ContentDeliveryFnW2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetDataUS2",
+        "target": "S3Raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetDataUS2",
+        "target": "S3Processed",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetDataUS2",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetDataUS2",
+        "target": "ElasticSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetIsolateUS1",
+        "target": "CloudTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "SubnetIsolateUS2",
+        "target": "ConfigRecorder",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 24,
+      "services": 37
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "OTT",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Observability Stack",
+      "AI/ML Inference Integration",
+      "Active-Active Multi-Region",
+      "Strict Network Segmentation",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 66,
+    "source_edges": 124,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

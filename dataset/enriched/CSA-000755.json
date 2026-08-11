@@ -1,0 +1,696 @@
+{
+  "id": "CSA-000755",
+  "instruction": "Design a HR architecture. using a Hexagonal style. deployed on Hybrid Cloud. satisfying: Strict Network Segmentation, Disaster Recovery, Data Lakehouse Pattern, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "appCore",
+        "type": "service"
+      },
+      {
+        "id": "inboundREST",
+        "type": "database"
+      },
+      {
+        "id": "inboundGraphQL",
+        "type": "database"
+      },
+      {
+        "id": "outboundCmd",
+        "type": "database"
+      },
+      {
+        "id": "outboundQry",
+        "type": "database"
+      },
+      {
+        "id": "domainLogic",
+        "type": "service"
+      },
+      {
+        "id": "empService",
+        "type": "service"
+      },
+      {
+        "id": "payrollService",
+        "type": "service"
+      },
+      {
+        "id": "recruitService",
+        "type": "ui"
+      },
+      {
+        "id": "benefitsService",
+        "type": "service"
+      },
+      {
+        "id": "analyticsService",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "rawLake",
+        "type": "service"
+      },
+      {
+        "id": "curatedLake",
+        "type": "service"
+      },
+      {
+        "id": "warehouse",
+        "type": "service"
+      },
+      {
+        "id": "lakeMetastore",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "embedding",
+        "type": "service"
+      },
+      {
+        "id": "vectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8sAKS",
+        "type": "container"
+      },
+      {
+        "id": "k8sEKS",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "gitRepo",
+        "type": "service"
+      },
+      {
+        "id": "drSite1",
+        "type": "service"
+      },
+      {
+        "id": "drSite2",
+        "type": "service"
+      },
+      {
+        "id": "drSync",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "container"
+      },
+      {
+        "id": "elasticsearch",
+        "type": "service"
+      },
+      {
+        "id": "Async",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "Audits",
+        "type": "service"
+      },
+      {
+        "id": "security",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "appCore",
+        "target": "inboundREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "appCore",
+        "target": "inboundGraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "appCore",
+        "target": "outboundCmd",
+        "label": "HTTP"
+      },
+      {
+        "source": "appCore",
+        "target": "outboundQry",
+        "label": "HTTP"
+      },
+      {
+        "source": "inboundREST",
+        "target": "domainLogic",
+        "label": "HTTP"
+      },
+      {
+        "source": "inboundGraphQL",
+        "target": "domainLogic",
+        "label": "HTTP"
+      },
+      {
+        "source": "outboundCmd",
+        "target": "domainLogic",
+        "label": "HTTP"
+      },
+      {
+        "source": "outboundQry",
+        "target": "domainLogic",
+        "label": "HTTP"
+      },
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sAKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sEKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sAKS",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sEKS",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "inboundREST",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "inboundGraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "inboundREST",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "inboundGraphQL",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "inboundREST",
+        "target": "empService",
+        "label": "HTTP"
+      },
+      {
+        "source": "inboundREST",
+        "target": "payrollService",
+        "label": "HTTP"
+      },
+      {
+        "source": "inboundREST",
+        "target": "recruitService",
+        "label": "HTTP"
+      },
+      {
+        "source": "inboundREST",
+        "target": "benefitsService",
+        "label": "HTTP"
+      },
+      {
+        "source": "inboundGraphQL",
+        "target": "analyticsService",
+        "label": "HTTP"
+      },
+      {
+        "source": "empService",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "payrollService",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "recruitService",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "benefitsService",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "analyticsService",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "rawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "eventBridge",
+        "label": "Async"
+      },
+      {
+        "source": "eventBridge",
+        "target": "analyticsService",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "empService",
+        "label": "Async"
+      },
+      {
+        "source": "empService",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "payrollService",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "benefitsService",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "analyticsService",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "rawLake",
+        "target": "curatedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "curatedLake",
+        "target": "warehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "curatedLake",
+        "target": "lakeMetastore",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsService",
+        "target": "embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedding",
+        "target": "vectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorSearch",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "elasticsearch",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "gitRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sAKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "k8sEKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "drSite1",
+        "target": "k8sAKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "drSite2",
+        "target": "k8sEKS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 7,
+      "services": 49
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Hexagonal",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Disaster Recovery",
+      "Data Lakehouse Pattern",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 86,
+    "source_edges": 75,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

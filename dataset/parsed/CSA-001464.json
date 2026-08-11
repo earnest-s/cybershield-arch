@@ -1,0 +1,436 @@
+{
+  "id": "CSA-001464",
+  "instruction": "Design a Healthcare architecture. using a Hexagonal style. deployed on AWS. satisfying: Rate Limiting, Disaster Recovery, Active-Active Multi-Region, Blue/Green Deployment, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Edge",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "PatientService",
+        "type": "service"
+      },
+      {
+        "id": "AppointmentService",
+        "type": "service"
+      },
+      {
+        "id": "BillingService",
+        "type": "service"
+      },
+      {
+        "id": "REST",
+        "type": "service"
+      },
+      {
+        "id": "GraphQL",
+        "type": "service"
+      },
+      {
+        "id": "EMRAdapter",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "NotificationAdapter",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Argo",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region1",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region2",
+        "type": "service"
+      },
+      {
+        "id": "DR_Replication",
+        "type": "service"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "Blue",
+        "type": "service"
+      },
+      {
+        "id": "Replicates",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "REST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST",
+        "target": "PatientService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQL",
+        "target": "AppointmentService",
+        "label": "HTTP"
+      },
+      {
+        "source": "PatientService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "AppointmentService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "BillingService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "EMRAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "PaymentGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "NotificationAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMRAdapter",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentGateway",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationAdapter",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "Blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Argo",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region1",
+        "target": "DR_Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region2",
+        "target": "DR_Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Replication",
+        "target": "K8s",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Healthcare",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Rate Limiting",
+      "Disaster Recovery",
+      "Active-Active Multi-Region",
+      "Blue/Green Deployment",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 61,
+    "source_edges": 51,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

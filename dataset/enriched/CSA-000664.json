@@ -1,0 +1,426 @@
+{
+  "id": "CSA-000664",
+  "instruction": "Design a Blockchain architecture. using a Hexagonal style. deployed on GCP. satisfying: Feature Flags, Strict Network Segmentation, Compliance/Audit Logging, Disaster Recovery, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "Audit",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "SM",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Core",
+        "type": "service"
+      },
+      {
+        "id": "Ports",
+        "type": "service"
+      },
+      {
+        "id": "Inbound",
+        "type": "service"
+      },
+      {
+        "id": "Outbound",
+        "type": "service"
+      },
+      {
+        "id": "DWH",
+        "type": "service"
+      },
+      {
+        "id": "DL",
+        "type": "service"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region",
+        "type": "service"
+      },
+      {
+        "id": "NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "seg",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY_COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "PLATFORM",
+        "type": "service"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Audit",
+        "target": "ELK",
+        "label": "Async"
+      },
+      {
+        "source": "FF",
+        "target": "Inbound",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "SM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "Core",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "Ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ports",
+        "target": "Inbound",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ports",
+        "target": "Outbound",
+        "label": "HTTP"
+      },
+      {
+        "source": "Inbound",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Outbound",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "Outbound",
+        "target": "DL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Outbound",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "PubSub",
+        "target": "Core",
+        "label": "Async"
+      },
+      {
+        "source": "Core",
+        "target": "PubSub",
+        "label": "Async"
+      },
+      {
+        "source": "Prom",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "DL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region",
+        "target": "K8s",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Authentication",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Authentication",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Implement role-based access control.",
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 30,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 1,
+      "services": 36
+    },
+    "security_summary": "Architecture contains a frontend and an API service but lacks RBAC, Monitoring, Authentication, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Blockchain",
+    "style": "Hexagonal",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Feature Flags",
+      "Strict Network Segmentation",
+      "Compliance/Audit Logging",
+      "Disaster Recovery",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 37,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

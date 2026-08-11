@@ -1,0 +1,477 @@
+{
+  "id": "CSA-000699",
+  "instruction": "Design a Energy architecture. using a CQRS style. deployed on Azure. satisfying: Disaster Recovery, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "AzureAD",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "ACR",
+        "type": "container"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Tempo",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "CmdStore",
+        "type": "database"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "ReadModel",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "database"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "CmdAPI",
+        "type": "service"
+      },
+      {
+        "id": "CmdService",
+        "type": "service"
+      },
+      {
+        "id": "SagaMgr",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "QueryService",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "GeoRep",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "SCADA",
+        "type": "service"
+      },
+      {
+        "id": "Metering",
+        "type": "service"
+      },
+      {
+        "id": "Market",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "CmdAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdAPI",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "SagaMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "SagaMgr",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "CmdStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdStore",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "GeoRep",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "GeoRep",
+        "label": "HTTP"
+      },
+      {
+        "source": "SCADA",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metering",
+        "target": "ServiceBus",
+        "label": "Async"
+      },
+      {
+        "source": "Market",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "WebUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "MobileApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "AdminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "CmdAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureAD",
+        "target": "Vault",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 5,
+      "services": 25
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "CQRS",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 61,
+    "source_edges": 41,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

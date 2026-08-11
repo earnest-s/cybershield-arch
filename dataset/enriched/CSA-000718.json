@@ -1,0 +1,565 @@
+{
+  "id": "CSA-000718",
+  "instruction": "Design a Agriculture architecture. using a CQRS style. deployed on AWS. satisfying: High Throughput (100k+ TPS), Observability Stack, Disaster Recovery, Blue/Green Deployment, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "BFF",
+        "type": "service"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "CommandSvc",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "EventBus",
+        "type": "database"
+      },
+      {
+        "id": "ReadAPI",
+        "type": "service"
+      },
+      {
+        "id": "QuerySvc",
+        "type": "service"
+      },
+      {
+        "id": "ReadDB",
+        "type": "database"
+      },
+      {
+        "id": "Worker",
+        "type": "service"
+      },
+      {
+        "id": "Scheduler",
+        "type": "service"
+      },
+      {
+        "id": "Notification",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "ui"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "Canary",
+        "type": "service"
+      },
+      {
+        "id": "Argo",
+        "type": "service"
+      },
+      {
+        "id": "RawLake",
+        "type": "service"
+      },
+      {
+        "id": "ProcessedLake",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region",
+        "type": "service"
+      },
+      {
+        "id": "DR_RDS",
+        "type": "service"
+      },
+      {
+        "id": "DR_EventStore",
+        "type": "database"
+      },
+      {
+        "id": "ClientTraffic",
+        "type": "ui"
+      },
+      {
+        "id": "ElasticSearch",
+        "type": "container"
+      },
+      {
+        "id": "Replicate",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "ClientTraffic",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BFF",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "ReadAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "Worker",
+        "label": "HTTP"
+      },
+      {
+        "source": "Worker",
+        "target": "Scheduler",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scheduler",
+        "target": "CommandSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "QuerySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "ReadDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadAPI",
+        "target": "ReadDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadDB",
+        "target": "ElasticSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadDB",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "Notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandSvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Worker",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClientTraffic",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "QuerySvc",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Worker",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Canary",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "BFF",
+        "target": "RawLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "RawLake",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcessedLake",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "ReadAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "BFF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "ReadAPI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 7,
+      "databases": 5,
+      "services": 36
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Agriculture",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Observability Stack",
+      "Disaster Recovery",
+      "Blue/Green Deployment",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

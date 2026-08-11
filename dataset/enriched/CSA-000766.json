@@ -1,0 +1,702 @@
+{
+  "id": "CSA-000766",
+  "instruction": "Design a FinTech architecture. using a Zero-Trust style. deployed on GCP. satisfying: Observability Stack, Auto Scaling, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GlobalFW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "LoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "ui"
+      },
+      {
+        "id": "Scheduler",
+        "type": "service"
+      },
+      {
+        "id": "AccountSvc",
+        "type": "service"
+      },
+      {
+        "id": "TxnSvc",
+        "type": "service"
+      },
+      {
+        "id": "LedgerSvc",
+        "type": "service"
+      },
+      {
+        "id": "RiskSvc",
+        "type": "service"
+      },
+      {
+        "id": "NotificationSvc",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "UserProfile",
+        "type": "service"
+      },
+      {
+        "id": "ReportingSvc",
+        "type": "service"
+      },
+      {
+        "id": "FraudDetection",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Spanner",
+        "type": "service"
+      },
+      {
+        "id": "Firestore",
+        "type": "service"
+      },
+      {
+        "id": "BigTable",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "DataLake",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "ModelStore",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Tempo",
+        "type": "service"
+      },
+      {
+        "id": "AlertMgr",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "BankingAPIs",
+        "type": "service"
+      },
+      {
+        "id": "CreditBureau",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateways",
+        "type": "service"
+      },
+      {
+        "id": "TxnService",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "AllRequests",
+        "type": "service"
+      },
+      {
+        "id": "TransactionLogs",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GlobalFW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalFW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "LoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "LoadBalancer",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AccountSvc",
+        "target": "TxnSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "TxnSvc",
+        "target": "LedgerSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "LedgerSvc",
+        "target": "RiskSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "AccountSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "TxnSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserProfile",
+        "target": "AccountSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingSvc",
+        "target": "LedgerSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudDetection",
+        "target": "TxnService",
+        "label": "HTTP"
+      },
+      {
+        "source": "TxnSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "LedgerSvc",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "RiskSvc",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "AccountSvc",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "TxnSvc",
+        "target": "Spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "LedgerSvc",
+        "target": "BigTable",
+        "label": "HTTP"
+      },
+      {
+        "source": "RiskSvc",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingSvc",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudDetection",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "RiskSvc",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "VertexAI",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "ModelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "AlertMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "AccountSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "TxnSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "LedgerSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "RiskSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "AllRequests",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "TransactionLogs",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "BankingAPIs",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "CreditBureau",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentGateways",
+        "target": "APIGateway",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 4,
+      "services": 58
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "FinTech",
+    "style": "Zero-Trust",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Observability Stack",
+      "Auto Scaling",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 105,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

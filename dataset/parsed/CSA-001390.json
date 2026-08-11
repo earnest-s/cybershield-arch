@@ -1,0 +1,307 @@
+{
+  "id": "CSA-001390",
+  "instruction": "Design a Education architecture. using a Modular Monolith style. deployed on AWS. satisfying: Feature Flags, Observability Stack, Rate Limiting, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "ALB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Core",
+        "type": "service"
+      },
+      {
+        "id": "UserMgmt",
+        "type": "service"
+      },
+      {
+        "id": "CourseMgmt",
+        "type": "service"
+      },
+      {
+        "id": "Assessment",
+        "type": "service"
+      },
+      {
+        "id": "Reporting",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "Aurora",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "CodeBuild",
+        "type": "ui"
+      },
+      {
+        "id": "CodePipeline",
+        "type": "service"
+      },
+      {
+        "id": "ECR",
+        "type": "service"
+      },
+      {
+        "id": "EKS",
+        "type": "container"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "Core",
+        "target": "UserMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "CourseMgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "Assessment",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "Reporting",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "Aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Assessment",
+        "label": "Async"
+      },
+      {
+        "source": "Assessment",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Reporting",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "AuditLog",
+        "label": "Async"
+      },
+      {
+        "source": "PROM",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodeBuild",
+        "target": "ECR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodePipeline",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "Monitoring",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Education",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Observability Stack",
+      "Rate Limiting",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 46,
+    "source_edges": 29,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

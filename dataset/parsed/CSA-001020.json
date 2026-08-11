@@ -1,0 +1,509 @@
+{
+  "id": "CSA-001020",
+  "instruction": "Design a Healthcare architecture. using a Microservices style. deployed on GCP. satisfying: Data Lakehouse Pattern, Strict Network Segmentation, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "doctor_ui",
+        "type": "ui"
+      },
+      {
+        "id": "patient_app",
+        "type": "service"
+      },
+      {
+        "id": "admin_portal",
+        "type": "ui"
+      },
+      {
+        "id": "insurance_api",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "iap",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "pat_service",
+        "type": "service"
+      },
+      {
+        "id": "app_service",
+        "type": "service"
+      },
+      {
+        "id": "firestore",
+        "type": "service"
+      },
+      {
+        "id": "ehr_service",
+        "type": "service"
+      },
+      {
+        "id": "presc_service",
+        "type": "service"
+      },
+      {
+        "id": "lab_service",
+        "type": "service"
+      },
+      {
+        "id": "spanner",
+        "type": "service"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "billing_service",
+        "type": "service"
+      },
+      {
+        "id": "claims_service",
+        "type": "service"
+      },
+      {
+        "id": "bigquery_raw",
+        "type": "service"
+      },
+      {
+        "id": "bigquery_proc",
+        "type": "service"
+      },
+      {
+        "id": "bigquery_svc",
+        "type": "service"
+      },
+      {
+        "id": "storage_cs",
+        "type": "database"
+      },
+      {
+        "id": "delta_lake",
+        "type": "service"
+      },
+      {
+        "id": "embedding_srv",
+        "type": "service"
+      },
+      {
+        "id": "clinical_nlp",
+        "type": "service"
+      },
+      {
+        "id": "rag_srv",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "logs",
+        "type": "service"
+      },
+      {
+        "id": "mon",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "ci_cd",
+        "type": "ui"
+      },
+      {
+        "id": "gke",
+        "type": "container"
+      },
+      {
+        "id": "clinician_reporting",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "zt_control",
+        "type": "service"
+      },
+      {
+        "id": "vpc_ctrl",
+        "type": "service"
+      },
+      {
+        "id": "PATIENT_SVC_VPC",
+        "type": "service"
+      },
+      {
+        "id": "CLINICAL_SVC_VPC",
+        "type": "service"
+      },
+      {
+        "id": "BILLING_SVC_VPC",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS_VPC",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "iap",
+        "label": "HTTP"
+      },
+      {
+        "source": "iap",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "pat_service",
+        "label": "Async"
+      },
+      {
+        "source": "pubsub",
+        "target": "ehr_service",
+        "label": "Async"
+      },
+      {
+        "source": "pubsub",
+        "target": "billing_service",
+        "label": "Async"
+      },
+      {
+        "source": "pubsub",
+        "target": "claims_service",
+        "label": "Async"
+      },
+      {
+        "source": "pat_service",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "app_service",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "ehr_service",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "presc_service",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "lab_service",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing_service",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "claims_service",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedding_srv",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "clinical_nlp",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_srv",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "mon",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "gke",
+        "label": "HTTP"
+      },
+      {
+        "source": "doctor_ui",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "patient_app",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin_portal",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "insurance_api",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "pat_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "app_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ehr_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "presc_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "billing_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "pat_service",
+        "target": "firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "app_service",
+        "target": "firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ehr_service",
+        "target": "spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "presc_service",
+        "target": "spanner",
+        "label": "HTTP"
+      },
+      {
+        "source": "lab_service",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing_service",
+        "target": "bigquery_raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "claims_service",
+        "target": "bigquery_raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "bigquery_raw",
+        "target": "storage_cs",
+        "label": "HTTP"
+      },
+      {
+        "source": "storage_cs",
+        "target": "delta_lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "delta_lake",
+        "target": "bigquery_proc",
+        "label": "HTTP"
+      },
+      {
+        "source": "bigquery_proc",
+        "target": "bigquery_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "bigquery_svc",
+        "target": "clinician_reporting",
+        "label": "HTTP"
+      },
+      {
+        "source": "clinician_reporting",
+        "target": "embedding_srv",
+        "label": "HTTP"
+      },
+      {
+        "source": "clinician_reporting",
+        "target": "clinical_nlp",
+        "label": "HTTP"
+      },
+      {
+        "source": "clinician_reporting",
+        "target": "rag_srv",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "iap",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt_control",
+        "target": "iap",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt_control",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "zt_control",
+        "target": "vpc_ctrl",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc_ctrl",
+        "target": "PATIENT_SVC_VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc_ctrl",
+        "target": "CLINICAL_SVC_VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc_ctrl",
+        "target": "BILLING_SVC_VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc_ctrl",
+        "target": "ANALYTICS_VPC",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Healthcare",
+    "style": "Microservices",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Strict Network Segmentation",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 82,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

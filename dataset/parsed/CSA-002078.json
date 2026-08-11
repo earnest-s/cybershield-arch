@@ -1,0 +1,570 @@
+{
+  "id": "CSA-002078",
+  "instruction": "Design a MLOps architecture. using a Zero-Trust style. deployed on GCP. satisfying: Compliance/Audit Logging, Auto Scaling, Rate Limiting, Active-Active Multi-Region, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "CloudArmor",
+        "type": "service"
+      },
+      {
+        "id": "GlobalLB",
+        "type": "service"
+      },
+      {
+        "id": "CloudDNS",
+        "type": "service"
+      },
+      {
+        "id": "APIgw",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "IAP",
+        "type": "service"
+      },
+      {
+        "id": "VPCSC",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "CloudRun",
+        "type": "service"
+      },
+      {
+        "id": "ArtifactReg",
+        "type": "service"
+      },
+      {
+        "id": "CloudBuild",
+        "type": "ui"
+      },
+      {
+        "id": "Terraform",
+        "type": "service"
+      },
+      {
+        "id": "VertexAI",
+        "type": "service"
+      },
+      {
+        "id": "ModelStore",
+        "type": "service"
+      },
+      {
+        "id": "FeatureStore",
+        "type": "service"
+      },
+      {
+        "id": "BigQuery",
+        "type": "service"
+      },
+      {
+        "id": "CloudSQL",
+        "type": "database"
+      },
+      {
+        "id": "Firestore",
+        "type": "service"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "GCS",
+        "type": "database"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "SecretMgr",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "AuditLogs",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "CloudMon",
+        "type": "service"
+      },
+      {
+        "id": "CloudTrace",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "HPA",
+        "type": "service"
+      },
+      {
+        "id": "ClusterAutoscaler",
+        "type": "container"
+      },
+      {
+        "id": "CloudRunScale",
+        "type": "service"
+      },
+      {
+        "id": "APIRate",
+        "type": "service"
+      },
+      {
+        "id": "TokenBucket",
+        "type": "service"
+      },
+      {
+        "id": "RegionUS",
+        "type": "container"
+      },
+      {
+        "id": "RegionEU",
+        "type": "container"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "ClientLayer",
+        "type": "service"
+      },
+      {
+        "id": "EdgeNetwork",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrustPerimeter",
+        "type": "service"
+      },
+      {
+        "id": "Platform",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "SIEM",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiting",
+        "type": "service"
+      },
+      {
+        "id": "MultiRegion",
+        "type": "service"
+      },
+      {
+        "id": "DataLayer",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "ClientLayer",
+        "target": "EdgeNetwork",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeNetwork",
+        "target": "ZeroTrustPerimeter",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZeroTrustPerimeter",
+        "target": "Platform",
+        "label": "HTTP"
+      },
+      {
+        "source": "Platform",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "CloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Terraform",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "HPA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "ClusterAutoscaler",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "CloudRunScale",
+        "label": "HTTP"
+      },
+      {
+        "source": "Platform",
+        "target": "ArtifactReg",
+        "label": "HTTP"
+      },
+      {
+        "source": "Platform",
+        "target": "CloudBuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "GKE",
+        "target": "GCS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "PubSub",
+        "label": "Async"
+      },
+      {
+        "source": "GKE",
+        "target": "FeatureStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "VertexAI",
+        "target": "ModelStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "VertexAI",
+        "target": "FeatureStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "PubSub",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "SecretMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "AuditLogs",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLogs",
+        "target": "SIEM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "CloudMon",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "CloudTrace",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "Splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudRun",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "VertexAI",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiting",
+        "target": "APIRate",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiting",
+        "target": "TokenBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "APIRate",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "TokenBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "MultiRegion",
+        "target": "RegionUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MultiRegion",
+        "target": "RegionEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionUS",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionEU",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionUS",
+        "target": "CloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionEU",
+        "target": "CloudRun",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "GCS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "BigQuery",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAP",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAP",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPCSC",
+        "target": "DataLayer",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "VertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "AuditLogs",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Zero-Trust",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Auto Scaling",
+      "Rate Limiting",
+      "Active-Active Multi-Region",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 81,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,479 @@
+{
+  "id": "CSA-000908",
+  "instruction": "Design a Education architecture. using a CQRS style. deployed on GCP. satisfying: Compliance/Audit Logging, Data Lakehouse Pattern, Feature Flags, Disaster Recovery, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "CommandAPI",
+        "type": "service"
+      },
+      {
+        "id": "QueryAPI",
+        "type": "service"
+      },
+      {
+        "id": "CmdService",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "queue"
+      },
+      {
+        "id": "ReadModel",
+        "type": "service"
+      },
+      {
+        "id": "Projection",
+        "type": "service"
+      },
+      {
+        "id": "UserMS",
+        "type": "service"
+      },
+      {
+        "id": "CourseMS",
+        "type": "service"
+      },
+      {
+        "id": "EnrollmentMS",
+        "type": "service"
+      },
+      {
+        "id": "AssessmentMS",
+        "type": "service"
+      },
+      {
+        "id": "OLTP",
+        "type": "database"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "Lake",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "Failover",
+        "type": "service"
+      },
+      {
+        "id": "Email",
+        "type": "service"
+      },
+      {
+        "id": "SMS",
+        "type": "service"
+      },
+      {
+        "id": "Payment",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CommandAPI",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "Projection",
+        "label": "HTTP"
+      },
+      {
+        "source": "Projection",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryAPI",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "UserMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "CourseMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "EnrollmentMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "AssessmentMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "UserMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "CourseMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "EnrollmentMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "AssessmentMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserMS",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "CourseMS",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "EnrollmentMS",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "AssessmentMS",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "OLTP",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "AssessmentMS",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Failover",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "CommandAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "QueryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "AssessmentMS",
+        "target": "Email",
+        "label": "HTTP"
+      },
+      {
+        "source": "EnrollmentMS",
+        "target": "SMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Payment",
+        "target": "AssessmentMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "Analytics",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Education",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Data Lakehouse Pattern",
+      "Feature Flags",
+      "Disaster Recovery",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 67,
+    "source_edges": 67,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

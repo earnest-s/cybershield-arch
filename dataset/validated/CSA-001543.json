@@ -1,0 +1,595 @@
+{
+  "id": "CSA-001543",
+  "instruction": "Design a SCM architecture. using a CQRS style. deployed on Hybrid Cloud. satisfying: Strict Network Segmentation, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW1",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "loadBal",
+        "type": "database"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "rateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "edgeLB",
+        "type": "service"
+      },
+      {
+        "id": "authSrv",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "cmdr",
+        "type": "service"
+      },
+      {
+        "id": "qry",
+        "type": "service"
+      },
+      {
+        "id": "cmdAPIs",
+        "type": "service"
+      },
+      {
+        "id": "cmdSvc1",
+        "type": "service"
+      },
+      {
+        "id": "cmdSvc2",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "database"
+      },
+      {
+        "id": "sagaMgr",
+        "type": "service"
+      },
+      {
+        "id": "queryAPIs",
+        "type": "service"
+      },
+      {
+        "id": "queryCache",
+        "type": "cache"
+      },
+      {
+        "id": "readModel",
+        "type": "service"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "eventHandler",
+        "type": "service"
+      },
+      {
+        "id": "projection",
+        "type": "ui"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "logging",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "monitoring",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "cmdsvc1",
+        "type": "service"
+      },
+      {
+        "id": "cmdsvc2",
+        "type": "service"
+      },
+      {
+        "id": "drCluster",
+        "type": "container"
+      },
+      {
+        "id": "redisBackup",
+        "type": "cache"
+      },
+      {
+        "id": "paymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "carrierAPI",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW1",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW1",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW1",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "apiGW1",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGW1",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW1",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "loadBal",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "loadBal",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimiter",
+        "target": "loadBal",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBal",
+        "target": "edgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeLB",
+        "target": "authSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "cmdr",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "qry",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdr",
+        "target": "cmdAPIs",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdAPIs",
+        "target": "cmdSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdAPIs",
+        "target": "cmdSvc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc1",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc2",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "sagaMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "sagaMgr",
+        "target": "cmdSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "sagaMgr",
+        "target": "cmdSvc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry",
+        "target": "queryAPIs",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryAPIs",
+        "target": "queryCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryAPIs",
+        "target": "readModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModel",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModel",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "eventHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventHandler",
+        "target": "projection",
+        "label": "HTTP"
+      },
+      {
+        "source": "projection",
+        "target": "readModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "cmdAPIs",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "queryAPIs",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "pki",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "logging",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "cmdSvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "cmdSvc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "queryAPIs",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "cmdsvc1",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "cmdsvc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "queryAPIs",
+        "label": "HTTP"
+      },
+      {
+        "source": "drCluster",
+        "target": "pg",
+        "label": "Async"
+      },
+      {
+        "source": "drCluster",
+        "target": "redisBackup",
+        "label": "HTTP"
+      },
+      {
+        "source": "paymentGateway",
+        "target": "eventHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "carrierAPI",
+        "target": "eventHandler",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW1",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW1",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW1",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryAPIs",
+        "target": "rateLimiter",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "SIEM",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Require Multi-Factor Authentication for user access."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 8,
+      "databases": 4,
+      "services": 38
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Encryption Service, Audit Logging, SIEM and MFA. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "CQRS",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Rate Limiting"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 63,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

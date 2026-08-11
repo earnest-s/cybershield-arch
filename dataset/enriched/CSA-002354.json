@@ -1,0 +1,648 @@
+{
+  "id": "CSA-002354",
+  "instruction": "Design a ERP architecture. using a Event-Driven style. deployed on Azure. satisfying: Feature Flags, GraphRAG Integration, AI/ML Inference Integration, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Microservices",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Splunk",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "OrderSvc",
+        "type": "service"
+      },
+      {
+        "id": "InventorySvc",
+        "type": "service"
+      },
+      {
+        "id": "BillingSvc",
+        "type": "service"
+      },
+      {
+        "id": "HRMsvc",
+        "type": "service"
+      },
+      {
+        "id": "CRMsvc",
+        "type": "service"
+      },
+      {
+        "id": "NotificationSvc",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlagSvc",
+        "type": "service"
+      },
+      {
+        "id": "GraphRAGsvc",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "KafkaTopic",
+        "type": "queue"
+      },
+      {
+        "id": "KafkaTopic2",
+        "type": "queue"
+      },
+      {
+        "id": "ConfigStore",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Cosmos",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "DataLake",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "ShippingAPI",
+        "type": "service"
+      },
+      {
+        "id": "EmailSrv",
+        "type": "service"
+      },
+      {
+        "id": "SMSsrv",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "Splunk",
+        "target": "Microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "KafkaTopic",
+        "label": "Async"
+      },
+      {
+        "source": "InventorySvc",
+        "target": "KafkaTopic",
+        "label": "Async"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "KafkaTopic",
+        "label": "Async"
+      },
+      {
+        "source": "CRMsvc",
+        "target": "KafkaTopic2",
+        "label": "Async"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "KafkaTopic2",
+        "label": "Async"
+      },
+      {
+        "source": "FeatureFlagSvc",
+        "target": "ConfigStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAGsvc",
+        "target": "VectorDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "AIGateway",
+        "target": "EmbeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "FeatureFlagSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderSvc",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "InventorySvc",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingSvc",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "HRMsvc",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "CRMsvc",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationSvc",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAGsvc",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Microservices",
+        "label": "HTTP"
+      },
+      {
+        "source": "Microservices",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Microservices",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "Microservices",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "Microservices",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "Microservices",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "InventorySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "HRMsvc",
+        "label": "Async"
+      },
+      {
+        "source": "EventBridge",
+        "target": "CRMsvc",
+        "label": "Async"
+      },
+      {
+        "source": "PaymentGateway",
+        "target": "BillingSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ShippingAPI",
+        "target": "OrderSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmailSrv",
+        "target": "NotificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "SMSsrv",
+        "target": "NotificationSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Microservices",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Microservices",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Microservices",
+        "target": "Splunk",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 5,
+      "services": 43
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Event-Driven",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "GraphRAG Integration",
+      "AI/ML Inference Integration",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 82,
+    "source_edges": 71,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

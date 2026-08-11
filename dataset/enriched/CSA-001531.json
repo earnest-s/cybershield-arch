@@ -1,0 +1,549 @@
+{
+  "id": "CSA-001531",
+  "instruction": "Design a Education architecture. using a Hexagonal style. deployed on Multi-Cloud. satisfying: Compliance/Audit Logging, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MOB",
+        "type": "service"
+      },
+      {
+        "id": "HTTPAdapter",
+        "type": "service"
+      },
+      {
+        "id": "EventAdapter",
+        "type": "queue"
+      },
+      {
+        "id": "StudentSvc",
+        "type": "service"
+      },
+      {
+        "id": "CourseSvc",
+        "type": "service"
+      },
+      {
+        "id": "EnrollmentSaga",
+        "type": "service"
+      },
+      {
+        "id": "Authz",
+        "type": "service"
+      },
+      {
+        "id": "Core",
+        "type": "service"
+      },
+      {
+        "id": "DBAdapter",
+        "type": "database"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "CacheAdapter",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "SearchAdapter",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "AuditLogAdapter",
+        "type": "database"
+      },
+      {
+        "id": "AuditSys",
+        "type": "database"
+      },
+      {
+        "id": "NotificationAdapter",
+        "type": "database"
+      },
+      {
+        "id": "NotifSrv",
+        "type": "database"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "AZR",
+        "type": "service"
+      },
+      {
+        "id": "LB_AWS",
+        "type": "service"
+      },
+      {
+        "id": "LB_AZR",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "VPC_AWS",
+        "type": "service"
+      },
+      {
+        "id": "VNet_AZR",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Logs",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "DR_AWS",
+        "type": "service"
+      },
+      {
+        "id": "DR_AZR",
+        "type": "service"
+      },
+      {
+        "id": "Clients",
+        "type": "service"
+      },
+      {
+        "id": "InboundAdapters",
+        "type": "service"
+      },
+      {
+        "id": "OutboundAdapters",
+        "type": "service"
+      },
+      {
+        "id": "Infra",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "HTTPAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "EventAdapter",
+        "label": "Async"
+      },
+      {
+        "source": "Core",
+        "target": "StudentSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "CourseSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "EnrollmentSaga",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "Authz",
+        "label": "HTTP"
+      },
+      {
+        "source": "DBAdapter",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CacheAdapter",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "SearchAdapter",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLogAdapter",
+        "target": "AuditSys",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationAdapter",
+        "target": "NotifSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Clients",
+        "target": "InboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundAdapters",
+        "target": "Core",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "OutboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "DBAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "CacheAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "SearchAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "AuditLogAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "NotificationAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "Infra",
+        "target": "LB_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_AWS",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Infra",
+        "target": "LB_AZR",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_AZR",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Infra",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "Infra",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "Infra",
+        "target": "VPC_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Infra",
+        "target": "VNet_AZR",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditSys",
+        "target": "DR_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditSys",
+        "target": "DR_AZR",
+        "label": "HTTP"
+      },
+      {
+        "source": "DBAdapter",
+        "target": "DR_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DBAdapter",
+        "target": "DR_AZR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CacheAdapter",
+        "target": "DR_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CacheAdapter",
+        "target": "DR_AZR",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 10,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Education",
+    "style": "Hexagonal",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 58,
+    "source_edges": 47,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

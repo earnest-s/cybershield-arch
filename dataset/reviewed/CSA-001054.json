@@ -1,0 +1,622 @@
+{
+  "id": "CSA-001054",
+  "instruction": "Design a Education architecture. using a Modular Monolith style. deployed on AWS. satisfying: Active-Active Multi-Region, Compliance/Audit Logging, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "dns",
+        "type": "service"
+      },
+      {
+        "id": "us_east_lb",
+        "type": "service"
+      },
+      {
+        "id": "eu_west_lb",
+        "type": "service"
+      },
+      {
+        "id": "api_gw_us",
+        "type": "service"
+      },
+      {
+        "id": "monolith_us",
+        "type": "service"
+      },
+      {
+        "id": "rds_us",
+        "type": "database"
+      },
+      {
+        "id": "dynamo_us",
+        "type": "database"
+      },
+      {
+        "id": "s3_us",
+        "type": "database"
+      },
+      {
+        "id": "es_us",
+        "type": "database"
+      },
+      {
+        "id": "sns_us",
+        "type": "database"
+      },
+      {
+        "id": "sqs_us",
+        "type": "database"
+      },
+      {
+        "id": "prometheus_us",
+        "type": "service"
+      },
+      {
+        "id": "cw_logs_us",
+        "type": "service"
+      },
+      {
+        "id": "grafana_us",
+        "type": "service"
+      },
+      {
+        "id": "audit_s3_us",
+        "type": "database"
+      },
+      {
+        "id": "api_gw_eu",
+        "type": "service"
+      },
+      {
+        "id": "monolith_eu",
+        "type": "service"
+      },
+      {
+        "id": "rds_eu",
+        "type": "database"
+      },
+      {
+        "id": "dynamo_eu",
+        "type": "database"
+      },
+      {
+        "id": "s3_eu",
+        "type": "database"
+      },
+      {
+        "id": "es_eu",
+        "type": "database"
+      },
+      {
+        "id": "sns_eu",
+        "type": "database"
+      },
+      {
+        "id": "sqs_eu",
+        "type": "database"
+      },
+      {
+        "id": "prometheus_eu",
+        "type": "service"
+      },
+      {
+        "id": "cw_logs_eu",
+        "type": "service"
+      },
+      {
+        "id": "grafana_eu",
+        "type": "service"
+      },
+      {
+        "id": "audit_s3_eu",
+        "type": "database"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "cognito",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "cloudtrail",
+        "type": "service"
+      },
+      {
+        "id": "config",
+        "type": "service"
+      },
+      {
+        "id": "guardduty",
+        "type": "service"
+      },
+      {
+        "id": "siem",
+        "type": "service"
+      },
+      {
+        "id": "codecommit",
+        "type": "service"
+      },
+      {
+        "id": "codebuild",
+        "type": "ui"
+      },
+      {
+        "id": "codedeploy",
+        "type": "service"
+      },
+      {
+        "id": "pipelines",
+        "type": "service"
+      },
+      {
+        "id": "grafana_central",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "dns",
+        "label": "HTTP"
+      },
+      {
+        "source": "dns",
+        "target": "us_east_lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "dns",
+        "target": "eu_west_lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "us_east_lb",
+        "target": "api_gw_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw_us",
+        "target": "monolith_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_us",
+        "target": "rds_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_us",
+        "target": "dynamo_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_us",
+        "target": "s3_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_us",
+        "target": "es_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_us",
+        "target": "sns_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "sns_us",
+        "target": "sqs_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_us",
+        "target": "prometheus_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_us",
+        "target": "cw_logs_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus_us",
+        "target": "grafana_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw_logs_us",
+        "target": "grafana_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_us",
+        "target": "audit_s3_us",
+        "label": "Async"
+      },
+      {
+        "source": "eu_west_lb",
+        "target": "api_gw_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw_eu",
+        "target": "monolith_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_eu",
+        "target": "rds_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_eu",
+        "target": "dynamo_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_eu",
+        "target": "s3_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_eu",
+        "target": "es_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_eu",
+        "target": "sns_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "sns_eu",
+        "target": "sqs_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_eu",
+        "target": "prometheus_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_eu",
+        "target": "cw_logs_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus_eu",
+        "target": "grafana_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw_logs_eu",
+        "target": "grafana_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_eu",
+        "target": "audit_s3_eu",
+        "label": "Async"
+      },
+      {
+        "source": "rds_us",
+        "target": "rds_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3_us",
+        "target": "s3_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "es_us",
+        "target": "es_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit_s3_us",
+        "target": "audit_s3_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_us",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "monolith_eu",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw_us",
+        "target": "cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw_eu",
+        "target": "cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "rds_us",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "rds_eu",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3_us",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3_eu",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "secrets",
+        "target": "monolith_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "secrets",
+        "target": "monolith_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "cloudtrail",
+        "target": "audit_s3_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "cloudtrail",
+        "target": "audit_s3_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "config",
+        "target": "audit_s3_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "config",
+        "target": "audit_s3_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "guardduty",
+        "target": "siem",
+        "label": "HTTP"
+      },
+      {
+        "source": "siem",
+        "target": "audit_s3_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "siem",
+        "target": "audit_s3_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "pipelines",
+        "target": "codecommit",
+        "label": "HTTP"
+      },
+      {
+        "source": "pipelines",
+        "target": "codebuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "pipelines",
+        "target": "codedeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "codedeploy",
+        "target": "monolith_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "codedeploy",
+        "target": "monolith_eu",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana_us",
+        "target": "grafana_central",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana_eu",
+        "target": "grafana_central",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "dns",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "dns",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 14,
+      "services": 28
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Education",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Compliance/Audit Logging",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 56,
+    "source_edges": 74,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

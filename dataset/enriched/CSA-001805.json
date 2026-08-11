@@ -1,0 +1,739 @@
+{
+  "id": "CSA-001805",
+  "instruction": "Design a Education architecture. using a Hexagonal style. deployed on On-Premises. satisfying: Rate Limiting, High Throughput (100k+ TPS), Disaster Recovery, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB_UI",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE_APP",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN_PORTAL",
+        "type": "ui"
+      },
+      {
+        "id": "THIRD_PARTY_API",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "database"
+      },
+      {
+        "id": "PORT_WEB",
+        "type": "ui"
+      },
+      {
+        "id": "PORT_MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "PORT_ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "PORT_THIRD",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_REST",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_GRAPHQL",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_GRPC",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTER_EVENT",
+        "type": "queue"
+      },
+      {
+        "id": "USER_SVC",
+        "type": "database"
+      },
+      {
+        "id": "COURSE_SVC",
+        "type": "database"
+      },
+      {
+        "id": "ENROLL_SVC",
+        "type": "service"
+      },
+      {
+        "id": "ASSESS_SVC",
+        "type": "database"
+      },
+      {
+        "id": "NOTIF_SVC",
+        "type": "cache"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "MYSQL",
+        "type": "database"
+      },
+      {
+        "id": "CASSANDRA",
+        "type": "service"
+      },
+      {
+        "id": "DYNAMO",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "LAKE",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "DR_K8S",
+        "type": "container"
+      },
+      {
+        "id": "DR_DB",
+        "type": "database"
+      },
+      {
+        "id": "DR_STORAGE",
+        "type": "database"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "PLATFORM",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "PORT_WEB",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORT_MOBILE",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORT_ADMIN",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORT_THIRD",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_REST",
+        "target": "PORT_WEB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_GRAPHQL",
+        "target": "PORT_MOBILE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_GRPC",
+        "target": "PORT_ADMIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_EVENT",
+        "target": "PORT_THIRD",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB_UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE_APP",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN_PORTAL",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "THIRD_PARTY_API",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ADAPTER_REST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ADAPTER_GRAPHQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ADAPTER_GRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ADAPTER_EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_REST",
+        "target": "USER_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_REST",
+        "target": "COURSE_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_REST",
+        "target": "ENROLL_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_REST",
+        "target": "ASSESS_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_REST",
+        "target": "NOTIF_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_GRAPHQL",
+        "target": "USER_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_GRAPHQL",
+        "target": "COURSE_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_GRPC",
+        "target": "USER_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_GRPC",
+        "target": "ENROLL_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTER_EVENT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "USER_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "COURSE_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ENROLL_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ASSESS_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "NOTIF_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER_SVC",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "COURSE_SVC",
+        "target": "MYSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENROLL_SVC",
+        "target": "CASSANDRA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASSESS_SVC",
+        "target": "DYNAMO",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF_SVC",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER_SVC",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "COURSE_SVC",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ENROLL_SVC",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASSESS_SVC",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "POSTGRES",
+        "label": "Cache"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MYSQL",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CASSANDRA",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DYNAMO",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAFANA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PLATFORM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_K8S",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_DB",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_DB",
+        "target": "MYSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_DB",
+        "target": "CASSANDRA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_DB",
+        "target": "DYNAMO",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_STORAGE",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "OBS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 10,
+      "services": 35
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Education",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)",
+      "Disaster Recovery",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 82,
+    "source_edges": 76,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

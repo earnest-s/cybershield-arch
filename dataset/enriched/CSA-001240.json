@@ -1,0 +1,575 @@
+{
+  "id": "CSA-001240",
+  "instruction": "Design a SCM architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: Strict Network Segmentation, Feature Flags, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      },
+      {
+        "id": "ff",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "cmd_api",
+        "type": "service"
+      },
+      {
+        "id": "qry_api",
+        "type": "service"
+      },
+      {
+        "id": "cmd_svc",
+        "type": "service"
+      },
+      {
+        "id": "qry_svc",
+        "type": "service"
+      },
+      {
+        "id": "agg_svc",
+        "type": "service"
+      },
+      {
+        "id": "saga",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "event_store",
+        "type": "database"
+      },
+      {
+        "id": "cmd_db",
+        "type": "database"
+      },
+      {
+        "id": "qry_db",
+        "type": "database"
+      },
+      {
+        "id": "cache",
+        "type": "cache"
+      },
+      {
+        "id": "embed_model",
+        "type": "service"
+      },
+      {
+        "id": "vector_search",
+        "type": "service"
+      },
+      {
+        "id": "rag_engine",
+        "type": "service"
+      },
+      {
+        "id": "llm_gateway",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "docker_reg",
+        "type": "container"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "security_layer",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "cmd_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "qry_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ff",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "cmd_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "qry_api",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_api",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "saga",
+        "label": "HTTP"
+      },
+      {
+        "source": "saga",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "event_store",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "cmd_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "cmd_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_store",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "agg_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "agg_svc",
+        "target": "qry_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "agg_svc",
+        "target": "cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_api",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_svc",
+        "target": "cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_svc",
+        "target": "qry_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_svc",
+        "target": "embed_model",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed_model",
+        "target": "vector_search",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector_search",
+        "target": "rag_engine",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_engine",
+        "target": "llm_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm_gateway",
+        "target": "qry_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_svc",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_svc",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed_model",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "docker_reg",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker_reg",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "azure",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "security_layer",
+        "label": "HTTP"
+      },
+      {
+        "source": "security_layer",
+        "target": "cmd_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "security_layer",
+        "target": "qry_svc",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 3,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Feature Flags",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 56,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

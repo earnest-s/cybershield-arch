@@ -1,0 +1,296 @@
+{
+  "id": "CSA-001542",
+  "instruction": "Design a AIOps architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: GraphRAG Integration, Auto Scaling, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "apiCons",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "cmdAPI",
+        "type": "service"
+      },
+      {
+        "id": "cmdSvc",
+        "type": "service"
+      },
+      {
+        "id": "eventStore",
+        "type": "database"
+      },
+      {
+        "id": "queryAPI",
+        "type": "service"
+      },
+      {
+        "id": "queryCache",
+        "type": "container"
+      },
+      {
+        "id": "readDB",
+        "type": "database"
+      },
+      {
+        "id": "ragSrv",
+        "type": "database"
+      },
+      {
+        "id": "embedMod",
+        "type": "service"
+      },
+      {
+        "id": "llmGateway",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "hpa",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ci_cd",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "cmdAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdAPI",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdAPI",
+        "target": "cmdSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "queryAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryAPI",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryAPI",
+        "target": "queryCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryCache",
+        "target": "readDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "readDB",
+        "target": "ragSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedMod",
+        "target": "ragSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "llmGateway",
+        "target": "ragSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "hpa",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiCons",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "elk",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "AIOps",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Auto Scaling",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "graph TD",
+    "source_nodes": 41,
+    "source_edges": 31,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

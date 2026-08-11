@@ -1,0 +1,544 @@
+{
+  "id": "CSA-000953",
+  "instruction": "Design a E-Commerce architecture. using a Data Mesh style. deployed on AWS. satisfying: Auto Scaling, Data Lakehouse Pattern, GraphRAG Integration, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Edge",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Cart",
+        "type": "service"
+      },
+      {
+        "id": "Catalog",
+        "type": "service"
+      },
+      {
+        "id": "Order",
+        "type": "service"
+      },
+      {
+        "id": "Payment",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "Recommendation",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "UserDB",
+        "type": "database"
+      },
+      {
+        "id": "UserCache",
+        "type": "database"
+      },
+      {
+        "id": "ProdDB",
+        "type": "database"
+      },
+      {
+        "id": "ProdSearch",
+        "type": "database"
+      },
+      {
+        "id": "OrderDB",
+        "type": "database"
+      },
+      {
+        "id": "OrderLake",
+        "type": "database"
+      },
+      {
+        "id": "AnalyticsLake",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "GraphRAG",
+        "type": "database"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8s_US",
+        "type": "service"
+      },
+      {
+        "id": "Kafka_US",
+        "type": "queue"
+      },
+      {
+        "id": "K8s_AP",
+        "type": "service"
+      },
+      {
+        "id": "Kafka_AP",
+        "type": "queue"
+      },
+      {
+        "id": "OrderLake_US",
+        "type": "service"
+      },
+      {
+        "id": "OrderLake_AP",
+        "type": "service"
+      },
+      {
+        "id": "ASG",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Cart",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Catalog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Order",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Payment",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Recommendation",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cart",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Order",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Payment",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Recommendation",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cart",
+        "target": "UserDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "UserDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserCache",
+        "target": "UserDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Catalog",
+        "target": "ProdDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProdSearch",
+        "target": "ProdDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Order",
+        "target": "OrderDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Order",
+        "target": "OrderLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "AnalyticsLake",
+        "target": "OrderLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "AnalyticsLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "OrderLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_US",
+        "target": "K8s_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka_US",
+        "target": "Kafka_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "OrderLake_US",
+        "target": "OrderLake_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ASG",
+        "target": "K8s",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Add API Gateway to secure and manage external traffic."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 5,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 9,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC, Audit Logging, SIEM and API Gateway. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Data Mesh",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Data Lakehouse Pattern",
+      "GraphRAG Integration",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 71,
+    "source_edges": 45,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

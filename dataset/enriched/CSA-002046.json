@@ -1,0 +1,611 @@
+{
+  "id": "CSA-002046",
+  "instruction": "Design a Multi-Agent Systems architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: GraphRAG Integration, Blue/Green Deployment, Observability Stack, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "EDGE",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "FED",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "MONO",
+        "type": "service"
+      },
+      {
+        "id": "USER_SRV",
+        "type": "service"
+      },
+      {
+        "id": "ORDER_SRV",
+        "type": "service"
+      },
+      {
+        "id": "INV_SRV",
+        "type": "service"
+      },
+      {
+        "id": "AGENT_CORE",
+        "type": "service"
+      },
+      {
+        "id": "RAG_SRV",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF_SRV",
+        "type": "service"
+      },
+      {
+        "id": "LAKE",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "MONGO",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "EMB",
+        "type": "service"
+      },
+      {
+        "id": "VSEARCH",
+        "type": "service"
+      },
+      {
+        "id": "AGENT_ORCH",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "BG",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "MONO",
+        "target": "USER_SRV",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "ORDER_SRV",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "INV_SRV",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "AGENT_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "RAG_SRV",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "NOTIF_SRV",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "MONGO",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "AGENT_ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "MONO",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_CORE",
+        "target": "EMB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_CORE",
+        "target": "VSEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_CORE",
+        "target": "RAG_SRV",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG_SRV",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG_SRV",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMB",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "VSEARCH",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MONO",
+        "label": "Async"
+      },
+      {
+        "source": "EVENT",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "WEB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MOBILE",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ADMIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "FED",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "BG",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG",
+        "target": "MONO",
+        "label": "HTTP"
+      },
+      {
+        "source": "BG",
+        "target": "LB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 38
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Multi-Agent Systems",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "GraphRAG Integration",
+      "Blue/Green Deployment",
+      "Observability Stack",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 60,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

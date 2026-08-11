@@ -1,0 +1,407 @@
+{
+  "id": "CSA-002169",
+  "instruction": "Design a Logistics architecture. using a Data Mesh style. deployed on On-Premises. satisfying: GraphRAG Integration, Feature Flags, AI/ML Inference Integration, Disaster Recovery, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "SALES_DB",
+        "type": "database"
+      },
+      {
+        "id": "SALES_ES",
+        "type": "database"
+      },
+      {
+        "id": "TRANSPORT_DB",
+        "type": "database"
+      },
+      {
+        "id": "GEO",
+        "type": "database"
+      },
+      {
+        "id": "INVENTORY_DB",
+        "type": "database"
+      },
+      {
+        "id": "INV_REDIS",
+        "type": "database"
+      },
+      {
+        "id": "LAKEHOUSE",
+        "type": "database"
+      },
+      {
+        "id": "DWH",
+        "type": "database"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "VSEARCH",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "INFER",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "ui"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN_SALES",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN_TRANSPORT",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN_INVENTORY",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN_ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "GRAPHQL",
+        "type": "service"
+      },
+      {
+        "id": "ALL_SERVICES",
+        "type": "service"
+      },
+      {
+        "id": "hidden",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "DOMAIN_SALES",
+        "label": "Async"
+      },
+      {
+        "source": "EVENT",
+        "target": "DOMAIN_TRANSPORT",
+        "label": "Async"
+      },
+      {
+        "source": "EVENT",
+        "target": "DOMAIN_INVENTORY",
+        "label": "Async"
+      },
+      {
+        "source": "EVENT",
+        "target": "DOMAIN_ANALYTICS",
+        "label": "Async"
+      },
+      {
+        "source": "GW",
+        "target": "GRAPHQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPHQL",
+        "target": "DOMAIN_SALES",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPHQL",
+        "target": "DOMAIN_TRANSPORT",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPHQL",
+        "target": "DOMAIN_INVENTORY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPHQL",
+        "target": "DOMAIN_ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPHQL",
+        "target": "RAG",
+        "label": "DB Query"
+      },
+      {
+        "source": "RAG",
+        "target": "EMBED",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "VSEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VSEARCH",
+        "target": "GEO",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "INFER",
+        "label": "HTTP"
+      },
+      {
+        "source": "INFER",
+        "target": "DOMAIN_ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "ALL_SERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "LB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Logistics",
+    "style": "Data Mesh",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "GraphRAG Integration",
+      "Feature Flags",
+      "AI/ML Inference Integration",
+      "Disaster Recovery",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 64,
+    "source_edges": 41,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

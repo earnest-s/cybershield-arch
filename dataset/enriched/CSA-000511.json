@@ -1,0 +1,518 @@
+{
+  "id": "CSA-000511",
+  "instruction": "Design a Fraud Detection architecture. using a Hexagonal style. deployed on AWS. satisfying: Disaster Recovery, Rate Limiting, Strict Network Segmentation, Data Lakehouse Pattern, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "k8sPrimary",
+        "type": "container"
+      },
+      {
+        "id": "k8sDR",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "git",
+        "type": "service"
+      },
+      {
+        "id": "core",
+        "type": "service"
+      },
+      {
+        "id": "inbound",
+        "type": "service"
+      },
+      {
+        "id": "outbound",
+        "type": "service"
+      },
+      {
+        "id": "ports",
+        "type": "service"
+      },
+      {
+        "id": "adaptersIn1",
+        "type": "service"
+      },
+      {
+        "id": "adaptersOut1",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "oltp",
+        "type": "database"
+      },
+      {
+        "id": "lake",
+        "type": "service"
+      },
+      {
+        "id": "warehouse",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "embed",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sPrimary",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "core",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8sDR",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "core",
+        "target": "ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "ports",
+        "target": "inbound",
+        "label": "HTTP"
+      },
+      {
+        "source": "inbound",
+        "target": "adaptersIn1",
+        "label": "HTTP"
+      },
+      {
+        "source": "ports",
+        "target": "outbound",
+        "label": "HTTP"
+      },
+      {
+        "source": "outbound",
+        "target": "adaptersOut1",
+        "label": "HTTP"
+      },
+      {
+        "source": "adaptersIn1",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "adaptersOut1",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "adaptersOut1",
+        "target": "oltp",
+        "label": "HTTP"
+      },
+      {
+        "source": "adaptersOut1",
+        "target": "lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "adaptersOut1",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "adaptersOut1",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "adaptersOut1",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "eventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBridge",
+        "target": "core",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "core",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "core",
+        "target": "audit",
+        "label": "Async"
+      },
+      {
+        "source": "audit",
+        "target": "lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8sPrimary",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "k8sDR",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "aiGateway",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 4,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Fraud Detection",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Disaster Recovery",
+      "Rate Limiting",
+      "Strict Network Segmentation",
+      "Data Lakehouse Pattern",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 54,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

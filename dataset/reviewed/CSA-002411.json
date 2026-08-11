@@ -1,0 +1,575 @@
+{
+  "id": "CSA-002411",
+  "instruction": "Design a Warehouse architecture. using a Data Mesh style. deployed on On-Premises. satisfying: Blue/Green Deployment, Observability Stack, GraphRAG Integration, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "BLUE_GREEN",
+        "type": "service"
+      },
+      {
+        "id": "AUTO",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "INV_DB",
+        "type": "database"
+      },
+      {
+        "id": "INV_REDIS",
+        "type": "database"
+      },
+      {
+        "id": "INV_ES",
+        "type": "database"
+      },
+      {
+        "id": "ORD_DB",
+        "type": "database"
+      },
+      {
+        "id": "ORD_REDIS",
+        "type": "database"
+      },
+      {
+        "id": "ORD_ES",
+        "type": "database"
+      },
+      {
+        "id": "SHIP_DB",
+        "type": "database"
+      },
+      {
+        "id": "SHIP_REDIS",
+        "type": "database"
+      },
+      {
+        "id": "SHIP_ES",
+        "type": "database"
+      },
+      {
+        "id": "LAKE",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "GRAPH_RAG",
+        "type": "database"
+      },
+      {
+        "id": "EMB",
+        "type": "service"
+      },
+      {
+        "id": "VECT_SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AGENT_ORCH",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "AUTO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "BLUE_GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "INV_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ORD_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "SHIP_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "INV_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "ORD_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "SHIP_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV_DB",
+        "target": "INV_REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV_DB",
+        "target": "INV_ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORD_DB",
+        "target": "ORD_REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORD_DB",
+        "target": "ORD_ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIP_DB",
+        "target": "SHIP_REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIP_DB",
+        "target": "SHIP_ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "INV_ES",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "ORD_ES",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SHIP_ES",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_DB",
+        "target": "GRAPH_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAPH_RAG",
+        "target": "EMB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMB",
+        "target": "VECT_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECT_SEARCH",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AGENT_ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "LAKE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 11,
+      "services": 31
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Data Mesh",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Observability Stack",
+      "GraphRAG Integration",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 65,
+    "source_edges": 56,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

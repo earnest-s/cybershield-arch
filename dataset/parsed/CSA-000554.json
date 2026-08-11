@@ -1,0 +1,428 @@
+{
+  "id": "CSA-000554",
+  "instruction": "Design a Automotive architecture. using a Data Mesh style. deployed on Azure. satisfying: GraphRAG Integration, Compliance/Audit Logging, Zero Trust Architecture, Data Lakehouse Pattern, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "APIgw",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "PolicyEngine",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "Internet",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Argo",
+        "type": "service"
+      },
+      {
+        "id": "Monitoring",
+        "type": "service"
+      },
+      {
+        "id": "SalesIngest",
+        "type": "queue"
+      },
+      {
+        "id": "SalesStore",
+        "type": "service"
+      },
+      {
+        "id": "SalesAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "ManuIngest",
+        "type": "ui"
+      },
+      {
+        "id": "ManuLake",
+        "type": "service"
+      },
+      {
+        "id": "ManuAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "TelemetryIngest",
+        "type": "queue"
+      },
+      {
+        "id": "TelemetryLake",
+        "type": "service"
+      },
+      {
+        "id": "TelemetryAI",
+        "type": "service"
+      },
+      {
+        "id": "SupportIngest",
+        "type": "service"
+      },
+      {
+        "id": "SupportLake",
+        "type": "service"
+      },
+      {
+        "id": "SupportAI",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "ADLS",
+        "type": "database"
+      },
+      {
+        "id": "DeltaLake",
+        "type": "service"
+      },
+      {
+        "id": "Synapse",
+        "type": "service"
+      },
+      {
+        "id": "GraphDB",
+        "type": "database"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Messaging",
+        "type": "service"
+      },
+      {
+        "id": "OEM",
+        "type": "service"
+      },
+      {
+        "id": "GovReg",
+        "type": "service"
+      },
+      {
+        "id": "Vehicle",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "Internet",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "PolicyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "GitHub",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "Argo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "Monitoring",
+        "label": "HTTP"
+      },
+      {
+        "source": "SalesIngest",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryIngest",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ManuIngest",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupportIngest",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "SalesStore",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ManuLake",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryLake",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupportLake",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADLS",
+        "target": "DeltaLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeltaLake",
+        "target": "Synapse",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryAI",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupportAI",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "GraphDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PolicyEngine",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Messaging",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "OEM",
+        "target": "PartnerAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "GovReg",
+        "target": "PartnerAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitoring",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monitoring",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vehicle",
+        "target": "TelemetryIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryIngest",
+        "target": "TelemetryAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "TelemetryAI",
+        "target": "SupportAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "WebUI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Automotive",
+    "style": "Data Mesh",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "GraphRAG Integration",
+      "Compliance/Audit Logging",
+      "Zero Trust Architecture",
+      "Data Lakehouse Pattern",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 73,
+    "source_edges": 50,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

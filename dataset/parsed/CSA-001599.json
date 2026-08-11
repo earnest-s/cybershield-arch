@@ -1,0 +1,396 @@
+{
+  "id": "CSA-001599",
+  "instruction": "Design a Government architecture. using a Modular Monolith style. deployed on AWS. satisfying: Data Lakehouse Pattern, Disaster Recovery, Observability Stack, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Firewall",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "container"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "BusinessLogic",
+        "type": "service"
+      },
+      {
+        "id": "Reporting",
+        "type": "service"
+      },
+      {
+        "id": "Integration",
+        "type": "service"
+      },
+      {
+        "id": "RawLake",
+        "type": "service"
+      },
+      {
+        "id": "ProcessedLake",
+        "type": "service"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "OLTP",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Tempo",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "ECS_Fargate",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "S3Buckets",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "CloudTrail",
+        "type": "service"
+      },
+      {
+        "id": "Config",
+        "type": "service"
+      },
+      {
+        "id": "GuardDuty",
+        "type": "service"
+      },
+      {
+        "id": "SNS_Alert",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "DR_S3",
+        "type": "service"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      },
+      {
+        "id": "PagerDuty",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "Firewall",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "BusinessLogic",
+        "label": "HTTP"
+      },
+      {
+        "source": "BusinessLogic",
+        "target": "Reporting",
+        "label": "HTTP"
+      },
+      {
+        "source": "Reporting",
+        "target": "Integration",
+        "label": "HTTP"
+      },
+      {
+        "source": "RawLake",
+        "target": "ProcessedLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProcessedLake",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "BusinessLogic",
+        "target": "OLTP",
+        "label": "HTTP"
+      },
+      {
+        "source": "Reporting",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "BusinessLogic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Tempo",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ECS_Fargate",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "S3Buckets",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ECS_Fargate",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudTrail",
+        "target": "S3Buckets",
+        "label": "HTTP"
+      },
+      {
+        "source": "Config",
+        "target": "S3Buckets",
+        "label": "HTTP"
+      },
+      {
+        "source": "GuardDuty",
+        "target": "SNS_Alert",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "DR_S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_S3",
+        "target": "ECS_Fargate",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS_Alert",
+        "target": "PagerDuty",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Disaster Recovery",
+      "Observability Stack",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 57,
+    "source_edges": 52,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

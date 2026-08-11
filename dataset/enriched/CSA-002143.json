@@ -1,0 +1,376 @@
+{
+  "id": "CSA-002143",
+  "instruction": "Design a SCM architecture. using a CQRS style. deployed on AWS. satisfying: Rate Limiting, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "CmdService",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "QueryService",
+        "type": "service"
+      },
+      {
+        "id": "ReadModel",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "CW",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Cluster",
+        "type": "container"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "database"
+      },
+      {
+        "id": "LambdaUpdate",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "FeatureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "WebUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "MobileApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "LambdaUpdate",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaUpdate",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "Cache",
+        "label": "Cache"
+      },
+      {
+        "source": "Cache",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cluster",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cluster",
+        "target": "QueryService",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 16
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 38,
+    "source_edges": 32,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

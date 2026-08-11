@@ -1,0 +1,667 @@
+{
+  "id": "CSA-002487",
+  "instruction": "Design a ERP architecture. using a Zero-Trust style. deployed on Hybrid Cloud. satisfying: Active-Active Multi-Region, Rate Limiting, Feature Flags, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "elb",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pki",
+        "type": "service"
+      },
+      {
+        "id": "svc_mesh_onprem",
+        "type": "service"
+      },
+      {
+        "id": "fe_erp",
+        "type": "ui"
+      },
+      {
+        "id": "ms_core",
+        "type": "service"
+      },
+      {
+        "id": "ms_fin",
+        "type": "service"
+      },
+      {
+        "id": "ms_hr",
+        "type": "service"
+      },
+      {
+        "id": "ms_inv",
+        "type": "service"
+      },
+      {
+        "id": "ff_service",
+        "type": "service"
+      },
+      {
+        "id": "kafka_onprem",
+        "type": "queue"
+      },
+      {
+        "id": "pg_onprem",
+        "type": "database"
+      },
+      {
+        "id": "mongo_onprem",
+        "type": "database"
+      },
+      {
+        "id": "redis_onprem",
+        "type": "cache"
+      },
+      {
+        "id": "es_onprem",
+        "type": "service"
+      },
+      {
+        "id": "svc_mesh_aws",
+        "type": "service"
+      },
+      {
+        "id": "fe_erp_aws",
+        "type": "ui"
+      },
+      {
+        "id": "ms_core_aws",
+        "type": "service"
+      },
+      {
+        "id": "ms_fin_aws",
+        "type": "service"
+      },
+      {
+        "id": "ms_hr_aws",
+        "type": "service"
+      },
+      {
+        "id": "ms_inv_aws",
+        "type": "service"
+      },
+      {
+        "id": "ff_service_aws",
+        "type": "service"
+      },
+      {
+        "id": "kafka_aws",
+        "type": "queue"
+      },
+      {
+        "id": "pg_aws",
+        "type": "database"
+      },
+      {
+        "id": "mongo_aws",
+        "type": "database"
+      },
+      {
+        "id": "redis_aws",
+        "type": "cache"
+      },
+      {
+        "id": "es_aws",
+        "type": "service"
+      },
+      {
+        "id": "s3_bucket",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "gitops",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "K8S_ONPREM",
+        "type": "service"
+      },
+      {
+        "id": "K8S_AWS",
+        "type": "service"
+      },
+      {
+        "id": "dr_pg",
+        "type": "database"
+      },
+      {
+        "id": "dr_kafka",
+        "type": "queue"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "elb",
+        "label": "HTTP"
+      },
+      {
+        "source": "elb",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "svc_mesh_onprem",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "svc_mesh_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_onprem",
+        "target": "fe_erp",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_onprem",
+        "target": "ms_core",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_onprem",
+        "target": "ms_fin",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_onprem",
+        "target": "ms_hr",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_onprem",
+        "target": "ms_inv",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_onprem",
+        "target": "ff_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_onprem",
+        "target": "kafka_onprem",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_aws",
+        "target": "fe_erp_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_aws",
+        "target": "ms_core_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_aws",
+        "target": "ms_fin_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_aws",
+        "target": "ms_hr_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_aws",
+        "target": "ms_inv_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_aws",
+        "target": "ff_service_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_mesh_aws",
+        "target": "kafka_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "fe_erp",
+        "target": "ms_core",
+        "label": "HTTP"
+      },
+      {
+        "source": "fe_erp_aws",
+        "target": "ms_core_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_core",
+        "target": "pg_onprem",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_fin",
+        "target": "pg_onprem",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_hr",
+        "target": "pg_onprem",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_inv",
+        "target": "pg_onprem",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_core_aws",
+        "target": "pg_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_fin_aws",
+        "target": "pg_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_hr_aws",
+        "target": "pg_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_inv_aws",
+        "target": "pg_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_core",
+        "target": "mongo_onprem",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_core_aws",
+        "target": "mongo_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_core",
+        "target": "redis_onprem",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_core_aws",
+        "target": "redis_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_core",
+        "target": "es_onprem",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_core_aws",
+        "target": "es_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka_onprem",
+        "target": "kafka_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_onprem",
+        "target": "pg_aws",
+        "label": "Async"
+      },
+      {
+        "source": "mongo_onprem",
+        "target": "mongo_aws",
+        "label": "Async"
+      },
+      {
+        "source": "redis_onprem",
+        "target": "redis_aws",
+        "label": "Async"
+      },
+      {
+        "source": "es_onprem",
+        "target": "es_aws",
+        "label": "Async"
+      },
+      {
+        "source": "ff_service",
+        "target": "ff_service_aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff_service_aws",
+        "target": "ff_service",
+        "label": "HTTP"
+      },
+      {
+        "source": "fe_erp",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_core",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_fin",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_hr",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ms_inv",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka_onprem",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "gitops",
+        "label": "HTTP"
+      },
+      {
+        "source": "gitops",
+        "target": "K8S_ONPREM",
+        "label": "HTTP"
+      },
+      {
+        "source": "gitops",
+        "target": "K8S_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_onprem",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_aws",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_onprem",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_aws",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "pg_aws",
+        "target": "dr_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka_aws",
+        "target": "dr_kafka",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 7,
+      "services": 35
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "ERP",
+    "style": "Zero-Trust",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Rate Limiting",
+      "Feature Flags",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 69,
+    "source_edges": 73,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

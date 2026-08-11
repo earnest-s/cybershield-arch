@@ -1,0 +1,358 @@
+{
+  "id": "CSA-001078",
+  "instruction": "Design a Gaming architecture. using a Modular Monolith style. deployed on GCP. satisfying: GraphRAG Integration, Observability Stack, Rate Limiting, AI/ML Inference Integration, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MOD",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "AI",
+        "type": "service"
+      },
+      {
+        "id": "GRAG",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Payment",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAG",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "GRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Payment",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "MOD",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD",
+        "target": "Redis",
+        "label": "Cache"
+      },
+      {
+        "source": "MOD",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "MOD",
+        "target": "FF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD",
+        "target": "AI",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD",
+        "target": "GRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD",
+        "target": "OBS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "Vault",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Gaming",
+    "style": "Modular Monolith",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Observability Stack",
+      "Rate Limiting",
+      "AI/ML Inference Integration",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

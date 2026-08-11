@@ -1,0 +1,337 @@
+{
+  "id": "CSA-000696",
+  "instruction": "Design a RAG architecture. using a Event-Driven style. deployed on GCP. satisfying: GraphRAG Integration, Compliance/Audit Logging, Strict Network Segmentation, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "B_GW",
+        "type": "service"
+      },
+      {
+        "id": "B_Event",
+        "type": "service"
+      },
+      {
+        "id": "B_RAG",
+        "type": "service"
+      },
+      {
+        "id": "B_Vector",
+        "type": "database"
+      },
+      {
+        "id": "B_Orch",
+        "type": "service"
+      },
+      {
+        "id": "G_GW",
+        "type": "service"
+      },
+      {
+        "id": "G_Event",
+        "type": "service"
+      },
+      {
+        "id": "G_RAG",
+        "type": "service"
+      },
+      {
+        "id": "G_Vector",
+        "type": "database"
+      },
+      {
+        "id": "G_Orch",
+        "type": "service"
+      },
+      {
+        "id": "PUB",
+        "type": "service"
+      },
+      {
+        "id": "SUB_B",
+        "type": "service"
+      },
+      {
+        "id": "SUB_G",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "LOGS",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Telemetry",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "AUDIT",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "B_GW",
+        "target": "B_Event",
+        "label": "HTTP"
+      },
+      {
+        "source": "B_GW",
+        "target": "B_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "B_RAG",
+        "target": "B_Vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "B_Event",
+        "target": "B_Orch",
+        "label": "HTTP"
+      },
+      {
+        "source": "G_GW",
+        "target": "G_Event",
+        "label": "HTTP"
+      },
+      {
+        "source": "G_GW",
+        "target": "G_RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "G_RAG",
+        "target": "G_Vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "G_Event",
+        "target": "G_Orch",
+        "label": "HTTP"
+      },
+      {
+        "source": "SUB_B",
+        "target": "B_Event",
+        "label": "HTTP"
+      },
+      {
+        "source": "SUB_G",
+        "target": "G_Event",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "PUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PUB",
+        "target": "SUB_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "PUB",
+        "target": "SUB_G",
+        "label": "HTTP"
+      },
+      {
+        "source": "B_Vector",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "G_Vector",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "B_Event",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "G_Event",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "B_Orch",
+        "target": "LOGS",
+        "label": "HTTP"
+      },
+      {
+        "source": "G_Orch",
+        "target": "LOGS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOGS",
+        "target": "AUDIT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "RAG",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "GraphRAG Integration",
+      "Compliance/Audit Logging",
+      "Strict Network Segmentation",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 52,
+    "source_edges": 44,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

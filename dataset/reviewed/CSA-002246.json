@@ -1,0 +1,555 @@
+{
+  "id": "CSA-002246",
+  "instruction": "Design a IoT architecture. using a Microservices style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, Active-Active Multi-Region, Feature Flags, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiCons",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "ff",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "graf",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "database"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "deviceSvc",
+        "type": "service"
+      },
+      {
+        "id": "ingestSvc",
+        "type": "service"
+      },
+      {
+        "id": "telemetrySvc",
+        "type": "service"
+      },
+      {
+        "id": "analyticsSvc",
+        "type": "service"
+      },
+      {
+        "id": "alertSvc",
+        "type": "service"
+      },
+      {
+        "id": "cmdSvc",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "cmdsvc",
+        "type": "service"
+      },
+      {
+        "id": "mqtt",
+        "type": "queue"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "gcp",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiCons",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "deviceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "ingestSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "cmdSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "deviceSvc",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingestSvc",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemetrySvc",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "es",
+        "label": "DB Query"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "alertSvc",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdsvc",
+        "target": "mqtt",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemetrySvc",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "deviceSvc",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingestSvc",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "telemetrySvc",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSvc",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "alertSvc",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "deviceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "ingestSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "telemetrySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "alertSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "cmdSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "deviceSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "ingestSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "telemetrySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "analyticsSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "alertSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "cmdSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "graf",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "elk",
+        "label": "Async"
+      },
+      {
+        "source": "audit",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "aws",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "azure",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "gcp",
+        "target": "k8s",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 32
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "Microservices",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Active-Active Multi-Region",
+      "Feature Flags",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 60,
+    "source_edges": 65,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

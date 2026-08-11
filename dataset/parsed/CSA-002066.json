@@ -1,0 +1,474 @@
+{
+  "id": "CSA-002066",
+  "instruction": "Design a RAG architecture. using a Event-Driven style. deployed on GCP. satisfying: Feature Flags, Rate Limiting, High Throughput (100k+ TPS), AI/ML Inference Integration, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webui",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "cloud_cdn",
+        "type": "service"
+      },
+      {
+        "id": "cloud_armor",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "event_bus",
+        "type": "service"
+      },
+      {
+        "id": "event_proc",
+        "type": "queue"
+      },
+      {
+        "id": "cmd_api",
+        "type": "service"
+      },
+      {
+        "id": "qry_api",
+        "type": "service"
+      },
+      {
+        "id": "rag_svc",
+        "type": "service"
+      },
+      {
+        "id": "llm_gw",
+        "type": "service"
+      },
+      {
+        "id": "embed_srv",
+        "type": "service"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "ai_infer",
+        "type": "service"
+      },
+      {
+        "id": "cqrs_cmd",
+        "type": "service"
+      },
+      {
+        "id": "cqrs_query",
+        "type": "service"
+      },
+      {
+        "id": "sql_db",
+        "type": "database"
+      },
+      {
+        "id": "bigquery",
+        "type": "service"
+      },
+      {
+        "id": "storage",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "ui"
+      },
+      {
+        "id": "blue_green",
+        "type": "service"
+      },
+      {
+        "id": "feat_flag",
+        "type": "service"
+      },
+      {
+        "id": "rate_lim",
+        "type": "service"
+      },
+      {
+        "id": "vpc",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vertex_ai",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webui",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "cloud_cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cloud_cdn",
+        "target": "edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "rate_lim",
+        "label": "HTTP"
+      },
+      {
+        "source": "rate_lim",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_api",
+        "target": "feat_flag",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_api",
+        "target": "feat_flag",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_api",
+        "target": "event_bus",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_api",
+        "target": "event_bus",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_bus",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "event_proc",
+        "label": "HTTP"
+      },
+      {
+        "source": "event_proc",
+        "target": "rag_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_svc",
+        "target": "embed_srv",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed_srv",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_svc",
+        "target": "llm_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_svc",
+        "target": "ai_infer",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_infer",
+        "target": "vertex_ai",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_svc",
+        "target": "sql_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_svc",
+        "target": "bigquery",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_svc",
+        "target": "storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag_svc",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmd_api",
+        "target": "cqrs_cmd",
+        "label": "HTTP"
+      },
+      {
+        "source": "qry_api",
+        "target": "cqrs_query",
+        "label": "HTTP"
+      },
+      {
+        "source": "cqrs_cmd",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "cqrs_query",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "event_bus",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "blue_green",
+        "label": "HTTP"
+      },
+      {
+        "source": "blue_green",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "vpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "otel",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "RAG",
+    "style": "Event-Driven",
+    "cloud": "GCP",
+    "complexity": "Medium",
+    "constraints": [
+      "Feature Flags",
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)",
+      "AI/ML Inference Integration",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 67,
+    "source_edges": 50,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

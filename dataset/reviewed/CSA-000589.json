@@ -1,0 +1,547 @@
+{
+  "id": "CSA-000589",
+  "instruction": "Design a Smart City architecture. using a CQRS style. deployed on On-Premises. satisfying: AI/ML Inference Integration, Data Lakehouse Pattern, Active-Active Multi-Region, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB_UI",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE_APP",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN_PORTAL",
+        "type": "ui"
+      },
+      {
+        "id": "EXTERNAL_API",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_MESH",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SERVICE",
+        "type": "service"
+      },
+      {
+        "id": "QUERY_SERVICE",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_STORE",
+        "type": "queue"
+      },
+      {
+        "id": "READ_MODEL_DB",
+        "type": "database"
+      },
+      {
+        "id": "WRITE_MODEL_DB",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "RABBIT",
+        "type": "queue"
+      },
+      {
+        "id": "S3_BUCKET",
+        "type": "database"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_SEARCH",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AGENT_ORCH",
+        "type": "service"
+      },
+      {
+        "id": "RAW_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "REFINE_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "METASTORE",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOGGING",
+        "type": "service"
+      },
+      {
+        "id": "K8S_CLUSTER",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "HELM",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB_UI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE_APP",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN_PORTAL",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "EXTERNAL_API",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "CMD_SERVICE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "QUERY_SERVICE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SERVICE",
+        "target": "EVENT_STORE",
+        "label": "Async"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "RABBIT",
+        "label": "Async"
+      },
+      {
+        "source": "RABBIT",
+        "target": "WRITE_MODEL_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "WRITE_MODEL_DB",
+        "target": "READ_MODEL_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SERVICE",
+        "target": "READ_MODEL_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SERVICE",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SERVICE",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_STORE",
+        "target": "S3_BUCKET",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3_BUCKET",
+        "target": "RAW_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAW_LAKE",
+        "target": "REFINE_LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "REFINE_LAKE",
+        "target": "METASTORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "METASTORE",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "EMBEDDING",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDING",
+        "target": "VECTOR_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_SEARCH",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AGENT_ORCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_ORCH",
+        "target": "QUERY_SERVICE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SERVICE",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "QUERY_SERVICE",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR_SEARCH",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT_ORCH",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOGGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOGGING",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "K8S_CLUSTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "HELM",
+        "target": "K8S_CLUSTER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "CMD_SERVICE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "QUERY_SERVICE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "EVENT_STORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "VECTOR_SEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_CLUSTER",
+        "target": "RAG",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "AI/ML Inference Integration",
+      "Data Lakehouse Pattern",
+      "Active-Active Multi-Region",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 61,
+    "source_edges": 54,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0",
+    "reviewed": true
+  }
+}

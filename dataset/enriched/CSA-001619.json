@@ -1,0 +1,542 @@
+{
+  "id": "CSA-001619",
+  "instruction": "Design a Insurance architecture. using a Modular Monolith style. deployed on Azure. satisfying: Rate Limiting, Auto Scaling, GraphRAG Integration, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "AGW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "PARTNERS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "IDM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "ZERO_TRUST",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "ASG",
+        "type": "container"
+      },
+      {
+        "id": "MOD_CORE",
+        "type": "service"
+      },
+      {
+        "id": "MOD_POLICY",
+        "type": "service"
+      },
+      {
+        "id": "MOD_CLAIMS",
+        "type": "service"
+      },
+      {
+        "id": "MOD_UNDERWRITING",
+        "type": "service"
+      },
+      {
+        "id": "MOD_BILLING",
+        "type": "service"
+      },
+      {
+        "id": "MOD_ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "EMB",
+        "type": "service"
+      },
+      {
+        "id": "VEC",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "INF",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "QUEUE",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "COSMOS",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "CONTAINER",
+        "type": "container"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "SERVICE_MESH",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PARTNERS",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IDM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "ZERO_TRUST",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "RL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ASG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_POLICY",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_CLAIMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_UNDERWRITING",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_BILLING",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "MOD_ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMB",
+        "target": "VEC",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "INF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "QUEUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "COSMOS",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "CONTAINER",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONTAINER",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "MOD_CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_CORE",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "MOD_CLAIMS",
+        "target": "INF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_UNDERWRITING",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_ANALYTICS",
+        "target": "VECTOR_DB",
+        "label": "DB Query"
+      },
+      {
+        "source": "MOD_BILLING",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "KAFKA",
+        "target": "MOD_POLICY",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_POLICY",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOD_POLICY",
+        "target": "VEC",
+        "label": "HTTP"
+      },
+      {
+        "source": "INF",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ASG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "SECURITY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 4,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Modular Monolith",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Rate Limiting",
+      "Auto Scaling",
+      "GraphRAG Integration",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 71,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

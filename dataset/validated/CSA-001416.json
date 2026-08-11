@@ -1,0 +1,636 @@
+{
+  "id": "CSA-001416",
+  "instruction": "Design a MLOps architecture. using a Event-Driven style. deployed on Azure. satisfying: Disaster Recovery, Strict Network Segmentation, AI/ML Inference Integration, High Throughput (100k+ TPS), Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "MLInference",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "ModelTrainer",
+        "type": "service"
+      },
+      {
+        "id": "DataIngest",
+        "type": "service"
+      },
+      {
+        "id": "ModelRegistry",
+        "type": "service"
+      },
+      {
+        "id": "FeatureStore",
+        "type": "service"
+      },
+      {
+        "id": "BatchScorer",
+        "type": "service"
+      },
+      {
+        "id": "RealTimeScorer",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "DLQ",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Cosmos",
+        "type": "database"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Services",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Jenkins",
+        "type": "service"
+      },
+      {
+        "id": "Argo",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region",
+        "type": "service"
+      },
+      {
+        "id": "DR_AKS",
+        "type": "container"
+      },
+      {
+        "id": "DR_Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "DR_Storage",
+        "type": "database"
+      },
+      {
+        "id": "ClientTraffic",
+        "type": "ui"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "MLInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Observability",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelTrainer",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "DataIngest",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelRegistry",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureStore",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "BatchScorer",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "RealTimeScorer",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "DLQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "ModelRegistry",
+        "label": "HTTP"
+      },
+      {
+        "source": "Blob",
+        "target": "DataIngest",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "RealTimeScorer",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "MLInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cosmos",
+        "target": "FeatureStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MLInference",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Services",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "Jenkins",
+        "label": "HTTP"
+      },
+      {
+        "source": "Jenkins",
+        "target": "Argo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region",
+        "target": "DR_AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_AKS",
+        "target": "DR_Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_AKS",
+        "target": "DR_Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "Services",
+        "label": "HTTP"
+      },
+      {
+        "source": "Services",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "MLInference",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RealTimeScorer",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "BatchScorer",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelTrainer",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ModelRegistry",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClientTraffic",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIGW",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 6,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "MLOps",
+    "style": "Event-Driven",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Disaster Recovery",
+      "Strict Network Segmentation",
+      "AI/ML Inference Integration",
+      "High Throughput (100k+ TPS)",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 70,
+    "source_edges": 73,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,679 @@
+{
+  "id": "CSA-000603",
+  "instruction": "Design a Banking architecture. using a Zero-Trust style. deployed on Multi-Cloud. satisfying: High Throughput (100k+ TPS), Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "partnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "awsLB",
+        "type": "service"
+      },
+      {
+        "id": "svcMesh",
+        "type": "service"
+      },
+      {
+        "id": "azureLB",
+        "type": "service"
+      },
+      {
+        "id": "svcMeshAz",
+        "type": "service"
+      },
+      {
+        "id": "microsvcGroup1",
+        "type": "container"
+      },
+      {
+        "id": "microsvcGroup2",
+        "type": "container"
+      },
+      {
+        "id": "authSrv",
+        "type": "service"
+      },
+      {
+        "id": "accountSrv",
+        "type": "service"
+      },
+      {
+        "id": "txnSrv",
+        "type": "service"
+      },
+      {
+        "id": "riskSrv",
+        "type": "service"
+      },
+      {
+        "id": "analyticsSrv",
+        "type": "service"
+      },
+      {
+        "id": "notificationSrv",
+        "type": "service"
+      },
+      {
+        "id": "kafkaCluster",
+        "type": "queue"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "lakeHouse",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "vectorStore",
+        "type": "database"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "terraform",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "clientLayer",
+        "type": "ui"
+      },
+      {
+        "id": "PERIMETER",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD",
+        "type": "service"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "partnerAPI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "awsLB",
+        "target": "svcMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "azureLB",
+        "target": "svcMeshAz",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcMesh",
+        "target": "microsvcGroup1",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcMeshAz",
+        "target": "microsvcGroup2",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup1",
+        "target": "authSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup1",
+        "target": "accountSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup1",
+        "target": "txnSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup1",
+        "target": "riskSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup2",
+        "target": "analyticsSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup2",
+        "target": "notificationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaCluster",
+        "target": "txnSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaCluster",
+        "target": "riskSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaCluster",
+        "target": "analyticsSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaCluster",
+        "target": "notificationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "accountSrv",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "txnSrv",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "analyticsSrv",
+        "target": "lakeHouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "riskSrv",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "notificationSrv",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "txnSrv",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "riskSrv",
+        "target": "embeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "embeddingModel",
+        "target": "vectorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "notificationSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup1",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "microsvcGroup2",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafkaCluster",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "terraform",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "microsvcGroup1",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "microsvcGroup2",
+        "label": "HTTP"
+      },
+      {
+        "source": "clientLayer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "PERIMETER",
+        "target": "CLOUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLOUD",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATA",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ML",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "DEVOPS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 4,
+      "services": 47
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Zero-Trust",
+    "cloud": "Multi-Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 85,
+    "source_edges": 74,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

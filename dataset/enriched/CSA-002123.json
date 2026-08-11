@@ -1,0 +1,683 @@
+{
+  "id": "CSA-002123",
+  "instruction": "Design a HR architecture. using a Data Mesh style. deployed on AWS. satisfying: Observability Stack, Rate Limiting, Auto Scaling, Active-Active Multi-Region, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "zero",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "audit",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "terraform",
+        "type": "service"
+      },
+      {
+        "id": "monitoring",
+        "type": "service"
+      },
+      {
+        "id": "eks_us",
+        "type": "container"
+      },
+      {
+        "id": "istio_us",
+        "type": "service"
+      },
+      {
+        "id": "autoscale_us",
+        "type": "container"
+      },
+      {
+        "id": "eks_ap",
+        "type": "container"
+      },
+      {
+        "id": "istio_ap",
+        "type": "service"
+      },
+      {
+        "id": "autoscale_ap",
+        "type": "container"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "rest",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "eventbus",
+        "type": "service"
+      },
+      {
+        "id": "hr_pg",
+        "type": "database"
+      },
+      {
+        "id": "hr_es",
+        "type": "service"
+      },
+      {
+        "id": "payroll_ddb",
+        "type": "database"
+      },
+      {
+        "id": "payroll_pg",
+        "type": "database"
+      },
+      {
+        "id": "recruit_mongo",
+        "type": "ui"
+      },
+      {
+        "id": "recruit_vec",
+        "type": "ui"
+      },
+      {
+        "id": "training_s3",
+        "type": "service"
+      },
+      {
+        "id": "training_redis",
+        "type": "cache"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "ui"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "ai_gateway",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "aws_infra",
+        "type": "service"
+      },
+      {
+        "id": "s3_audit",
+        "type": "service"
+      },
+      {
+        "id": "rate_limit",
+        "type": "service"
+      },
+      {
+        "id": "hr_pg_replica",
+        "type": "service"
+      },
+      {
+        "id": "payroll_ddb_replica",
+        "type": "database"
+      },
+      {
+        "id": "recruit_mongo_replica",
+        "type": "ui"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "zero",
+        "label": "HTTP"
+      },
+      {
+        "source": "zero",
+        "target": "istio_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "zero",
+        "target": "istio_ap",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "eks_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "eks_ap",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_us",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_us",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_us",
+        "target": "rest",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_ap",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_ap",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_ap",
+        "target": "rest",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "hr_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "payroll_ddb",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "recruit_mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "training_s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "hr_es",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "payroll_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "recruit_vec",
+        "label": "HTTP"
+      },
+      {
+        "source": "rest",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "rest",
+        "target": "eventbus",
+        "label": "Async"
+      },
+      {
+        "source": "kafka",
+        "target": "hr_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "payroll_ddb",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "recruit_mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "training_redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventbus",
+        "target": "hr_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventbus",
+        "target": "payroll_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventbus",
+        "target": "recruit_mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventbus",
+        "target": "training_s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "hr_pg",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "payroll_ddb",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "recruit_vec",
+        "target": "ai_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio_us",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio_ap",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "eks_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "eks_ap",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "eks_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "eks_ap",
+        "label": "HTTP"
+      },
+      {
+        "source": "terraform",
+        "target": "aws_infra",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "eks_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "eks_ap",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "audit",
+        "target": "s3_audit",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "rate_limit",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_us",
+        "target": "autoscale_us",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks_ap",
+        "target": "autoscale_ap",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "hr_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "recruit_mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "hr_pg",
+        "target": "hr_pg_replica",
+        "label": "HTTP"
+      },
+      {
+        "source": "payroll_ddb",
+        "target": "payroll_ddb_replica",
+        "label": "HTTP"
+      },
+      {
+        "source": "recruit_mongo",
+        "target": "recruit_mongo_replica",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "SIEM",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Encrypt sensitive data at rest and in transit.",
+      "Add Authentication service to protect user access.",
+      "Enable centralized audit logging.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 8,
+      "databases": 5,
+      "services": 39
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Encryption Service, Authentication, Audit Logging, API Gateway, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Data Mesh",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Observability Stack",
+      "Rate Limiting",
+      "Auto Scaling",
+      "Active-Active Multi-Region",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 75,
+    "source_edges": 79,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

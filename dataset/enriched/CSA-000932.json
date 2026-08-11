@@ -1,0 +1,494 @@
+{
+  "id": "CSA-000932",
+  "instruction": "Design a HR architecture. using a Event-Driven style. deployed on AWS. satisfying: Strict Network Segmentation, GraphRAG Integration, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "ALB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "SG",
+        "type": "service"
+      },
+      {
+        "id": "EKS",
+        "type": "container"
+      },
+      {
+        "id": "Fargate",
+        "type": "service"
+      },
+      {
+        "id": "Lambda",
+        "type": "service"
+      },
+      {
+        "id": "MSK",
+        "type": "queue"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "OpenSearch",
+        "type": "database"
+      },
+      {
+        "id": "EmployeeSrv",
+        "type": "service"
+      },
+      {
+        "id": "PayrollSrv",
+        "type": "service"
+      },
+      {
+        "id": "RecruitSrv",
+        "type": "ui"
+      },
+      {
+        "id": "GraphRAG",
+        "type": "service"
+      },
+      {
+        "id": "LLMGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "AutoScale",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "EmployeeSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "PayrollSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RecruitSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "EmployeeSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "PayrollSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RecruitSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmployeeSrv",
+        "target": "MSK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollSrv",
+        "target": "MSK",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitSrv",
+        "target": "MSK",
+        "label": "HTTP"
+      },
+      {
+        "source": "MSK",
+        "target": "EmployeeSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "MSK",
+        "target": "PayrollSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "MSK",
+        "target": "RecruitSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmployeeSrv",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollSrv",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "RecruitSrv",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAG",
+        "target": "OpenSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMGateway",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmployeeSrv",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "PayrollSrv",
+        "target": "LLMGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "OpenSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpenSearch",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "EmployeeSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "PayrollSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "RecruitSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Fargate",
+        "target": "EmployeeSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lambda",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "EKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "AutoScale",
+        "label": "HTTP"
+      },
+      {
+        "source": "Fargate",
+        "target": "AutoScale",
+        "label": "Async"
+      },
+      {
+        "source": "Lambda",
+        "target": "AutoScale",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "Observability",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 3,
+      "services": 27
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Event-Driven",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Strict Network Segmentation",
+      "GraphRAG Integration",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 49,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

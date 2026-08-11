@@ -1,0 +1,507 @@
+{
+  "id": "CSA-001012",
+  "instruction": "Design a Insurance architecture. using a Hexagonal style. deployed on Azure. satisfying: Zero Trust Architecture, Compliance/Audit Logging, Auto Scaling, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "frontdoor",
+        "type": "service"
+      },
+      {
+        "id": "trafficMgr",
+        "type": "service"
+      },
+      {
+        "id": "appGw_EU",
+        "type": "service"
+      },
+      {
+        "id": "apiMgmt_EU",
+        "type": "service"
+      },
+      {
+        "id": "firewall_EU",
+        "type": "service"
+      },
+      {
+        "id": "bastion_EU",
+        "type": "service"
+      },
+      {
+        "id": "aks_EU",
+        "type": "container"
+      },
+      {
+        "id": "svc_core_EU",
+        "type": "service"
+      },
+      {
+        "id": "sql_EU",
+        "type": "database"
+      },
+      {
+        "id": "cosmos_EU",
+        "type": "database"
+      },
+      {
+        "id": "redis_EU",
+        "type": "cache"
+      },
+      {
+        "id": "blob_EU",
+        "type": "database"
+      },
+      {
+        "id": "sb_EU",
+        "type": "service"
+      },
+      {
+        "id": "eg_EU",
+        "type": "service"
+      },
+      {
+        "id": "keyVault_EU",
+        "type": "service"
+      },
+      {
+        "id": "ad_EU",
+        "type": "service"
+      },
+      {
+        "id": "appGw_WEU",
+        "type": "service"
+      },
+      {
+        "id": "apiMgmt_WEU",
+        "type": "service"
+      },
+      {
+        "id": "firewall_WEU",
+        "type": "service"
+      },
+      {
+        "id": "bastion_WEU",
+        "type": "service"
+      },
+      {
+        "id": "aks_WEU",
+        "type": "container"
+      },
+      {
+        "id": "svc_core_WEU",
+        "type": "service"
+      },
+      {
+        "id": "sql_WEU",
+        "type": "database"
+      },
+      {
+        "id": "cosmos_WEU",
+        "type": "database"
+      },
+      {
+        "id": "redis_WEU",
+        "type": "cache"
+      },
+      {
+        "id": "blob_WEU",
+        "type": "database"
+      },
+      {
+        "id": "sb_WEU",
+        "type": "service"
+      },
+      {
+        "id": "eg_WEU",
+        "type": "service"
+      },
+      {
+        "id": "keyVault_WEU",
+        "type": "service"
+      },
+      {
+        "id": "ad_WEU",
+        "type": "service"
+      },
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "partnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "monitor",
+        "type": "service"
+      },
+      {
+        "id": "logAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "sentinel",
+        "type": "service"
+      },
+      {
+        "id": "autoscale_EU",
+        "type": "service"
+      },
+      {
+        "id": "autoscale_WEU",
+        "type": "service"
+      },
+      {
+        "id": "devops",
+        "type": "service"
+      },
+      {
+        "id": "acr",
+        "type": "container"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "frontdoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "frontdoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "frontdoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "partnerAPI",
+        "target": "frontdoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "frontdoor",
+        "target": "trafficMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "trafficMgr",
+        "target": "appGw_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "trafficMgr",
+        "target": "appGw_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "appGw_EU",
+        "target": "apiMgmt_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "appGw_WEU",
+        "target": "apiMgmt_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiMgmt_EU",
+        "target": "svc_core_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiMgmt_WEU",
+        "target": "svc_core_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_EU",
+        "target": "sb_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_EU",
+        "target": "eg_EU",
+        "label": "Async"
+      },
+      {
+        "source": "svc_core_WEU",
+        "target": "sb_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_WEU",
+        "target": "eg_WEU",
+        "label": "Async"
+      },
+      {
+        "source": "sb_EU",
+        "target": "sb_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "eg_EU",
+        "target": "eg_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_EU",
+        "target": "sql_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_EU",
+        "target": "cosmos_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_EU",
+        "target": "redis_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_EU",
+        "target": "blob_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_WEU",
+        "target": "sql_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_WEU",
+        "target": "cosmos_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_WEU",
+        "target": "redis_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_WEU",
+        "target": "blob_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "sql_EU",
+        "target": "sql_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "cosmos_EU",
+        "target": "cosmos_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "ad_EU",
+        "target": "svc_core_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "ad_WEU",
+        "target": "svc_core_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "keyVault_EU",
+        "target": "svc_core_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "keyVault_WEU",
+        "target": "svc_core_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_EU",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "svc_core_WEU",
+        "target": "monitor",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitor",
+        "target": "logAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "logAnalytics",
+        "target": "sentinel",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks_EU",
+        "target": "autoscale_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "aks_WEU",
+        "target": "autoscale_WEU",
+        "label": "HTTP"
+      },
+      {
+        "source": "devops",
+        "target": "acr",
+        "label": "HTTP"
+      },
+      {
+        "source": "acr",
+        "target": "aks_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "acr",
+        "target": "aks_WEU",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 8,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Insurance",
+    "style": "Hexagonal",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Compliance/Audit Logging",
+      "Auto Scaling",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 62,
+    "source_edges": 47,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

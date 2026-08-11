@@ -1,0 +1,409 @@
+{
+  "id": "CSA-001326",
+  "instruction": "Design a IoT architecture. using a Zero-Trust style. deployed on Multi-Cloud. satisfying: Zero Trust Architecture, Auto Scaling, Active-Active Multi-Region, GraphRAG Integration, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "EdgeDevice",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh_A",
+        "type": "service"
+      },
+      {
+        "id": "Ingress_A",
+        "type": "service"
+      },
+      {
+        "id": "AutoScale_A",
+        "type": "service"
+      },
+      {
+        "id": "DB_A",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB_A",
+        "type": "database"
+      },
+      {
+        "id": "Cache_A",
+        "type": "cache"
+      },
+      {
+        "id": "Kafka_A",
+        "type": "queue"
+      },
+      {
+        "id": "ServiceMesh_Z",
+        "type": "service"
+      },
+      {
+        "id": "Ingress_Z",
+        "type": "service"
+      },
+      {
+        "id": "AutoScale_Z",
+        "type": "service"
+      },
+      {
+        "id": "DB_Z",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB_Z",
+        "type": "database"
+      },
+      {
+        "id": "Cache_Z",
+        "type": "cache"
+      },
+      {
+        "id": "Kafka_Z",
+        "type": "queue"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Tempo",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      },
+      {
+        "id": "Mirror",
+        "type": "service"
+      },
+      {
+        "id": "Payment",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeDevice",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Ingress_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Ingress_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "ServiceMesh_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "ServiceMesh_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh_A",
+        "target": "ServiceMesh_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingress_A",
+        "target": "AutoScale_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ingress_Z",
+        "target": "AutoScale_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "AutoScale_A",
+        "target": "Kafka_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "AutoScale_Z",
+        "target": "Kafka_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka_A",
+        "target": "DB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka_Z",
+        "target": "DB_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka_A",
+        "target": "VectorDB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka_Z",
+        "target": "VectorDB_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka_A",
+        "target": "Cache_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka_Z",
+        "target": "Cache_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_A",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "DB_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB_A",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "VectorDB_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache_A",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "Cache_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka_A",
+        "target": "Mirror",
+        "label": "HTTP"
+      },
+      {
+        "source": "Mirror",
+        "target": "Kafka_Z",
+        "label": "HTTP"
+      },
+      {
+        "source": "AutoScale_A",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AutoScale_Z",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_A",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_Z",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka_A",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka_Z",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh_A",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh_Z",
+        "target": "Tempo",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Payment",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "Ingress_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "AutoScale_A",
+        "target": "VectorDB_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_A",
+        "target": "WebUI",
+        "label": "DB Query"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "Zero-Trust",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Zero Trust Architecture",
+      "Auto Scaling",
+      "Active-Active Multi-Region",
+      "GraphRAG Integration",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 48,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,492 @@
+{
+  "id": "CSA-000641",
+  "instruction": "Design a Manufacturing architecture. using a Serverless style. deployed on Azure. satisfying: Observability Stack, Compliance/Audit Logging, Feature Flags, AI/ML Inference Integration, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "loadBal",
+        "type": "database"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "aks",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "ff",
+        "type": "service"
+      },
+      {
+        "id": "funcA",
+        "type": "service"
+      },
+      {
+        "id": "funcB",
+        "type": "service"
+      },
+      {
+        "id": "funcC",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "aiInfer",
+        "type": "service"
+      },
+      {
+        "id": "eventHub",
+        "type": "service"
+      },
+      {
+        "id": "serviceBus",
+        "type": "service"
+      },
+      {
+        "id": "queue",
+        "type": "database"
+      },
+      {
+        "id": "sqlDB",
+        "type": "database"
+      },
+      {
+        "id": "cosmos",
+        "type": "database"
+      },
+      {
+        "id": "redisCache",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "lake",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "oidc",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "aiInfer",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "eventHub",
+        "label": "Async"
+      },
+      {
+        "source": "funcB",
+        "target": "eventHub",
+        "label": "Async"
+      },
+      {
+        "source": "funcC",
+        "target": "eventHub",
+        "label": "Async"
+      },
+      {
+        "source": "ragEngine",
+        "target": "vectorDB",
+        "label": "DB Query"
+      },
+      {
+        "source": "aiInfer",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventHub",
+        "target": "serviceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "serviceBus",
+        "target": "queue",
+        "label": "Async"
+      },
+      {
+        "source": "queue",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "queue",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "queue",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "sqlDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcC",
+        "target": "redisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcC",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqlDB",
+        "target": "lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "cosmos",
+        "target": "lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "redisCache",
+        "target": "es",
+        "label": "Cache"
+      },
+      {
+        "source": "funcA",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcC",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInfer",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcA",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcB",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcC",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiInfer",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "sqlDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "aks",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "aiInfer",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ff",
+        "target": "funcC",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "aks",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "funcA",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "funcB",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "funcC",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "Observability Stack",
+      "Compliance/Audit Logging",
+      "Feature Flags",
+      "AI/ML Inference Integration",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 53,
+    "source_edges": 69,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

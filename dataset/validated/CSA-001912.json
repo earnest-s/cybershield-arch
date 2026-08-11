@@ -1,0 +1,785 @@
+{
+  "id": "CSA-001912",
+  "instruction": "Design a IoT architecture. using a CQRS style. deployed on Multi-Cloud. satisfying: Feature Flags, High Throughput (100k+ TPS), Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "externalConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edgeNet",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "commandService",
+        "type": "service"
+      },
+      {
+        "id": "zeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "authSrv",
+        "type": "database"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "secretsMgr",
+        "type": "database"
+      },
+      {
+        "id": "pkic",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "idFederation",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "container"
+      },
+      {
+        "id": "cmdWrite",
+        "type": "service"
+      },
+      {
+        "id": "queryRead",
+        "type": "service"
+      },
+      {
+        "id": "eventStore",
+        "type": "service"
+      },
+      {
+        "id": "projectionProcessor",
+        "type": "service"
+      },
+      {
+        "id": "readModel",
+        "type": "database"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "apiGatewayLayer",
+        "type": "service"
+      },
+      {
+        "id": "aiOrch",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vectorDB",
+        "type": "database"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "sns",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "k8sCluster",
+        "type": "container"
+      },
+      {
+        "id": "aksCluster",
+        "type": "container"
+      },
+      {
+        "id": "gkeCluster",
+        "type": "container"
+      },
+      {
+        "id": "multiK8s",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ciCd",
+        "type": "service"
+      },
+      {
+        "id": "aws",
+        "type": "service"
+      },
+      {
+        "id": "azure",
+        "type": "service"
+      },
+      {
+        "id": "gcp",
+        "type": "service"
+      },
+      {
+        "id": "hybrid",
+        "type": "service"
+      },
+      {
+        "id": "drTopology",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalConsumers",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "apiGW",
+        "label": "Cache"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "edgeNet",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "commandService",
+        "label": "HTTP"
+      },
+      {
+        "source": "zeroTrust",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "authSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "authSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "authSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "secretsMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "pkic",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "authSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "idFederation",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventStore",
+        "target": "cmdWrite",
+        "label": "Async"
+      },
+      {
+        "source": "projectionProcessor",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModel",
+        "target": "queryRead",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "cmdWrite",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGatewayLayer",
+        "target": "cmdWrite",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGatewayLayer",
+        "target": "queryRead",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiOrch",
+        "target": "cmdWrite",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "aiOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "postgres",
+        "target": "readModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "mongo",
+        "target": "readModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "dynamo",
+        "target": "readModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "redis",
+        "target": "queryRead",
+        "label": "HTTP"
+      },
+      {
+        "source": "es",
+        "target": "queryRead",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorDB",
+        "target": "aiOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "rabbit",
+        "target": "cmdWrite",
+        "label": "Async"
+      },
+      {
+        "source": "sns",
+        "target": "eventStore",
+        "label": "Async"
+      },
+      {
+        "source": "prom",
+        "target": "cmdWrite",
+        "label": "HTTP"
+      },
+      {
+        "source": "grafana",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "cmdWrite",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "cmdWrite",
+        "label": "HTTP"
+      },
+      {
+        "source": "multiK8s",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "multiK8s",
+        "target": "aksCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "multiK8s",
+        "target": "gkeCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "cmdWrite",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "ciCd",
+        "target": "multiK8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "aws",
+        "target": "k8sCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "azure",
+        "target": "aksCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "gcp",
+        "target": "gkeCluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "hybrid",
+        "target": "aws",
+        "label": "HTTP"
+      },
+      {
+        "source": "drTopology",
+        "target": "hybrid",
+        "label": "HTTP"
+      },
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "externalConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "edgeNet",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "authSrv",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "idFederation",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "compliance",
+        "label": "HTTP"
+      },
+      {
+        "source": "authSrv",
+        "target": "featureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "apiGatewayLayer",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdWrite",
+        "target": "eventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventStore",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventStore",
+        "target": "sns",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventStore",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdWrite",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdWrite",
+        "target": "aiOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryRead",
+        "target": "readModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModel",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModel",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "readModel",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryRead",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "queryRead",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiOrch",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "vectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "projectionProcessor",
+        "target": "readModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "cmdWrite",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 35,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 8,
+      "services": 41
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "IoT",
+    "style": "CQRS",
+    "cloud": "Multi-Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Feature Flags",
+      "High Throughput (100k+ TPS)",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 79,
+    "source_edges": 98,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

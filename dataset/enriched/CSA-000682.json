@@ -1,0 +1,576 @@
+{
+  "id": "CSA-000682",
+  "instruction": "Design a AIOps architecture. using a Serverless style. deployed on AWS. satisfying: Data Lakehouse Pattern, Compliance/Audit Logging, Active-Active Multi-Region, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "apiConsumer",
+        "type": "service"
+      },
+      {
+        "id": "dns",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "cognito",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lambda",
+        "type": "service"
+      },
+      {
+        "id": "stepFunc",
+        "type": "service"
+      },
+      {
+        "id": "eventBridge",
+        "type": "service"
+      },
+      {
+        "id": "sns",
+        "type": "service"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "s3Lake",
+        "type": "service"
+      },
+      {
+        "id": "glue",
+        "type": "service"
+      },
+      {
+        "id": "athena",
+        "type": "service"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "aurora",
+        "type": "database"
+      },
+      {
+        "id": "openSearch",
+        "type": "service"
+      },
+      {
+        "id": "sageEndpoint",
+        "type": "service"
+      },
+      {
+        "id": "embeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "ragEngine",
+        "type": "service"
+      },
+      {
+        "id": "cloudwatch",
+        "type": "service"
+      },
+      {
+        "id": "xray",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "cloudtrail",
+        "type": "service"
+      },
+      {
+        "id": "config",
+        "type": "service"
+      },
+      {
+        "id": "securityHub",
+        "type": "service"
+      },
+      {
+        "id": "guardDuty",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "codepipeline",
+        "type": "service"
+      },
+      {
+        "id": "codebuild",
+        "type": "ui"
+      },
+      {
+        "id": "cdk",
+        "type": "service"
+      },
+      {
+        "id": "regionA",
+        "type": "service"
+      },
+      {
+        "id": "regionB",
+        "type": "service"
+      },
+      {
+        "id": "s3Lake_B",
+        "type": "database"
+      },
+      {
+        "id": "dynamo_B",
+        "type": "database"
+      },
+      {
+        "id": "aurora_B",
+        "type": "database"
+      },
+      {
+        "id": "openSearch_B",
+        "type": "database"
+      },
+      {
+        "id": "compliance",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "dns",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "dns",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumer",
+        "target": "dns",
+        "label": "HTTP"
+      },
+      {
+        "source": "dns",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "stepFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "eventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBridge",
+        "target": "sns",
+        "label": "HTTP"
+      },
+      {
+        "source": "sns",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "openSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBridge",
+        "target": "glue",
+        "label": "HTTP"
+      },
+      {
+        "source": "glue",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "glue",
+        "target": "athena",
+        "label": "HTTP"
+      },
+      {
+        "source": "athena",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "sns",
+        "target": "openSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "sageEndpoint",
+        "label": "HTTP"
+      },
+      {
+        "source": "sageEndpoint",
+        "target": "embeddingModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "embeddingModel",
+        "target": "ragEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "ragEngine",
+        "target": "openSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "secrets",
+        "target": "lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "cloudwatch",
+        "label": "HTTP"
+      },
+      {
+        "source": "stepFunc",
+        "target": "cloudwatch",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "cloudwatch",
+        "label": "HTTP"
+      },
+      {
+        "source": "openSearch",
+        "target": "cloudwatch",
+        "label": "HTTP"
+      },
+      {
+        "source": "cloudwatch",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "lambda",
+        "target": "xray",
+        "label": "HTTP"
+      },
+      {
+        "source": "cloudtrail",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "config",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "securityHub",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "guardDuty",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "s3Lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "codepipeline",
+        "target": "codebuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "codebuild",
+        "target": "cdk",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdk",
+        "target": "lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "codepipeline",
+        "target": "cdk",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdk",
+        "target": "stepFunc",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdk",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "regionA",
+        "target": "regionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3Lake",
+        "target": "s3Lake_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "dynamo",
+        "target": "dynamo_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "aurora",
+        "target": "aurora_B",
+        "label": "DB Query"
+      },
+      {
+        "source": "openSearch",
+        "target": "openSearch_B",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 6,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "AIOps",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Compliance/Audit Logging",
+      "Active-Active Multi-Region",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 54,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

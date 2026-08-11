@@ -1,0 +1,272 @@
+{
+  "id": "CSA-000597",
+  "instruction": "Design a Smart City architecture. using a Serverless style. deployed on GCP. satisfying: Observability Stack, Auto Scaling, Data Lakehouse Pattern, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "webUI",
+        "type": "ui"
+      },
+      {
+        "id": "mobileApp",
+        "type": "service"
+      },
+      {
+        "id": "adminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "loadBal",
+        "type": "database"
+      },
+      {
+        "id": "funcAuth",
+        "type": "service"
+      },
+      {
+        "id": "funcIoT",
+        "type": "service"
+      },
+      {
+        "id": "funcAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "funcAI",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "rawBucket",
+        "type": "service"
+      },
+      {
+        "id": "curatedBucket",
+        "type": "database"
+      },
+      {
+        "id": "bqWarehouse",
+        "type": "service"
+      },
+      {
+        "id": "vertexAI",
+        "type": "service"
+      },
+      {
+        "id": "vectorStore",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "logging",
+        "type": "service"
+      },
+      {
+        "id": "drBucket",
+        "type": "service"
+      },
+      {
+        "id": "drBQ",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "webUI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobileApp",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "adminPortal",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "loadBal",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBal",
+        "target": "funcAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBal",
+        "target": "funcIoT",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBal",
+        "target": "funcAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "loadBal",
+        "target": "funcAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcAuth",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcIoT",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcAnalytics",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcAI",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "rawBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsub",
+        "target": "vertexAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "rawBucket",
+        "target": "curatedBucket",
+        "label": "HTTP"
+      },
+      {
+        "source": "curatedBucket",
+        "target": "bqWarehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "bqWarehouse",
+        "target": "vectorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "vertexAI",
+        "target": "funcAI",
+        "label": "HTTP"
+      },
+      {
+        "source": "vertexAI",
+        "target": "vectorStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcAuth",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcIoT",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcAnalytics",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "funcAI",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "logging",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "logging",
+        "target": "grafana",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Smart City",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Observability Stack",
+      "Auto Scaling",
+      "Data Lakehouse Pattern",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "graph TB",
+    "source_nodes": 31,
+    "source_edges": 33,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

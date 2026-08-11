@@ -1,0 +1,476 @@
+{
+  "id": "CSA-001650",
+  "instruction": "Design a SCM architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Active-Active Multi-Region, Disaster Recovery, Blue/Green Deployment, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "RegionA",
+        "type": "service"
+      },
+      {
+        "id": "RegionB",
+        "type": "service"
+      },
+      {
+        "id": "IAM_A",
+        "type": "service"
+      },
+      {
+        "id": "OIDC_A",
+        "type": "service"
+      },
+      {
+        "id": "MFA_A",
+        "type": "service"
+      },
+      {
+        "id": "Vault_A",
+        "type": "service"
+      },
+      {
+        "id": "FuncOrder",
+        "type": "service"
+      },
+      {
+        "id": "FuncInv",
+        "type": "service"
+      },
+      {
+        "id": "FuncPay",
+        "type": "service"
+      },
+      {
+        "id": "FuncShip",
+        "type": "service"
+      },
+      {
+        "id": "EventBusA",
+        "type": "service"
+      },
+      {
+        "id": "QueueA",
+        "type": "queue"
+      },
+      {
+        "id": "DynamoA",
+        "type": "database"
+      },
+      {
+        "id": "AuroraA",
+        "type": "service"
+      },
+      {
+        "id": "RedisA",
+        "type": "cache"
+      },
+      {
+        "id": "ES_A",
+        "type": "service"
+      },
+      {
+        "id": "CW_A",
+        "type": "service"
+      },
+      {
+        "id": "GrafanaA",
+        "type": "service"
+      },
+      {
+        "id": "IAM_B",
+        "type": "service"
+      },
+      {
+        "id": "OIDC_B",
+        "type": "service"
+      },
+      {
+        "id": "MFA_B",
+        "type": "service"
+      },
+      {
+        "id": "Vault_B",
+        "type": "service"
+      },
+      {
+        "id": "FuncOrderB",
+        "type": "service"
+      },
+      {
+        "id": "FuncInvB",
+        "type": "service"
+      },
+      {
+        "id": "FuncPayB",
+        "type": "service"
+      },
+      {
+        "id": "FuncShipB",
+        "type": "service"
+      },
+      {
+        "id": "EventBusB",
+        "type": "service"
+      },
+      {
+        "id": "QueueB",
+        "type": "queue"
+      },
+      {
+        "id": "DynamoB",
+        "type": "database"
+      },
+      {
+        "id": "AuroraB",
+        "type": "service"
+      },
+      {
+        "id": "RedisB",
+        "type": "cache"
+      },
+      {
+        "id": "ES_B",
+        "type": "service"
+      },
+      {
+        "id": "CW_B",
+        "type": "service"
+      },
+      {
+        "id": "GrafanaB",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "Build",
+        "type": "ui"
+      },
+      {
+        "id": "DeployBlue",
+        "type": "service"
+      },
+      {
+        "id": "DeployGreen",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "GrafanaCentral",
+        "type": "service"
+      },
+      {
+        "id": "DRTrigger",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "RegionA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "RegionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FuncOrder",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncOrder",
+        "target": "EventBusA",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBusA",
+        "target": "FuncInv",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncInv",
+        "target": "DynamoA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncPay",
+        "target": "DynamoA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncShip",
+        "target": "DynamoA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncInv",
+        "target": "QueueA",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueueA",
+        "target": "FuncInv",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncOrder",
+        "target": "DynamoA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DynamoA",
+        "target": "ES_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisA",
+        "target": "FuncOrder",
+        "label": "HTTP"
+      },
+      {
+        "source": "CW_A",
+        "target": "GrafanaA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FuncOrderB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncOrderB",
+        "target": "EventBusB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBusB",
+        "target": "FuncInvB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncInvB",
+        "target": "DynamoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncPayB",
+        "target": "DynamoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncShipB",
+        "target": "DynamoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncInvB",
+        "target": "QueueB",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueueB",
+        "target": "FuncInvB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncOrderB",
+        "target": "DynamoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DynamoB",
+        "target": "ES_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisB",
+        "target": "FuncOrderB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CW_B",
+        "target": "GrafanaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DynamoA",
+        "target": "DynamoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuroraA",
+        "target": "AuroraB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RedisA",
+        "target": "RedisB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ES_A",
+        "target": "ES_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBusA",
+        "target": "EventBusB",
+        "label": "Async"
+      },
+      {
+        "source": "GitRepo",
+        "target": "Build",
+        "label": "HTTP"
+      },
+      {
+        "source": "Build",
+        "target": "DeployBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeployBlue",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeployBlue",
+        "target": "DeployGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "DeployGreen",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM_A",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM_B",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault_A",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault_B",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GrafanaA",
+        "target": "GrafanaCentral",
+        "label": "HTTP"
+      },
+      {
+        "source": "GrafanaB",
+        "target": "GrafanaCentral",
+        "label": "HTTP"
+      },
+      {
+        "source": "DRTrigger",
+        "target": "LB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Disaster Recovery",
+      "Blue/Green Deployment",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 86,
+    "source_edges": 56,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

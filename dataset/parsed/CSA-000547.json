@@ -1,0 +1,498 @@
+{
+  "id": "CSA-000547",
+  "instruction": "Design a Energy architecture. using a CQRS style. deployed on Azure. satisfying: Auto Scaling, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "MICROSERVICES",
+        "type": "service"
+      },
+      {
+        "id": "DATA_LAKEHOUSE",
+        "type": "service"
+      },
+      {
+        "id": "CMD",
+        "type": "service"
+      },
+      {
+        "id": "QRY",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "Outbox",
+        "type": "service"
+      },
+      {
+        "id": "CMD_DB",
+        "type": "database"
+      },
+      {
+        "id": "Metering",
+        "type": "service"
+      },
+      {
+        "id": "Billing",
+        "type": "service"
+      },
+      {
+        "id": "Forecast",
+        "type": "service"
+      },
+      {
+        "id": "AssetMgmt",
+        "type": "service"
+      },
+      {
+        "id": "ProjectionStore",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "RawLake",
+        "type": "service"
+      },
+      {
+        "id": "Bronze",
+        "type": "service"
+      },
+      {
+        "id": "Silver",
+        "type": "service"
+      },
+      {
+        "id": "Gold",
+        "type": "service"
+      },
+      {
+        "id": "BI",
+        "type": "service"
+      },
+      {
+        "id": "ML",
+        "type": "service"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "External",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "OT",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "GitHub",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "HPA",
+        "type": "service"
+      },
+      {
+        "id": "ClusterAutoscaler",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "WebUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MobileApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AdminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "DATA_LAKEHOUSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "Outbox",
+        "label": "HTTP"
+      },
+      {
+        "source": "Outbox",
+        "target": "CMD_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Outbox",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Metering",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Billing",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Forecast",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "AssetMgmt",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "ProjectionStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "ProjectionStore",
+        "target": "Cache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "WebUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "MobileApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "AdminPortal",
+        "label": "HTTP"
+      },
+      {
+        "source": "RawLake",
+        "target": "Bronze",
+        "label": "HTTP"
+      },
+      {
+        "source": "Bronze",
+        "target": "Silver",
+        "label": "HTTP"
+      },
+      {
+        "source": "Silver",
+        "target": "Gold",
+        "label": "HTTP"
+      },
+      {
+        "source": "Gold",
+        "target": "BI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Gold",
+        "target": "ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "External",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "OT",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "MICROSERVICES",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHub",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "HPA",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ClusterAutoscaler",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_DB",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "ProjectionStore",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "CQRS",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Auto Scaling",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 66,
+    "source_edges": 73,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

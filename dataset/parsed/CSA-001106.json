@@ -1,0 +1,462 @@
+{
+  "id": "CSA-001106",
+  "instruction": "Design a Gaming architecture. using a Microservices style. deployed on On-Premises. satisfying: Disaster Recovery, Observability Stack, Blue/Green Deployment.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "GameAdmin",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "K8S_Cluster",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "Profile",
+        "type": "service"
+      },
+      {
+        "id": "Matchmaking",
+        "type": "service"
+      },
+      {
+        "id": "Leaderboard",
+        "type": "service"
+      },
+      {
+        "id": "Inventory",
+        "type": "service"
+      },
+      {
+        "id": "Chat",
+        "type": "service"
+      },
+      {
+        "id": "Payments",
+        "type": "service"
+      },
+      {
+        "id": "Analytics",
+        "type": "service"
+      },
+      {
+        "id": "GameLogic",
+        "type": "service"
+      },
+      {
+        "id": "Notification",
+        "type": "service"
+      },
+      {
+        "id": "DB_Postgres",
+        "type": "database"
+      },
+      {
+        "id": "DB_Redis",
+        "type": "database"
+      },
+      {
+        "id": "DB_Elastic",
+        "type": "database"
+      },
+      {
+        "id": "DB_Vector",
+        "type": "database"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "Git",
+        "type": "service"
+      },
+      {
+        "id": "Jenkins",
+        "type": "service"
+      },
+      {
+        "id": "Argo",
+        "type": "service"
+      },
+      {
+        "id": "Canary",
+        "type": "service"
+      },
+      {
+        "id": "DR_Site",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "EmailSvc",
+        "type": "service"
+      },
+      {
+        "id": "SMS_Svc",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GameAdmin",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "K8S_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "K8S_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Profile",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Matchmaking",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Leaderboard",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Chat",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Payments",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "GameLogic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Notification",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "DB_Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Profile",
+        "target": "DB_Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Matchmaking",
+        "target": "DB_Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Leaderboard",
+        "target": "DB_Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Inventory",
+        "target": "DB_Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Chat",
+        "target": "DB_Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Payments",
+        "target": "DB_Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "DB_Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "GameLogic",
+        "target": "DB_Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Notification",
+        "target": "DB_Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Profile",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Matchmaking",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Leaderboard",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Inventory",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Chat",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Payments",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Analytics",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GameLogic",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Notification",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Git",
+        "target": "Jenkins",
+        "label": "HTTP"
+      },
+      {
+        "source": "Jenkins",
+        "target": "Argo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "Canary",
+        "label": "HTTP"
+      },
+      {
+        "source": "Canary",
+        "target": "K8S_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_Postgres",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "DR_Site",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_Redis",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_Elastic",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "DB_Vector",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "DR_Site",
+        "label": "HTTP"
+      },
+      {
+        "source": "Payments",
+        "target": "PaymentGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Notification",
+        "target": "EmailSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "Notification",
+        "target": "SMS_Svc",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Gaming",
+    "style": "Microservices",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Disaster Recovery",
+      "Observability Stack",
+      "Blue/Green Deployment"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 57,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,793 @@
+{
+  "id": "CSA-001880",
+  "instruction": "Design a Government architecture. using a Data Mesh style. deployed on GCP. satisfying: Rate Limiting, Blue/Green Deployment, AI/ML Inference Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "apiConsumers",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "edge",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "pkc",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "federation",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "postgres",
+        "type": "database"
+      },
+      {
+        "id": "mongo",
+        "type": "database"
+      },
+      {
+        "id": "cassandra",
+        "type": "database"
+      },
+      {
+        "id": "dynamodb",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "database"
+      },
+      {
+        "id": "elastic",
+        "type": "database"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "lakehouse",
+        "type": "database"
+      },
+      {
+        "id": "meshGateway",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "sqs",
+        "type": "service"
+      },
+      {
+        "id": "eventbridge",
+        "type": "service"
+      },
+      {
+        "id": "pubsub",
+        "type": "service"
+      },
+      {
+        "id": "embed",
+        "type": "service"
+      },
+      {
+        "id": "vectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "aiGateway",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "splunk",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "docker",
+        "type": "container"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "bluegreen",
+        "type": "service"
+      },
+      {
+        "id": "rateLimit",
+        "type": "service"
+      },
+      {
+        "id": "featureFlags",
+        "type": "service"
+      },
+      {
+        "id": "compute",
+        "type": "service"
+      },
+      {
+        "id": "gke",
+        "type": "service"
+      },
+      {
+        "id": "storage",
+        "type": "database"
+      },
+      {
+        "id": "bigquery",
+        "type": "service"
+      },
+      {
+        "id": "pubsubGCP",
+        "type": "service"
+      },
+      {
+        "id": "spanner",
+        "type": "service"
+      },
+      {
+        "id": "cloudIAM",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "llm",
+        "type": "service"
+      },
+      {
+        "id": "event",
+        "type": "service"
+      },
+      {
+        "id": "micro",
+        "type": "service"
+      },
+      {
+        "id": "sidecar",
+        "type": "service"
+      },
+      {
+        "id": "aiAgent",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiConsumers",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rbac",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "pkc",
+        "label": "HTTP"
+      },
+      {
+        "source": "pkc",
+        "target": "federation",
+        "label": "HTTP"
+      },
+      {
+        "source": "federation",
+        "target": "secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "pci",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "hipaa",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "gdpr",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "soc2",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "iso",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "llm",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge",
+        "target": "event",
+        "label": "Async"
+      },
+      {
+        "source": "edge",
+        "target": "micro",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro",
+        "target": "sidecar",
+        "label": "HTTP"
+      },
+      {
+        "source": "event",
+        "target": "sidecar",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "sidecar",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "sidecar",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro",
+        "target": "kafka",
+        "label": "Async"
+      },
+      {
+        "source": "event",
+        "target": "rabbit",
+        "label": "Async"
+      },
+      {
+        "source": "llm",
+        "target": "sqs",
+        "label": "Async"
+      },
+      {
+        "source": "aiAgent",
+        "target": "eventbridge",
+        "label": "Async"
+      },
+      {
+        "source": "aiAgent",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro",
+        "target": "meshGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "event",
+        "target": "meshGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "meshGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "meshGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "llm",
+        "target": "meshGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiAgent",
+        "target": "meshGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshGateway",
+        "target": "postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshGateway",
+        "target": "mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshGateway",
+        "target": "cassandra",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshGateway",
+        "target": "dynamodb",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshGateway",
+        "target": "redis",
+        "label": "Cache"
+      },
+      {
+        "source": "meshGateway",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshGateway",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "meshGateway",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "vectorSearch",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "vectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "aiGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "aiGateway",
+        "target": "aiAgent",
+        "label": "HTTP"
+      },
+      {
+        "source": "sidecar",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "sidecar",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "elk",
+        "target": "splunk",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "docker",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "bluegreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "rateLimit",
+        "label": "HTTP"
+      },
+      {
+        "source": "rateLimit",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "featureFlags",
+        "target": "micro",
+        "label": "HTTP"
+      },
+      {
+        "source": "compute",
+        "target": "micro",
+        "label": "HTTP"
+      },
+      {
+        "source": "gke",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "storage",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "bigquery",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "pubsubGCP",
+        "target": "pubsub",
+        "label": "HTTP"
+      },
+      {
+        "source": "spanner",
+        "target": "postgres",
+        "label": "DB Query"
+      },
+      {
+        "source": "cloudIAM",
+        "target": "iam",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 9,
+      "services": 55
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Data Mesh",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Rate Limiting",
+      "Blue/Green Deployment",
+      "AI/ML Inference Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 89,
+    "source_edges": 85,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

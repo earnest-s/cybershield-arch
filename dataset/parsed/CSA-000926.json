@@ -1,0 +1,401 @@
+{
+  "id": "CSA-000926",
+  "instruction": "Design a HR architecture. using a Hexagonal style. deployed on GCP. satisfying: Auto Scaling, Feature Flags, Blue/Green Deployment, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "REST",
+        "type": "service"
+      },
+      {
+        "id": "GraphQL",
+        "type": "service"
+      },
+      {
+        "id": "AdapterWeb",
+        "type": "ui"
+      },
+      {
+        "id": "AdapterMobile",
+        "type": "service"
+      },
+      {
+        "id": "AdapterAdmin",
+        "type": "service"
+      },
+      {
+        "id": "AdapterFF",
+        "type": "service"
+      },
+      {
+        "id": "CoreService",
+        "type": "service"
+      },
+      {
+        "id": "Auth",
+        "type": "service"
+      },
+      {
+        "id": "Payroll",
+        "type": "service"
+      },
+      {
+        "id": "Recruiting",
+        "type": "ui"
+      },
+      {
+        "id": "Benefits",
+        "type": "service"
+      },
+      {
+        "id": "CloudSQL",
+        "type": "database"
+      },
+      {
+        "id": "Firestore",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "database"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "CloudBuild",
+        "type": "ui"
+      },
+      {
+        "id": "Skaffold",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "FF",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "ISO27001",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "REST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "GraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST",
+        "target": "AdapterWeb",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterWeb",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQL",
+        "target": "AdapterMobile",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterMobile",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterAdmin",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdapterFF",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Payroll",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Recruiting",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "Benefits",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Payroll",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Recruiting",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "Benefits",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreService",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Auth",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Payroll",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Recruiting",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Benefits",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudBuild",
+        "target": "Skaffold",
+        "label": "HTTP"
+      },
+      {
+        "source": "Skaffold",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "CoreService",
+        "label": "HTTP"
+      },
+      {
+        "source": "FF",
+        "target": "AdapterFF",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "Auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "Firestore",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "CloudSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO27001",
+        "target": "ELK",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Hexagonal",
+    "cloud": "GCP",
+    "complexity": "Small",
+    "constraints": [
+      "Auto Scaling",
+      "Feature Flags",
+      "Blue/Green Deployment",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 57,
+    "source_edges": 61,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

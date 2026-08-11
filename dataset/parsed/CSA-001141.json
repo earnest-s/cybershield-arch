@@ -1,0 +1,507 @@
+{
+  "id": "CSA-001141",
+  "instruction": "Design a E-Commerce architecture. using a Hexagonal style. deployed on AWS. satisfying: Rate Limiting, AI/ML Inference Integration, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "cognito",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "rl",
+        "type": "service"
+      },
+      {
+        "id": "rest_adapter",
+        "type": "service"
+      },
+      {
+        "id": "order_svc",
+        "type": "service"
+      },
+      {
+        "id": "product_svc",
+        "type": "service"
+      },
+      {
+        "id": "inventory_svc",
+        "type": "service"
+      },
+      {
+        "id": "payment_svc",
+        "type": "service"
+      },
+      {
+        "id": "recommendation_svc",
+        "type": "service"
+      },
+      {
+        "id": "ai_infer_svc",
+        "type": "service"
+      },
+      {
+        "id": "db_adapter",
+        "type": "database"
+      },
+      {
+        "id": "msg_adapter",
+        "type": "database"
+      },
+      {
+        "id": "ai_ext_adapter",
+        "type": "database"
+      },
+      {
+        "id": "email_adapter",
+        "type": "database"
+      },
+      {
+        "id": "aurora",
+        "type": "database"
+      },
+      {
+        "id": "dynamo",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "stripe",
+        "type": "service"
+      },
+      {
+        "id": "sendgrid",
+        "type": "service"
+      },
+      {
+        "id": "s3",
+        "type": "database"
+      },
+      {
+        "id": "cw",
+        "type": "service"
+      },
+      {
+        "id": "xray",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "eks",
+        "type": "container"
+      },
+      {
+        "id": "terraform",
+        "type": "service"
+      },
+      {
+        "id": "cicd",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "ai_infer_ssvc",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "user_data",
+        "type": "service"
+      },
+      {
+        "id": "assets",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "cognito",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "rl",
+        "label": "HTTP"
+      },
+      {
+        "source": "rl",
+        "target": "rest_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "rest_adapter",
+        "target": "order_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "rest_adapter",
+        "target": "product_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "rest_adapter",
+        "target": "inventory_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "rest_adapter",
+        "target": "payment_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "rest_adapter",
+        "target": "recommendation_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "order_svc",
+        "target": "db_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "product_svc",
+        "target": "db_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory_svc",
+        "target": "db_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "payment_svc",
+        "target": "db_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "recommendation_svc",
+        "target": "ai_ext_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_infer_svc",
+        "target": "ai_ext_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "db_adapter",
+        "target": "aurora",
+        "label": "HTTP"
+      },
+      {
+        "source": "db_adapter",
+        "target": "dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "db_adapter",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "db_adapter",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "db_adapter",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "order_svc",
+        "target": "msg_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "recommendation_svc",
+        "target": "msg_adapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "msg_adapter",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "payment_svc",
+        "target": "stripe",
+        "label": "HTTP"
+      },
+      {
+        "source": "recommendation_svc",
+        "target": "sendgrid",
+        "label": "HTTP"
+      },
+      {
+        "source": "email_adapter",
+        "target": "sendgrid",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_ext_adapter",
+        "target": "ai_infer_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_infer_svc",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "order_svc",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "product_svc",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory_svc",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "payment_svc",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "recommendation_svc",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_infer_svc",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "order_svc",
+        "target": "xray",
+        "label": "HTTP"
+      },
+      {
+        "source": "product_svc",
+        "target": "xray",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory_svc",
+        "target": "xray",
+        "label": "HTTP"
+      },
+      {
+        "source": "payment_svc",
+        "target": "xray",
+        "label": "HTTP"
+      },
+      {
+        "source": "recommendation_svc",
+        "target": "xray",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_infer_svc",
+        "target": "xray",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "order_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "product_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "inventory_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "payment_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "recommendation_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "ai_infer_ssvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "prometheus",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "terraform",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "cicd",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "payment_svc",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "user_data",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3",
+        "target": "assets",
+        "label": "HTTP"
+      },
+      {
+        "source": "assets",
+        "target": "cdn",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "E-Commerce",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Rate Limiting",
+      "AI/ML Inference Integration",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 61,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

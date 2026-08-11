@@ -1,0 +1,304 @@
+{
+  "id": "CSA-002282",
+  "instruction": "Design a Agentic AI architecture. using a CQRS style. deployed on AWS. satisfying: Compliance/Audit Logging, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WA",
+        "type": "ui"
+      },
+      {
+        "id": "AGW",
+        "type": "service"
+      },
+      {
+        "id": "MA",
+        "type": "service"
+      },
+      {
+        "id": "AP",
+        "type": "ui"
+      },
+      {
+        "id": "CD",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "CMD",
+        "type": "service"
+      },
+      {
+        "id": "QRY",
+        "type": "service"
+      },
+      {
+        "id": "KFK",
+        "type": "queue"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "KFK2",
+        "type": "queue"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "AGM",
+        "type": "service"
+      },
+      {
+        "id": "LLM",
+        "type": "service"
+      },
+      {
+        "id": "RESP",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "AUD",
+        "type": "service"
+      },
+      {
+        "id": "K8S1",
+        "type": "container"
+      },
+      {
+        "id": "K8S2",
+        "type": "container"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "EdgeNetwork",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WA",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MA",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AP",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CD",
+        "target": "AGW",
+        "label": "Cache"
+      },
+      {
+        "source": "FW",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "AGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "KFK",
+        "label": "Async"
+      },
+      {
+        "source": "QRY",
+        "target": "KFK",
+        "label": "Async"
+      },
+      {
+        "source": "QRY",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "KFK2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGM",
+        "target": "LLM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLM",
+        "target": "RESP",
+        "label": "HTTP"
+      },
+      {
+        "source": "RESP",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "AUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S1",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S2",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "EdgeNetwork",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8S1",
+        "label": "HTTP"
+      },
+      {
+        "source": "AWS",
+        "target": "K8S2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGW",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "KFK",
+        "target": "PG",
+        "label": "Async"
+      },
+      {
+        "source": "KFK2",
+        "target": "KFK",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Agentic AI",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 39,
+    "source_edges": 42,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

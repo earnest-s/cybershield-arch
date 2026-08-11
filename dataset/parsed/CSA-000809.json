@@ -1,0 +1,372 @@
+{
+  "id": "CSA-000809",
+  "instruction": "Design a Manufacturing architecture. using a CQRS style. deployed on AWS. satisfying: Strict Network Segmentation, Rate Limiting, Compliance/Audit Logging, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "clientWeb",
+        "type": "ui"
+      },
+      {
+        "id": "clientMobile",
+        "type": "ui"
+      },
+      {
+        "id": "partnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGW",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "nat",
+        "type": "service"
+      },
+      {
+        "id": "svcMesh",
+        "type": "service"
+      },
+      {
+        "id": "cmdSvc",
+        "type": "service"
+      },
+      {
+        "id": "qrySvc",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "queue"
+      },
+      {
+        "id": "proj",
+        "type": "service"
+      },
+      {
+        "id": "cmdDb",
+        "type": "database"
+      },
+      {
+        "id": "readDb",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "database"
+      },
+      {
+        "id": "auditS3",
+        "type": "database"
+      },
+      {
+        "id": "CloudTrail",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oidc",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "mtls",
+        "type": "service"
+      },
+      {
+        "id": "cw",
+        "type": "service"
+      },
+      {
+        "id": "xray",
+        "type": "service"
+      },
+      {
+        "id": "alarm",
+        "type": "ui"
+      },
+      {
+        "id": "codepipe",
+        "type": "service"
+      },
+      {
+        "id": "eeks",
+        "type": "container"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "soc2",
+        "type": "service"
+      },
+      {
+        "id": "auditLog",
+        "type": "service"
+      },
+      {
+        "id": "Security",
+        "type": "service"
+      },
+      {
+        "id": "App_Subnet",
+        "type": "service"
+      },
+      {
+        "id": "Data_Subnet",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      },
+      {
+        "id": "DevOps",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "nat",
+        "label": "HTTP"
+      },
+      {
+        "source": "nat",
+        "target": "svcMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcMesh",
+        "target": "cmdSvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcMesh",
+        "target": "qrySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcMesh",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "proj",
+        "label": "HTTP"
+      },
+      {
+        "source": "proj",
+        "target": "qrySvc",
+        "label": "HTTP"
+      },
+      {
+        "source": "cmdSvc",
+        "target": "cmdDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "qrySvc",
+        "target": "readDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "proj",
+        "target": "readDb",
+        "label": "HTTP"
+      },
+      {
+        "source": "qrySvc",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditS3",
+        "target": "CloudTrail",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oidc",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "cw",
+        "target": "alarm",
+        "label": "HTTP"
+      },
+      {
+        "source": "codepipe",
+        "target": "eeks",
+        "label": "HTTP"
+      },
+      {
+        "source": "eeks",
+        "target": "svcMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "auditS3",
+        "label": "HTTP"
+      },
+      {
+        "source": "auditLog",
+        "target": "cw",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "soc2",
+        "target": "auditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "clientWeb",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "clientMobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "partnerAPI",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGW",
+        "target": "Security",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security",
+        "target": "App_Subnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "App_Subnet",
+        "target": "Data_Subnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "App_Subnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "Observability",
+        "target": "Data_Subnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "DevOps",
+        "target": "App_Subnet",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "Data_Subnet",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Manufacturing",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Strict Network Segmentation",
+      "Rate Limiting",
+      "Compliance/Audit Logging",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 51,
+    "source_edges": 55,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

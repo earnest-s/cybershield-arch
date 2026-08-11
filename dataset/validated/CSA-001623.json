@@ -1,0 +1,411 @@
+{
+  "id": "CSA-001623",
+  "instruction": "Design a Telecom architecture. using a CQRS style. deployed on On-Premises. satisfying: Blue/Green Deployment, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "BSS",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "ESB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "MS1",
+        "type": "service"
+      },
+      {
+        "id": "MS2",
+        "type": "service"
+      },
+      {
+        "id": "MS3",
+        "type": "service"
+      },
+      {
+        "id": "QRY1",
+        "type": "service"
+      },
+      {
+        "id": "QRY2",
+        "type": "service"
+      },
+      {
+        "id": "QRY3",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "CASS",
+        "type": "container"
+      },
+      {
+        "id": "LAKE",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "BLUE",
+        "type": "service"
+      },
+      {
+        "id": "GREEN",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "BSS",
+        "target": "ESB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ESB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "QRY1",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS1",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS2",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "MS3",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "EVENT",
+        "target": "QRY1",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "QRY2",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "QRY3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MS3",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY3",
+        "target": "CASS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "LAKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PG",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CASS",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAKE",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "BLUE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GREEN",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE",
+        "target": "MS1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GREEN",
+        "target": "MS1",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 1,
+      "services": 25
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Telecom",
+    "style": "CQRS",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 40,
+    "source_edges": 36,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

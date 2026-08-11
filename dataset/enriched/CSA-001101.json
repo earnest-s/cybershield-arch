@@ -1,0 +1,487 @@
+{
+  "id": "CSA-001101",
+  "instruction": "Design a Oil & Gas architecture. using a Serverless style. deployed on Azure. satisfying: Rate Limiting, High Throughput (100k+ TPS), Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "PartnerAPI",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "Cert",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Policy",
+        "type": "service"
+      },
+      {
+        "id": "FuncA",
+        "type": "service"
+      },
+      {
+        "id": "FuncB",
+        "type": "service"
+      },
+      {
+        "id": "FuncC",
+        "type": "service"
+      },
+      {
+        "id": "FuncD",
+        "type": "service"
+      },
+      {
+        "id": "EH",
+        "type": "service"
+      },
+      {
+        "id": "EG",
+        "type": "service"
+      },
+      {
+        "id": "SB",
+        "type": "queue"
+      },
+      {
+        "id": "Cosmos",
+        "type": "database"
+      },
+      {
+        "id": "Blob",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Search",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "LogAnalytics",
+        "type": "service"
+      },
+      {
+        "id": "Alert",
+        "type": "service"
+      },
+      {
+        "id": "IaC",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Git",
+        "type": "service"
+      },
+      {
+        "id": "NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "COMPUTE",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "PartnerAPI",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "FuncA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "FuncB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA",
+        "target": "EH",
+        "label": "Async"
+      },
+      {
+        "source": "FuncB",
+        "target": "EH",
+        "label": "Async"
+      },
+      {
+        "source": "EH",
+        "target": "FuncC",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncC",
+        "target": "EG",
+        "label": "Async"
+      },
+      {
+        "source": "EG",
+        "target": "FuncD",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncD",
+        "target": "SB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SB",
+        "target": "FuncB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncC",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncC",
+        "target": "RedisCache",
+        "label": "Cache"
+      },
+      {
+        "source": "FuncC",
+        "target": "Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cosmos",
+        "target": "Blob",
+        "label": "HTTP"
+      },
+      {
+        "source": "Search",
+        "target": "Cosmos",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncB",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncC",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncD",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "LogAnalytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogAnalytics",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "Policy",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "IaC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "COMPUTE",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IaC",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "Git",
+        "target": "CI",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 3,
+      "services": 30
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Oil & Gas",
+    "style": "Serverless",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 43,
+    "source_edges": 48,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

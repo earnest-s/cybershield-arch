@@ -1,0 +1,396 @@
+{
+  "id": "CSA-000858",
+  "instruction": "Design a Multi-Agent Systems architecture. using a Hexagonal style. deployed on AWS. satisfying: Active-Active Multi-Region, Observability Stack, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "REST",
+        "type": "service"
+      },
+      {
+        "id": "GraphQL",
+        "type": "service"
+      },
+      {
+        "id": "GRPC",
+        "type": "service"
+      },
+      {
+        "id": "AgentIn",
+        "type": "service"
+      },
+      {
+        "id": "AgentOrch",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "DWH",
+        "type": "service"
+      },
+      {
+        "id": "Bronze",
+        "type": "service"
+      },
+      {
+        "id": "Silver",
+        "type": "service"
+      },
+      {
+        "id": "Gold",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "VPC1",
+        "type": "service"
+      },
+      {
+        "id": "SubnetA1",
+        "type": "service"
+      },
+      {
+        "id": "SubnetB1",
+        "type": "service"
+      },
+      {
+        "id": "VPC2",
+        "type": "service"
+      },
+      {
+        "id": "SubnetA2",
+        "type": "service"
+      },
+      {
+        "id": "SubnetB2",
+        "type": "service"
+      },
+      {
+        "id": "Replicates",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "REST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AgentIn",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQL",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPC",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentIn",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST",
+        "target": "AgentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQL",
+        "target": "AgentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPC",
+        "target": "AgentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentIn",
+        "target": "AgentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Bronze",
+        "label": "HTTP"
+      },
+      {
+        "source": "Bronze",
+        "target": "Silver",
+        "label": "HTTP"
+      },
+      {
+        "source": "Silver",
+        "target": "Gold",
+        "label": "HTTP"
+      },
+      {
+        "source": "Gold",
+        "target": "DWH",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Graf",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Multi-Agent Systems",
+    "style": "Hexagonal",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Observability Stack",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 58,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

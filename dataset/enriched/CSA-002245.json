@@ -1,0 +1,549 @@
+{
+  "id": "CSA-002245",
+  "instruction": "Design a Travel architecture. using a Serverless style. deployed on AWS. satisfying: GraphRAG Integration, Auto Scaling, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "service"
+      },
+      {
+        "id": "SecretsManager",
+        "type": "service"
+      },
+      {
+        "id": "Lambda",
+        "type": "service"
+      },
+      {
+        "id": "LambdaAuth",
+        "type": "service"
+      },
+      {
+        "id": "LambdaGraphRAG",
+        "type": "service"
+      },
+      {
+        "id": "LambdaBooking",
+        "type": "service"
+      },
+      {
+        "id": "LambdaSearch",
+        "type": "service"
+      },
+      {
+        "id": "AuthSM",
+        "type": "service"
+      },
+      {
+        "id": "SMGraphRAG",
+        "type": "service"
+      },
+      {
+        "id": "SMBooking",
+        "type": "service"
+      },
+      {
+        "id": "SMSearch",
+        "type": "service"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "S3Raw",
+        "type": "service"
+      },
+      {
+        "id": "S3Curated",
+        "type": "service"
+      },
+      {
+        "id": "Redshift",
+        "type": "service"
+      },
+      {
+        "id": "Athena",
+        "type": "service"
+      },
+      {
+        "id": "Glue",
+        "type": "service"
+      },
+      {
+        "id": "DMS",
+        "type": "service"
+      },
+      {
+        "id": "Kinesis",
+        "type": "service"
+      },
+      {
+        "id": "OpenSearch",
+        "type": "database"
+      },
+      {
+        "id": "EmbeddingLambda",
+        "type": "service"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "ElastiCache",
+        "type": "cache"
+      },
+      {
+        "id": "CloudWatch",
+        "type": "service"
+      },
+      {
+        "id": "XRay",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "CodePipeline",
+        "type": "service"
+      },
+      {
+        "id": "CodeBuild",
+        "type": "ui"
+      },
+      {
+        "id": "LambdaDeploy",
+        "type": "service"
+      },
+      {
+        "id": "CodeCommit",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "CloudTrail",
+        "type": "service"
+      },
+      {
+        "id": "LambdaAutoScale",
+        "type": "service"
+      },
+      {
+        "id": "PaymentGateway",
+        "type": "service"
+      },
+      {
+        "id": "TravelAPIs",
+        "type": "service"
+      },
+      {
+        "id": "GlobalAccelerator",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "APIGW",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPC",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "SecretsManager",
+        "target": "Lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LambdaAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LambdaGraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LambdaBooking",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LambdaSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaAuth",
+        "target": "AuthSM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaGraphRAG",
+        "target": "SMGraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaBooking",
+        "target": "SMBooking",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaSearch",
+        "target": "SMSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "SMGraphRAG",
+        "label": "Async"
+      },
+      {
+        "source": "EventBridge",
+        "target": "SMBooking",
+        "label": "Async"
+      },
+      {
+        "source": "EventBridge",
+        "target": "SMSearch",
+        "label": "Async"
+      },
+      {
+        "source": "Kinesis",
+        "target": "S3Raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMS",
+        "target": "Redshift",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodePipeline",
+        "target": "CodeBuild",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodeBuild",
+        "target": "LambdaDeploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodeCommit",
+        "target": "CodePipeline",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaGraphRAG",
+        "target": "EmbeddingLambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingLambda",
+        "target": "OpenSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaSearch",
+        "target": "OpenSearch",
+        "label": "DB Query"
+      },
+      {
+        "source": "LambdaBooking",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaSearch",
+        "target": "S3Curated",
+        "label": "HTTP"
+      },
+      {
+        "source": "SMGraphRAG",
+        "target": "OpenSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "SMBooking",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "SMSearch",
+        "target": "Athena",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "CloudWatch",
+        "label": "HTTP"
+      },
+      {
+        "source": "CloudTrail",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaAutoScale",
+        "target": "LambdaAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaAutoScale",
+        "target": "LambdaGraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaAutoScale",
+        "target": "LambdaBooking",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaAutoScale",
+        "target": "LambdaSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "PaymentGateway",
+        "target": "LambdaBooking",
+        "label": "HTTP"
+      },
+      {
+        "source": "TravelAPIs",
+        "target": "LambdaSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "GlobalAccelerator",
+        "target": "CDN",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Deploy a SIEM for security event aggregation and threat detection.",
+      "Require Multi-Factor Authentication for user access."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 2,
+      "services": 39
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, SIEM and MFA. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Travel",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "GraphRAG Integration",
+      "Auto Scaling",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart TB",
+    "source_nodes": 57,
+    "source_edges": 50,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

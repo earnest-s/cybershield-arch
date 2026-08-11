@@ -1,0 +1,298 @@
+{
+  "id": "CSA-000795",
+  "instruction": "Design a Defense architecture. using a Zero-Trust style. deployed on On-Premises. satisfying: Disaster Recovery, Active-Active Multi-Region, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "IdP",
+        "type": "service"
+      },
+      {
+        "id": "SecretsMgr",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "APIgw",
+        "type": "service"
+      },
+      {
+        "id": "Authz",
+        "type": "service"
+      },
+      {
+        "id": "RateLim",
+        "type": "service"
+      },
+      {
+        "id": "ServiceMesh",
+        "type": "service"
+      },
+      {
+        "id": "UserMS",
+        "type": "service"
+      },
+      {
+        "id": "OpsMS",
+        "type": "service"
+      },
+      {
+        "id": "IntelMS",
+        "type": "service"
+      },
+      {
+        "id": "LogMS",
+        "type": "service"
+      },
+      {
+        "id": "PostgreSQL",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "container"
+      },
+      {
+        "id": "AuditDB",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "RegionA",
+        "type": "service"
+      },
+      {
+        "id": "RegionB",
+        "type": "service"
+      },
+      {
+        "id": "Client",
+        "type": "service"
+      },
+      {
+        "id": "DMZ",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "LB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "RegionA",
+        "target": "RegionB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Client",
+        "target": "DMZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "DMZ",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "IdP",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "SecretsMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "Authz",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "RateLim",
+        "label": "HTTP"
+      },
+      {
+        "source": "Authz",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "UserMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "OpsMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "IntelMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceMesh",
+        "target": "LogMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserMS",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpsMS",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "IntelMS",
+        "target": "PostgreSQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogMS",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "UserMS",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "OpsMS",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "IntelMS",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "IntelMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogMS",
+        "target": "Loki",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "Graf",
+        "target": "ServiceMesh",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Defense",
+    "style": "Zero-Trust",
+    "cloud": "On-Premises",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "Active-Active Multi-Region",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 50,
+    "source_edges": 33,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

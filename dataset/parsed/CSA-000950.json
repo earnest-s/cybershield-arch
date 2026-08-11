@@ -1,0 +1,441 @@
+{
+  "id": "CSA-000950",
+  "instruction": "Design a Government architecture. using a Hexagonal style. deployed on Multi-Cloud. satisfying: High Throughput (100k+ TPS), Data Lakehouse Pattern, Feature Flags, Rate Limiting, Zero Trust Architecture.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "GovPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "APIgw",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "ZTNA",
+        "type": "service"
+      },
+      {
+        "id": "K8sAWS",
+        "type": "container"
+      },
+      {
+        "id": "K8sAzure",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "FT",
+        "type": "service"
+      },
+      {
+        "id": "Core",
+        "type": "service"
+      },
+      {
+        "id": "InboundAdapters",
+        "type": "service"
+      },
+      {
+        "id": "OutboundAdapters",
+        "type": "database"
+      },
+      {
+        "id": "Ports",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "Datalake",
+        "type": "service"
+      },
+      {
+        "id": "Warehouse",
+        "type": "service"
+      },
+      {
+        "id": "DeltaLake",
+        "type": "service"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Embedding",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIgw",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIgw",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "GovPortal",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "ZTNA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "K8sAWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTNA",
+        "target": "K8sAzure",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAWS",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "InboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sAzure",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "InboundAdapters",
+        "target": "Ports",
+        "label": "HTTP"
+      },
+      {
+        "source": "Ports",
+        "target": "Core",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "OutboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "SQS",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "Datalake",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "Warehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "Embedding",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "OutboundAdapters",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "DeltaLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "DeltaLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQS",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embedding",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "FT",
+        "label": "HTTP"
+      },
+      {
+        "source": "FT",
+        "target": "InboundAdapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "Core",
+        "target": "Warehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sAWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8sAzure",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Government",
+    "style": "Hexagonal",
+    "cloud": "Multi-Cloud",
+    "complexity": "Medium",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Data Lakehouse Pattern",
+      "Feature Flags",
+      "Rate Limiting",
+      "Zero Trust Architecture"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 63,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,662 @@
+{
+  "id": "CSA-001564",
+  "instruction": "Design a Warehouse architecture. using a Modular Monolith style. deployed on AWS. satisfying: Disaster Recovery, High Throughput (100k+ TPS), GraphRAG Integration, Observability Stack, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "ALB",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumers",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "VPC",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "SecretsMgr",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "Monolith",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "InventoryService",
+        "type": "service"
+      },
+      {
+        "id": "OrderService",
+        "type": "service"
+      },
+      {
+        "id": "ShippingService",
+        "type": "service"
+      },
+      {
+        "id": "ReportingService",
+        "type": "service"
+      },
+      {
+        "id": "GraphRAGAdapter",
+        "type": "service"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "DynamoDB",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "EmbeddingModel",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "EKS",
+        "type": "container"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "BackupS3",
+        "type": "service"
+      },
+      {
+        "id": "DR_Region",
+        "type": "service"
+      },
+      {
+        "id": "AWS",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "COMPLIANCE",
+        "type": "service"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "OBSERVABILITY",
+        "type": "service"
+      },
+      {
+        "id": "DEVOPS",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumers",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "ALB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ALB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "VPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "KMS",
+        "target": "SecretsMgr",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "ISO",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monolith",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monolith",
+        "target": "InventoryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monolith",
+        "target": "OrderService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monolith",
+        "target": "ShippingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monolith",
+        "target": "ReportingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Monolith",
+        "target": "GraphRAGAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "DynamoDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "EmbeddingModel",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "GraphRAGAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "EKS",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "Docker",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "CI_CD",
+        "label": "HTTP"
+      },
+      {
+        "source": "BackupS3",
+        "target": "DR_Region",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_Region",
+        "target": "Lakehouse",
+        "label": "Async"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "NETWORK",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECURITY",
+        "target": "COMPLIANCE",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLIANCE",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "DATA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "OBSERVABILITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "APPLICATION",
+        "target": "DEVOPS",
+        "label": "HTTP"
+      },
+      {
+        "source": "DEVOPS",
+        "target": "CLOUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "DATA",
+        "target": "DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBSERVABILITY",
+        "target": "CLOUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "MESSAGING",
+        "target": "CLOUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ML",
+        "target": "CLOUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "CLOUD",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 5,
+      "services": 52
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "High Throughput (100k+ TPS)",
+      "GraphRAG Integration",
+      "Observability Stack",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 75,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

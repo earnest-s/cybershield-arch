@@ -1,0 +1,591 @@
+{
+  "id": "CSA-000993",
+  "instruction": "Design a Banking architecture. using a Event-Driven style. deployed on Azure. satisfying: Rate Limiting, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "API_CONSUMER",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "FRONTDOOR",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIM",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "AAD",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "KV",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "EVENTHUB",
+        "type": "queue"
+      },
+      {
+        "id": "SERVICEBUS",
+        "type": "service"
+      },
+      {
+        "id": "QUEUE",
+        "type": "database"
+      },
+      {
+        "id": "ACC",
+        "type": "service"
+      },
+      {
+        "id": "TXN",
+        "type": "service"
+      },
+      {
+        "id": "FRAUD",
+        "type": "service"
+      },
+      {
+        "id": "NOTIF",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "IDENTITY",
+        "type": "service"
+      },
+      {
+        "id": "COSMOS",
+        "type": "database"
+      },
+      {
+        "id": "SQLDB",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "SYNAPSE",
+        "type": "service"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "FRUDEMODEL",
+        "type": "service"
+      },
+      {
+        "id": "VSEARCH",
+        "type": "service"
+      },
+      {
+        "id": "MONITOR",
+        "type": "service"
+      },
+      {
+        "id": "LOGANAL",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "ALERT",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "HELM",
+        "type": "service"
+      },
+      {
+        "id": "PIPE",
+        "type": "service"
+      },
+      {
+        "id": "CONTAINER",
+        "type": "container"
+      },
+      {
+        "id": "DR_COSMOS",
+        "type": "service"
+      },
+      {
+        "id": "DR_SQL",
+        "type": "service"
+      },
+      {
+        "id": "RATE_LIMIT",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_CONSUMER",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "FRONTDOOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "FRONTDOOR",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "AAD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AAD",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "KV",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "COMPLY",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "ACC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "TXN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "IDENTITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "ACC",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "TXN",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "FRAUD",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "TXN",
+        "target": "EVENTHUB",
+        "label": "Async"
+      },
+      {
+        "source": "TXN",
+        "target": "SERVICEBUS",
+        "label": "Async"
+      },
+      {
+        "source": "ACC",
+        "target": "EVENTHUB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB",
+        "target": "FRAUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICEBUS",
+        "target": "NOTIF",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICEBUS",
+        "target": "FRAUD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ACC",
+        "target": "COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "TXN",
+        "target": "SQLDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "TXN",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "SYNAPSE",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "FRAUD",
+        "target": "FRUDEMODEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FRUDEMODEL",
+        "target": "KV",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF",
+        "target": "VSEARCH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VSEARCH",
+        "target": "COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "MONITOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "MONITOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "MONITOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTHUB",
+        "target": "MONITOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICEBUS",
+        "target": "MONITOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "ACC",
+        "target": "LOGANAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "TXN",
+        "target": "LOGANAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "FRAUD",
+        "target": "LOGANAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "NOTIF",
+        "target": "LOGANAL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "ALERT",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPE",
+        "target": "CONTAINER",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPE",
+        "target": "HELM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPE",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONTAINER",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "HELM",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "COSMOS",
+        "target": "DR_COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQLDB",
+        "target": "DR_SQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIM",
+        "target": "RATE_LIMIT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 4,
+      "services": 34
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Event-Driven",
+    "cloud": "Azure",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Rate Limiting",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 67,
+    "source_edges": 68,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,429 @@
+{
+  "id": "CSA-001764",
+  "instruction": "Design a OTT architecture. using a Modular Monolith style. deployed on On-Premises. satisfying: Data Lakehouse Pattern, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "TV",
+        "type": "service"
+      },
+      {
+        "id": "SETTOP",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "MON",
+        "type": "service"
+      },
+      {
+        "id": "AUTH",
+        "type": "service"
+      },
+      {
+        "id": "CATALOG",
+        "type": "service"
+      },
+      {
+        "id": "USER",
+        "type": "service"
+      },
+      {
+        "id": "PLAYBACK",
+        "type": "service"
+      },
+      {
+        "id": "DRM",
+        "type": "service"
+      },
+      {
+        "id": "RECOMMEND",
+        "type": "service"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "RAW_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "CURATED",
+        "type": "service"
+      },
+      {
+        "id": "DW",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "PAYMENT",
+        "type": "service"
+      },
+      {
+        "id": "CDN_ORIGIN",
+        "type": "database"
+      },
+      {
+        "id": "THIRD_PARTY",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "TV",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "SETTOP",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CATALOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "USER",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "PLAYBACK",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "DRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "RECOMMEND",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTH",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "CATALOG",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLAYBACK",
+        "target": "DRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLAYBACK",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "RECOMMEND",
+        "target": "VECTOR",
+        "label": "DB Query"
+      },
+      {
+        "source": "RECOMMEND",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLAYBACK",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "USER",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "RAW_LAKE",
+        "label": "Async"
+      },
+      {
+        "source": "RAW_LAKE",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "CURATED",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "PLAYBACK",
+        "target": "MON",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "CATALOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "USER",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "PLAYBACK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "DRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "RECOMMEND",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "AUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "CATALOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "USER",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PLAYBACK",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "DRM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "RECOMMEND",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "PAYMENT",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "THIRD_PARTY",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN_ORIGIN",
+        "target": "PLAYBACK",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLY",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLY",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLY",
+        "target": "KMS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "OTT",
+    "style": "Modular Monolith",
+    "cloud": "On-Premises",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 54,
+    "source_edges": 66,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

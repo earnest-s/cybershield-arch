@@ -1,0 +1,496 @@
+{
+  "id": "CSA-000977",
+  "instruction": "Design a SCM architecture. using a CQRS style. deployed on GCP. satisfying: GraphRAG Integration, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Edge",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "FedID",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "K8s",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventStore",
+        "type": "service"
+      },
+      {
+        "id": "RL",
+        "type": "service"
+      },
+      {
+        "id": "CmdService",
+        "type": "service"
+      },
+      {
+        "id": "QueryService",
+        "type": "service"
+      },
+      {
+        "id": "GraphRAG",
+        "type": "database"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Orchestrator",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Prom",
+        "type": "service"
+      },
+      {
+        "id": "Graf",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "Edge",
+        "label": "HTTP"
+      },
+      {
+        "source": "Edge",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "SSO",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "PKI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "RBAC",
+        "target": "FedID",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RL",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "RL",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "Kafka",
+        "label": "Async"
+      },
+      {
+        "source": "Kafka",
+        "target": "Orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "Orchestrator",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAG",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "Redis",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Docker",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "GraphRAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Orchestrator",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "RL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prom",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Graf",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAG",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "ELK",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "CQRS",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "GraphRAG Integration",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 54,
+    "source_edges": 60,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

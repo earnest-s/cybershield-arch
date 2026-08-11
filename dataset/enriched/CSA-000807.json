@@ -1,0 +1,680 @@
+{
+  "id": "CSA-000807",
+  "instruction": "Design a Knowledge Graph architecture. using a Data Mesh style. deployed on GCP. satisfying: Auto Scaling, High Throughput (100k+ TPS), GraphRAG Integration, Disaster Recovery.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "EdgeNet",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "GraphQL",
+        "type": "service"
+      },
+      {
+        "id": "GRPC",
+        "type": "service"
+      },
+      {
+        "id": "REST",
+        "type": "service"
+      },
+      {
+        "id": "LLMGateway",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "VectorSearch",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AgentOrch",
+        "type": "service"
+      },
+      {
+        "id": "MeshNode1",
+        "type": "service"
+      },
+      {
+        "id": "MeshNode2",
+        "type": "service"
+      },
+      {
+        "id": "MeshNode3",
+        "type": "database"
+      },
+      {
+        "id": "PG",
+        "type": "database"
+      },
+      {
+        "id": "Mongo",
+        "type": "database"
+      },
+      {
+        "id": "BigTable",
+        "type": "service"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "GKE",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "Docker",
+        "type": "container"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "GCP",
+        "type": "service"
+      },
+      {
+        "id": "DR",
+        "type": "container"
+      },
+      {
+        "id": "Storage",
+        "type": "database"
+      },
+      {
+        "id": "PubSub",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "Micro",
+        "type": "service"
+      },
+      {
+        "id": "Event",
+        "type": "service"
+      },
+      {
+        "id": "AI",
+        "type": "service"
+      },
+      {
+        "id": "OBS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "GraphQL",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "GRPC",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "REST",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphQL",
+        "target": "MeshNode1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRPC",
+        "target": "MeshNode2",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST",
+        "target": "MeshNode3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNode1",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNode2",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNode3",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNode1",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNode2",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNode3",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "EventBridge",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorSearch",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AgentOrch",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNode1",
+        "target": "MeshNode2",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNode2",
+        "target": "MeshNode3",
+        "label": "HTTP"
+      },
+      {
+        "source": "MeshNode3",
+        "target": "MeshNode1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Micro",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "Event",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "AI",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "MeshNode1",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "MeshNode2",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "MeshNode3",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "VectorSearch",
+        "label": "HTTP"
+      },
+      {
+        "source": "GKE",
+        "target": "AgentOrch",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "GCP",
+        "target": "PubSub",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "MeshNode1",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "MeshNode2",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "MeshNode3",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "PG",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "Mongo",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OBS",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "GKE",
+        "label": "HTTP"
+      },
+      {
+        "source": "Grafana",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "GKE",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 10,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 4,
+      "databases": 5,
+      "services": 48
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Knowledge Graph",
+    "style": "Data Mesh",
+    "cloud": "GCP",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Auto Scaling",
+      "High Throughput (100k+ TPS)",
+      "GraphRAG Integration",
+      "Disaster Recovery"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 81,
+    "source_edges": 82,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

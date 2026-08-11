@@ -1,0 +1,767 @@
+{
+  "id": "CSA-001996",
+  "instruction": "Design a Pharma architecture. using a Modular Monolith style. deployed on AWS. satisfying: Active-Active Multi-Region, Disaster Recovery, AI/ML Inference Integration, High Throughput (100k+ TPS), GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "EdgeLB",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "CDN1",
+        "type": "service"
+      },
+      {
+        "id": "CDN2",
+        "type": "service"
+      },
+      {
+        "id": "CDN3",
+        "type": "service"
+      },
+      {
+        "id": "CDN_Zone",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OIDC",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "K8s_US_East",
+        "type": "container"
+      },
+      {
+        "id": "K8s_EU_West",
+        "type": "container"
+      },
+      {
+        "id": "K8s_AP_SouthEast",
+        "type": "container"
+      },
+      {
+        "id": "K8s_DR",
+        "type": "container"
+      },
+      {
+        "id": "SM_US_East",
+        "type": "service"
+      },
+      {
+        "id": "SM_EU_West",
+        "type": "service"
+      },
+      {
+        "id": "SM_AP_SouthEast",
+        "type": "service"
+      },
+      {
+        "id": "SM_DR",
+        "type": "service"
+      },
+      {
+        "id": "Service_Mesh",
+        "type": "service"
+      },
+      {
+        "id": "AuthService",
+        "type": "service"
+      },
+      {
+        "id": "PatientService",
+        "type": "service"
+      },
+      {
+        "id": "TrialService",
+        "type": "service"
+      },
+      {
+        "id": "SupplyChainService",
+        "type": "service"
+      },
+      {
+        "id": "BillingService",
+        "type": "service"
+      },
+      {
+        "id": "ReportingService",
+        "type": "service"
+      },
+      {
+        "id": "AIInferenceService",
+        "type": "service"
+      },
+      {
+        "id": "GraphRAGService",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Dynamo",
+        "type": "database"
+      },
+      {
+        "id": "Elastic",
+        "type": "container"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "Lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "S3_Backup",
+        "type": "service"
+      },
+      {
+        "id": "Backup_Storage",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "service"
+      },
+      {
+        "id": "SNS",
+        "type": "service"
+      },
+      {
+        "id": "EventBridge",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "Loki",
+        "type": "service"
+      },
+      {
+        "id": "Jaeger",
+        "type": "service"
+      },
+      {
+        "id": "CodeRepo",
+        "type": "service"
+      },
+      {
+        "id": "Build",
+        "type": "ui"
+      },
+      {
+        "id": "Deploy",
+        "type": "service"
+      },
+      {
+        "id": "Platform_Infrastructure",
+        "type": "service"
+      },
+      {
+        "id": "Security_Layer",
+        "type": "service"
+      },
+      {
+        "id": "Compliance",
+        "type": "service"
+      },
+      {
+        "id": "Observability",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "CDN_Zone",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "OIDC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "OIDC",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "KMS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "HIPAA",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "GDPR",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "SOC2",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "ISO",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_US_East",
+        "target": "K8s_EU_West",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_EU_West",
+        "target": "K8s_AP_SouthEast",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_AP_SouthEast",
+        "target": "K8s_DR",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_US_East",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_EU_West",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_AP_SouthEast",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8s_DR",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "PatientService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "TrialService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupplyChainService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInferenceService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAGService",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "PatientService",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "TrialService",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupplyChainService",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingService",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingService",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInferenceService",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAGService",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "AIInferenceService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Lakehouse",
+        "target": "ReportingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Backup_Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "Dynamo",
+        "target": "Backup_Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "Backup_Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Backup_Storage",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQS",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "SNS",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBridge",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Loki",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Jaeger",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CodeRepo",
+        "target": "Build",
+        "label": "HTTP"
+      },
+      {
+        "source": "Build",
+        "target": "Deploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "Platform_Infrastructure",
+        "label": "HTTP"
+      },
+      {
+        "source": "EdgeLB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AuthService",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "PatientService",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "TrialService",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "SupplyChainService",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "BillingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "ReportingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AIInferenceService",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "GraphRAGService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthService",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PatientService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "TrialService",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "SupplyChainService",
+        "target": "Dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "BillingService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingService",
+        "target": "Lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIInferenceService",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GraphRAGService",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security_Layer",
+        "target": "EdgeLB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security_Layer",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Security_Layer",
+        "target": "Service_Mesh",
+        "label": "HTTP"
+      },
+      {
+        "source": "Compliance",
+        "target": "Observability",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 4,
+      "services": 46
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Modular Monolith",
+    "cloud": "AWS",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Disaster Recovery",
+      "AI/ML Inference Integration",
+      "High Throughput (100k+ TPS)",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 75,
+    "source_edges": 122,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

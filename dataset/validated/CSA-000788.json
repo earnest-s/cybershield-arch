@@ -1,0 +1,541 @@
+{
+  "id": "CSA-000788",
+  "instruction": "Design a Energy architecture. using a Microservices style. deployed on AWS. satisfying: Observability Stack, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "scada",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "apiGw",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "vpcPublic",
+        "type": "service"
+      },
+      {
+        "id": "vpcApp",
+        "type": "service"
+      },
+      {
+        "id": "vpcData",
+        "type": "service"
+      },
+      {
+        "id": "vpcDMZ",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "sgApp",
+        "type": "service"
+      },
+      {
+        "id": "sgData",
+        "type": "service"
+      },
+      {
+        "id": "ingestion",
+        "type": "service"
+      },
+      {
+        "id": "billing",
+        "type": "service"
+      },
+      {
+        "id": "metering",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "eventBus",
+        "type": "queue"
+      },
+      {
+        "id": "pg",
+        "type": "database"
+      },
+      {
+        "id": "ddb",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "s3",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prom",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "eks",
+        "type": "container"
+      },
+      {
+        "id": "ci",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "SECURITY",
+        "type": "service"
+      },
+      {
+        "id": "NETWORK",
+        "type": "service"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      },
+      {
+        "id": "DATA",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "scada",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "apiGw",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "vpcPublic",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpcPublic",
+        "target": "vpcDMZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpcDMZ",
+        "target": "vpcApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpcApp",
+        "target": "vpcData",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "mfa",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "sgApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "sgData",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "apiGw",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "ingestion",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "metering",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "ingestion",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "billing",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "metering",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingestion",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "billing",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "metering",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "eventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "ddb",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventBus",
+        "target": "s3",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prom",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "prom",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "otel",
+        "label": "HTTP"
+      },
+      {
+        "source": "eks",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "eks",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "SECURITY",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "NETWORK",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "DATA",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 3,
+      "databases": 3,
+      "services": 36
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service, Audit Logging, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Energy",
+    "style": "Microservices",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Observability Stack",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 45,
+    "source_edges": 58,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

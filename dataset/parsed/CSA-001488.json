@@ -1,0 +1,489 @@
+{
+  "id": "CSA-001488",
+  "instruction": "Design a Banking architecture. using a Event-Driven style. deployed on Azure. satisfying: Disaster Recovery, Compliance/Audit Logging.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "AzureFrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "AzureLoadBalancer",
+        "type": "database"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAuth",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "RBAC",
+        "type": "service"
+      },
+      {
+        "id": "ZeroTrust",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "AccountService",
+        "type": "service"
+      },
+      {
+        "id": "TransactionService",
+        "type": "service"
+      },
+      {
+        "id": "NotificationService",
+        "type": "service"
+      },
+      {
+        "id": "FraudDetection",
+        "type": "service"
+      },
+      {
+        "id": "ReportingService",
+        "type": "service"
+      },
+      {
+        "id": "SagaCoordinator",
+        "type": "service"
+      },
+      {
+        "id": "EventRouter",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "CosmosDB",
+        "type": "database"
+      },
+      {
+        "id": "RedisCache",
+        "type": "cache"
+      },
+      {
+        "id": "Elastic",
+        "type": "service"
+      },
+      {
+        "id": "DataLake",
+        "type": "database"
+      },
+      {
+        "id": "ServiceBus",
+        "type": "service"
+      },
+      {
+        "id": "EventGrid",
+        "type": "service"
+      },
+      {
+        "id": "FraudModel",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "GitHubCI",
+        "type": "service"
+      },
+      {
+        "id": "Helm",
+        "type": "service"
+      },
+      {
+        "id": "AzureRegion1",
+        "type": "service"
+      },
+      {
+        "id": "AzureRegion2",
+        "type": "service"
+      },
+      {
+        "id": "Backup",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "AzureFrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureFrontDoor",
+        "target": "AzureLoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureLoadBalancer",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "OAuth",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAuth",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "RBAC",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "ZeroTrust",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "EventGrid",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "TransactionService",
+        "label": "HTTP"
+      },
+      {
+        "source": "ServiceBus",
+        "target": "NotificationService",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventGrid",
+        "target": "FraudDetection",
+        "label": "HTTP"
+      },
+      {
+        "source": "TransactionService",
+        "target": "SagaCoordinator",
+        "label": "HTTP"
+      },
+      {
+        "source": "SagaCoordinator",
+        "target": "TransactionService",
+        "label": "HTTP"
+      },
+      {
+        "source": "SagaCoordinator",
+        "target": "NotificationService",
+        "label": "HTTP"
+      },
+      {
+        "source": "SagaCoordinator",
+        "target": "FraudDetection",
+        "label": "HTTP"
+      },
+      {
+        "source": "TransactionService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "AccountService",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotificationService",
+        "target": "RedisCache",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingService",
+        "target": "CosmosDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudDetection",
+        "target": "FraudModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "FraudModel",
+        "target": "DataLake",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReportingService",
+        "target": "Elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "Elastic",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "Postgres",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "CosmosDB",
+        "target": "Backup",
+        "label": "HTTP"
+      },
+      {
+        "source": "Backup",
+        "target": "AzureRegion2",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "ServiceBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "EventGrid",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLog",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "AccountService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "TransactionService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "NotificationService",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "FraudDetection",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "ReportingService",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitHubCI",
+        "target": "Helm",
+        "label": "HTTP"
+      },
+      {
+        "source": "Helm",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion1",
+        "target": "AzureRegion2",
+        "label": "HTTP"
+      },
+      {
+        "source": "AzureRegion2",
+        "target": "AzureLoadBalancer",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "FraudDetection",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGateway",
+        "target": "NotificationService",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Banking",
+    "style": "Event-Driven",
+    "cloud": "Azure",
+    "complexity": "Medium",
+    "constraints": [
+      "Disaster Recovery",
+      "Compliance/Audit Logging"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 70,
+    "source_edges": 59,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,268 @@
+{
+  "id": "CSA-002143",
+  "instruction": "Design a SCM architecture. using a CQRS style. deployed on AWS. satisfying: Rate Limiting, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "APIGateway",
+        "type": "service"
+      },
+      {
+        "id": "Cognito",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "KMS",
+        "type": "service"
+      },
+      {
+        "id": "FeatureFlags",
+        "type": "service"
+      },
+      {
+        "id": "CmdService",
+        "type": "service"
+      },
+      {
+        "id": "EventStore",
+        "type": "database"
+      },
+      {
+        "id": "EventBus",
+        "type": "service"
+      },
+      {
+        "id": "QueryService",
+        "type": "service"
+      },
+      {
+        "id": "ReadModel",
+        "type": "database"
+      },
+      {
+        "id": "Cache",
+        "type": "cache"
+      },
+      {
+        "id": "CW",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "Cluster",
+        "type": "container"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "database"
+      },
+      {
+        "id": "LambdaUpdate",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "Cognito",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cognito",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "APIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "FeatureFlags",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "WebUI",
+        "label": "HTTP"
+      },
+      {
+        "source": "FeatureFlags",
+        "target": "MobileApp",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGateway",
+        "target": "QueryService",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "EventBus",
+        "label": "Async"
+      },
+      {
+        "source": "EventBus",
+        "target": "EventStore",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventStore",
+        "target": "LambdaUpdate",
+        "label": "HTTP"
+      },
+      {
+        "source": "LambdaUpdate",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "Cache",
+        "label": "Cache"
+      },
+      {
+        "source": "Cache",
+        "target": "ReadModel",
+        "label": "HTTP"
+      },
+      {
+        "source": "CmdService",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "QueryService",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ReadModel",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cache",
+        "target": "CW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cluster",
+        "target": "CmdService",
+        "label": "HTTP"
+      },
+      {
+        "source": "Cluster",
+        "target": "QueryService",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "CQRS",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 38,
+    "source_edges": 32,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

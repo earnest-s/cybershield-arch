@@ -1,0 +1,613 @@
+{
+  "id": "CSA-001378",
+  "instruction": "Design a OTT architecture. using a Serverless style. deployed on AWS. satisfying: Blue/Green Deployment, High Throughput (100k+ TPS), Active-Active Multi-Region, Strict Network Segmentation.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "tv",
+        "type": "service"
+      },
+      {
+        "id": "api_consumer",
+        "type": "service"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "vault",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "compliance",
+        "type": "database"
+      },
+      {
+        "id": "apigw",
+        "type": "service"
+      },
+      {
+        "id": "auth",
+        "type": "service"
+      },
+      {
+        "id": "edge_lambda",
+        "type": "cache"
+      },
+      {
+        "id": "micro1",
+        "type": "service"
+      },
+      {
+        "id": "micro2",
+        "type": "service"
+      },
+      {
+        "id": "micro3",
+        "type": "service"
+      },
+      {
+        "id": "ingest",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "kinesis",
+        "type": "service"
+      },
+      {
+        "id": "eventbus",
+        "type": "service"
+      },
+      {
+        "id": "sqs",
+        "type": "queue"
+      },
+      {
+        "id": "ddb_user",
+        "type": "database"
+      },
+      {
+        "id": "ddb_meta",
+        "type": "database"
+      },
+      {
+        "id": "s3_raw",
+        "type": "service"
+      },
+      {
+        "id": "s3_cdn",
+        "type": "service"
+      },
+      {
+        "id": "elastic",
+        "type": "service"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "vector",
+        "type": "database"
+      },
+      {
+        "id": "embed",
+        "type": "service"
+      },
+      {
+        "id": "rag",
+        "type": "service"
+      },
+      {
+        "id": "ai_gateway",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "logs",
+        "type": "service"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "bluegreen",
+        "type": "service"
+      },
+      {
+        "id": "canary",
+        "type": "service"
+      },
+      {
+        "id": "sm",
+        "type": "service"
+      },
+      {
+        "id": "monitoring",
+        "type": "service"
+      },
+      {
+        "id": "region_us_lb",
+        "type": "service"
+      },
+      {
+        "id": "region_us_apigw",
+        "type": "service"
+      },
+      {
+        "id": "region_us_funcs",
+        "type": "service"
+      },
+      {
+        "id": "region_au_lb",
+        "type": "service"
+      },
+      {
+        "id": "region_au_apigw",
+        "type": "service"
+      },
+      {
+        "id": "region_au_funcs",
+        "type": "service"
+      },
+      {
+        "id": "ci_db",
+        "type": "service"
+      },
+      {
+        "id": "lambdas",
+        "type": "service"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "cdn",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "web",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "tv",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_consumer",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "region_us_lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "region_au_lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "region_us_lb",
+        "target": "region_us_apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "region_au_lb",
+        "target": "region_au_apigw",
+        "label": "HTTP"
+      },
+      {
+        "source": "region_us_apigw",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "region_au_apigw",
+        "target": "auth",
+        "label": "HTTP"
+      },
+      {
+        "source": "auth",
+        "target": "edge_lambda",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge_lambda",
+        "target": "micro1",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge_lambda",
+        "target": "micro2",
+        "label": "HTTP"
+      },
+      {
+        "source": "edge_lambda",
+        "target": "micro3",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro1",
+        "target": "ddb_meta",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro2",
+        "target": "ddb_user",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro3",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "micro3",
+        "target": "kinesis",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "s3_raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "s3_cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "ingest",
+        "target": "kinesis",
+        "label": "HTTP"
+      },
+      {
+        "source": "kinesis",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "eventbus",
+        "label": "HTTP"
+      },
+      {
+        "source": "eventbus",
+        "target": "sqs",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "micro1",
+        "label": "HTTP"
+      },
+      {
+        "source": "sqs",
+        "target": "micro2",
+        "label": "HTTP"
+      },
+      {
+        "source": "elastic",
+        "target": "micro1",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector",
+        "target": "rag",
+        "label": "HTTP"
+      },
+      {
+        "source": "rag",
+        "target": "embed",
+        "label": "HTTP"
+      },
+      {
+        "source": "embed",
+        "target": "ai_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_gateway",
+        "target": "elastic",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "bluegreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_db",
+        "target": "canary",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "region_us_funcs",
+        "label": "HTTP"
+      },
+      {
+        "source": "bluegreen",
+        "target": "region_au_funcs",
+        "label": "HTTP"
+      },
+      {
+        "source": "canary",
+        "target": "region_us_funcs",
+        "label": "HTTP"
+      },
+      {
+        "source": "canary",
+        "target": "region_au_funcs",
+        "label": "HTTP"
+      },
+      {
+        "source": "sm",
+        "target": "region_us_funcs",
+        "label": "HTTP"
+      },
+      {
+        "source": "sm",
+        "target": "region_au_funcs",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "sso",
+        "label": "HTTP"
+      },
+      {
+        "source": "vault",
+        "target": "lambdas",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "s3_raw",
+        "label": "HTTP"
+      },
+      {
+        "source": "kms",
+        "target": "s3_cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "compliance",
+        "target": "logs",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "monitoring",
+        "target": "api_gw",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 20,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 6,
+      "databases": 6,
+      "services": 45
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "OTT",
+    "style": "Serverless",
+    "cloud": "AWS",
+    "complexity": "Medium",
+    "constraints": [
+      "Blue/Green Deployment",
+      "High Throughput (100k+ TPS)",
+      "Active-Active Multi-Region",
+      "Strict Network Segmentation"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 81,
+    "source_edges": 67,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

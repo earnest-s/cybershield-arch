@@ -1,0 +1,381 @@
+{
+  "id": "CSA-000729",
+  "instruction": "Design a OTT architecture. using a Serverless style. deployed on GCP. satisfying: Data Lakehouse Pattern, Feature Flags.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "OAUTH",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "SECRETS",
+        "type": "service"
+      },
+      {
+        "id": "FUNCTIONS",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "FLAG",
+        "type": "service"
+      },
+      {
+        "id": "EVENTBUS",
+        "type": "service"
+      },
+      {
+        "id": "STORAGE",
+        "type": "database"
+      },
+      {
+        "id": "BQ",
+        "type": "service"
+      },
+      {
+        "id": "RAW",
+        "type": "database"
+      },
+      {
+        "id": "CURATED",
+        "type": "service"
+      },
+      {
+        "id": "ENRICHED",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "ANALYTICS",
+        "type": "service"
+      },
+      {
+        "id": "LOGGING",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "METRIC",
+        "type": "service"
+      },
+      {
+        "id": "PCI",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "ui"
+      },
+      {
+        "id": "IAC",
+        "type": "service"
+      },
+      {
+        "id": "MONITOR",
+        "type": "service"
+      },
+      {
+        "id": "FUNCTION_DEPLOY",
+        "type": "service"
+      },
+      {
+        "id": "INFRA_DEPLOY",
+        "type": "service"
+      },
+      {
+        "id": "ALL_RESOURCES",
+        "type": "database"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "OAUTH",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "OAUTH",
+        "label": "HTTP"
+      },
+      {
+        "source": "SECRETS",
+        "target": "FUNCTIONS",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "SECRETS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FLAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAG",
+        "target": "FUNCTIONS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNCTIONS",
+        "target": "EVENTBUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNCTIONS",
+        "target": "STORAGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNCTIONS",
+        "target": "BQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAW",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "CURATED",
+        "target": "ENRICHED",
+        "label": "HTTP"
+      },
+      {
+        "source": "STORAGE",
+        "target": "RAW",
+        "label": "HTTP"
+      },
+      {
+        "source": "BQ",
+        "target": "CURATED",
+        "label": "HTTP"
+      },
+      {
+        "source": "BQ",
+        "target": "ENRICHED",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTBUS",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENTBUS",
+        "target": "LOGGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "ANALYTICS",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOGGING",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "METRIC",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI",
+        "target": "LOGGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "LOGGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "STORAGE",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "FUNCTION_DEPLOY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "INFRA_DEPLOY",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAC",
+        "target": "ALL_RESOURCES",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONITOR",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAG",
+        "target": "ANALYTICS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FLAG",
+        "target": "LOGGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "CLIENTS",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FUNCTIONS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "OTT",
+    "style": "Serverless",
+    "cloud": "GCP",
+    "complexity": "Large",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Feature Flags"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 52,
+    "source_edges": 50,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,377 @@
+{
+  "id": "CSA-000601",
+  "instruction": "Design a GenAI architecture. using a Zero-Trust style. deployed on AWS. satisfying: Blue/Green Deployment, Active-Active Multi-Region, Auto Scaling.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "CF",
+        "type": "service"
+      },
+      {
+        "id": "MOB",
+        "type": "service"
+      },
+      {
+        "id": "API",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "R53",
+        "type": "service"
+      },
+      {
+        "id": "LB_EAST",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO_EAST",
+        "type": "service"
+      },
+      {
+        "id": "SG_INFER_EAST",
+        "type": "service"
+      },
+      {
+        "id": "SG_GREEN_EAST",
+        "type": "service"
+      },
+      {
+        "id": "MSG_EAST",
+        "type": "service"
+      },
+      {
+        "id": "DDB_EAST",
+        "type": "database"
+      },
+      {
+        "id": "S3_EAST",
+        "type": "service"
+      },
+      {
+        "id": "OS_EAST",
+        "type": "service"
+      },
+      {
+        "id": "CW_EAST",
+        "type": "service"
+      },
+      {
+        "id": "XRAY_EAST",
+        "type": "service"
+      },
+      {
+        "id": "LB_WEST",
+        "type": "service"
+      },
+      {
+        "id": "ISTIO_WEST",
+        "type": "service"
+      },
+      {
+        "id": "SG_INFER_WEST",
+        "type": "service"
+      },
+      {
+        "id": "SG_GREEN_WEST",
+        "type": "service"
+      },
+      {
+        "id": "MSG_WEST",
+        "type": "service"
+      },
+      {
+        "id": "DDB_WEST",
+        "type": "database"
+      },
+      {
+        "id": "S3_WEST",
+        "type": "service"
+      },
+      {
+        "id": "OS_WEST",
+        "type": "service"
+      },
+      {
+        "id": "CW_WEST",
+        "type": "service"
+      },
+      {
+        "id": "XRAY_WEST",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "SM",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOB",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "API",
+        "target": "CF",
+        "label": "HTTP"
+      },
+      {
+        "source": "CF",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "R53",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO_EAST",
+        "target": "SG_INFER_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO_EAST",
+        "target": "SG_GREEN_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "MSG_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "MSG_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "DDB_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "DDB_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "S3_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "S3_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "OS_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "OS_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "CW_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "CW_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_EAST",
+        "target": "XRAY_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_EAST",
+        "target": "XRAY_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_EAST",
+        "target": "SG_INFER_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_EAST",
+        "target": "SG_GREEN_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO_WEST",
+        "target": "SG_INFER_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO_WEST",
+        "target": "SG_GREEN_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "MSG_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "MSG_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "DDB_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "DDB_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "S3_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "S3_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "OS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "OS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "CW_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "CW_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_INFER_WEST",
+        "target": "XRAY_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SG_GREEN_WEST",
+        "target": "XRAY_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_WEST",
+        "target": "SG_INFER_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB_WEST",
+        "target": "SG_GREEN_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "LB_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "LB_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "SG_INFER_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "SG_GREEN_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "SG_INFER_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SM",
+        "target": "SG_GREEN_WEST",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "GenAI",
+    "style": "Zero-Trust",
+    "cloud": "AWS",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Active-Active Multi-Region",
+      "Auto Scaling"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 55,
+    "source_edges": 53,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

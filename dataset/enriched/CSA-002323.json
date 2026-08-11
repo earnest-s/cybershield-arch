@@ -1,0 +1,638 @@
+{
+  "id": "CSA-002323",
+  "instruction": "Design a SCM architecture. using a Modular Monolith style. deployed on Azure. satisfying: High Throughput (100k+ TPS), Strict Network Segmentation, Disaster Recovery, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "FrontDoor",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "AppGW_EAST",
+        "type": "service"
+      },
+      {
+        "id": "AppGW_WEST",
+        "type": "service"
+      },
+      {
+        "id": "FW_EAST",
+        "type": "service"
+      },
+      {
+        "id": "NSG_EAST",
+        "type": "service"
+      },
+      {
+        "id": "AKS_EAST",
+        "type": "container"
+      },
+      {
+        "id": "MONO_EAST",
+        "type": "container"
+      },
+      {
+        "id": "SIDECAR_EAST",
+        "type": "service"
+      },
+      {
+        "id": "COSMOS_EAST",
+        "type": "database"
+      },
+      {
+        "id": "POSTGRES_EAST",
+        "type": "database"
+      },
+      {
+        "id": "REDIS_EAST",
+        "type": "cache"
+      },
+      {
+        "id": "SEARCH_EAST",
+        "type": "service"
+      },
+      {
+        "id": "SB_EAST",
+        "type": "service"
+      },
+      {
+        "id": "EG_EAST",
+        "type": "service"
+      },
+      {
+        "id": "KV_EAST",
+        "type": "service"
+      },
+      {
+        "id": "AD_EAST",
+        "type": "service"
+      },
+      {
+        "id": "MON_EAST",
+        "type": "service"
+      },
+      {
+        "id": "AI_EAST",
+        "type": "service"
+      },
+      {
+        "id": "GRS_EAST",
+        "type": "database"
+      },
+      {
+        "id": "SAR_EAST",
+        "type": "service"
+      },
+      {
+        "id": "FW_WEST",
+        "type": "service"
+      },
+      {
+        "id": "NSG_WEST",
+        "type": "service"
+      },
+      {
+        "id": "AKS_WEST",
+        "type": "container"
+      },
+      {
+        "id": "MONO_WEST",
+        "type": "container"
+      },
+      {
+        "id": "SIDECAR_WEST",
+        "type": "service"
+      },
+      {
+        "id": "COSMOS_WEST",
+        "type": "database"
+      },
+      {
+        "id": "POSTGRES_WEST",
+        "type": "database"
+      },
+      {
+        "id": "REDIS_WEST",
+        "type": "cache"
+      },
+      {
+        "id": "SEARCH_WEST",
+        "type": "service"
+      },
+      {
+        "id": "SB_WEST",
+        "type": "service"
+      },
+      {
+        "id": "EG_WEST",
+        "type": "service"
+      },
+      {
+        "id": "KV_WEST",
+        "type": "service"
+      },
+      {
+        "id": "AD_WEST",
+        "type": "service"
+      },
+      {
+        "id": "MON_WEST",
+        "type": "service"
+      },
+      {
+        "id": "AI_WEST",
+        "type": "service"
+      },
+      {
+        "id": "GRS_WEST",
+        "type": "database"
+      },
+      {
+        "id": "SAR_WEST",
+        "type": "service"
+      },
+      {
+        "id": "ISO",
+        "type": "service"
+      },
+      {
+        "id": "SOC",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "REGION_EAST_US",
+        "type": "service"
+      },
+      {
+        "id": "REGION_WEST_EU",
+        "type": "service"
+      },
+      {
+        "id": "CQRS",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_SOURCING",
+        "type": "service"
+      },
+      {
+        "id": "BLUE_GREEN",
+        "type": "service"
+      },
+      {
+        "id": "FEATURE_FLAGS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "FrontDoor",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontDoor",
+        "target": "AppGW_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "FrontDoor",
+        "target": "AppGW_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "AppGW_EAST",
+        "target": "FW_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW_EAST",
+        "target": "NSG_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "NSG_EAST",
+        "target": "AKS_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_EAST",
+        "target": "MONO_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_EAST",
+        "target": "SIDECAR_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_EAST",
+        "target": "SB_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_EAST",
+        "target": "EG_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_EAST",
+        "target": "COSMOS_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_EAST",
+        "target": "POSTGRES_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_EAST",
+        "target": "REDIS_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_EAST",
+        "target": "SEARCH_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SB_EAST",
+        "target": "COSMOS_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "EG_EAST",
+        "target": "COSMOS_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_EAST",
+        "target": "KV_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_EAST",
+        "target": "AD_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_EAST",
+        "target": "MON_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_EAST",
+        "target": "AI_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "COSMOS_EAST",
+        "target": "COSMOS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES_EAST",
+        "target": "POSTGRES_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS_EAST",
+        "target": "REDIS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRS_EAST",
+        "target": "GRS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SAR_EAST",
+        "target": "SAR_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "AppGW_WEST",
+        "target": "FW_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW_WEST",
+        "target": "NSG_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "NSG_WEST",
+        "target": "AKS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS_WEST",
+        "target": "MONO_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_WEST",
+        "target": "SIDECAR_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_WEST",
+        "target": "SB_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_WEST",
+        "target": "EG_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_WEST",
+        "target": "COSMOS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_WEST",
+        "target": "POSTGRES_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_WEST",
+        "target": "REDIS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_WEST",
+        "target": "SEARCH_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "SB_WEST",
+        "target": "COSMOS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "EG_WEST",
+        "target": "COSMOS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_WEST",
+        "target": "KV_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_WEST",
+        "target": "AD_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_WEST",
+        "target": "MON_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "MONO_WEST",
+        "target": "AI_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "FrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "FrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIConsumer",
+        "target": "FrontDoor",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISO",
+        "target": "REGION_EAST_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC",
+        "target": "REGION_WEST_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "REGION_EAST_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "REGION_WEST_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS",
+        "target": "MONO_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_SOURCING",
+        "target": "MONO_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE_GREEN",
+        "target": "AKS_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE_FLAGS",
+        "target": "AKS_EAST",
+        "label": "HTTP"
+      },
+      {
+        "source": "CQRS",
+        "target": "MONO_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_SOURCING",
+        "target": "MONO_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "BLUE_GREEN",
+        "target": "AKS_WEST",
+        "label": "HTTP"
+      },
+      {
+        "source": "FEATURE_FLAGS",
+        "target": "AKS_WEST",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "IDS",
+      "IPS",
+      "Monitoring",
+      "RBAC",
+      "SIEM",
+      "WAF"
+    ],
+    "threats": [
+      {
+        "name": "SQL Injection",
+        "severity": "CRITICAL",
+        "description": "Attackers can execute malicious SQL statements that control a web application's database server.",
+        "missing_control": "WAF",
+        "severity_level": "danger"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "WAF",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      }
+    ],
+    "recommendations": [
+      "Deploy a Web Application Firewall.",
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Implement an Intrusion Prevention System.",
+      "Implement an Intrusion Detection System.",
+      "Deploy a SIEM for security event aggregation and threat detection."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 0,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 8,
+      "services": 37
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks WAF, Monitoring, Authentication, Encryption Service, RBAC, Audit Logging, API Gateway, IPS, IDS and SIEM. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "SCM",
+    "style": "Modular Monolith",
+    "cloud": "Azure",
+    "complexity": "Large",
+    "constraints": [
+      "High Throughput (100k+ TPS)",
+      "Strict Network Segmentation",
+      "Disaster Recovery",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 88,
+    "source_edges": 62,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

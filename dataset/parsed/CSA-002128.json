@@ -1,0 +1,682 @@
+{
+  "id": "CSA-002128",
+  "instruction": "Design a Travel architecture. using a Data Mesh style. deployed on AWS. satisfying: Data Lakehouse Pattern, Rate Limiting, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "web",
+        "type": "ui"
+      },
+      {
+        "id": "api_gw",
+        "type": "service"
+      },
+      {
+        "id": "mobile",
+        "type": "service"
+      },
+      {
+        "id": "admin",
+        "type": "ui"
+      },
+      {
+        "id": "cdn",
+        "type": "service"
+      },
+      {
+        "id": "waf",
+        "type": "service"
+      },
+      {
+        "id": "firewall",
+        "type": "service"
+      },
+      {
+        "id": "vpn",
+        "type": "service"
+      },
+      {
+        "id": "lb",
+        "type": "service"
+      },
+      {
+        "id": "iam",
+        "type": "service"
+      },
+      {
+        "id": "oauth",
+        "type": "service"
+      },
+      {
+        "id": "sso",
+        "type": "service"
+      },
+      {
+        "id": "mfa",
+        "type": "service"
+      },
+      {
+        "id": "rbac",
+        "type": "service"
+      },
+      {
+        "id": "rate_limit",
+        "type": "service"
+      },
+      {
+        "id": "api_gateway",
+        "type": "service"
+      },
+      {
+        "id": "istio",
+        "type": "service"
+      },
+      {
+        "id": "envoy",
+        "type": "service"
+      },
+      {
+        "id": "user_mgmt",
+        "type": "service"
+      },
+      {
+        "id": "booking",
+        "type": "service"
+      },
+      {
+        "id": "inventory",
+        "type": "service"
+      },
+      {
+        "id": "payments",
+        "type": "service"
+      },
+      {
+        "id": "recommendation",
+        "type": "service"
+      },
+      {
+        "id": "analytics",
+        "type": "service"
+      },
+      {
+        "id": "ai_orch",
+        "type": "service"
+      },
+      {
+        "id": "graphql",
+        "type": "service"
+      },
+      {
+        "id": "grpc",
+        "type": "service"
+      },
+      {
+        "id": "sidecar",
+        "type": "service"
+      },
+      {
+        "id": "kafka",
+        "type": "queue"
+      },
+      {
+        "id": "rabbit",
+        "type": "queue"
+      },
+      {
+        "id": "eventbridge",
+        "type": "service"
+      },
+      {
+        "id": "user_pg",
+        "type": "database"
+      },
+      {
+        "id": "user_es",
+        "type": "service"
+      },
+      {
+        "id": "travel_cassandra",
+        "type": "service"
+      },
+      {
+        "id": "travel_redis",
+        "type": "cache"
+      },
+      {
+        "id": "financial_dynamo",
+        "type": "database"
+      },
+      {
+        "id": "vector_db",
+        "type": "database"
+      },
+      {
+        "id": "embedding_models",
+        "type": "service"
+      },
+      {
+        "id": "s3_lake",
+        "type": "service"
+      },
+      {
+        "id": "lakehouse",
+        "type": "service"
+      },
+      {
+        "id": "otel",
+        "type": "service"
+      },
+      {
+        "id": "prometheus",
+        "type": "service"
+      },
+      {
+        "id": "grafana",
+        "type": "service"
+      },
+      {
+        "id": "elk",
+        "type": "service"
+      },
+      {
+        "id": "pagerduty",
+        "type": "service"
+      },
+      {
+        "id": "k8s",
+        "type": "container"
+      },
+      {
+        "id": "ci_cd",
+        "type": "service"
+      },
+      {
+        "id": "helm",
+        "type": "service"
+      },
+      {
+        "id": "pci",
+        "type": "service"
+      },
+      {
+        "id": "hipaa",
+        "type": "service"
+      },
+      {
+        "id": "gdpr",
+        "type": "service"
+      },
+      {
+        "id": "iso",
+        "type": "service"
+      },
+      {
+        "id": "all",
+        "type": "service"
+      },
+      {
+        "id": "vpc",
+        "type": "service"
+      },
+      {
+        "id": "dynamodb",
+        "type": "database"
+      },
+      {
+        "id": "redis",
+        "type": "cache"
+      },
+      {
+        "id": "rds",
+        "type": "database"
+      },
+      {
+        "id": "es",
+        "type": "service"
+      },
+      {
+        "id": "vector",
+        "type": "service"
+      },
+      {
+        "id": "kms",
+        "type": "service"
+      },
+      {
+        "id": "secrets",
+        "type": "service"
+      },
+      {
+        "id": "APPLICATION",
+        "type": "service"
+      },
+      {
+        "id": "MESSAGING",
+        "type": "service"
+      },
+      {
+        "id": "DATA_MESH",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "web",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "mobile",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "admin",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "cdn",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "waf",
+        "target": "cdn",
+        "label": "HTTP"
+      },
+      {
+        "source": "firewall",
+        "target": "waf",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpn",
+        "target": "firewall",
+        "label": "HTTP"
+      },
+      {
+        "source": "lb",
+        "target": "vpn",
+        "label": "HTTP"
+      },
+      {
+        "source": "iam",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "oauth",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "sso",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "mfa",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "rbac",
+        "target": "iam",
+        "label": "HTTP"
+      },
+      {
+        "source": "rate_limit",
+        "target": "api_gw",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gateway",
+        "target": "rate_limit",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "envoy",
+        "label": "HTTP"
+      },
+      {
+        "source": "envoy",
+        "target": "api_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "user_mgmt",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "booking",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "inventory",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "payments",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "recommendation",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "graphql",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_orch",
+        "target": "recommendation",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "grpc",
+        "label": "HTTP"
+      },
+      {
+        "source": "grpc",
+        "target": "sidecar",
+        "label": "HTTP"
+      },
+      {
+        "source": "kafka",
+        "target": "booking",
+        "label": "Async"
+      },
+      {
+        "source": "rabbit",
+        "target": "payments",
+        "label": "Async"
+      },
+      {
+        "source": "eventbridge",
+        "target": "inventory",
+        "label": "Async"
+      },
+      {
+        "source": "user_pg",
+        "target": "analytics",
+        "label": "DB Query"
+      },
+      {
+        "source": "user_es",
+        "target": "recommendation",
+        "label": "HTTP"
+      },
+      {
+        "source": "travel_cassandra",
+        "target": "inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "travel_redis",
+        "target": "booking",
+        "label": "HTTP"
+      },
+      {
+        "source": "financial_dynamo",
+        "target": "payments",
+        "label": "HTTP"
+      },
+      {
+        "source": "vector_db",
+        "target": "ai_orch",
+        "label": "HTTP"
+      },
+      {
+        "source": "embedding_models",
+        "target": "ai_orch",
+        "label": "HTTP"
+      },
+      {
+        "source": "s3_lake",
+        "target": "lakehouse",
+        "label": "HTTP"
+      },
+      {
+        "source": "lakehouse",
+        "target": "analytics",
+        "label": "DB Query"
+      },
+      {
+        "source": "otel",
+        "target": "prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "elk",
+        "label": "HTTP"
+      },
+      {
+        "source": "otel",
+        "target": "pagerduty",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "user_mgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "booking",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "inventory",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "payments",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "recommendation",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "analytics",
+        "label": "HTTP"
+      },
+      {
+        "source": "k8s",
+        "target": "ai_orch",
+        "label": "HTTP"
+      },
+      {
+        "source": "ci_cd",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "helm",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "pci",
+        "target": "payments",
+        "label": "HTTP"
+      },
+      {
+        "source": "hipaa",
+        "target": "user_mgmt",
+        "label": "HTTP"
+      },
+      {
+        "source": "gdpr",
+        "target": "user_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "iso",
+        "target": "all",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "lb",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "k8s",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "rabbit",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "s3_lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "dynamodb",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "rds",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "es",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "vector",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "kms",
+        "label": "HTTP"
+      },
+      {
+        "source": "vpc",
+        "target": "secrets",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gw",
+        "target": "api_gateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gateway",
+        "target": "oauth",
+        "label": "HTTP"
+      },
+      {
+        "source": "api_gateway",
+        "target": "istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "APPLICATION",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "MESSAGING",
+        "label": "HTTP"
+      },
+      {
+        "source": "istio",
+        "target": "DATA_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "user_pg",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "travel_cassandra",
+        "label": "HTTP"
+      },
+      {
+        "source": "graphql",
+        "target": "financial_dynamo",
+        "label": "HTTP"
+      },
+      {
+        "source": "analytics",
+        "target": "s3_lake",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_orch",
+        "target": "embedding_models",
+        "label": "HTTP"
+      },
+      {
+        "source": "ai_orch",
+        "target": "vector_db",
+        "label": "HTTP"
+      },
+      {
+        "source": "sidecar",
+        "target": "otel",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Travel",
+    "style": "Data Mesh",
+    "cloud": "AWS",
+    "complexity": "Large",
+    "constraints": [
+      "Data Lakehouse Pattern",
+      "Rate Limiting",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 101,
+    "source_edges": 81,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

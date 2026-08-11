@@ -1,0 +1,321 @@
+{
+  "id": "CSA-000609",
+  "instruction": "Design a Agentic AI architecture. using a Hexagonal style. deployed on On-Premises. satisfying: Disaster Recovery, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CONSUMER",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "REST",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "AGENT",
+        "type": "service"
+      },
+      {
+        "id": "CORE",
+        "type": "service"
+      },
+      {
+        "id": "RATE",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAFANA",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "K8S",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "DR_SITE",
+        "type": "database"
+      },
+      {
+        "id": "DR_SYNC",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTERS",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "CONSUMER",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "VPN",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "AGENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "EVENT",
+        "label": "Async"
+      },
+      {
+        "source": "CORE",
+        "target": "REST",
+        "label": "HTTP"
+      },
+      {
+        "source": "REST",
+        "target": "RATE",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "ADAPTERS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "REDIS",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "EMBEDDING",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "CORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "REDIS",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "POSTGRES",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDING",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "CORE",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "GRAFANA",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "LOG",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SITE",
+        "target": "K8S",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SITE",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SYNC",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SYNC",
+        "target": "KAFKA",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Agentic AI",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Small",
+    "constraints": [
+      "Disaster Recovery",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 48,
+    "source_edges": 36,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

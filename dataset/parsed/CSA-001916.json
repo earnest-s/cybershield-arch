@@ -1,0 +1,313 @@
+{
+  "id": "CSA-001916",
+  "instruction": "Design a Warehouse architecture. using a Hexagonal style. deployed on Azure. satisfying: Compliance/Audit Logging, GraphRAG Integration.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "APP",
+        "type": "service"
+      },
+      {
+        "id": "DOMAIN",
+        "type": "service"
+      },
+      {
+        "id": "PORTS",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTERS",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES",
+        "type": "database"
+      },
+      {
+        "id": "REDIS",
+        "type": "database"
+      },
+      {
+        "id": "ES",
+        "type": "database"
+      },
+      {
+        "id": "VECTOR",
+        "type": "database"
+      },
+      {
+        "id": "EMBEDDING",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AIGW",
+        "type": "service"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "LOG",
+        "type": "service"
+      },
+      {
+        "id": "COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "AKS",
+        "type": "container"
+      },
+      {
+        "id": "DOCKER",
+        "type": "container"
+      },
+      {
+        "id": "ISTIO",
+        "type": "service"
+      },
+      {
+        "id": "CICD",
+        "type": "service"
+      },
+      {
+        "id": "ERP",
+        "type": "service"
+      },
+      {
+        "id": "TMS",
+        "type": "service"
+      },
+      {
+        "id": "ADAPTERs",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "ADAPTERS",
+        "label": "HTTP"
+      },
+      {
+        "source": "AKS",
+        "target": "DOCKER",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOCKER",
+        "target": "ISTIO",
+        "label": "HTTP"
+      },
+      {
+        "source": "ISTIO",
+        "target": "PORTS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PORTS",
+        "target": "APP",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "DOMAIN",
+        "label": "HTTP"
+      },
+      {
+        "source": "DOMAIN",
+        "target": "ADAPTERS",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "KAFKA",
+        "target": "ADAPTERS",
+        "label": "Async"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "POSTGRES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "REDIS",
+        "label": "Cache"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADAPTERS",
+        "target": "VECTOR",
+        "label": "HTTP"
+      },
+      {
+        "source": "VECTOR",
+        "target": "EMBEDDING",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBEDDING",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "AIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AIGW",
+        "target": "ADAPTERS",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "LOG",
+        "target": "ADAPTERS",
+        "label": "HTTP"
+      },
+      {
+        "source": "COMPLY",
+        "target": "ADAPTERs",
+        "label": "HTTP"
+      },
+      {
+        "source": "CICD",
+        "target": "AKS",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "ERP",
+        "label": "HTTP"
+      },
+      {
+        "source": "APP",
+        "target": "TMS",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Warehouse",
+    "style": "Hexagonal",
+    "cloud": "Azure",
+    "complexity": "Small",
+    "constraints": [
+      "Compliance/Audit Logging",
+      "GraphRAG Integration"
+    ],
+    "diagram_type": "graph LR",
+    "source_nodes": 54,
+    "source_edges": 39,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

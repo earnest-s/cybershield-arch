@@ -1,0 +1,362 @@
+{
+  "id": "CSA-001324",
+  "instruction": "Design a HR architecture. using a Serverless style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, High Throughput (100k+ TPS), GraphRAG Integration, Auto Scaling, Rate Limiting.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "RateLimiter",
+        "type": "service"
+      },
+      {
+        "id": "BlueGreen",
+        "type": "service"
+      },
+      {
+        "id": "BGBlue",
+        "type": "service"
+      },
+      {
+        "id": "BGGreen",
+        "type": "service"
+      },
+      {
+        "id": "FuncA",
+        "type": "service"
+      },
+      {
+        "id": "EventBus",
+        "type": "queue"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "RDS",
+        "type": "database"
+      },
+      {
+        "id": "Search",
+        "type": "service"
+      },
+      {
+        "id": "Kafka",
+        "type": "queue"
+      },
+      {
+        "id": "EB",
+        "type": "service"
+      },
+      {
+        "id": "StreamProc",
+        "type": "service"
+      },
+      {
+        "id": "Embeddings",
+        "type": "service"
+      },
+      {
+        "id": "RAGEngine",
+        "type": "container"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "ui"
+      },
+      {
+        "id": "LogAggregator",
+        "type": "service"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "PCI_DSS",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "AuditLog",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WebUI",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "AuthZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RateLimiter",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "BGBlue",
+        "label": "HTTP"
+      },
+      {
+        "source": "BlueGreen",
+        "target": "BGGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGBlue",
+        "target": "FuncA",
+        "label": "HTTP"
+      },
+      {
+        "source": "BGGreen",
+        "target": "FuncA",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA",
+        "target": "EventBus",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA",
+        "target": "RDS",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA",
+        "target": "Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "Kafka",
+        "label": "HTTP"
+      },
+      {
+        "source": "EventBus",
+        "target": "EB",
+        "label": "HTTP"
+      },
+      {
+        "source": "Kafka",
+        "target": "StreamProc",
+        "label": "HTTP"
+      },
+      {
+        "source": "EB",
+        "target": "StreamProc",
+        "label": "HTTP"
+      },
+      {
+        "source": "VectorDB",
+        "target": "Embeddings",
+        "label": "HTTP"
+      },
+      {
+        "source": "Embeddings",
+        "target": "RAGEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "FuncA",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "LogAggregator",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "FuncA",
+        "target": "LogAggregator",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "BlueGreen",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PCI_DSS",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "AuditLog",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "AdminPortal",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "FuncA",
+        "label": "HTTP"
+      },
+      {
+        "source": "RateLimiter",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "StreamProc",
+        "target": "RDS",
+        "label": "HTTP"
+      },
+      {
+        "source": "StreamProc",
+        "target": "Search",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGEngine",
+        "target": "VectorDB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "Serverless",
+    "cloud": "Multi-Cloud",
+    "complexity": "Enterprise",
+    "constraints": [
+      "Blue/Green Deployment",
+      "High Throughput (100k+ TPS)",
+      "GraphRAG Integration",
+      "Auto Scaling",
+      "Rate Limiting"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 51,
+    "source_edges": 51,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

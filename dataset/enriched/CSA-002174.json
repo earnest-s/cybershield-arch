@@ -1,0 +1,416 @@
+{
+  "id": "CSA-002174",
+  "instruction": "Design a Supply Chain architecture. using a Serverless style. deployed on Hybrid Cloud. satisfying: Rate Limiting, AI/ML Inference Integration, GraphRAG Integration, Data Lakehouse Pattern, High Throughput (100k+ TPS).",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "MOB",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "LAMBDA",
+        "type": "service"
+      },
+      {
+        "id": "EVENT",
+        "type": "service"
+      },
+      {
+        "id": "S3",
+        "type": "database"
+      },
+      {
+        "id": "DYN",
+        "type": "database"
+      },
+      {
+        "id": "KAFKA_AWS",
+        "type": "queue"
+      },
+      {
+        "id": "CW",
+        "type": "service"
+      },
+      {
+        "id": "FUNC",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_BUS",
+        "type": "service"
+      },
+      {
+        "id": "ADLS",
+        "type": "database"
+      },
+      {
+        "id": "COSMOS",
+        "type": "database"
+      },
+      {
+        "id": "AKS",
+        "type": "service"
+      },
+      {
+        "id": "APP_INSIGHTS",
+        "type": "service"
+      },
+      {
+        "id": "INF",
+        "type": "service"
+      },
+      {
+        "id": "GRAGR",
+        "type": "service"
+      },
+      {
+        "id": "VEC",
+        "type": "database"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "TF",
+        "type": "service"
+      },
+      {
+        "id": "PIPE",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA_AZ",
+        "type": "queue"
+      },
+      {
+        "id": "CLOUD_AWS",
+        "type": "service"
+      },
+      {
+        "id": "CLOUD_AZURE",
+        "type": "service"
+      },
+      {
+        "id": "RATE_LIMIT",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOB",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "LAMBDA",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "FUNC",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "MFA",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "VAULT",
+        "label": "HTTP"
+      },
+      {
+        "source": "LAMBDA",
+        "target": "EVENT",
+        "label": "HTTP"
+      },
+      {
+        "source": "FUNC",
+        "target": "SERVICE_BUS",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT",
+        "target": "KAFKA_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_BUS",
+        "target": "KAFKA_AZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA_AWS",
+        "target": "KAFKA_AZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA_AWS",
+        "target": "INF",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA_AZ",
+        "target": "INF",
+        "label": "HTTP"
+      },
+      {
+        "source": "INF",
+        "target": "GRAGR",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGR",
+        "target": "VEC",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC",
+        "target": "S3",
+        "label": "HTTP"
+      },
+      {
+        "source": "VEC",
+        "target": "ADLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "S3",
+        "target": "DYN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADLS",
+        "target": "COSMOS",
+        "label": "HTTP"
+      },
+      {
+        "source": "INF",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAGR",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "TF",
+        "target": "CLOUD_AWS",
+        "label": "HTTP"
+      },
+      {
+        "source": "TF",
+        "target": "CLOUD_AZURE",
+        "label": "HTTP"
+      },
+      {
+        "source": "PIPE",
+        "target": "TF",
+        "label": "HTTP"
+      },
+      {
+        "source": "GW",
+        "target": "RATE_LIMIT",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add monitoring and observability.",
+      "Add Authentication service to protect user access.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Implement role-based access control.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 25,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 2,
+      "databases": 5,
+      "services": 25
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Monitoring, Authentication, Encryption Service, RBAC and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Supply Chain",
+    "style": "Serverless",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Rate Limiting",
+      "AI/ML Inference Integration",
+      "GraphRAG Integration",
+      "Data Lakehouse Pattern",
+      "High Throughput (100k+ TPS)"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 45,
+    "source_edges": 42,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

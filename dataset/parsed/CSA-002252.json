@@ -1,0 +1,454 @@
+{
+  "id": "CSA-002252",
+  "instruction": "Design a Multi-Agent Systems architecture. using a Hexagonal style. deployed on On-Premises. satisfying: Auto Scaling, Strict Network Segmentation, Zero Trust Architecture, Observability Stack.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "ZTProxy",
+        "type": "service"
+      },
+      {
+        "id": "APIGW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "Istio",
+        "type": "service"
+      },
+      {
+        "id": "CoreDomain",
+        "type": "database"
+      },
+      {
+        "id": "RestAdapter",
+        "type": "service"
+      },
+      {
+        "id": "KafkaListener",
+        "type": "queue"
+      },
+      {
+        "id": "CLIAdapter",
+        "type": "service"
+      },
+      {
+        "id": "LLMClient",
+        "type": "ui"
+      },
+      {
+        "id": "VecClient",
+        "type": "ui"
+      },
+      {
+        "id": "DBAccessor",
+        "type": "database"
+      },
+      {
+        "id": "NotifPub",
+        "type": "service"
+      },
+      {
+        "id": "Scheduler",
+        "type": "service"
+      },
+      {
+        "id": "PolicyEngine",
+        "type": "service"
+      },
+      {
+        "id": "KnowledgeKG",
+        "type": "service"
+      },
+      {
+        "id": "Inbound_Adapters",
+        "type": "service"
+      },
+      {
+        "id": "Outbound_Adapters",
+        "type": "service"
+      },
+      {
+        "id": "KafkaCluster",
+        "type": "queue"
+      },
+      {
+        "id": "RabbitMQ",
+        "type": "queue"
+      },
+      {
+        "id": "EmbeddingSrv",
+        "type": "service"
+      },
+      {
+        "id": "RAGOrch",
+        "type": "service"
+      },
+      {
+        "id": "AIGateway",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "SSO",
+        "type": "service"
+      },
+      {
+        "id": "Postgres",
+        "type": "database"
+      },
+      {
+        "id": "Redis",
+        "type": "cache"
+      },
+      {
+        "id": "ES",
+        "type": "service"
+      },
+      {
+        "id": "VectorDB",
+        "type": "database"
+      },
+      {
+        "id": "ObjStore",
+        "type": "database"
+      },
+      {
+        "id": "CI_CD",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "ArgoCD",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "Prometheus",
+        "type": "service"
+      },
+      {
+        "id": "Grafana",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "ExtAPI",
+        "type": "service"
+      },
+      {
+        "id": "Messaging",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "K8S_Cluster",
+        "type": "service"
+      },
+      {
+        "id": "HPA",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CoreDomain",
+        "target": "Scheduler",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "PolicyEngine",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "KnowledgeKG",
+        "label": "HTTP"
+      },
+      {
+        "source": "Inbound_Adapters",
+        "target": "CoreDomain",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "Outbound_Adapters",
+        "label": "HTTP"
+      },
+      {
+        "source": "WebUI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "MobileApp",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "ExtAPI",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "ZTProxy",
+        "label": "HTTP"
+      },
+      {
+        "source": "ZTProxy",
+        "target": "APIGW",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "Istio",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "SSO",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "RestAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "APIGW",
+        "target": "CLIAdapter",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaCluster",
+        "target": "KafkaListener",
+        "label": "HTTP"
+      },
+      {
+        "source": "RabbitMQ",
+        "target": "KafkaListener",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMClient",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "VecClient",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "DBAccessor",
+        "target": "Postgres",
+        "label": "HTTP"
+      },
+      {
+        "source": "DBAccessor",
+        "target": "Redis",
+        "label": "HTTP"
+      },
+      {
+        "source": "DBAccessor",
+        "target": "ES",
+        "label": "HTTP"
+      },
+      {
+        "source": "NotifPub",
+        "target": "ExtAPI",
+        "label": "HTTP"
+      },
+      {
+        "source": "Scheduler",
+        "target": "KafkaCluster",
+        "label": "Async"
+      },
+      {
+        "source": "PolicyEngine",
+        "target": "RabbitMQ",
+        "label": "Async"
+      },
+      {
+        "source": "EmbeddingSrv",
+        "target": "VecClient",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGOrch",
+        "target": "VectorDB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAGOrch",
+        "target": "AIGateway",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "LLMClient",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "VecClient",
+        "target": "Vault",
+        "label": "HTTP"
+      },
+      {
+        "source": "Istio",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "CoreDomain",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "Messaging",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ML",
+        "target": "OTEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "Prometheus",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "Grafana",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "GitRepo",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI_CD",
+        "target": "ArgoCD",
+        "label": "HTTP"
+      },
+      {
+        "source": "ArgoCD",
+        "target": "K8S_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "K8S_Cluster",
+        "label": "HTTP"
+      },
+      {
+        "source": "Prometheus",
+        "target": "HPA",
+        "label": "HTTP"
+      },
+      {
+        "source": "HPA",
+        "target": "K8S_Cluster",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "Multi-Agent Systems",
+    "style": "Hexagonal",
+    "cloud": "On-Premises",
+    "complexity": "Large",
+    "constraints": [
+      "Auto Scaling",
+      "Strict Network Segmentation",
+      "Zero Trust Architecture",
+      "Observability Stack"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 74,
+    "source_edges": 50,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

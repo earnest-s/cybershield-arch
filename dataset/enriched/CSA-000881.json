@@ -1,0 +1,647 @@
+{
+  "id": "CSA-000881",
+  "instruction": "Design a Pharma architecture. using a Data Mesh style. deployed on Multi-Cloud. satisfying: Blue/Green Deployment, Auto Scaling, Compliance/Audit Logging, Zero Trust Architecture, Active-Active Multi-Region.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WebUI",
+        "type": "ui"
+      },
+      {
+        "id": "MobileApp",
+        "type": "service"
+      },
+      {
+        "id": "AdminPortal",
+        "type": "ui"
+      },
+      {
+        "id": "APIConsumer",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "service"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "AuthZ",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "Vault",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "TG_A",
+        "type": "service"
+      },
+      {
+        "id": "svcA1",
+        "type": "service"
+      },
+      {
+        "id": "svcA2",
+        "type": "service"
+      },
+      {
+        "id": "svcA3",
+        "type": "service"
+      },
+      {
+        "id": "PostgresA",
+        "type": "database"
+      },
+      {
+        "id": "MongoA",
+        "type": "database"
+      },
+      {
+        "id": "ElasticA",
+        "type": "database"
+      },
+      {
+        "id": "VectorA",
+        "type": "database"
+      },
+      {
+        "id": "KafkaA",
+        "type": "queue"
+      },
+      {
+        "id": "PromA",
+        "type": "service"
+      },
+      {
+        "id": "GrafA",
+        "type": "service"
+      },
+      {
+        "id": "LokiA",
+        "type": "service"
+      },
+      {
+        "id": "AuditLogA",
+        "type": "service"
+      },
+      {
+        "id": "TG_B",
+        "type": "service"
+      },
+      {
+        "id": "svcB1",
+        "type": "service"
+      },
+      {
+        "id": "svcB2",
+        "type": "service"
+      },
+      {
+        "id": "svcB3",
+        "type": "service"
+      },
+      {
+        "id": "PostgresB",
+        "type": "database"
+      },
+      {
+        "id": "MongoB",
+        "type": "database"
+      },
+      {
+        "id": "ElasticB",
+        "type": "database"
+      },
+      {
+        "id": "VectorB",
+        "type": "database"
+      },
+      {
+        "id": "KafkaB",
+        "type": "queue"
+      },
+      {
+        "id": "PromB",
+        "type": "service"
+      },
+      {
+        "id": "GrafB",
+        "type": "service"
+      },
+      {
+        "id": "LokiB",
+        "type": "service"
+      },
+      {
+        "id": "AuditLogB",
+        "type": "service"
+      },
+      {
+        "id": "Blue",
+        "type": "service"
+      },
+      {
+        "id": "Green",
+        "type": "service"
+      },
+      {
+        "id": "GitRepo",
+        "type": "service"
+      },
+      {
+        "id": "Build",
+        "type": "ui"
+      },
+      {
+        "id": "Test",
+        "type": "service"
+      },
+      {
+        "id": "Deploy",
+        "type": "service"
+      },
+      {
+        "id": "Argo",
+        "type": "service"
+      },
+      {
+        "id": "K8sA",
+        "type": "container"
+      },
+      {
+        "id": "K8sB",
+        "type": "container"
+      },
+      {
+        "id": "IstioA",
+        "type": "service"
+      },
+      {
+        "id": "IstioB",
+        "type": "service"
+      },
+      {
+        "id": "CLIENTS",
+        "type": "service"
+      },
+      {
+        "id": "REGION_A_MESH",
+        "type": "service"
+      },
+      {
+        "id": "REGION_B_MESH",
+        "type": "service"
+      },
+      {
+        "id": "Replication",
+        "type": "service"
+      },
+      {
+        "id": "REGION_A_OBS",
+        "type": "service"
+      },
+      {
+        "id": "REGION_B_OBS",
+        "type": "service"
+      },
+      {
+        "id": "REGION_A_COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "REGION_B_COMPLY",
+        "type": "service"
+      },
+      {
+        "id": "Sync",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "CLIENTS",
+        "target": "CDN",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "WAF",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "TG_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "TG_A",
+        "target": "K8sA",
+        "label": "HTTP"
+      },
+      {
+        "source": "TG_B",
+        "target": "K8sB",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sA",
+        "target": "IstioA",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sB",
+        "target": "IstioB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IstioA",
+        "target": "REGION_A_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "IstioB",
+        "target": "REGION_B_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_A_MESH",
+        "target": "svcA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_B_MESH",
+        "target": "svcB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA1",
+        "target": "PostgresA",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA2",
+        "target": "MongoA",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA3",
+        "target": "ElasticA",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA1",
+        "target": "VectorA",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB1",
+        "target": "PostgresB",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB2",
+        "target": "MongoB",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB3",
+        "target": "ElasticB",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB1",
+        "target": "VectorB",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA1",
+        "target": "KafkaA",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA2",
+        "target": "KafkaA",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA3",
+        "target": "KafkaA",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB1",
+        "target": "KafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB2",
+        "target": "KafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB3",
+        "target": "KafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "KafkaA",
+        "target": "Replication",
+        "label": "HTTP"
+      },
+      {
+        "source": "Replication",
+        "target": "KafkaB",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_A_OBS",
+        "target": "PromA",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_B_OBS",
+        "target": "PromB",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_A_COMPLY",
+        "target": "AuditLogA",
+        "label": "HTTP"
+      },
+      {
+        "source": "REGION_B_COMPLY",
+        "target": "AuditLogB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuditLogA",
+        "target": "Sync",
+        "label": "HTTP"
+      },
+      {
+        "source": "Sync",
+        "target": "AuditLogB",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "AuthZ",
+        "target": "svcA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "IAM",
+        "label": "HTTP"
+      },
+      {
+        "source": "Vault",
+        "target": "svcA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "LB",
+        "label": "HTTP"
+      },
+      {
+        "source": "GitRepo",
+        "target": "Build",
+        "label": "HTTP"
+      },
+      {
+        "source": "Build",
+        "target": "Test",
+        "label": "HTTP"
+      },
+      {
+        "source": "Test",
+        "target": "Deploy",
+        "label": "HTTP"
+      },
+      {
+        "source": "Deploy",
+        "target": "Argo",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "Blue",
+        "label": "HTTP"
+      },
+      {
+        "source": "Argo",
+        "target": "Green",
+        "label": "HTTP"
+      },
+      {
+        "source": "Blue",
+        "target": "TG_A",
+        "label": "HTTP"
+      },
+      {
+        "source": "Green",
+        "target": "TG_B",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sA",
+        "target": "svcA1",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8sB",
+        "target": "svcB1",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AuditLogA",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcA3",
+        "target": "AuditLogA",
+        "label": "HTTP"
+      },
+      {
+        "source": "svcB3",
+        "target": "AuditLogB",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "security": {
+    "required_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "MFA",
+      "Monitoring",
+      "RBAC",
+      "WAF"
+    ],
+    "missing_controls": [
+      "API Gateway",
+      "Audit Logging",
+      "Authentication",
+      "Encryption Service",
+      "Monitoring",
+      "RBAC"
+    ],
+    "threats": [
+      {
+        "name": "Unauthorized Access",
+        "severity": "CRITICAL",
+        "description": "Attackers can access systems or data without proper identity verification.",
+        "missing_control": "Authentication",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Credential Stuffing",
+        "severity": "HIGH",
+        "description": "Automated injection of breached username/password pairs.",
+        "missing_control": "Authentication",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Privilege Escalation",
+        "severity": "HIGH",
+        "description": "Users or attackers can gain higher access rights than they are supposed to have.",
+        "missing_control": "RBAC",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Insider Threat",
+        "severity": "MEDIUM",
+        "description": "Malicious or negligent actions by internal users.",
+        "missing_control": "RBAC",
+        "severity_level": "info"
+      },
+      {
+        "name": "DDoS",
+        "severity": "HIGH",
+        "description": "Distributed Denial of Service attacking service availability.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Session Hijacking",
+        "severity": "HIGH",
+        "description": "Attackers take over an active user session.",
+        "missing_control": "API Gateway",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Lateral Movement",
+        "severity": "HIGH",
+        "description": "Attackers move through the network searching for key assets.",
+        "missing_control": "Monitoring",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Data Leakage",
+        "severity": "CRITICAL",
+        "description": "Sensitive data is exposed in transit or at rest.",
+        "missing_control": "Encryption Service",
+        "severity_level": "danger"
+      },
+      {
+        "name": "Data Tampering",
+        "severity": "HIGH",
+        "description": "Data is maliciously modified.",
+        "missing_control": "Encryption Service",
+        "severity_level": "warning"
+      },
+      {
+        "name": "Log Evasion",
+        "severity": "MEDIUM",
+        "description": "Attackers can perform actions without generating audit trails.",
+        "missing_control": "Audit Logging",
+        "severity_level": "info"
+      }
+    ],
+    "recommendations": [
+      "Add Authentication service to protect user access.",
+      "Implement role-based access control.",
+      "Add API Gateway to secure and manage external traffic.",
+      "Add monitoring and observability.",
+      "Encrypt sensitive data at rest and in transit.",
+      "Enable centralized audit logging."
+    ],
+    "risk_level": "HIGH",
+    "security_score": 15,
+    "attack_surface": {
+      "attack_surface_score": 100,
+      "public_endpoints": 5,
+      "databases": 8,
+      "services": 45
+    },
+    "security_summary": "Architecture contains a frontend, an API service and a database but lacks Authentication, RBAC, API Gateway, Monitoring, Encryption Service and Audit Logging. Overall security posture is HIGH RISK and requires immediate remediation."
+  },
+  "metadata": {
+    "domain": "Pharma",
+    "style": "Data Mesh",
+    "cloud": "Multi-Cloud",
+    "complexity": "Small",
+    "constraints": [
+      "Blue/Green Deployment",
+      "Auto Scaling",
+      "Compliance/Audit Logging",
+      "Zero Trust Architecture",
+      "Active-Active Multi-Region"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 92,
+    "source_edges": 57,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}

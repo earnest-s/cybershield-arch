@@ -1,0 +1,530 @@
+{
+  "id": "CSA-000717",
+  "instruction": "Design a HR architecture. using a CQRS style. deployed on Hybrid Cloud. satisfying: Active-Active Multi-Region, Zero Trust Architecture, Data Lakehouse Pattern.",
+  "architecture": {
+    "nodes": [
+      {
+        "id": "WEB",
+        "type": "ui"
+      },
+      {
+        "id": "API_GW",
+        "type": "service"
+      },
+      {
+        "id": "MOBILE",
+        "type": "service"
+      },
+      {
+        "id": "ADMIN",
+        "type": "ui"
+      },
+      {
+        "id": "THIRD",
+        "type": "service"
+      },
+      {
+        "id": "CDN",
+        "type": "service"
+      },
+      {
+        "id": "WAF",
+        "type": "ui"
+      },
+      {
+        "id": "FW",
+        "type": "service"
+      },
+      {
+        "id": "VPN",
+        "type": "service"
+      },
+      {
+        "id": "LB",
+        "type": "service"
+      },
+      {
+        "id": "AUTHZ",
+        "type": "service"
+      },
+      {
+        "id": "IAM",
+        "type": "service"
+      },
+      {
+        "id": "MTLS",
+        "type": "service"
+      },
+      {
+        "id": "SERVICE_MESH",
+        "type": "service"
+      },
+      {
+        "id": "VAULT",
+        "type": "service"
+      },
+      {
+        "id": "MFA",
+        "type": "service"
+      },
+      {
+        "id": "PKI",
+        "type": "service"
+      },
+      {
+        "id": "K8S_EU",
+        "type": "container"
+      },
+      {
+        "id": "K8S_US",
+        "type": "container"
+      },
+      {
+        "id": "K8S_AP",
+        "type": "container"
+      },
+      {
+        "id": "CQRS_LAYER",
+        "type": "service"
+      },
+      {
+        "id": "CI",
+        "type": "service"
+      },
+      {
+        "id": "CMD",
+        "type": "service"
+      },
+      {
+        "id": "CMD_SVC",
+        "type": "service"
+      },
+      {
+        "id": "QRY",
+        "type": "service"
+      },
+      {
+        "id": "QRY_SVC",
+        "type": "service"
+      },
+      {
+        "id": "KAFKA",
+        "type": "queue"
+      },
+      {
+        "id": "POSTGRES_CMD",
+        "type": "database"
+      },
+      {
+        "id": "ES_CMD",
+        "type": "database"
+      },
+      {
+        "id": "READ_MODEL",
+        "type": "service"
+      },
+      {
+        "id": "POSTGRES_QRY",
+        "type": "database"
+      },
+      {
+        "id": "ES_QRY",
+        "type": "database"
+      },
+      {
+        "id": "RAW_LAKE",
+        "type": "service"
+      },
+      {
+        "id": "METASTORE",
+        "type": "service"
+      },
+      {
+        "id": "DW",
+        "type": "service"
+      },
+      {
+        "id": "VECTOR_DB",
+        "type": "database"
+      },
+      {
+        "id": "EMBED",
+        "type": "service"
+      },
+      {
+        "id": "RAG",
+        "type": "service"
+      },
+      {
+        "id": "AGENT",
+        "type": "service"
+      },
+      {
+        "id": "EVENT_BRIDGE",
+        "type": "service"
+      },
+      {
+        "id": "SQS",
+        "type": "queue"
+      },
+      {
+        "id": "DLQ",
+        "type": "queue"
+      },
+      {
+        "id": "PROM",
+        "type": "service"
+      },
+      {
+        "id": "GRAF",
+        "type": "service"
+      },
+      {
+        "id": "OTEL",
+        "type": "service"
+      },
+      {
+        "id": "ELK",
+        "type": "service"
+      },
+      {
+        "id": "GDPR",
+        "type": "service"
+      },
+      {
+        "id": "HIPAA",
+        "type": "service"
+      },
+      {
+        "id": "SOC2",
+        "type": "service"
+      },
+      {
+        "id": "AI_ML",
+        "type": "service"
+      },
+      {
+        "id": "DR_SITE",
+        "type": "service"
+      }
+    ],
+    "edges": [
+      {
+        "source": "WEB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "MOBILE",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "ADMIN",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "THIRD",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "CDN",
+        "target": "WEB",
+        "label": "Cache"
+      },
+      {
+        "source": "WAF",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "FW",
+        "target": "WAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "VPN",
+        "target": "FW",
+        "label": "HTTP"
+      },
+      {
+        "source": "LB",
+        "target": "API_GW",
+        "label": "HTTP"
+      },
+      {
+        "source": "API_GW",
+        "target": "AUTHZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "IAM",
+        "target": "AUTHZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTHZ",
+        "target": "MTLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "MTLS",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "VAULT",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "MFA",
+        "target": "AUTHZ",
+        "label": "HTTP"
+      },
+      {
+        "source": "PKI",
+        "target": "MTLS",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_EU",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_US",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "K8S_AP",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "SERVICE_MESH",
+        "target": "CQRS_LAYER",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "CI",
+        "target": "K8S_AP",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "CMD_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "QRY_SVC",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "KAFKA",
+        "label": "Async"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "POSTGRES_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD_SVC",
+        "target": "ES_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "READ_MODEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_MODEL",
+        "target": "POSTGRES_QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_MODEL",
+        "target": "ES_QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_SVC",
+        "target": "POSTGRES_QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY_SVC",
+        "target": "ES_QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAW_LAKE",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "METASTORE",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "EMBED",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "RAG",
+        "target": "VECTOR_DB",
+        "label": "HTTP"
+      },
+      {
+        "source": "AGENT",
+        "target": "RAG",
+        "label": "HTTP"
+      },
+      {
+        "source": "EVENT_BRIDGE",
+        "target": "KAFKA",
+        "label": "HTTP"
+      },
+      {
+        "source": "SQS",
+        "target": "DLQ",
+        "label": "HTTP"
+      },
+      {
+        "source": "PROM",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "GRAF",
+        "target": "PROM",
+        "label": "HTTP"
+      },
+      {
+        "source": "OTEL",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "ELK",
+        "target": "SERVICE_MESH",
+        "label": "HTTP"
+      },
+      {
+        "source": "GDPR",
+        "target": "POSTGRES_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "HIPAA",
+        "target": "ELK",
+        "label": "HTTP"
+      },
+      {
+        "source": "SOC2",
+        "target": "GRAF",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTHZ",
+        "target": "CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "AUTHZ",
+        "target": "QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "CMD",
+        "target": "POSTGRES_CMD",
+        "label": "HTTP"
+      },
+      {
+        "source": "QRY",
+        "target": "POSTGRES_QRY",
+        "label": "HTTP"
+      },
+      {
+        "source": "KAFKA",
+        "target": "EVENT_BRIDGE",
+        "label": "Async"
+      },
+      {
+        "source": "EVENT_BRIDGE",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "AI_ML",
+        "target": "READ_MODEL",
+        "label": "HTTP"
+      },
+      {
+        "source": "READ_MODEL",
+        "target": "DW",
+        "label": "HTTP"
+      },
+      {
+        "source": "DW",
+        "target": "AI_ML",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SITE",
+        "target": "K8S_US",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SITE",
+        "target": "K8S_EU",
+        "label": "HTTP"
+      },
+      {
+        "source": "DR_SITE",
+        "target": "K8S_AP",
+        "label": "HTTP"
+      }
+    ]
+  },
+  "metadata": {
+    "domain": "HR",
+    "style": "CQRS",
+    "cloud": "Hybrid Cloud",
+    "complexity": "Large",
+    "constraints": [
+      "Active-Active Multi-Region",
+      "Zero Trust Architecture",
+      "Data Lakehouse Pattern"
+    ],
+    "diagram_type": "flowchart LR",
+    "source_nodes": 66,
+    "source_edges": 72,
+    "source": "Technical-Architectures-Large",
+    "version": "1.0"
+  }
+}
