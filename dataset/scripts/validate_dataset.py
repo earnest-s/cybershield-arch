@@ -3,7 +3,7 @@
 Rejects samples with:
 - invalid JSON / schema
 - duplicate IDs / duplicate architectures
-- disconnected graphs
+- completely isolated nodes (orphans; multiple connected components allowed)
 - invalid node references in edges
 - unsupported node types
 - empty threats / empty recommendations
@@ -118,9 +118,12 @@ def validate(limit: int = 0, force: bool = False) -> int:
                 rejected += 1
                 continue
 
-            # Connectedness
-            if not is_weakly_connected(nodes, edges):
-                LOG.warning("%s: disconnected graph", sample_id)
+            # Structural completeness: every declared node must participate in at
+            # least one relationship. Multiple connected components are allowed
+            # (multi-region / multi-workstream architectures); entirely isolated
+            # nodes are not (see has_orphan_node in backend/core/architecture_validator.py).
+            if has_orphan_node(architecture):
+                LOG.warning("%s: isolated node(s) present", sample_id)
                 rejected += 1
                 continue
 
