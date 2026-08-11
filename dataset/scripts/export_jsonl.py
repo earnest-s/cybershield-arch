@@ -20,10 +20,14 @@ OUTPUT_FILE = FINAL_DIR / "CyberShield_Dataset_v1.jsonl"
 LOG = setup_logger("export_jsonl")
 
 
-def export(limit: int = 0) -> int:
+def export(limit: int = 0, output: Path | None = None) -> int:
     if not REVIEWED_DIR.exists():
         LOG.error("Reviewed directory not found. Run review_dataset.py first.")
         return 1
+
+    out_path = output or OUTPUT_FILE
+    if not isinstance(out_path, Path):
+        out_path = Path(out_path)
 
     paths = sample_paths(REVIEWED_DIR)
     if not paths:
@@ -33,7 +37,7 @@ def export(limit: int = 0) -> int:
     FINAL_DIR.mkdir(parents=True, exist_ok=True)
     exported = 0
 
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as out:
+    with open(out_path, "w", encoding="utf-8") as out:
         for path in paths:
             if limit and exported >= limit:
                 break
