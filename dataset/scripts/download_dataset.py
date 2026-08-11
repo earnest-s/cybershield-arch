@@ -66,7 +66,7 @@ def write_metadata(info: dict) -> None:
         json.dump(info, fh, indent=2)
 
 
-def download_samples(limit: int, resume: bool) -> int:
+def download_samples(limit: int, resume: bool, offset: int = 0) -> int:
     LOG.info("Loading dataset builder info...")
     builder = load_dataset_builder(HF_DATASET)
     info = {
@@ -78,8 +78,12 @@ def download_samples(limit: int, resume: bool) -> int:
     total_available = info["splits"].get(SPLIT, 0)
     LOG.info("Total available samples: %d", total_available)
 
-    if limit > 0 and limit < total_available:
-        total_available = limit
+    end = total_available
+    if limit > 0:
+        end = min(offset + limit, total_available)
+    if end <= offset:
+        LOG.info("Nothing to download (offset %d, end %d)", offset, end)
+        return 0
 
     existing = set()
     written = 0
@@ -88,29 +92,29 @@ def download_samples(limit: int, resume: bool) -> int:
         with open(SNAPSHOT_FILE, "r", encoding="utf-8") as fh:
             for i, line in enumerate(fh):
                 if line.strip():
-                    existing.add(str(i))
+                    existing.add(str(offset + i))
         written = len(existing)
         LOG.info("Resume: found %d existing samples in snapshot", written)
     else:
         SNAPSHOT_FILE.unlink(missing_ok=True)
         mode = "w"
 
-    if written >= total_available:
-        LOG.info("Snapshot already complete (%d / %d)", written, total_available)
+    if written >= end - offset:
+        LOG.info("Snapshot already complete (%d / %d)", written, end - offset)
         return written
 
-    LOG.info("Streaming dataset (resumable via line count)...")
+    LOG.info("Streaming dataset (offset %d -> %d, resumable)...", offset, end)
     ds = load_dataset(HF_DATASET, streaming=True, split=SPLIT)
 
     with open(SNAPSHOT_FILE, mode, encoding="utf-8") as out:
-        for i, row in enumerate(islice(ds, limit) if limit else ds):
+        for i, row in enumerate(islice(ds, offset, end), start=offset):
             if resume and str(i) in existing:
                 continue
             json.dump(row, out, ensure_ascii=False)
             out.write("\n")
             written += 1
             if written % 1000 == 0:
-                LOG.info("Progress: %d / %d", written, total_available)
+                LOG.info("Progress: %d / %d", written, end - offset)
 
     LOG.info("Download complete: %d samples written to %s", written, SNAPSHOT_FILE)
     return written
