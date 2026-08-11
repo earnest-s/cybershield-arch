@@ -26,7 +26,7 @@ from dataset.scripts.common import (
     sample_paths,
     setup_logger,
 )
-from backend.core.architecture_validator import is_weakly_connected
+from backend.core.architecture_validator import has_orphan_node
 
 ENRICHED_DIR = DATASET_DIR / "enriched"
 VALIDATED_DIR = DATASET_DIR / "validated"
