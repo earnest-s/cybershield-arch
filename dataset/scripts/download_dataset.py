@@ -40,6 +40,12 @@ def parse_args() -> argparse.Namespace:
         help="Number of samples to download (0 = all).",
     )
     parser.add_argument(
+        "--offset",
+        type=int,
+        default=0,
+        help="Stream offset (row index) to start from.",
+    )
+    parser.add_argument(
         "--resume",
         action="store_true",
         help="Resume from existing snapshot (default: True).",
