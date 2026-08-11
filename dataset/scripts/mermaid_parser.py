@@ -123,12 +123,14 @@ def _extract_edges(line: str, edges: list[ParsedEdge], nodes_by_id: dict[str, Pa
         line = line[: match.start()] + " " * (match.end() - match.start()) + line[match.end():]
 
     # A -->|label| B and plain arrows (chains resolve because each arrow is
-    # scanned independently and the token before an arrow is its source)
+    # scanned independently and the token before an arrow is its source).
+    # The source may carry an optional bracket or quoted label
+    # (WebUI[Web UI] -->|HTTPS| APIGW); without it the edge would be dropped.
     for arrow in _ARROW_TOKEN.finditer(line):
         prefix = line[: arrow.start()]
         suffix = line[arrow.end():]
-        source_match = re.search(rf"({_ID})\s*$", prefix)
-        target_match = re.match(rf"\s*(?:\|([^|]*)\|)?\s*({_ID})", suffix)
+        source_match = re.search(rf"({_ID})\s*(?:\[[^\]\n]*\]|\"[^\"]*\")?\s*$", prefix)
+        target_match = re.match(r"\s*(?:\|([^|]*)\|)?\s*({_ID})", suffix)
         if not source_match or not target_match:
             continue
         source, label_raw, target = source_match.group(1), target_match.group(1), target_match.group(2)
