@@ -130,7 +130,7 @@ def _extract_edges(line: str, edges: list[ParsedEdge], nodes_by_id: dict[str, Pa
         prefix = line[: arrow.start()]
         suffix = line[arrow.end():]
         source_match = re.search(rf"({_ID})\s*(?:\[[^\]\n]*\]|\"[^\"]*\")?\s*$", prefix)
-        target_match = re.match(r"\s*(?:\|([^|]*)\|)?\s*({_ID})", suffix)
+        target_match = re.match(rf"\s*(?:\|([^|]*)\|)?\s*({_ID})", suffix)
         if not source_match or not target_match:
             continue
         source, label_raw, target = source_match.group(1), target_match.group(1), target_match.group(2)
