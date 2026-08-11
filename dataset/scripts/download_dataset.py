@@ -123,7 +123,7 @@ def download_samples(limit: int, resume: bool, offset: int = 0) -> int:
 def main() -> int:
     args = parse_args()
     try:
-        download_samples(args.limit, args.resume)
+        download_samples(args.limit, args.resume, args.offset)
         return 0
     except Exception as e:
         LOG.exception("Download failed: %s", e)
