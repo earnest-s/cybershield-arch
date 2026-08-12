@@ -654,22 +654,6 @@ def main() -> int:
         json.dump(stats, fh, indent=2, ensure_ascii=False)
     LOG.info("Wrote %s", OUT)
 
-    spec = stats["training_spec"]
-    print("\n--- Training spec ---")
-    print("Tokenizer available:", spec["tokenizer"]["available"])
-    print("Extra top keys:", spec["key_leakage"]["extra_top_level_keys"])
-    print("Extra meta keys:", spec["key_leakage"]["extra_metadata_keys"])
-    print("Marker hits:", {k: sum(v.values()) for k, v in spec["contamination"]["marker_hits"].items()})
-    print("Unique instructions:", spec["instruction_stats"]["unique_instructions"],
-          "| avg reuse:", spec["instruction_stats"]["records_per_unique_instruction_avg"])
-    print("Gen prompt+target tokens p50/p95:",
-          spec["lengths"]["generation_prompt_plus_target_tokens"]["p50"], "/",
-          spec["lengths"]["generation_prompt_plus_target_tokens"]["p95"])
-    print("Gen full >4096 tokens:", spec["lengths"]["pct_generation_full_gt_4096"], "%")
-    print("Split 90/5/5 (le_30):", spec["split"]["splits_90_5_5"]["le_30"])
-    print("Split 90/5/5 (all):", spec["split"]["splits_90_5_5"]["all_51498"])
-    return 0
-
     # Console summary
     print(f"\nTotal records: {stats['total']:,}")
     print("Nodes:", json.dumps(stats["nodes"]))
@@ -689,6 +673,21 @@ def main() -> int:
     print("Regime:")
     for label, rs in stats["regime"].items():
         print(f"  {label:>18}: accepted={rs['accepted']:>6} node_mean={rs['node_mean']:.1f} edge_mean={rs['edge_mean']:.1f}")
+
+    spec = stats["training_spec"]
+    print("\n--- Training spec ---")
+    print("Tokenizer available:", spec["tokenizer"]["available"])
+    print("Extra top keys:", spec["key_leakage"]["extra_top_level_keys"])
+    print("Extra meta keys:", spec["key_leakage"]["extra_metadata_keys"])
+    print("Marker hits:", {k: sum(v.values()) for k, v in spec["contamination"]["marker_hits"].items()})
+    print("Unique instructions:", spec["instruction_stats"]["unique_instructions"],
+          "| avg reuse:", spec["instruction_stats"]["records_per_unique_instruction_avg"])
+    print("Gen prompt+target tokens p50/p95:",
+          spec["lengths"]["generation_prompt_plus_target_tokens"]["p50"], "/",
+          spec["lengths"]["generation_prompt_plus_target_tokens"]["p95"])
+    print("Gen full >4096 tokens:", spec["lengths"]["pct_generation_full_gt_4096"], "%")
+    print("Split 90/5/5 (le_30):", spec["split"]["splits_90_5_5"]["le_30"])
+    print("Split 90/5/5 (all):", spec["split"]["splits_90_5_5"]["all_51498"])
     return 0
 
 
