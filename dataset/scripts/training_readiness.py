@@ -24,6 +24,7 @@ Usage:
 
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from collections import Counter
@@ -32,8 +33,6 @@ from pathlib import Path
 import networkx as nx
 
 from backend.core.architecture_schema import (
-    ALLOWED_EDGE_LABELS,
-    ALLOWED_NODE_TYPES,
     HARD_EDGE_LIMIT,
     HARD_NODE_LIMIT,
     MAX_EDGES,
@@ -134,6 +133,8 @@ def analyze(records: list[dict]) -> dict:
     canon_groups: dict[str, list[str]] = {}
     full_groups: dict[str, list[str]] = {}
     node_set_buckets: dict[frozenset, list[int]] = {}
+    edges_by_row: dict[int, frozenset] = {}
+    canon_by_row: dict[int, str] = {}
     regime = Counter()
     regime_nodes = Counter()
     regime_edges = Counter()
@@ -162,6 +163,8 @@ def analyze(records: list[dict]) -> dict:
         for label, lo, hi in REGIME_RANGES:
             if lo <= rid < hi:
                 regime[label] += 1
+                regime_nodes[label] += n
+                regime_edges[label] += m
                 break
 
         arch = rec.get("architecture", {})
@@ -170,9 +173,6 @@ def analyze(records: list[dict]) -> dict:
         n, m = len(nodes), len(edges)
         node_counts.append(n)
         edge_counts.append(m)
-        regime_nodes[label] += n
-        regime_edges[label] += m
-
         # Application compatibility
         if n <= 8:
             le_8 += 1
@@ -237,6 +237,9 @@ def analyze(records: list[dict]) -> dict:
             security_missing_fields["security_score_zero"] += 1
         if "attack_surface" not in sec or not isinstance(sec.get("attack_surface"), dict):
             security_missing_fields["attack_surface_key_absent"] += 1
+        elif not all(k in sec["attack_surface"] for k in
+                     ("attack_surface_score", "public_endpoints", "databases", "services")):
+            security_missing_fields["attack_surface_subfields_missing"] += 1
         for f in ("required_controls", "missing_controls", "threats", "recommendations",
                   "risk_level", "security_summary"):
             if not sec.get(f):
@@ -258,12 +261,14 @@ def analyze(records: list[dict]) -> dict:
         risk_by_style.setdefault(style, Counter())[rl] += 1
         risk_by_cloud.setdefault(cloud, Counter())[rl] += 1
 
-        # Duplication fingerprints
+        # Duplication fingerprints (sha256 keys to keep memory bounded)
         canon = canonical_architecture(arch)
-        canon_groups.setdefault(canon, []).append(rec["id"])
+        canon_groups.setdefault(hashlib.sha256(canon.encode("utf-8")).hexdigest(), []).append(rec["id"])
         full_key = json.dumps({k: v for k, v in rec.items() if k != "id"}, sort_keys=True)
-        full_groups.setdefault(full_key, []).append(rec["id"])
+        full_groups.setdefault(hashlib.sha256(full_key.encode("utf-8")).hexdigest(), []).append(rec["id"])
         node_set_buckets.setdefault(frozenset(node["id"] for node in nodes), []).append(rid)
+        edges_by_row[rid] = frozenset((e["source"], e["target"], e["label"]) for e in edges)
+        canon_by_row[rid] = canon
 
     # --- Duplication rollups ---
     canon_dup_groups = {k: v for k, v in canon_groups.items() if len(v) > 1}
@@ -272,38 +277,19 @@ def analyze(records: list[dict]) -> dict:
     node_set_shared = sum(len(v) for v in shared_buckets.values())
 
     # Structural near-duplicates: identical node sets, Jaccard(edge sets) >= 0.9,
-    # excluding exact canonical duplicates.
+    # excluding exact canonical duplicates. Per-row edge sets and canonical
+    # fingerprints were accumulated in the main loop (no rescanning).
     near_dup_ids: set[int] = set()
     near_dup_pairs = 0
     for bucket in shared_buckets.values():
-        edges_by_row: dict[int, frozenset] = {}
-        for rid in bucket:
-            arch = next(
-                r["architecture"]
-                for r in records
-                if int(r["id"].split("-")[1]) == rid
-            )
-            edges_by_row[rid] = frozenset(
-                (e["source"], e["target"], e["label"]) for e in arch.get("edges", [])
-            )
-        rows = list(edges_by_row)
+        rows = list(bucket)
         for i in range(len(rows)):
             for j in range(i + 1, len(rows)):
                 a, b = edges_by_row[rows[i]], edges_by_row[rows[j]]
-                if not a and not b:
-                    jac = 1.0
-                else:
-                    jac = len(a & b) / len(a | b)
-                if jac >= 0.9:
-                    ca = canonical_architecture(
-                        next(r["architecture"] for r in records if int(r["id"].split("-")[1]) == rows[i])
-                    )
-                    cb = canonical_architecture(
-                        next(r["architecture"] for r in records if int(r["id"].split("-")[1]) == rows[j])
-                    )
-                    if ca != cb:
-                        near_dup_ids.update((rows[i], rows[j]))
-                        near_dup_pairs += 1
+                jac = 1.0 if not a and not b else len(a & b) / len(a | b)
+                if jac >= 0.9 and canon_by_row[rows[i]] != canon_by_row[rows[j]]:
+                    near_dup_ids.update((rows[i], rows[j]))
+                    near_dup_pairs += 1
 
     # --- Regime rollups ---
     regime_stats = {}
