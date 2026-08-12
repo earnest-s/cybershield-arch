@@ -426,6 +426,214 @@ def analyze(records: list[dict]) -> dict:
     return stats
 
 
+def _load_tokenizer():
+    """Load the cached Gemma tokenizer offline for exact length measurement.
+
+    Returns None when unavailable (falls back to a char-based estimate).
+    HF_HOME must be set before importing transformers (see inference.py).
+    """
+    try:
+        os.environ.setdefault(
+            "HF_HOME", str(Path(__file__).resolve().parents[2] / ".cache" / "huggingface")
+        )
+        os.environ.setdefault("HF_HUB_OFFLINE", "1")
+        from transformers import AutoTokenizer
+
+        return AutoTokenizer.from_pretrained(
+            "unsloth/gemma-3-4b-it-bnb-4bit", local_files_only=True
+        )
+    except Exception as exc:  # noqa: BLE001
+        LOG.warning("Gemma tokenizer unavailable (%s); using char-based estimate", exc)
+        return None
+
+
+def _tok_len(tokenizer, text: str) -> int:
+    if tokenizer is not None:
+        return len(tokenizer.encode(text))
+    return max(1, int(len(text) / 3.5))
+
+
+def _group_split(cluster_sizes: list[tuple[str, int]], target: tuple[float, float, float]) -> dict:
+    """Deterministic group-level allocation of indivisible clusters to train/val/test.
+
+    Largest clusters are placed first (they are the ones that must not straddle
+    splits); each cluster goes to the split with the most remaining capacity.
+    """
+    buckets = [0, 0, 0]
+    total = sum(size for _, size in cluster_sizes)
+    target_counts = [total * t for t in target]
+    for _, size in sorted(cluster_sizes, key=lambda kv: -kv[1]):
+        deficit = [target_counts[i] - buckets[i] for i in range(3)]
+        idx = max(range(3), key=lambda i: deficit[i])
+        buckets[idx] += size
+    return {
+        "train": buckets[0],
+        "validation": buckets[1],
+        "test": buckets[2],
+        "total": total,
+        "clusters": len(cluster_sizes),
+    }
+
+
+def analyze_training_spec(records: list[dict], tokenizer) -> dict:
+    """Training-spec analysis: contamination audit, key-leakage scan, sequence
+    lengths, instruction stats, and leakage-safe split clusters."""
+    total = len(records)
+
+    # --- contamination audit: field scans ---
+    marker_hits: dict[str, Counter] = {"instruction": Counter(), "architecture": Counter(),
+                                       "security": Counter(), "metadata": Counter()}
+    marker_example_ids: dict[str, list[str]] = {}
+    extra_top = Counter()
+    extra_meta = Counter()
+    extra_sec = Counter()
+
+    # --- sequence lengths ---
+    instr_len: list[int] = []
+    arch_json_len: list[int] = []
+    sec_json_len: list[int] = []
+    gen_prompt_len: list[int] = []
+    expl_prompt_len: list[int] = []
+    gen_full_len: list[int] = []  # generation prompt + architecture target
+
+    instructions = Counter()
+    unique_instructions = set()
+    outliers: list[dict] = []
+
+    # --- split clusters: node-set identity (exact node-id set) ---
+    cluster_members: dict[str, list[int]] = {}
+    cluster_node_count: dict[str, int] = {}
+
+    for rec in records:
+        rid = int(rec["id"].split("-")[1])
+        extra_top.update(set(rec.keys()) - TOP_KEYS)
+        meta = rec.get("metadata", {})
+        extra_meta.update(set(meta.keys()) - META_KEYS)
+        sec = rec.get("security", {})
+        extra_sec.update(set(sec.keys()) - SEC_KEYS)
+
+        arch = rec.get("architecture", {})
+        nodes = arch.get("nodes", [])
+        edges = arch.get("edges", [])
+        n = len(nodes)
+
+        instr = rec.get("instruction", "")
+        instr_len.append(_tok_len(tokenizer, instr))
+        instructions[instr] += 1
+        unique_instructions.add(instr)
+
+        arch_json = json.dumps(arch, ensure_ascii=True)
+        sec_json = json.dumps(sec, ensure_ascii=True)
+        arch_json_len.append(_tok_len(tokenizer, arch_json))
+        sec_json_len.append(_tok_len(tokenizer, sec_json))
+
+        gen_prompt = ARCH_GENERATION_PROMPT.format(description=instr)
+        gen_prompt_len.append(_tok_len(tokenizer, gen_prompt))
+        expl_prompt = EXPLANATION_PROMPT.format(architecture=arch_json)
+        expl_prompt_len.append(_tok_len(tokenizer, expl_prompt))
+        gen_full_len.append(_tok_len(tokenizer, gen_prompt + " " + arch_json))
+
+        # marker scan
+        scan_fields = {
+            "instruction": instr.lower(),
+            "architecture": arch_json.lower(),
+            "security": sec_json.lower(),
+            "metadata": json.dumps(meta, ensure_ascii=True).lower(),
+        }
+        for field, text in scan_fields.items():
+            for marker in CONTAMINATION_MARKERS:
+                if marker in text:
+                    marker_hits[field][marker] += 1
+                    marker_example_ids.setdefault(f"{field}:{marker}", [])
+                    if len(marker_example_ids[f"{field}:{marker}"]) < 3:
+                        marker_example_ids[f"{field}:{marker}"].append(rec["id"])
+
+        # outlier tracking
+        outliers.append({"id": rec["id"], "nodes": n, "edges": len(edges)})
+
+        # cluster by node-id set
+        key = hashlib.sha256(
+            json.dumps(sorted(node["id"] for node in nodes)).encode("utf-8")
+        ).hexdigest()
+        cluster_members.setdefault(key, []).append(rid)
+        cluster_node_count[key] = n
+
+    outliers.sort(key=lambda o: (-o["nodes"], -o["edges"]))
+
+    # merge near-dup pairs (computed in analyze()) into shared clusters is
+    # unnecessary: near-dups already live inside the same node-set bucket.
+
+    def _dist(values: list[int]) -> dict:
+        sv = sorted(values)
+        return {
+            "min": min(values),
+            "max": max(values),
+            "mean": round(sum(values) / len(values), 1),
+            "p50": percentile(sv, 50),
+            "p90": percentile(sv, 90),
+            "p95": percentile(sv, 95),
+            "p99": percentile(sv, 99),
+        }
+
+    # split-cluster stats for recommended subsets
+    clusters = {k: v for k, v in cluster_members.items() if len(v) > 1}
+    shared_cluster_records = sum(len(v) for v in clusters.values())
+
+    def _subset_clusters(pred):
+        sizes = []
+        for key, members in cluster_members.items():
+            if pred(cluster_node_count[key]):
+                sizes.append((key, len(members)))
+        return sizes
+
+    subset_splits = {
+        "all_51498": _group_split(
+            [(k, len(v)) for k, v in cluster_members.items()], (0.90, 0.05, 0.05)),
+        "le_30": _group_split(_subset_clusters(lambda n: n <= 30), (0.90, 0.05, 0.05)),
+        "le_20": _group_split(_subset_clusters(lambda n: n <= 20), (0.90, 0.05, 0.05)),
+        "le_10": _group_split(_subset_clusters(lambda n: n <= 10), (0.90, 0.05, 0.05)),
+    }
+
+    return {
+        "tokenizer": {"available": tokenizer is not None, "model_max_length": 131072},
+        "contamination": {
+            "markers_checked": CONTAMINATION_MARKERS,
+            "marker_hits": {k: dict(v) for k, v in marker_hits.items()},
+            "marker_example_ids": marker_example_ids,
+        },
+        "key_leakage": {
+            "extra_top_level_keys": dict(extra_top),
+            "extra_metadata_keys": dict(extra_meta),
+            "extra_security_keys": dict(extra_sec),
+        },
+        "lengths": {
+            "instruction_tokens": _dist(instr_len),
+            "architecture_json_tokens": _dist(arch_json_len),
+            "security_json_tokens": _dist(sec_json_len),
+            "generation_prompt_tokens": _dist(gen_prompt_len),
+            "explanation_prompt_tokens": _dist(expl_prompt_len),
+            "generation_prompt_plus_target_tokens": _dist(gen_full_len),
+            "pct_generation_full_gt_1024": round(100.0 * sum(1 for v in gen_full_len if v > 1024) / total, 2),
+            "pct_generation_full_gt_2048": round(100.0 * sum(1 for v in gen_full_len if v > 2048) / total, 2),
+            "pct_generation_full_gt_4096": round(100.0 * sum(1 for v in gen_full_len if v > 4096) / total, 2),
+        },
+        "instruction_stats": {
+            "unique_instructions": len(unique_instructions),
+            "records_per_unique_instruction_avg": round(total / max(1, len(unique_instructions)), 1),
+            "max_instruction_reuse": max(instructions.values()),
+            "instruction_tokens": _dist(instr_len),
+        },
+        "outliers_top10": outliers[:10],
+        "split": {
+            "cluster_definition": "node-id set (sha256); identical node sets stay in one split",
+            "clusters_with_2plus": len(clusters),
+            "records_in_shared_clusters": shared_cluster_records,
+            "max_cluster_size": max((len(v) for v in cluster_members.values()), default=1),
+            "splits_90_5_5": subset_splits,
+        },
+    }
+
+
 def main() -> int:
     LOG.info("Loading corpus %s ...", CORPUS)
     records = load_records()
@@ -434,10 +642,33 @@ def main() -> int:
     LOG.info("Analyzing ...")
     stats = analyze(records)
 
+    tokenizer = _load_tokenizer()
+    if tokenizer is not None:
+        LOG.info("Measuring training-spec stats with Gemma tokenizer ...")
+    else:
+        LOG.warning("Tokenizing with char-based estimate (tokenizer unavailable)")
+    stats["training_spec"] = analyze_training_spec(records, tokenizer)
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with OUT.open("w", encoding="utf-8") as fh:
         json.dump(stats, fh, indent=2, ensure_ascii=False)
     LOG.info("Wrote %s", OUT)
+
+    spec = stats["training_spec"]
+    print("\n--- Training spec ---")
+    print("Tokenizer available:", spec["tokenizer"]["available"])
+    print("Extra top keys:", spec["key_leakage"]["extra_top_level_keys"])
+    print("Extra meta keys:", spec["key_leakage"]["extra_metadata_keys"])
+    print("Marker hits:", {k: sum(v.values()) for k, v in spec["contamination"]["marker_hits"].items()})
+    print("Unique instructions:", spec["instruction_stats"]["unique_instructions"],
+          "| avg reuse:", spec["instruction_stats"]["records_per_unique_instruction_avg"])
+    print("Gen prompt+target tokens p50/p95:",
+          spec["lengths"]["generation_prompt_plus_target_tokens"]["p50"], "/",
+          spec["lengths"]["generation_prompt_plus_target_tokens"]["p95"])
+    print("Gen full >4096 tokens:", spec["lengths"]["pct_generation_full_gt_4096"], "%")
+    print("Split 90/5/5 (le_30):", spec["split"]["splits_90_5_5"]["le_30"])
+    print("Split 90/5/5 (all):", spec["split"]["splits_90_5_5"]["all_51498"])
+    return 0
 
     # Console summary
     print(f"\nTotal records: {stats['total']:,}")
