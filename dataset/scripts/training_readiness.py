@@ -158,6 +158,11 @@ def analyze(records: list[dict]) -> dict:
     over_hard = 0
 
     for rec in records:
+        arch = rec.get("architecture", {})
+        nodes = arch.get("nodes", [])
+        edges = arch.get("edges", [])
+        n, m = len(nodes), len(edges)
+
         rid = int(rec["id"].split("-")[1])
         ids.add(rid)
         for label, lo, hi in REGIME_RANGES:
@@ -167,12 +172,9 @@ def analyze(records: list[dict]) -> dict:
                 regime_edges[label] += m
                 break
 
-        arch = rec.get("architecture", {})
-        nodes = arch.get("nodes", [])
-        edges = arch.get("edges", [])
-        n, m = len(nodes), len(edges)
         node_counts.append(n)
         edge_counts.append(m)
+
         # Application compatibility
         if n <= 8:
             le_8 += 1
