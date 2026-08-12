@@ -527,7 +527,7 @@ def analyze_training_spec(records: list[dict], tokenizer) -> dict:
         arch_json_len.append(_tok_len(tokenizer, arch_json))
         sec_json_len.append(_tok_len(tokenizer, sec_json))
 
-        gen_prompt = ARCH_GENERATION_PROMPT.format(description=instr)
+        gen_prompt = ARCH_GENERATION_PROMPT.replace("{description}", instr)
         gen_prompt_len.append(_tok_len(tokenizer, gen_prompt))
         expl_prompt = EXPLANATION_PROMPT.format(architecture=arch_json)
         expl_prompt_len.append(_tok_len(tokenizer, expl_prompt))
