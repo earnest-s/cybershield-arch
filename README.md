@@ -86,6 +86,19 @@ npm run dev
 - Frontend: http://localhost:5173
 - Backend: http://127.0.0.1:8000
 
+## Dataset Pipeline
+
+Training data is built from `ajibawa-2023/Technical-Architectures-Large`
+(real records only — no synthetic/template data) through the staged pipeline in
+`dataset/scripts/` (download -> convert -> enrich -> validate -> review -> export),
+with the production security engine as the label source.
+
+- See `dataset/README.md` for the run order and the frozen validation policy.
+- Reports: `dataset/docs/validation_policy_analysis.md`, `dataset/docs/pilot_report.md`,
+  `dataset/docs/pilot_report_v2.md`, `dataset/docs/full_scale_report.md`.
+- Bulk pipeline artifacts (staging directories, raw snapshot, full-scale exports)
+  are git-ignored; see `.gitignore`.
+
 ## Backend API
 
 ### `GET /healthz`
