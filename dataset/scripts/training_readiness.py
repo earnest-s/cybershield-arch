@@ -634,13 +634,82 @@ def analyze_training_spec(records: list[dict], tokenizer) -> dict:
     }
 
 
-def main() -> int:
+def provenance_audit(records: list[dict]) -> dict:
+    """Full provenance audit against the raw HF snapshot.
+
+    Requires dataset/raw/samples.jsonl (git-ignored, regenerable via
+    download_dataset.py). Verifies for EVERY accepted record that its source
+    row exists and that every node id appears verbatim in the source mermaid
+    text (case-insensitive). This is the Phase 5 contamination/fabrication
+    gate (step 6).
+    """
+    raw_path = DATASET_DIR / "raw" / "samples.jsonl"
+    if not raw_path.exists():
+        return {"status": "skipped", "reason": f"raw snapshot absent: {raw_path}"}
+
+    accepted_ids = {int(rec["id"].split("-")[1]) for rec in records}
+    raw_by_id: dict[int, dict] = {}
+    with raw_path.open(encoding="utf-8") as fh:
+        for line in fh:
+            row = json.loads(line)
+            rid = row.get("id")
+            if isinstance(rid, int) and rid in accepted_ids:
+                raw_by_id[rid] = row
+
+    missing_rows = sorted(accepted_ids - set(raw_by_id))
+    checked = 0
+    missing_nodes: list[tuple[str, str]] = []
+    for rec in records:
+        rid = int(rec["id"].split("-")[1])
+        row = raw_by_id.get(rid)
+        if row is None:
+            continue
+        mermaid = str(row.get("mermaid") or "").lower()
+        checked += 1
+        for node in rec["architecture"]["nodes"]:
+            nid = str(node.get("id", "")).lower()
+            if nid and nid not in mermaid:
+                missing_nodes.append((rec["id"], nid))
+
+    return {
+        "status": "completed",
+        "accepted_records": len(records),
+        "raw_rows_matched": len(raw_by_id),
+        "missing_source_rows": len(missing_rows),
+        "records_node_verified": checked,
+        "node_ids_not_in_source_mermaid": len(missing_nodes),
+        "sample_missing_nodes": missing_nodes[:10],
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Phase 5 training readiness analysis")
+    parser.add_argument(
+        "--provenance-audit",
+        action="store_true",
+        help="Run full provenance + node-id-in-source audit against dataset/raw/samples.jsonl",
+    )
+    args = parser.parse_args(argv)
+
     LOG.info("Loading corpus %s ...", CORPUS)
     records = load_records()
     LOG.info("Loaded %d records", len(records))
 
     LOG.info("Analyzing ...")
     stats = analyze(records)
+
+    if args.provenance_audit:
+        LOG.info("Running full provenance audit against raw snapshot ...")
+        stats["provenance_audit"] = provenance_audit(records)
+        pa = stats["provenance_audit"]
+        if pa.get("status") == "completed":
+            print("\n--- Provenance audit ---")
+            print("raw rows matched:", pa["raw_rows_matched"],
+                  "| missing source rows:", pa["missing_source_rows"])
+            print("records node-verified:", pa["records_node_verified"],
+                  "| node ids not in source mermaid:", pa["node_ids_not_in_source_mermaid"])
 
     tokenizer = _load_tokenizer()
     if tokenizer is not None:
