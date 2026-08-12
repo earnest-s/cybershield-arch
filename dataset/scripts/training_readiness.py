@@ -648,23 +648,24 @@ def provenance_audit(records: list[dict]) -> dict:
         return {"status": "skipped", "reason": f"raw snapshot absent: {raw_path}"}
 
     accepted_ids = {int(rec["id"].split("-")[1]) for rec in records}
-    raw_by_id: dict[int, dict] = {}
+    # Store only the mermaid text per matched row (full raw rows can be large).
+    raw_by_id: dict[int, str] = {}
     with raw_path.open(encoding="utf-8") as fh:
         for line in fh:
             row = json.loads(line)
             rid = row.get("id")
             if isinstance(rid, int) and rid in accepted_ids:
-                raw_by_id[rid] = row
+                raw_by_id[rid] = str(row.get("mermaid") or "")
 
     missing_rows = sorted(accepted_ids - set(raw_by_id))
     checked = 0
     missing_nodes: list[tuple[str, str]] = []
     for rec in records:
         rid = int(rec["id"].split("-")[1])
-        row = raw_by_id.get(rid)
-        if row is None:
+        mermaid = raw_by_id.get(rid)
+        if mermaid is None:
             continue
-        mermaid = str(row.get("mermaid") or "").lower()
+        mermaid = mermaid.lower()
         checked += 1
         for node in rec["architecture"]["nodes"]:
             nid = str(node.get("id", "")).lower()
