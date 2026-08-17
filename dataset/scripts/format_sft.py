@@ -108,7 +108,7 @@ def build_clusters(records: list[dict[str, Any]]) -> list[list[int]]:
         buckets.setdefault(key, []).append(idx)
     clusters = sorted(
         buckets.values(),
-        key=lambda members: (-len(members), buckets.keys()),
+        key=lambda members: (-len(members), members[0]),
     )
     return clusters
 
