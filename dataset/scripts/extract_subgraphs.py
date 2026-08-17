@@ -390,6 +390,17 @@ def extract_subgraph(parent: dict) -> tuple[dict | None, str | None]:
     security = _canonicalize_security(build_security_dict(
         [node_by_id[x] for x in selected], chosen_edges))
 
+    # The engine's security_summary is built from an internally set-ordered
+    # missing_components list, which can vary across processes. Reproduce it
+    # through the canonical builder with the deterministically sorted control
+    # list already exposed by build_security_dict: identical wording, stable
+    # ordering, no invented semantics.
+    security["security_summary"] = build_security_summary({
+        "_nodes": [node_by_id[x] for x in selected],
+        "missing_components": [{"name": n} for n in sorted(security.get("missing_controls", []))],
+        "risk_level": security.get("risk_level", "HIGH"),
+    })
+
     prov = {
         "parent_source_id": str(parent["id"]),
         "parent_architecture_id": str(parent["id"]),
