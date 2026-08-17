@@ -35,6 +35,10 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader, Dataset
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
+_HF_CACHE_DIR = Path(__file__).resolve().parents[3] / ".cache" / "huggingface"
+_HF_HUB_DIR = _HF_CACHE_DIR / "hub"
+os.environ.setdefault("HF_HOME", str(_HF_CACHE_DIR))
+
 PROMPT_LABEL = -100
 CE_CHUNK = 64
 LORA_TARGET_MODULES = "model\\.language_model\\..*(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)"
@@ -161,7 +165,6 @@ def evaluate(model, loader: DataLoader, device: torch.device) -> float:
 
 def main() -> None:
     args = parse_args()
-    os.environ.setdefault("HF_HOME", "./.cache/huggingface")
     os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
     set_seed(args.seed)
 
@@ -182,7 +185,7 @@ def main() -> None:
         raise RuntimeError("Dataset contains no train-split records.")
     print(f"[INFO] Loaded {len(train_rows)} train / {len(eval_rows)} validation samples from {dataset_path}")
 
-    tokenizer = AutoTokenizer.from_pretrained(args.model_id, local_files_only=True)
+    tokenizer = AutoTokenizer.from_pretrained(args.model_id, local_files_only=True, cache_dir=str(_HF_HUB_DIR))
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
