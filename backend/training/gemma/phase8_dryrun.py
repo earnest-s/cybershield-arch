@@ -53,11 +53,14 @@ def main() -> int:
 
     rows = load_records(DATASET, "train", 200)
     if LONGEST:
-        rows = sorted(rows, key=lambda r: -len(r["instruction"]))[:1]
-        rows = [max(rows, key=lambda r: len(r["response"]))] if rows else []
+        target_id = "SFT-013334"
+        rows = [r for r in rows if r.get("id", "") == target_id]
+        if not rows:
+            all_rows = load_records(DATASET, "train", 60000)
+            rows = [r for r in all_rows if r.get("id", "") == target_id]
     rows = rows[:N_RECORDS]
-    assert len(rows) == N_RECORDS, f"need {N_RECORDS} train records, got {len(rows)}"
-    print(f"[4] loaded {N_RECORDS} REAL train-split records (LONGEST={LONGEST})")
+    assert len(rows) == N_RECORDS, f"need {N_RECORDS} train records (longest), got {len(rows)}"
+    print(f"[4] loaded {N_RECORDS} REAL train-split records (LONGEST=SFT-013334)")
 
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, local_files_only=True, cache_dir=str(HF_HUB_DIR))
     print(f"[5] tokenizer: pad={tokenizer.pad_token!r} eos={tokenizer.eos_token!r} "
