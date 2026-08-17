@@ -80,7 +80,7 @@ def main() -> int:
     print(f"[8] parameter dtypes present: {sorted(param_types)}")
 
     model.gradient_checkpointing_enable()
-    model.language_model.model.embed_tokens.weight.requires_grad_(False)
+    model.language_model.embed_tokens.weight.requires_grad_(False)
     model = prepare_model_for_kbit_training(model)
     print(f"[9] gradient checkpointing + kbit prep: trainable params {sum(p.numel() for p in model.parameters() if p.requires_grad)}")
 
