@@ -18,7 +18,7 @@ import time
 from pathlib import Path
 
 import torch
-from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+from peft import LoraConfig, get_peft_model
 from torch.optim import AdamW
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
@@ -80,9 +80,12 @@ def main() -> int:
     print(f"[8] parameter dtypes present: {sorted(param_types)}")
 
     model.gradient_checkpointing_enable()
-    model.model.language_model.embed_tokens.weight.requires_grad_(False)
-    model = prepare_model_for_kbit_training(model)
-    print(f"[9] gradient checkpointing + kbit prep: trainable params {sum(p.numel() for p in model.parameters() if p.requires_grad)}")
+    model.config.use_cache = False
+    for p in model.parameters():
+        p.requires_grad_(False)
+    model.enable_input_require_grads()
+    print(f"[9] manual kbit prep (base frozen, checkpointing on): trainable base params "
+          f"{sum(p.numel() for p in model.parameters() if p.requires_grad)}")
 
     lora_cfg = LoraConfig(
         r=16,
