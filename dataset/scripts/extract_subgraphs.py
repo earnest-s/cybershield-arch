@@ -145,22 +145,23 @@ def load_corpus_index(corpus_path: Path) -> dict[str, list[str]]:
 
 
 def allocate_sample(buckets: dict[str, list[str]], sample_size: int) -> list[str]:
-    """Deterministic proportional-with-minimum allocation across buckets."""
+    """Deterministic proportional allocation (largest-remainder) per bucket."""
     sizes = {name: len(ids) for name, ids in buckets.items()}
     if not sizes:
         return []
     total = sum(sizes.values())
-    alloc = {name: max(1, sample_size * size // total) for name, size in sizes.items()}
-    alloc = {name: min(alloc[name], sizes[name]) for name in sizes}
-    remaining = sample_size - sum(alloc.values())
-    while remaining > 0:
+    if sample_size >= total:
+        picked: list[str] = []
         for name in sorted(sizes):
-            if remaining == 0:
-                break
-            if alloc[name] < sizes[name]:
-                alloc[name] += 1
-                remaining -= 1
-    picked: list[str] = []
+            picked.extend(buckets[name])
+        return sorted(picked)
+    quotas = {name: sample_size * size / total for name, size in sizes.items()}
+    alloc = {name: int(quotas[name]) for name in sizes}
+    remaining = sample_size - sum(alloc.values())
+    order = sorted(sizes, key=lambda name: (-(quotas[name] - alloc[name]), name))
+    for name in order[:remaining]:
+        alloc[name] += 1
+    picked = []
     for name in sorted(sizes):
         picked.extend(buckets[name][: alloc[name]])
     return sorted(picked)
@@ -221,8 +222,9 @@ def _score_node(nid: str, node: dict, info: dict, degree: Counter) -> int:
     score = TYPE_ROLE.get(node.get("type"), 1)
     score += 6 if cls["entry"] else 0
     score += 4 * min(cls["entry_matches"], 3)
-    score += 4 * min(cls["sec_matches"], 3)
-    score += 3 * min(cls["data_matches"], 3)
+    score += 6 * min(cls["sec_matches"], 3)
+    score += 6 * min(cls["data_matches"], 3)
+    score += 5 if node.get("type") in ("database", "cache", "queue") else 0
     score += min(degree.get(nid, 0), 5)
     return score
 
