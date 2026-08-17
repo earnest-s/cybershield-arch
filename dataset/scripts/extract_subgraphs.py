@@ -182,3 +182,391 @@ def classify(node_id: str, node_type: str) -> dict[str, int | bool]:
         "is_data": is_data,
         "is_security": is_security,
     }
+
+class UnionFind:
+    """Disjoint-set structure over node ids (deterministic tie-break)."""
+
+    def __init__(self, ids: list[str]) -> None:
+        self.parent = {nid: nid for nid in ids}
+
+    def find(self, x: str) -> str:
+        while self.parent[x] != x:
+            self.parent[x] = self.parent[self.parent[x]]
+            x = self.parent[x]
+        return x
+
+    def union(self, a: str, b: str) -> None:
+        ra, rb = self.find(a), self.find(b)
+        if ra != rb:
+            self.parent[max(ra, rb)] = min(ra, rb)
+
+
+def _components(nodes: list[dict], edges: list[dict]) -> dict[str, set[str]]:
+    """Weakly connected components keyed by root id (min id of the component)."""
+    ids = [n["id"] for n in nodes]
+    uf = UnionFind(ids)
+    for e in edges:
+        s, t = e.get("source"), e.get("target")
+        if s in uf.parent and t in uf.parent and s != t:
+            uf.union(s, t)
+    comps: dict[str, set[str]] = defaultdict(set)
+    for nid in ids:
+        comps[uf.find(nid)].add(nid)
+    return dict(comps)
+
+
+def _score_node(nid: str, node: dict, info: dict, degree: Counter) -> int:
+    cls = info[nid]
+    score = TYPE_ROLE.get(node.get("type"), 1)
+    score += 6 if cls["entry"] else 0
+    score += 4 * min(cls["entry_matches"], 3)
+    score += 4 * min(cls["sec_matches"], 3)
+    score += 3 * min(cls["data_matches"], 3)
+    score += min(degree.get(nid, 0), 5)
+    return score
+
+
+def _select_root(comp: set[str], info: dict, degree: Counter) -> str:
+    best, best_score = None, None
+    for nid in sorted(comp):
+        cls = info[nid]
+        s = (100 if cls["entry"] else 0)
+        s += 25 * cls["entry_matches"]
+        s += 10 * cls["sec_matches"]
+        s += 5 * cls["data_matches"]
+        s += min(degree.get(nid, 0), 5)
+        if best_score is None or s > best_score:
+            best_score, best = s, nid
+    return best
+
+
+def _select_component(comps: list[set[str]], info: dict) -> set[str]:
+    def entry_score(comp: set[str]) -> int:
+        return max(100 * clue["entry"] + 25 * clue["entry_matches"] for clue in
+                   (info[n] for n in comp))
+    ranked = sorted(comps, key=lambda c: (-entry_score(c), -len(c), min(c)))
+    return ranked[0]
+
+
+def _spanning_tree(selected_order: list[str], root: str, selected_set: set[str],
+                   edges_lookup: dict) -> list[dict]:
+    tree: list[dict] = []
+    seen = {root}
+    for nid in selected_order:
+        if nid == root:
+            continue
+        candidates: list[dict] = []
+        for prev in sorted(seen):
+            if prev not in selected_set:
+                continue
+            for e in edges_lookup.get(frozenset((prev, nid)), ()):
+                candidates.append(e)
+        if not candidates:
+            return tree  # disconnected -> caller rejects
+        candidates.sort(key=lambda e: (e.get("label", ""), e.get("source", ""), e.get("target", "")))
+        tree.append(candidates[0])
+        seen.add(nid)
+    return tree
+
+
+def _edge_priority(e: dict, info: dict) -> int:
+    p = LABEL_WEIGHT.get(e.get("label"), 1)
+    s, t = e.get("source", ""), e.get("target", "")
+    if info.get(s, {}).get("is_data"):
+        p += 3
+    if info.get(t, {}).get("is_data"):
+        p += 3
+    if info.get(s, {}).get("is_security"):
+        p += 4
+    if info.get(t, {}).get("is_security"):
+        p += 4
+    return p
+
+
+def _canonicalize_security(sec: dict) -> dict:
+    """Stable ordering of engine list outputs; never changes content."""
+    out = dict(sec)
+    out["threats"] = sorted(sec.get("threats", []),
+                            key=lambda t: ((t.get("missing_control") or ""), (t.get("name") or "")))
+    out["recommendations"] = sorted(sec.get("recommendations", []))
+    out["required_controls"] = sorted(sec.get("required_controls", []))
+    out["missing_controls"] = sorted(sec.get("missing_controls", []))
+    for key in ("node_threats", "edge_threats"):
+        if key in out and isinstance(out[key], dict):
+            out[key] = {k: sorted(v, key=lambda t: ((t.get("missing_control") or ""),
+                                                    (t.get("threat") or "")))
+                        for k, v in sorted(out[key].items())}
+    return out
+
+
+def extract_subgraph(parent: dict) -> tuple[dict | None, str | None]:
+    """Extract one deterministic connected subgraph from a parent record.
+
+    Returns (record, None) on success or (None, rejection_reason).
+    """
+    arch = parent.get("architecture")
+    if not isinstance(arch, dict):
+        return None, "malformed_record"
+    nodes, edges = arch.get("nodes"), arch.get("edges")
+    if not isinstance(nodes, list) or not isinstance(edges, list):
+        return None, "malformed_record"
+    if len(nodes) < 2:
+        return None, "insufficient_nodes"
+    if not edges:
+        return None, "no_edges"
+
+    try:
+        node_by_id = {n["id"]: n for n in nodes}
+    except (KeyError, TypeError):
+        return None, "malformed_record"
+    if len(node_by_id) != len(nodes):
+        return None, "duplicate_node_ids"
+
+    info = {nid: classify(nid, node_by_id[nid].get("type", "")) for nid in node_by_id}
+    degree: Counter = Counter()
+    edges_lookup: dict[frozenset, list[dict]] = defaultdict(list)
+    adj: dict[str, set[str]] = defaultdict(set)
+    for e in edges:
+        s, t = e.get("source"), e.get("target")
+        if s not in node_by_id or t not in node_by_id:
+            continue
+        if s != t:
+            degree[s] += 1
+            degree[t] += 1
+            edges_lookup[frozenset((s, t))].append(e)
+            adj[s].add(t)
+            adj[t].add(s)
+
+    comps = _components(nodes, edges)
+    if not comps:
+        return None, "no_valid_component"
+    comp = _select_component(list(comps.values()), info)
+    if len(comp) < 2:
+        return None, "component_too_small"
+
+    root = _select_root(comp, info, degree)
+
+    # Deterministic BFS expansion (no first-N truncation: every node of the
+    # component is a candidate; expansion simply stops at the contract limit).
+    selected: list[str] = []
+    selected_set: set[str] = set()
+    selected.append(root)
+    selected_set.add(root)
+    while len(selected_set) < HARD_NODE_LIMIT:
+        options: list[tuple[int, str]] = []
+        for nid in sorted(selected_set):
+            for tgt in sorted(adj.get(nid, ())):
+                if tgt not in comp or tgt in selected_set:
+                    continue
+                options.append((_score_node(tgt, node_by_id[tgt], info, degree), tgt))
+        if not options:
+            break
+        options.sort(key=lambda x: (-x[0], x[1]))
+        nxt = options[0][1]
+        selected.append(nxt)
+        selected_set.add(nxt)
+
+    induced = [e for e in edges
+               if e.get("source") in selected_set and e.get("target") in selected_set]
+    if len(induced) <= HARD_EDGE_LIMIT:
+        chosen_edges = induced
+    else:
+        tree = _spanning_tree(selected, root, selected_set, edges_lookup)
+        if len(tree) < len(selected_set) - 1:
+            return None, "spanning_tree_disconnected"
+        remaining = [e for e in induced if all(e is not te for te in tree)]
+        remaining.sort(key=lambda e: (-_edge_priority(e, info), e.get("source", ""),
+                                      e.get("target", ""), e.get("label", "")))
+        chosen_edges = tree + remaining[: HARD_EDGE_LIMIT - len(tree)]
+
+    if not is_weakly_connected([node_by_id[x] for x in selected], chosen_edges):
+        return None, "disconnected_subgraph"
+    try:
+        raise_if_invalid({"nodes": [node_by_id[x] for x in selected], "edges": chosen_edges})
+    except ValueError as exc:
+        return None, f"contract_violation:{exc}"
+
+    security = _canonicalize_security(build_security_dict(
+        [node_by_id[x] for x in selected], chosen_edges))
+
+    prov = {
+        "parent_source_id": str(parent["id"]),
+        "parent_architecture_id": str(parent["id"]),
+        "transformation_method": TRANSFORMATION_METHOD,
+        "transformation_version": TRANSFORMATION_VERSION,
+        "selected_node_ids": list(selected),
+        "selected_edge_ids": [f"{e['source']}->{e['target']}[{e['label']}]" for e in chosen_edges],
+        "node_retention_ratio": round(len(selected) / max(1, len(nodes)), 4),
+        "edge_retention_ratio": round(len(chosen_edges) / max(1, len(edges)), 4),
+        "contract": {"HARD_NODE_LIMIT": HARD_NODE_LIMIT, "HARD_EDGE_LIMIT": HARD_EDGE_LIMIT},
+    }
+
+    record = {
+        "id": f"{parent['id']}#S1",
+        "parent_id": str(parent["id"]),
+        "instruction": parent.get("instruction", ""),
+        "architecture": {
+            "nodes": [node_by_id[x] for x in selected],
+            "edges": chosen_edges,
+        },
+        "metadata": {
+            **{k: v for k, v in (parent.get("metadata") or {}).items()
+               if not k.startswith("phase6")},
+            "phase6": prov,
+        },
+        "security": {
+            "required_controls": security.get("required_controls", []),
+            "missing_controls": security.get("missing_controls", []),
+            "threats": security.get("threats", []),
+            "recommendations": security.get("recommendations", []),
+            "risk_level": security.get("risk_level", "HIGH"),
+            "security_score": security.get("security_score", 0),
+            "attack_surface": security.get("attack_surface", {}),
+            "security_summary": security.get("security_summary", ""),
+        },
+    }
+    return record, None
+
+
+def verify_subgraph(parent: dict, record: dict) -> dict:
+    """The 7 proofs. Returns {check_name: bool}."""
+    parent_arch = parent["architecture"]
+    parent_nodes = parent_arch["nodes"]
+    parent_edges = parent_arch["edges"]
+    parent_ids = {n["id"] for n in parent_nodes}
+    rec_arch = record["architecture"]
+    node_ids = [n["id"] for n in rec_arch["nodes"]]
+    node_id_set = set(node_ids)
+    edges = rec_arch["edges"]
+    prov = record.get("metadata", {}).get("phase6", {})
+
+    checks = {
+        "node_subset": node_id_set <= parent_ids,
+        "edge_subset": all(any(e is pe for pe in parent_edges) for e in edges),
+        "endpoints_retained": all(
+            e.get("source") in node_id_set and e.get("target") in node_id_set
+            for e in edges),
+        "no_dup_nodes": len(node_ids) == len(node_id_set),
+        "connected": is_weakly_connected(rec_arch["nodes"], edges),
+    }
+    try:
+        raise_if_invalid(rec_arch)
+        checks["contract_pass"] = True
+    except ValueError:
+        checks["contract_pass"] = False
+    prov_keys = ["parent_source_id", "parent_architecture_id", "transformation_method",
+                 "transformation_version", "selected_node_ids", "selected_edge_ids",
+                 "node_retention_ratio", "edge_retention_ratio"]
+    checks["provenance_complete"] = all(k in prov and prov[k] not in (None, "") for k in prov_keys)
+    return checks
+
+
+def _retention_metrics(parent: dict, record: dict) -> dict:
+    nodes = parent["architecture"]["nodes"]
+    parent_ids = {n["id"] for n in nodes}
+    info = {n["id"]: classify(n["id"], n.get("type", "")) for n in nodes}
+    selected_ids = set(record["metadata"]["phase6"]["selected_node_ids"])
+    return {
+        "parent_has_entry": any(c["entry"] or c["entry_matches"] > 0 for c in info.values()),
+        "entry_or_root_retained": any(
+            (c["entry"] or c["entry_matches"] > 0) and n in selected_ids
+            for n, c in info.items()),
+        "parent_has_data": any(c["is_data"] for c in info.values()),
+        "data_retained": any(c["is_data"] and n in selected_ids for n, c in info.items()),
+        "parent_has_security": any(c["is_security"] for c in info.values()),
+        "security_retained": any(c["is_security"] and n in selected_ids for n, c in info.items()),
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Deterministic provenance-preserving connected-subgraph extraction (Phase 6).")
+    parser.add_argument("--input", default="dataset/final/CyberShield_Dataset_v1_FULL.jsonl",
+                        help="Immutable production corpus (read-only).")
+    parser.add_argument("--output", default="dataset/docs/phase6_pilot/subgraph_pilot.jsonl",
+                        help="Phase-6 pilot artifact (extracted subgraphs).")
+    parser.add_argument("--stats", default="dataset/docs/phase6_pilot/subgraph_pilot_stats.json",
+                        help="Phase-6 pilot statistics artifact.")
+    parser.add_argument("--sample-size", type=int, default=100,
+                        help="Number of parent records to process.")
+    args = parser.parse_args()
+
+    corpus_path = Path(args.input)
+    out_path = Path(args.output)
+    stats_path = Path(args.stats)
+    if not corpus_path.is_file():
+        print(f"ERROR: input not found: {corpus_path}", file=sys.stderr)
+        return 1
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    stats_path.parent.mkdir(parents=True, exist_ok=True)
+
+    sha_before = sha256_file(corpus_path)
+    buckets = load_corpus_index(corpus_path)
+    sample_ids = allocate_sample(buckets, args.sample_size)
+    sample_set = set(sample_ids)
+    print(f"Sample: {len(sample_ids)} parents, buckets="
+          f"{ {b: len(buckets[b][:sample_ids.count(x)]) for b in buckets} if False else ''}"
+          f"{ {name: sum(1 for i in sample_ids if i in set(buckets[name])) for name in buckets} }"
+          , flush=True)
+
+    accepted: list[dict] = []
+    rejected: Counter = Counter()
+    rejected_examples: dict[str, str] = {}
+    node_counts: list[int] = []
+    edge_counts: list[int] = []
+    connected_ok = 0
+    entry_den, entry_num = 0, 0
+    data_den, data_num = 0, 0
+    sec_den, sec_num = 0, 0
+    prov_complete = 0
+    fabricated_nodes = 0
+    fabricated_edges = 0
+    dup_record_ids = 0
+    dup_edge_keys = 0
+
+    with open(corpus_path, "r", encoding="utf-8") as f:
+        for line in f:
+            try:
+                parent = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if str(parent.get("id")) not in sample_set:
+                continue
+            record, reason = extract_subgraph(parent)
+            if record is None:
+                rejected[reason or "unknown"] += 1
+                if reason not in rejected_examples:
+                    rejected_examples[reason or "unknown"] = str(parent.get("id"))
+                continue
+            checks = verify_subgraph(parent, record)
+            if not all(checks.values()):
+                failed = [k for k, v in checks.items() if not v]
+                rejected["verification_failed:" + ",".join(failed)] += 1
+                rejected_examples.setdefault("verification_failed", str(parent.get("id")))
+                continue
+            accepted.append(record)
+            node_counts.append(len(record["architecture"]["nodes"]))
+            edge_counts.append(len(record["architecture"]["edges"]))
+            connected_ok += 1
+            prov_complete += int(checks["provenance_complete"])
+            rm = _retention_metrics(parent, record)
+            if rm["parent_has_entry"]:
+                entry_den += 1
+                entry_num += int(rm["entry_or_root_retained"])
+            if rm["parent_has_data"]:
+                data_den += 1
+                data_num += int(rm["data_retained"])
+            if rm["parent_has_security"]:
+                sec_den += 1
+                sec_num += int(rm["security_retained"])
+
+    ids = [r["id"] for r in accepted]
+    dup_record_ids = len(ids) - len(set(ids))
+    for r in accepted:
+        keys = [f"{e['source']}->{e['target']}[{e['label']}]" for e in r["architecture"]["edges"]]
+        dup_edge_keys += len(keys) - len(set(keys))
+    fabricated_nodes = sum(
+        1 for r in accepted if verify_subgraph(parent if False else
+            next((p for p in []) or [], r))  # placeholder, replaced below
+    )
+    return 0
