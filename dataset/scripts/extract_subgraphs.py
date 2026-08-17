@@ -274,6 +274,10 @@ def _shortest_path_nodes(adj_all: dict[str, set[str]], selected_set: set[str],
                 return path[::-1]
             queue.append(nb)
     return None
+
+
+def _spanning_tree(selected_order: list[str], root: str, selected_set: set[str],
+                   edges_lookup: dict) -> list[dict]:
     tree: list[dict] = []
     seen = {root}
     for nid in selected_order:
