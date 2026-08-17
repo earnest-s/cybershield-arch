@@ -134,7 +134,7 @@ def assign_splits(clusters: list[list[int]], records: list[dict[str, Any]]) -> d
     for members in clusters:
         node_count = len(records[members[0]]["architecture"]["nodes"])
         tiers.setdefault(node_count, []).append(members)
-    total = sum(len(m) for members in clusters for m in members)
+    total = sum(len(members) for members in clusters)
     targets = {name: round(total * SPLIT_RATIOS[name]) for name in order}
     assigned = {name: 0 for name in order}
     allocation: dict[int, str] = {}
