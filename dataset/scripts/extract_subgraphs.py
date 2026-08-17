@@ -568,11 +568,13 @@ def main() -> int:
         keys = [f"{e['source']}->{e['target']}[{e['label']}]" for e in r["architecture"]["edges"]]
         dup_edge_keys += len(keys) - len(set(keys))
     fabricated_nodes = sum(
-        len([n for n in r["architecture"]["nodes"] if n not in _all_parent_nodes(r["parent_id"])])
+        len([n for n in r["architecture"]["nodes"]
+             if n["id"] not in {pn["id"] for pn in parents_by_id[r["parent_id"]]["architecture"]["nodes"]}]))
         for r in accepted
     )
     fabricated_edges = sum(
-        len([e for e in r["architecture"]["edges"] if e not in _all_parent_edges(r["parent_id"])])
+        len([e for e in r["architecture"]["edges"]
+             if not any(e is pe for pe in parents_by_id[r["parent_id"]]["architecture"]["edges"]])])
         for r in accepted
     )
 
