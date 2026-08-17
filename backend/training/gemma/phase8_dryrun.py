@@ -51,9 +51,13 @@ def main() -> int:
     print(f"[2] model id: {MODEL_ID}")
     print(f"[3] torch {torch.__version__} | cuda {torch.version.cuda}")
 
-    rows = load_records(DATASET, "train", N_RECORDS)
+    rows = load_records(DATASET, "train", 200)
+    if LONGEST:
+        rows = sorted(rows, key=lambda r: -len(r["instruction"]))[:1]
+        rows = [max(rows, key=lambda r: len(r["response"]))] if rows else []
+    rows = rows[:N_RECORDS]
     assert len(rows) == N_RECORDS, f"need {N_RECORDS} train records, got {len(rows)}"
-    print(f"[4] loaded {N_RECORDS} REAL train-split records")
+    print(f"[4] loaded {N_RECORDS} REAL train-split records (LONGEST={LONGEST})")
 
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, local_files_only=True, cache_dir=str(HF_HUB_DIR))
     print(f"[5] tokenizer: pad={tokenizer.pad_token!r} eos={tokenizer.eos_token!r} "
