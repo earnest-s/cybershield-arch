@@ -165,7 +165,7 @@ def main() -> int:
         if parent is None:
             parent_unknown += 1
             continue
-        if p6.get("transformation_method") != "sacce_connected_subgraph_v1" or p6.get("contract") not in ("within_hard_limits", None):
+        if p6.get("transformation_method") != "sacce_connected_subgraph_v1" or p6.get("contract") != {"HARD_NODE_LIMIT": 10, "HARD_EDGE_LIMIT": 15}:
             phase6_contract_mismatch += 1
         if parent["architecture"] != arch:
             parent_arch_mismatch += 1
