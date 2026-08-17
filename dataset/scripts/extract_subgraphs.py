@@ -524,6 +524,7 @@ def main() -> int:
     dup_record_ids = 0
     dup_edge_keys = 0
 
+    parents_by_id: dict[str, dict] = {}
     with open(corpus_path, "r", encoding="utf-8") as f:
         for line in f:
             try:
@@ -532,6 +533,7 @@ def main() -> int:
                 continue
             if str(parent.get("id")) not in sample_set:
                 continue
+            parents_by_id[str(parent["id"])] = parent
             record, reason = extract_subgraph(parent)
             if record is None:
                 rejected[reason or "unknown"] += 1
