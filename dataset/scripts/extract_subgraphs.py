@@ -504,10 +504,10 @@ def main() -> int:
     buckets = load_corpus_index(corpus_path)
     sample_ids = allocate_sample(buckets, args.sample_size)
     sample_set = set(sample_ids)
-    print(f"Sample: {len(sample_ids)} parents, buckets="
-          f"{ {b: len(buckets[b][:sample_ids.count(x)]) for b in buckets} if False else ''}"
-          f"{ {name: sum(1 for i in sample_ids if i in set(buckets[name])) for name in buckets} }"
-          , flush=True)
+    sample_buckets = {name: sum(1 for sid in sample_ids if sid in set(ids))
+                      for name, ids in buckets.items()}
+    print(f"Sample: {len(sample_ids)} parents, bucket distribution: {sample_buckets}",
+          flush=True)
 
     accepted: list[dict] = []
     rejected: Counter = Counter()
@@ -569,7 +569,7 @@ def main() -> int:
         dup_edge_keys += len(keys) - len(set(keys))
     fabricated_nodes = sum(
         len([n for n in r["architecture"]["nodes"]
-             if n["id"] not in {pn["id"] for pn in parents_by_id[r["parent_id"]]["architecture"]["nodes"]}]))
+             if n["id"] not in {pn["id"] for pn in parents_by_id[r["parent_id"]]["architecture"]["nodes"]}])
         for r in accepted
     )
     fabricated_edges = sum(
