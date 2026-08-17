@@ -374,12 +374,37 @@ def extract_subgraph(parent: dict) -> tuple[dict | None, str | None]:
 
     root = _select_root(comp, info, degree)
 
-    # Deterministic BFS expansion (no first-N truncation: every node of the
-    # component is a candidate; expansion simply stops at the contract limit).
-    selected: list[str] = []
-    selected_set: set[str] = set()
-    selected.append(root)
-    selected_set.add(root)
+    # Anchor-aware deterministic expansion. Instead of frontier-greedy stop at
+    # the contract limit, explicitly reserve budget for the top data/storage
+    # and security anchors of the component, connecting each via its shortest
+    # path (deterministic BFS, id tie-break). No first-N truncation: anchors
+    # are chosen globally by score, paths run through any component nodes.
+    selected: list[str] = [root]
+    selected_set: set[str] = {root}
+
+    def node_sort_key(nid: str) -> tuple[int, str]:
+        return (-_score_node(nid, node_by_id[nid], info, degree), nid)
+
+    top_data = sorted((nid for nid in comp if info[nid]["is_data"]), key=node_sort_key)[:2]
+    top_security = sorted((nid for nid in comp
+                           if info[nid]["is_security"] and nid not in top_data and nid != root),
+                          key=node_sort_key)[:2]
+
+    for anchor in top_data + top_security:
+        if anchor in selected_set or len(selected_set) >= HARD_NODE_LIMIT:
+            continue
+        path = _shortest_path_nodes(adj, selected_set, anchor, comp)
+        if path is None:
+            continue
+        if len(selected_set) + len(path) - 1 > HARD_NODE_LIMIT:
+            continue
+        for nid in path:
+            if nid not in selected_set:
+                selected.append(nid)
+                selected_set.add(nid)
+
+    # Infill the remaining headroom with best-scored frontier nodes, still
+    # deterministic (score desc, id asc) and always adjacent to selected.
     while len(selected_set) < HARD_NODE_LIMIT:
         options: list[tuple[int, str]] = []
         for nid in sorted(selected_set):
