@@ -71,6 +71,7 @@ from backend.core.architecture_validator import (  # noqa: E402
     raise_if_invalid,
 )
 from backend.core.response_builder import build_security_dict  # noqa: E402
+from backend.security.security_analyzer import build_security_summary  # noqa: E402
 
 SCRIPT_VERSION = "1.0.0"
 TRANSFORMATION_METHOD = "sacce_connected_subgraph_v1"
