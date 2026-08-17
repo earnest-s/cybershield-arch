@@ -91,7 +91,7 @@ def main() -> int:
         raw = generate(r["instruction"])
         results["tokens_generated"] += len(tokenizer(raw, add_special_tokens=False)["input_ids"])
         try:
-            arch = parse_architecture(raw)
+            arch = parse_architecture(extract_json_object_comments(raw))
             results["parse_ok"] += 1
         except ValueError as exc:
             results["outputs"].append({"id": r["id"], "parse_error": str(exc)[:200], "raw": raw[:300]})
