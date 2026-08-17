@@ -629,7 +629,20 @@ def main() -> int:
                         help="Phase-6 pilot statistics artifact.")
     parser.add_argument("--sample-size", type=int, default=100,
                         help="Number of parent records to process.")
+    parser.add_argument("--full-scale", action="store_true",
+                        help="Full-scale sharded extraction over the whole corpus.")
+    parser.add_argument("--outdir", default="dataset/training/subgraphs",
+                        help="Phase-6 artifact directory (shards, manifest, stats).")
+    parser.add_argument("--shard-size", type=int, default=1000,
+                        help="Parents per deterministic range/shard.")
+    parser.add_argument("--manifest", default=None,
+                        help="Manifest path (default: <outdir>/manifest.json).")
+    parser.add_argument("--skipped", default=None,
+                        help="Skipped-parents log path (default: <outdir>/skipped.jsonl).")
     args = parser.parse_args()
+
+    if args.full_scale:
+        return process_full_scale(args)
 
     corpus_path = Path(args.input)
     out_path = Path(args.output)
