@@ -22,8 +22,9 @@ from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 from torch.optim import AdamW
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
-HF_HUB_DIR = Path(".cache/huggingface")
-os.environ.setdefault("HF_HOME", str(HF_HUB_DIR.absolute()))
+HF_CACHE_DIR = Path(".cache/huggingface")
+HF_HUB_DIR = HF_CACHE_DIR / "hub"
+os.environ.setdefault("HF_HOME", str(HF_CACHE_DIR.absolute()))
 MODEL_ID = "unsloth/gemma-3-4b-it-bnb-4bit"
 DATASET = Path("dataset/training/CyberShield_Gemma_SFT_v1.jsonl")
 MAX_LENGTH = 1024
