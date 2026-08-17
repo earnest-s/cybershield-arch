@@ -566,7 +566,93 @@ def main() -> int:
         keys = [f"{e['source']}->{e['target']}[{e['label']}]" for e in r["architecture"]["edges"]]
         dup_edge_keys += len(keys) - len(set(keys))
     fabricated_nodes = sum(
-        1 for r in accepted if verify_subgraph(parent if False else
-            next((p for p in []) or [], r))  # placeholder, replaced below
+        len([n for n in r["architecture"]["nodes"] if n not in _all_parent_nodes(r["parent_id"])])
+        for r in accepted
     )
+    fabricated_edges = sum(
+        len([e for e in r["architecture"]["edges"] if e not in _all_parent_edges(r["parent_id"])])
+        for r in accepted
+    )
+
+    sha_after = sha256_file(corpus_path)
+    sha_unchanged = sha_before == sha_after
+
+    def dist(vals: list[int]) -> dict:
+        if not vals:
+            return {"min": 0, "max": 0, "mean": 0.0, "buckets": {}}
+        c = Counter(vals)
+        return {
+            "min": min(vals), "max": max(vals),
+            "mean": round(sum(vals) / len(vals), 2),
+            "buckets": {str(k): v for k, v in sorted(c.items())},
+        }
+
+    stats = {
+        "script_version": SCRIPT_VERSION,
+        "transformation": {"method": TRANSFORMATION_METHOD, "version": TRANSFORMATION_VERSION},
+        "source": {"path": str(corpus_path), "sha256_before": sha_before,
+                   "sha256_after": sha_after, "sha256_unchanged": sha_unchanged},
+        "sample": {
+            "requested": args.sample_size,
+            "parents_examined": len(sample_ids),
+            "bucket_distribution": {name: sum(1 for i in sample_ids if i in set(ids))
+                                    for name, ids in buckets.items()},
+        },
+        "counts": {
+            "parents_examined": len(sample_ids),
+            "records_producing_valid_subgraphs": len(accepted),
+            "total_subgraphs": len(accepted),
+            "rejected_candidates": len(sample_ids) - len(accepted),
+        },
+        "rejection_reasons": {
+            reason: {"count": count, "example_parent": rejected_examples.get(reason, "")}
+            for reason, count in sorted(rejected.items())
+        },
+        "node_distribution": dist(node_counts),
+        "edge_distribution": dist(edge_counts),
+        "connectedness_pct": round(100.0 * connected_ok / max(1, len(accepted)), 2),
+        "entry_or_root_retention_pct": round(100.0 * entry_num / max(1, entry_den), 2),
+        "data_storage_retention_pct": round(100.0 * data_num / max(1, data_den), 2),
+        "security_node_retention_pct": round(100.0 * sec_num / max(1, sec_den), 2),
+        "provenance_completeness_pct": round(100.0 * prov_complete / max(1, len(accepted)), 2),
+        "duplicate_count": {"record_ids": dup_record_ids, "edge_keys": dup_edge_keys},
+        "fabrication_counts": {"nodes": fabricated_nodes, "edges": fabricated_edges},
+        "denominators": {
+            "parents_with_entry_nodes": entry_den,
+            "parents_with_data_nodes": data_den,
+            "parents_with_security_nodes": sec_den,
+        },
+    }
+
+    with open(out_path, "w", encoding="utf-8") as f:
+        for record in accepted:
+            f.write(json.dumps(record, sort_keys=True) + "\n")
+    with open(stats_path, "w", encoding="utf-8") as f:
+        json.dump(stats, f, indent=2, sort_keys=True)
+
+    print(json.dumps(stats, indent=2, sort_keys=True))
     return 0
+
+
+def _all_parent_nodes(parent_id: str) -> list[dict]:
+    corpus_path = Path("dataset/final/CyberShield_Dataset_v1_FULL.jsonl")
+    with open(corpus_path, "r", encoding="utf-8") as f:
+        for line in f:
+            rec = json.loads(line)
+            if str(rec.get("id")) == parent_id:
+                return rec["architecture"]["nodes"]
+    return []
+
+
+def _all_parent_edges(parent_id: str) -> list[dict]:
+    corpus_path = Path("dataset/final/CyberShield_Dataset_v1_FULL.jsonl")
+    with open(corpus_path, "r", encoding="utf-8") as f:
+        for line in f:
+            rec = json.loads(line)
+            if str(rec.get("id")) == parent_id:
+                return rec["architecture"]["edges"]
+    return []
+
+
+if __name__ == "__main__":
+    sys.exit(main())
