@@ -19,7 +19,7 @@ from pathlib import Path
 
 import torch
 from peft import LoraConfig, get_peft_model
-from torch.optim import AdamW
+from bitsandbytes.optim import AdamW8bit as AdamW
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 HF_CACHE_DIR = Path(".cache/huggingface")
@@ -28,7 +28,8 @@ os.environ.setdefault("HF_HOME", str(HF_CACHE_DIR.absolute()))
 MODEL_ID = "unsloth/gemma-3-4b-it-bnb-4bit"
 DATASET = Path("dataset/training/CyberShield_Gemma_SFT_v1.jsonl")
 MAX_LENGTH = 1024
-N_RECORDS = 4
+N_RECORDS = 1
+LONGEST = True
 
 
 def load_records(path: Path, split: str, limit: int) -> list[dict]:
