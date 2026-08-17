@@ -567,16 +567,14 @@ def main() -> int:
     for r in accepted:
         keys = [f"{e['source']}->{e['target']}[{e['label']}]" for e in r["architecture"]["edges"]]
         dup_edge_keys += len(keys) - len(set(keys))
-    fabricated_nodes = sum(
-        len([n for n in r["architecture"]["nodes"]
-             if n["id"] not in {pn["id"] for pn in parents_by_id[r["parent_id"]]["architecture"]["nodes"]}])
-        for r in accepted
-    )
-    fabricated_edges = sum(
-        len([e for e in r["architecture"]["edges"]
-             if not any(e is pe for pe in parents_by_id[r["parent_id"]]["architecture"]["edges"]])])
-        for r in accepted
-    )
+    fabricated_nodes = 0
+    fabricated_edges = 0
+    for r in accepted:
+        parent = parents_by_id[r["parent_id"]]
+        parent_node_ids = {pn["id"] for pn in parent["architecture"]["nodes"]}
+        parent_edges = parent["architecture"]["edges"]
+        fabricated_nodes += sum(1 for n in r["architecture"]["nodes"] if n["id"] not in parent_node_ids)
+        fabricated_edges += sum(1 for e in r["architecture"]["edges"] if not any(e is pe for pe in parent_edges))
 
     sha_after = sha256_file(corpus_path)
     sha_unchanged = sha_before == sha_after
