@@ -251,8 +251,29 @@ def _select_component(comps: list[set[str]], info: dict) -> set[str]:
     return ranked[0]
 
 
-def _spanning_tree(selected_order: list[str], root: str, selected_set: set[str],
-                   edges_lookup: dict) -> list[dict]:
+def _shortest_path_nodes(adj_all: dict[str, set[str]], selected_set: set[str],
+                         target: str, allowed_set: set[str]) -> list[str] | None:
+    """Shortest path (deterministic BFS, id tie-break) from selected to target.
+
+    Returns the full path (origin -> ... -> target), or None if unreachable.
+    """
+    prev: dict[str, str] = {}
+    seen = set(selected_set)
+    queue: deque[str] = deque(sorted(selected_set))
+    while queue:
+        cur = queue.popleft()
+        for nb in sorted(adj_all.get(cur, ())):
+            if nb not in allowed_set or nb in seen:
+                continue
+            seen.add(nb)
+            prev[nb] = cur
+            if nb == target:
+                path = [target]
+                while path[-1] not in selected_set:
+                    path.append(prev[path[-1]])
+                return path[::-1]
+            queue.append(nb)
+    return None
     tree: list[dict] = []
     seen = {root}
     for nid in selected_order:
