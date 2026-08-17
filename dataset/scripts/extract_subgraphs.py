@@ -145,8 +145,9 @@ def load_corpus_index(corpus_path: Path) -> dict[str, list[str]]:
 
 
 def allocate_sample(buckets: dict[str, list[str]], sample_size: int) -> list[str]:
-    """Deterministic proportional allocation (largest-remainder) per bucket."""
-    sizes = {name: len(ids) for name, ids in buckets.items()}
+    """Deterministic sample allocation: min-1 per non-empty bucket, then
+    proportional (largest-remainder) over the remaining budget."""
+    sizes = {name: len(ids) for name, ids in buckets.items() if len(ids) > 0}
     if not sizes:
         return []
     total = sum(sizes.values())
@@ -155,12 +156,21 @@ def allocate_sample(buckets: dict[str, list[str]], sample_size: int) -> list[str
         for name in sorted(sizes):
             picked.extend(buckets[name])
         return sorted(picked)
-    quotas = {name: sample_size * size / total for name, size in sizes.items()}
-    alloc = {name: int(quotas[name]) for name in sizes}
-    remaining = sample_size - sum(alloc.values())
-    order = sorted(sizes, key=lambda name: (-(quotas[name] - alloc[name]), name))
-    for name in order[:remaining]:
-        alloc[name] += 1
+
+    alloc: dict[str, int] = {name: 1 for name in sizes}  # min-1 per bucket
+    remaining_budget = sample_size - len(alloc)
+    if remaining_budget > 0:
+        remaining_sizes = {name: sizes[name] - 1 for name in sizes}
+        rem_total = sum(remaining_sizes.values())
+        quotas = {name: remaining_budget * sz / rem_total for name, sz in remaining_sizes.items()}
+        add = {name: int(quotas[name]) for name in sizes}
+        remainder = remaining_budget - sum(add.values())
+        order = sorted(sizes, key=lambda name: (-(quotas[name] - add[name]), name))
+        for name in order[:remainder]:
+            add[name] += 1
+        for name in sizes:
+            alloc[name] += add[name]
+
     picked = []
     for name in sorted(sizes):
         picked.extend(buckets[name][: alloc[name]])
@@ -327,6 +337,59 @@ def _canonicalize_security(sec: dict) -> dict:
     return out
 
 
+def _deterministic_threats(nodes: list[dict], edges: list[dict],
+                           missing_controls: list[str]) -> dict:
+    """Deterministic threat derivation mirroring the engine's own logic.
+
+    build_threat_node_mapping attributes threats first-wins over a
+    set-ordered missing_controls list, so the *content* of a threat (its
+    missing_control pointer, e.g. DDoS -> API Gateway vs DDoS -> WAF) can
+    flip across hash seeds. This replicates the exact engine algorithm
+    (same THREAT_MAPPING / THREAT_KNOWLEDGE_BASE / THREAT_SEVERITY_COLORS /
+    get_affected_* helpers) but iterates the sorted control list, which the
+    engine itself can produce for some orderings. Same threat set, same
+    attributes, deterministic attribution. No engine code is modified.
+    """
+    from backend.security.threat_detector import (  # engine catalogs, verbatim
+        THREAT_KNOWLEDGE_BASE,
+        THREAT_MAPPING,
+        THREAT_SEVERITY_COLORS,
+        get_affected_edge_ids,
+        get_affected_node_ids,
+    )
+
+    detected: dict[str, dict] = {}
+    node_threats: dict[str, list[dict]] = {}
+    edge_threats: dict[str, list[dict]] = {}
+    for comp in sorted(missing_controls):
+        affected_nodes = get_affected_node_ids(nodes, comp)
+        affected_edges = get_affected_edge_ids(edges, comp, nodes)
+        for t_name in THREAT_MAPPING.get(comp, []):
+            if t_name in detected or t_name not in THREAT_KNOWLEDGE_BASE:
+                continue
+            threat_info = dict(THREAT_KNOWLEDGE_BASE[t_name])
+            threat_info["missing_control"] = comp
+            threat_info["severity_level"] = THREAT_SEVERITY_COLORS.get(
+                threat_info.get("severity", ""), "")
+            detected[t_name] = threat_info
+            for node_id in affected_nodes:
+                node_threats.setdefault(node_id, []).append({
+                    "threat": t_name,
+                    "severity": threat_info.get("severity", ""),
+                    "missing_control": comp,
+                    "severity_level": threat_info["severity_level"],
+                })
+            for edge_id in affected_edges:
+                edge_threats.setdefault(edge_id, []).append({
+                    "threat": t_name,
+                    "severity": threat_info.get("severity", ""),
+                    "missing_control": comp,
+                    "severity_level": threat_info["severity_level"],
+                })
+    return {"threats": list(detected.values()), "node_threats": node_threats,
+            "edge_threats": edge_threats}
+
+
 def extract_subgraph(parent: dict) -> tuple[dict | None, str | None]:
     """Extract one deterministic connected subgraph from a parent record.
 
@@ -452,6 +515,16 @@ def extract_subgraph(parent: dict) -> tuple[dict | None, str | None]:
         "missing_components": [{"name": n} for n in sorted(security.get("missing_controls", []))],
         "risk_level": security.get("risk_level", "HIGH"),
     })
+
+    # Deterministic threat attribution (see _deterministic_threats): the
+    # engine's set-order first-wins mapping is replaced by the sorted-control
+    # equivalent so threat content is stable across hash seeds.
+    threats_data = _deterministic_threats(
+        [node_by_id[x] for x in selected], chosen_edges,
+        security.get("missing_controls", []))
+    security["threats"] = threats_data["threats"]
+    security["node_threats"] = threats_data["node_threats"]
+    security["edge_threats"] = threats_data["edge_threats"]
 
     prov = {
         "parent_source_id": str(parent["id"]),
