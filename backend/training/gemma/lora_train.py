@@ -200,6 +200,7 @@ def main() -> None:
         device_map="auto",
         quantization_config=bnb_cfg,
         local_files_only=True,
+        cache_dir=str(_HF_HUB_DIR),
     )
 
     model.config.use_cache = False
