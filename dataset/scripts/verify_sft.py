@@ -132,10 +132,12 @@ def main() -> int:
     check("record count", len(records) == EXPECTED_RECORDS, f"got {len(records)}")
     check("sequential unique ids", [r["id"] for r in records] == [f"SFT-{i:06d}" for i in range(1, len(records) + 1)])
 
-    manifest_parents = set()
+    manifest_parents: dict[str, dict] = {}
     for rid in manifest["ranges"]:
         for line in (input_dir / f"subgraphs_{rid}.jsonl").open(encoding="utf-8"):
-            manifest_parents.add(json.loads(line)["metadata"]["phase6"]["parent_source_id"])
+            parent = json.loads(line)
+            parent_id = parent["metadata"]["phase6"]["parent_source_id"]
+            manifest_parents[parent_id] = parent
 
     contract_issues: Counter = Counter()
     prompt_issues = 0
@@ -144,6 +146,7 @@ def main() -> int:
     parent_unknown = 0
     phase6_contract_mismatch = 0
     response_mismatch = 0
+    parent_arch_mismatch = 0
     splits: Counter = Counter()
     clusters: dict[tuple[str, ...], set[str]] = {}
 
@@ -156,17 +159,18 @@ def main() -> int:
             response_mismatch += 1
         md = r["metadata"]
         p6 = md.get("phase6", {})
+        parent = manifest_parents.get(md.get("parent_source_id"))
         if not md.get("parent_source_id") or not md.get("parent_architecture_id"):
             provenance_missing += 1
-        if md.get("parent_source_id") not in manifest_parents:
+        if parent is None:
             parent_unknown += 1
+            continue
         if p6.get("transformation_method") != "sacce_connected_subgraph_v1" or p6.get("contract") not in ("within_hard_limits", None):
             phase6_contract_mismatch += 1
-        instruction = r["instruction"]
-        rendered = runtime_template.format(instruction=instruction.split("Description:")[-1].split("ONLY return JSON")[0].strip())
-        if instruction != rendered:
-            prompt_issues += 1
-        if "ONLY return JSON. No explanation." not in instruction:
+        if parent["architecture"] != arch:
+            parent_arch_mismatch += 1
+        rendered = runtime_template.format(instruction=parent["instruction"].strip())
+        if rendered != r["instruction"]:
             prompt_issues += 1
         key = tuple(sorted(n["id"] for n in arch["nodes"]))
         clusters.setdefault(key, set()).add(md["split"])
@@ -174,6 +178,7 @@ def main() -> int:
 
     check("contract issues", not contract_issues, dict(contract_issues) if contract_issues else "0 issues across 51,498 records")
     check("response fidelity", response_mismatch == 0, f"{response_mismatch} mismatches")
+    check("parent architecture fidelity", parent_arch_mismatch == 0, f"{parent_arch_mismatch} mismatches")
     check("prompt drift (runtime template)", prompt_issues == 0, f"{prompt_issues} deviations from inference.py template")
     check("provenance present", provenance_missing == 0, f"{provenance_missing} missing")
     check("parents in manifest", parent_unknown == 0, f"{parent_unknown} unknown")
