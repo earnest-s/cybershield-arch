@@ -141,8 +141,25 @@ def main() -> int:
     batch["labels"] = labels
     torch.cuda.reset_peak_memory_stats()
     t0 = time.time()
-    out = model(**batch)
-    loss = out.loss / 8
+
+    out = model(**{k: v for k, v in batch.items() if k != "labels"})
+    logits = out.logits
+    ce = torch.nn.functional.cross_entropy
+    vocab = logits.shape[-1]
+    shift_logits = logits[..., :-1, :].contiguous()
+    shift_labels = labels[..., 1:].contiguous()
+    total = torch.zeros((), device=logits.device, dtype=torch.float32)
+    count = torch.zeros((), device=logits.device, dtype=torch.float32)
+    for i in range(0, shift_logits.shape[1], 64):
+        lg = shift_logits[:, i:i + 64].float()
+        lb = shift_labels[:, i:i + 64]
+        valid = lb != -100
+        if valid.any():
+            total = total + ce(lg.reshape(-1, vocab), lb.reshape(-1), reduction="sum")
+            count = count + valid.sum().to(count.dtype)
+    loss = total / count.clamp(min=1)
+    print(f"[12a] chunked CE loss: {float(loss):.4f} | counted targets: {int(count)}")
+    loss = loss / 8
     loss.backward()
     print(f"[12] forward+backward {time.time()-t0:.1f}s | loss (before opt step): {float(loss) * 8:.4f} | finite: {torch.isfinite(loss).item()}")
 
