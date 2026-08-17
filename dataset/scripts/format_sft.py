@@ -113,26 +113,38 @@ def build_clusters(records: list[dict[str, Any]]) -> list[list[int]]:
     return clusters
 
 
-def assign_splits(clusters: list[list[int]], total: int) -> dict[int, str]:
-    """Deterministic largest-first greedy fill of the target ratios.
+def assign_splits(clusters: list[list[int]], records: list[dict[str, Any]]) -> dict[int, str]:
+    """Deterministic size-tier-stratified greedy fill of the target ratios.
 
-    Whole clusters are allocated to the split with the largest remaining
-    capacity; ties resolve to train, then validation, then test.
+    Clusters are grouped by their node count (identical node sets imply
+    identical node counts). Within each tier, whole clusters are allocated to
+    the split with the largest remaining capacity (ties resolve to train,
+    then validation, then test). Stratifying per tier keeps the risk profile
+    of every split close to the artifact overall — small graphs are
+    MEDIUM-risk-heavy, and an unstratified fill concentrates them in
+    validation (documented in phase7_training_report.md).
     """
     order = ["train", "validation", "test"]
-    targets = {
-        name: round(total * SPLIT_RATIOS[name]) for name in order
-    }
-    assigned = {name: 0 for name in order}
-    allocation: dict[int, str] = {}
+    tiers: dict[int, list[list[int]]] = {}
     for members in clusters:
-        candidates = [name for name in order if assigned[name] < targets[name]]
-        if not candidates:
-            raise RuntimeError("Split capacities exhausted before all clusters assigned")
-        target_split = min(candidates, key=lambda name: (targets[name] - assigned[name], order.index(name)))
-        for idx in members:
-            allocation[idx] = target_split
-        assigned[target_split] += len(members)
+        node_count = len(records[members[0]]["architecture"]["nodes"])
+        tiers.setdefault(node_count, []).append(members)
+    allocation: dict[int, str] = {}
+    for node_count in sorted(tiers):
+        total = sum(len(m) for m in tiers[node_count])
+        targets = {name: round(total * SPLIT_RATIOS[name]) for name in order}
+        assigned = {name: 0 for name in order}
+        for members in tiers[node_count]:
+            candidates = [name for name in order if assigned[name] < targets[name]]
+            if not candidates:
+                raise RuntimeError("Split capacities exhausted before all clusters assigned")
+            target_split = min(
+                candidates,
+                key=lambda name: (targets[name] - assigned[name], order.index(name)),
+            )
+            for idx in members:
+                allocation[idx] = target_split
+            assigned[target_split] += len(members)
     return allocation
 
 
