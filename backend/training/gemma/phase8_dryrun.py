@@ -39,7 +39,7 @@ def load_records(path: Path, split: str, limit: int) -> list[dict]:
             row = json.loads(line)
             if row.get("metadata", {}).get("split") != split:
                 continue
-            rows.append({"instruction": row["instruction"], "response": row["response"]})
+            rows.append({"id": row["id"], "instruction": row["instruction"], "response": row["response"]})
             if len(rows) >= limit:
                 break
     return rows
