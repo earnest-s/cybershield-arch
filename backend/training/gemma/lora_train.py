@@ -1,49 +1,75 @@
 #!/usr/bin/env python3
 """LoRA fine-tuning harness for CyberShield Gemma SFT v1.
 
-Phase 7 update (dataset/docs/phase7_training_spec.md). Compared with the
-pre-Phase-7 version this harness:
+Phase 8 updates (dataset/docs/phase7_training_spec.md + phase8 spec):
 
-- targets the architecture-generation task (instruction -> architecture JSON)
-  instead of the stale synthetic explanation task;
-- reads the Phase 7 SFT artifact (dataset/training/CyberShield_Gemma_SFT_v1.jsonl)
-  with instruction/response fields and record-level metadata.split;
-- applies Gemma 3's single-turn chat template and masks the prompt tokens
-  out of the loss (labels = -100), which the old version did not do;
-- uses max_length 1024 (measured: 100% of records fit; the old default of
-  384 truncated ~100% of records);
-- splits training from evaluation using the artifact's validation split and
-  reports eval loss;
-- seeds torch, the DataLoader, and numpy for deterministic reproduction.
+- manual 4-bit training preparation (peft's prepare_model_for_kbit_training
+  casts ALL bf16 params to fp32, which OOMs the 6 GB VRAM budget on the tied
+  262k-vocabulary embeddings; we freeze the base, enable gradient
+  checkpointing + input-require-grads instead);
+- LoRA scoped to the language model only (target_modules regex), so the
+  vision tower and multimodal projector receive no adapters;
+- chunked cross-entropy loss (same loss value; the full-sequence fp32 softmax
+  over the 262k vocabulary OOMs at the longest real records);
+- 8-bit AdamW and unpadded single-sample batches to stay inside 6 GB VRAM;
+- Gemma 3 single-turn chat template with prompt tokens masked from the loss
+  (labels = -100); no synthetic defaults; deterministic seed.
 
-No training is performed by this file at runtime unless invoked; this phase
-only ships the harness. CLI flags keep their pre-Phase-7 names and semantics
-where possible (--dataset, --output, --model-id, --batch-size, --grad-accum,
---epochs, --lr, --max-length, --max-train-samples); defaults changed to the
-Phase 7 artifact.
+No training is performed by this file unless invoked. CLI flags keep their
+Phase 7 names and semantics (--dataset, --output, --model-id, --batch-size,
+--grad-accum, --epochs, --lr, --max-length, --max-train-samples, --seed,
+--eval-every-steps).
 """
 
 import argparse
 import json
 import os
+import random
 from pathlib import Path
 from typing import Dict, List
 
 import torch
-from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
-from torch.optim import AdamW
+from bitsandbytes.optim import AdamW8bit
+from peft import LoraConfig, get_peft_model
+from torch.nn import functional as F
 from torch.utils.data import DataLoader, Dataset
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 PROMPT_LABEL = -100
+CE_CHUNK = 64
+LORA_TARGET_MODULES = "model\\.language_model\\..*(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)"
+
+
+def chunked_cross_entropy(logits: torch.Tensor, labels: torch.Tensor, chunk: int = CE_CHUNK) -> torch.Tensor:
+    """Cross-entropy over (batch, seq, vocab) logits with a chunked softmax.
+
+    Mathematically identical to the standard reduction="mean" CE over
+    non-ignored labels, but the fp32 softmax is computed per 64-token chunk
+    instead of the full sequence — required to fit the 6 GB VRAM budget
+    (full-sequence fp32 softmax over 262,208 vocabulary tokens OOMs).
+    """
+    vocab = logits.shape[-1]
+    shift_logits = logits[..., :-1, :].contiguous()
+    shift_labels = labels[..., 1:].contiguous()
+    total = torch.zeros((), device=logits.device, dtype=torch.float32)
+    count = torch.zeros((), device=logits.device, dtype=torch.float32)
+    for start in range(0, shift_logits.shape[1], chunk):
+        chunk_logits = shift_logits[:, start : start + chunk].float()
+        chunk_labels = shift_labels[:, start : start + chunk]
+        valid = chunk_labels != PROMPT_LABEL
+        if valid.any():
+            total = total + F.cross_entropy(
+                chunk_logits.reshape(-1, vocab), chunk_labels.reshape(-1), reduction="sum"
+            )
+            count = count + valid.sum().to(count.dtype)
+    return total / count.clamp(min=1)
 
 
 class TextDataset(Dataset):
-    def __init__(self, items: List[Dict[str, str]], tokenizer, max_length: int, mask_prompt: bool = True):
+    def __init__(self, items: List[Dict[str, str]], tokenizer, max_length: int):
         self.items = items
         self.tokenizer = tokenizer
         self.max_length = max_length
-        self.mask_prompt = mask_prompt
 
     def __len__(self) -> int:
         return len(self.items)
@@ -61,24 +87,23 @@ class TextDataset(Dataset):
             chat,
             truncation=True,
             max_length=self.max_length,
-            padding="max_length",
             return_tensors="pt",
         )
         input_ids = encoded["input_ids"].squeeze(0)
         attention_mask = encoded["attention_mask"].squeeze(0)
         labels = input_ids.clone()
-        if self.mask_prompt:
-            prompt_chat = self.tokenizer.apply_chat_template(
-                [{"role": "user", "content": row["instruction"]}],
-                add_generation_prompt=True,
-                tokenize=False,
-            )
-            prompt_len = len(self.tokenizer(prompt_chat, add_special_tokens=False)["input_ids"])
-            labels[:prompt_len] = PROMPT_LABEL
+        prompt_chat = self.tokenizer.apply_chat_template(
+            [{"role": "user", "content": row["instruction"]}],
+            add_generation_prompt=True,
+            tokenize=False,
+        )
+        prompt_len = len(self.tokenizer(prompt_chat, add_special_tokens=False)["input_ids"])
+        labels[:prompt_len] = PROMPT_LABEL
         return {
             "input_ids": input_ids,
             "attention_mask": attention_mask,
             "labels": labels,
+            "n_targets": int((labels != PROMPT_LABEL).sum()),
         }
 
 
@@ -114,8 +139,6 @@ def load_dataset(path: Path, split: str, limit: int) -> List[Dict[str, str]]:
 
 
 def set_seed(seed: int) -> None:
-    import random
-
     random.seed(seed)
     torch.manual_seed(seed)
     if torch.cuda.is_available():
@@ -127,9 +150,10 @@ def evaluate(model, loader: DataLoader, device: torch.device) -> float:
     model.eval()
     total, count = 0.0, 0
     for batch in loader:
-        batch = {k: v.to(device) for k, v in batch.items()}
-        out = model(**batch)
-        total += float(out.loss.item())
+        batch = {k: v.to(device) for k, v in batch.items() if k != "n_targets"}
+        out = model(**{k: v for k, v in batch.items() if k != "labels"})
+        loss = chunked_cross_entropy(out.logits, batch["labels"])
+        total += float(loss.item())
         count += 1
     model.train()
     return total / max(1, count)
@@ -138,6 +162,7 @@ def evaluate(model, loader: DataLoader, device: torch.device) -> float:
 def main() -> None:
     args = parse_args()
     os.environ.setdefault("HF_HOME", "./.cache/huggingface")
+    os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
     set_seed(args.seed)
 
     print("[STEP 2/3] Gemma LoRA training started")
@@ -174,8 +199,11 @@ def main() -> None:
         local_files_only=True,
     )
 
+    model.config.use_cache = False
     model.gradient_checkpointing_enable()
-    model = prepare_model_for_kbit_training(model)
+    for param in model.parameters():
+        param.requires_grad_(False)
+    model.enable_input_require_grads()
 
     lora_cfg = LoraConfig(
         r=16,
@@ -183,7 +211,7 @@ def main() -> None:
         lora_dropout=0.05,
         bias="none",
         task_type="CAUSAL_LM",
-        target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+        target_modules=LORA_TARGET_MODULES,
     )
 
     model = get_peft_model(model, lora_cfg)
@@ -198,20 +226,23 @@ def main() -> None:
     )
     eval_loader = None
     if eval_rows:
-        eval_loader = DataLoader(TextDataset(eval_rows, tokenizer, args.max_length), batch_size=2)
+        eval_loader = DataLoader(TextDataset(eval_rows, tokenizer, args.max_length), batch_size=1)
 
-    optimizer = AdamW((p for p in model.parameters() if p.requires_grad), lr=args.lr)
+    optimizer = AdamW8bit((p for p in model.parameters() if p.requires_grad), lr=args.lr)
 
     step = 0
+    tokens_processed = 0
     for epoch in range(args.epochs):
         running = 0.0
         optimizer.zero_grad(set_to_none=True)
         for i, batch in enumerate(train_loader):
-            batch = {k: v.to(model.device) for k, v in batch.items()}
-            out = model(**batch)
-            loss = out.loss / args.grad_accum
+            n_targets = int(batch["n_targets"].sum())
+            batch = {k: v.to(model.device) for k, v in batch.items() if k != "n_targets"}
+            out = model(**{k: v for k, v in batch.items() if k != "labels"})
+            loss = chunked_cross_entropy(out.logits, batch["labels"]) / args.grad_accum
             loss.backward()
             running += float(loss.item()) * args.grad_accum
+            tokens_processed += n_targets
 
             if (i + 1) % args.grad_accum == 0:
                 optimizer.step()
@@ -223,7 +254,7 @@ def main() -> None:
                 print(f"epoch={epoch + 1} step={step} eval_loss={eval_loss:.4f}")
 
         epoch_loss = running / max(1, len(train_loader))
-        print(f"epoch={epoch + 1} avg_loss={epoch_loss:.4f} steps={step}")
+        print(f"epoch={epoch + 1} avg_loss={epoch_loss:.4f} steps={step} tokens={tokens_processed}")
         if eval_loader is not None:
             print(f"epoch={epoch + 1} eval_loss={evaluate(model, eval_loader, model.device):.4f}")
 
