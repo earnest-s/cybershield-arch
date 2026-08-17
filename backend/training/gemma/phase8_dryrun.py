@@ -93,7 +93,7 @@ def main() -> int:
         lora_dropout=0.05,
         bias="none",
         task_type="CAUSAL_LM",
-        target_modules=["model\\.language_model\\.model\\.layers\\..*(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)"],
+        target_modules="model\\.language_model\\.model\\.layers\\..*(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)",
     )
     model = get_peft_model(model, lora_cfg)
     adapter_names = set(n for n, _ in model.named_modules() if "lora" in n)
