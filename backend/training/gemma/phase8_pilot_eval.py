@@ -109,7 +109,7 @@ def main() -> int:
         inputs = tokenizer(chat, return_tensors="pt").to(model.device)
         with torch.inference_mode():
             out = model.generate(
-                **inputs, max_new_tokens=MAX_NEW_TOKENS, do_sample=False,
+                **inputs, max_new_tokens=args.max_new_tokens, do_sample=False,
                 pad_token_id=tokenizer.pad_token_id,
             )
         return tokenizer.decode(out[0][inputs.input_ids.shape[1]:], skip_special_tokens=True).strip()
