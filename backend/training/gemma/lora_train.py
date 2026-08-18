@@ -276,6 +276,8 @@ def main() -> None:
 
             if (i + 1) % args.grad_accum == 0:
                 optimizer.step()
+                if scheduler is not None:
+                    scheduler.step()
                 optimizer.zero_grad(set_to_none=True)
                 step += 1
                 if torch.cuda.is_available():
