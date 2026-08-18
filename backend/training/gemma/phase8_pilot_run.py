@@ -54,6 +54,7 @@ def run_training() -> dict:
         "--output", PILOT_ADAPTER,
         "--model-id", MODEL_ID,
         "--max-train-samples", str(N_TRAIN),
+        "--max-eval-samples", str(N_VAL),
         "--epochs", str(EPOCHS),
         "--grad-accum", str(GRAD_ACCUM),
         "--eval-every-steps", str(EVAL_EVERY),
