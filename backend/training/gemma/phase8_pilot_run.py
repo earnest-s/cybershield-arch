@@ -78,18 +78,13 @@ def main() -> int:
     eval_script = Path("backend/training/gemma/phase8_pilot_eval.py")
     if eval_script.exists():
         print("=== GENERATION EVAL ===")
-        t0 = time.time()
-        proc = subprocess.run(
+        eval_metrics = run_cmd_live(
             [sys.executable, "-u", str(eval_script),
-             "--adapter", PILOT_ADAPTER, "--n-gen", str(N_GEN), "--seed", str(SEED)],
-            capture_output=True, text=True,
+             "--adapter", PILOT_ADAPTER, "--n-gen", str(N_GEN), "--seed", str(SEED)]
         )
-        print(proc.stdout[-3000:])
-        if proc.stderr:
-            print("STDERR:", proc.stderr[-2000:])
-        metrics["generation_eval_wall_seconds"] = round(time.time() - t0, 1)
-        metrics["generation_eval_returncode"] = proc.returncode
-        if proc.returncode != 0:
+        metrics["generation_eval_wall_seconds"] = eval_metrics["wall_seconds"]
+        metrics["generation_eval_returncode"] = eval_metrics["returncode"]
+        if eval_metrics["returncode"] != 0:
             print("GENERATION EVAL FAILED")
             json.dump(metrics, open("dataset/docs/phase8_pilot_metrics.json", "w"), indent=2)
             return 1

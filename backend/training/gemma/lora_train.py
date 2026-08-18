@@ -252,6 +252,14 @@ def main() -> None:
                 optimizer.step()
                 optimizer.zero_grad(set_to_none=True)
                 step += 1
+                if torch.cuda.is_available():
+                    vram = torch.cuda.memory_allocated() / 1024**3
+                    print(
+                        f"epoch={epoch + 1} step={step}/{len(train_loader) // args.grad_accum} "
+                        f"loss={running / args.grad_accum:.4f} tokens={tokens_processed} "
+                        f"vram={vram:.2f} GiB",
+                        flush=True,
+                    )
 
             if eval_loader is not None and step and step % args.eval_every_steps == 0:
                 eval_loss = evaluate(model, eval_loader, model.device)
