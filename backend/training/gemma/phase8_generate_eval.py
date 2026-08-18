@@ -198,15 +198,15 @@ def main() -> int:
     t0 = time.time()
     for start in range(0, len(rows), args.gen_batch):
         chunk = rows[start : start + args.gen_batch]
-        decodes = generate_batch([chat_prompts[r_idx] for r_idx in range(start, start + len(chunk))])
+        decodes, gen_lens = generate_batch([chat_prompts[r_idx] for r_idx in range(start, start + len(chunk))])
 
-        for r, raw in zip(chunk, decodes):
-            entry: dict = {"id": r["id"], "gen_tokens": len(tokenizer(raw, add_special_tokens=False)["input_ids"])}
-            results["gen_tokens"].append(entry["gen_tokens"])
+        for r, raw, gen_len in zip(chunk, decodes, gen_lens):
+            entry: dict = {"id": r["id"], "gen_tokens": gen_len}
+            results["gen_tokens"].append(gen_len)
             prompt_len = len(tokenizer(chat_prompts[rows.index(r)], add_special_tokens=False)["input_ids"])
             results["prompt_tokens"].append(prompt_len)
 
-            if entry["gen_tokens"] >= args.max_new_tokens:
+            if gen_len >= args.max_new_tokens:
                 results["hit_token_cap"] += 1
             else:
                 results["eos_completed"] += 1
