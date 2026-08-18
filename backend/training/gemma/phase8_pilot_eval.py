@@ -161,7 +161,7 @@ def main() -> int:
         connected = is_weakly_connected(nodes, edges)
         if not connected:
             issues.append(type("I", (), {"rule": RULE_CONNECTED, "severity": "warning", "message": ""})())
-        orphan = has_orphan_node(nodes, edges)
+        orphan = has_orphan_node(arch)
         has_errors = any(i.severity == "error" for i in issues)
 
         entry["nodes"] = len(node_ids)
