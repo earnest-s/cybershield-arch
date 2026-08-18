@@ -256,9 +256,7 @@ def main() -> int:
                 results["schema_valid"] += 1
             if conn:
                 results["connected"] += 1
-            if not orphan:
-                results["orphan"] += 0  # orphan counter is failures; see below
-            else:
+            if orphan:
                 results["orphan"] += 1
             if len(node_ids) <= 10 and len(edge_keys) <= 15:
                 results["within_guardrail"] += 1
