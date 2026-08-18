@@ -244,6 +244,7 @@ def main() -> None:
     optimizer = AdamW8bit((p for p in model.parameters() if p.requires_grad), lr=args.lr)
 
     step = 0
+    last_eval_step = 0
     tokens_processed = 0
     for epoch in range(args.epochs):
         running = 0.0
@@ -273,9 +274,14 @@ def main() -> None:
                     )
                 rolling = 0.0
 
-            if eval_loader is not None and step and step % args.eval_every_steps == 0:
-                eval_loss = evaluate(model, eval_loader, model.device, verbose=True)
-                print(f"epoch={epoch + 1} step={step} eval_loss={eval_loss:.4f}", flush=True)
+                if (
+                    eval_loader is not None
+                    and step % args.eval_every_steps == 0
+                    and step != last_eval_step
+                ):
+                    last_eval_step = step
+                    eval_loss = evaluate(model, eval_loader, model.device, verbose=True)
+                    print(f"epoch={epoch + 1} step={step} eval_loss={eval_loss:.4f}", flush=True)
 
         epoch_loss = running / max(1, len(train_loader))
         print(f"epoch={epoch + 1} avg_loss={epoch_loss:.4f} steps={step} tokens={tokens_processed}")
