@@ -274,8 +274,8 @@ def main() -> None:
                 rolling = 0.0
 
             if eval_loader is not None and step and step % args.eval_every_steps == 0:
-                eval_loss = evaluate(model, eval_loader, model.device)
-                print(f"epoch={epoch + 1} step={step} eval_loss={eval_loss:.4f}")
+                eval_loss = evaluate(model, eval_loader, model.device, verbose=True)
+                print(f"epoch={epoch + 1} step={step} eval_loss={eval_loss:.4f}", flush=True)
 
         epoch_loss = running / max(1, len(train_loader))
         print(f"epoch={epoch + 1} avg_loss={epoch_loss:.4f} steps={step} tokens={tokens_processed}")
