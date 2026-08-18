@@ -70,6 +70,9 @@ def record_environment() -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser()
     for key, default in APPROVED_DEFAULTS.items():
+        if key == "scheduler":
+            parser.add_argument("--scheduler", default=default)
+            continue
         parser.add_argument(f"--{key}", type=float if isinstance(default, float) else int, default=default)
     parser.add_argument("--override-config", action="store_true", help="allow run even without tuning winner")
     args = parser.parse_args()
