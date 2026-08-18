@@ -37,7 +37,9 @@ N_GEN = 50
 def run_cmd_live(cmd: list) -> dict:
     """Run a subprocess streaming stdout/stderr to the terminal in real time."""
     t0 = time.time()
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
+    env = dict(os.environ)
+    env["PYTHONPATH"] = str(Path(__file__).resolve().parents[3]) + os.pathsep + env.get("PYTHONPATH", "")
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1, env=env)
     lines: list[str] = []
     for line in proc.stdout:
         lines.append(line)
