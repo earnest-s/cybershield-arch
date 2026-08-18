@@ -25,6 +25,7 @@ import argparse
 import json
 import os
 import random
+import time
 from pathlib import Path
 from typing import Dict, List
 
@@ -150,15 +151,22 @@ def set_seed(seed: int) -> None:
 
 
 @torch.inference_mode()
-def evaluate(model, loader: DataLoader, device: torch.device) -> float:
+def evaluate(model, loader: DataLoader, device: torch.device, verbose: bool = False) -> float:
     model.eval()
     total, count = 0.0, 0
-    for batch in loader:
+    if verbose:
+        print(f"[eval] running {len(loader)} validation samples...", flush=True)
+    t0 = time.time()
+    for idx, batch in enumerate(loader):
         batch = {k: v.to(device) for k, v in batch.items() if k != "n_targets"}
         out = model(**{k: v for k, v in batch.items() if k != "labels"})
         loss = chunked_cross_entropy(out.logits, batch["labels"])
         total += float(loss.item())
         count += 1
+        if verbose and (idx + 1) % 25 == 0:
+            print(f"[eval] {idx + 1}/{len(loader)} ({time.time() - t0:.0f}s)", flush=True)
+    if verbose:
+        print(f"[eval] done in {time.time() - t0:.0f}s", flush=True)
     model.train()
     return total / max(1, count)
 
