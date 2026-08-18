@@ -25,6 +25,7 @@ Usage:
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import sys
@@ -37,7 +38,7 @@ SFT_SHA = "8c91e5cd017df9490f24b5c9f016f01c871e5531b4072c7f83d6959301b851ec"
 
 CORPUS_PATH = _REPO_ROOT / "dataset/final/CyberShield_Dataset_v1_FULL.jsonl"
 SFT_PATH = _REPO_ROOT / "dataset/training/CyberShield_Gemma_SFT_v1.jsonl"
-ADAPTER_DIR = _REPO_ROOT / "checkpoints/gemma_lora_pilot"
+ADAPTER_DIR = _REPO_ROOT / "checkpoints/gemma_lora"
 EVAL_JSON = _REPO_ROOT / "dataset/docs/phase8_pilot_generation_eval.json"
 
 GATES = [
@@ -55,6 +56,15 @@ def sha256(path: Path) -> str:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--adapter", default=str(ADAPTER_DIR), help="adapter directory to gate (default checkpoints/gemma_lora)"
+    )
+    parser.add_argument(
+        "--eval-json", default=str(EVAL_JSON), help="generation-eval JSON to gate (default pilot n=50)"
+    )
+    parser.add_argument("--n-expected", type=int, default=50, help="expected record count in the eval JSON")
+    args = parser.parse_args()
     results: list[tuple[str, bool, str]] = []
 
     for name, expected, path in GATES:
@@ -62,16 +72,18 @@ def main() -> int:
         ok = actual == expected
         results.append((name, ok, f"{path.name} sha256 {actual[:12]}… (expected {expected[:12]}…)"))
 
+    adapter_dir = Path(args.adapter)
     adapter_files = {"adapter_config.json", "adapter_model.safetensors"}
-    present = {p.name for p in ADAPTER_DIR.iterdir()} if ADAPTER_DIR.is_dir() else set()
+    present = {p.name for p in adapter_dir.iterdir()} if adapter_dir.is_dir() else set()
     ok = adapter_files.issubset(present)
-    results.append(("G3 pilot adapter exists", ok, f"files: {sorted(present)}"))
+    results.append(("G3 adapter exists", ok, f"{adapter_dir} files: {sorted(present)}"))
 
+    eval_path = Path(args.eval_json)
     eval_data = None
-    if EVAL_JSON.exists():
-        eval_data = json.loads(EVAL_JSON.read_text())
-    ok = eval_data is not None and eval_data.get("n") == 50 and "parse_rate" in eval_data
-    results.append(("G4 generation eval JSON present", ok, f"n={eval_data.get('n') if eval_data else None}"))
+    if eval_path.exists():
+        eval_data = json.loads(eval_path.read_text())
+    ok = eval_data is not None and eval_data.get("n") == args.n_expected and "parse_rate" in eval_data
+    results.append(("G4 generation eval JSON present", ok, f"{eval_path.name} n={eval_data.get('n') if eval_data else None}"))
 
     if eval_data:
         parsed = eval_data["parse_ok"]
