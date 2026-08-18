@@ -189,7 +189,7 @@ def main() -> None:
         raise FileNotFoundError(f"Dataset not found: {dataset_path}")
 
     train_rows = load_dataset(dataset_path, "train", args.max_train_samples)
-    eval_rows = load_dataset(dataset_path, "validation", args.max_train_samples)
+    eval_rows = load_dataset(dataset_path, "validation", args.max_eval_samples)
     if not train_rows:
         raise RuntimeError("Dataset contains no train-split records.")
     print(f"[INFO] Loaded {len(train_rows)} train / {len(eval_rows)} validation samples from {dataset_path}")
