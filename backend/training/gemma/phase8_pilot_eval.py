@@ -51,6 +51,8 @@ def main() -> int:
     parser.add_argument("--n-gen", type=int, default=50)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--compare-base", action="store_true")
+    parser.add_argument("--max-new-tokens", type=int, default=MAX_NEW_TOKENS)
+    parser.add_argument("--ids", type=str, default="")
     args = parser.parse_args()
 
     import torch
@@ -93,7 +95,11 @@ def main() -> int:
         r = json.loads(line)
         if r["metadata"]["split"] == "validation":
             rows.append(r)
-    rows = rows[: args.n_gen]
+    if args.ids:
+        wanted = set(args.ids.split(","))
+        rows = [r for r in rows if r["id"] in wanted]
+    else:
+        rows = rows[: args.n_gen]
     print(f"[INFO] evaluating {len(rows)} held-out validation prompts")
 
     def generate(prompt: str) -> str:
