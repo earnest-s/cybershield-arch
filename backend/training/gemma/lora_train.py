@@ -123,6 +123,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lr", type=float, default=2e-4)
     parser.add_argument("--max-length", type=int, default=1024)
     parser.add_argument("--max-train-samples", type=int, default=0)
+    parser.add_argument("--max-eval-samples", type=int, default=100)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--eval-every-steps", type=int, default=100)
     return parser.parse_args()
