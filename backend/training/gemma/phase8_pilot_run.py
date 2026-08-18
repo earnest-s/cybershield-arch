@@ -34,6 +34,19 @@ MAX_LENGTH = 1024
 N_GEN = 50
 
 
+def run_cmd_live(cmd: list) -> dict:
+    """Run a subprocess streaming stdout/stderr to the terminal in real time."""
+    t0 = time.time()
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
+    lines: list[str] = []
+    for line in proc.stdout:
+        lines.append(line)
+        print(line, end="", flush=True)
+    proc.wait()
+    wall = time.time() - t0
+    return {"wall_seconds": round(wall, 1), "returncode": proc.returncode, "log_tail": "".join(lines)[-2000:]}
+
+
 def run_training() -> dict:
     cmd = [
         sys.executable, "-u", "backend/training/gemma/lora_train.py",
@@ -47,12 +60,7 @@ def run_training() -> dict:
         "--seed", str(SEED),
         "--max-length", str(MAX_LENGTH),
     ]
-    t0 = time.time()
-    proc = subprocess.run(cmd, capture_output=True, text=True)
-    wall = time.time() - t0
-    log = proc.stdout + proc.stderr
-    print(log[-4000:])
-    return {"wall_seconds": round(wall, 1), "returncode": proc.returncode, "log_tail": log[-2000:]}
+    return run_cmd_live(cmd)
 
 
 def main() -> int:
