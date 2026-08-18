@@ -238,6 +238,7 @@ def main() -> None:
     tokens_processed = 0
     for epoch in range(args.epochs):
         running = 0.0
+        rolling = 0.0
         optimizer.zero_grad(set_to_none=True)
         for i, batch in enumerate(train_loader):
             n_targets = int(batch["n_targets"].sum())
@@ -246,6 +247,7 @@ def main() -> None:
             loss = chunked_cross_entropy(out.logits, batch["labels"]) / args.grad_accum
             loss.backward()
             running += float(loss.item()) * args.grad_accum
+            rolling += float(loss.item()) * args.grad_accum
             tokens_processed += n_targets
 
             if (i + 1) % args.grad_accum == 0:
@@ -256,10 +258,11 @@ def main() -> None:
                     vram = torch.cuda.memory_allocated() / 1024**3
                     print(
                         f"epoch={epoch + 1} step={step}/{len(train_loader) // args.grad_accum} "
-                        f"loss={running / args.grad_accum:.4f} tokens={tokens_processed} "
+                        f"loss={rolling / args.grad_accum:.4f} tokens={tokens_processed} "
                         f"vram={vram:.2f} GiB",
                         flush=True,
                     )
+                rolling = 0.0
 
             if eval_loader is not None and step and step % args.eval_every_steps == 0:
                 eval_loss = evaluate(model, eval_loader, model.device)
