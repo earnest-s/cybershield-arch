@@ -131,7 +131,7 @@ def main() -> int:
         for r in rows
     ]
 
-    def generate_batch(prompts: list[str]) -> list[str]:
+    def generate_batch(prompts: list[str]) -> tuple[list[str], list[int]]:
         enc = tokenizer(prompts, return_tensors="pt", padding="longest").to(model.device)
         with torch.inference_mode():
             out = model.generate(
@@ -145,13 +145,15 @@ def main() -> int:
             )
         input_len = enc.input_ids.shape[1]
         decodes = []
+        gen_lens = []
         for row in out:
             gen_ids = row[input_len:]
             n_eos = int((gen_ids == EOS_ID).sum())
             if n_eos:
                 gen_ids = gen_ids[: int((gen_ids == EOS_ID).nonzero()[0])]
+            gen_lens.append(int(gen_ids.shape[0]))
             decodes.append(tokenizer.decode(gen_ids, skip_special_tokens=True).strip())
-        return decodes
+        return decodes, gen_lens
 
     results = {
         "config": {
