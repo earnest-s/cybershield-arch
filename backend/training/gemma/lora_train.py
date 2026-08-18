@@ -121,6 +121,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--grad-accum", type=int, default=8)
     parser.add_argument("--epochs", type=int, default=2)
     parser.add_argument("--lr", type=float, default=2e-4)
+    parser.add_argument("--lora-r", type=int, default=16)
+    parser.add_argument("--lora-alpha", type=int, default=32)
+    parser.add_argument("--warmup-frac", type=float, default=0.1)
+    parser.add_argument("--scheduler", choices=["cosine", "none"], default="cosine")
     parser.add_argument("--max-length", type=int, default=1024)
     parser.add_argument("--max-train-samples", type=int, default=0)
     parser.add_argument("--max-eval-samples", type=int, default=100)
@@ -219,8 +223,8 @@ def main() -> None:
     model.enable_input_require_grads()
 
     lora_cfg = LoraConfig(
-        r=16,
-        lora_alpha=32,
+        r=args.lora_r,
+        lora_alpha=args.lora_alpha,
         lora_dropout=0.05,
         bias="none",
         task_type="CAUSAL_LM",
