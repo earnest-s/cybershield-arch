@@ -34,15 +34,17 @@ def main() -> int:
         gen = json.loads(gen_path.read_text())
         name = gen_path.name.replace("_gen.json", "")
         log = (TUNING_DIR / f"{name}_train.log").read_text() if (TUNING_DIR / f"{name}_train.log").exists() else ""
+        summary_path = TUNING_DIR / f"{name}.json"
+        args = json.loads(summary_path.read_text()).get("args", {}) if summary_path.exists() else {}
         config = {
             "name": name,
-            "lora_r": 16,
-            "lora_alpha": 32,
-            "lr": 2e-4,
-            "epochs": 1,
-            "grad_accum": 8,
-            "warmup_frac": 0.1,
-            "scheduler": "cosine",
+            "lora_r": args.get("lora_r", 16),
+            "lora_alpha": args.get("lora_alpha", 32),
+            "lr": args.get("lr", 2e-4),
+            "epochs": args.get("epochs", 1),
+            "grad_accum": args.get("grad_accum", 8),
+            "warmup_frac": args.get("warmup_frac", 0.1),
+            "scheduler": args.get("scheduler", "cosine"),
         }
         rows.append({
             "name": name,
