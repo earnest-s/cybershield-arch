@@ -247,6 +247,16 @@ def main() -> None:
 
     optimizer = AdamW8bit((p for p in model.parameters() if p.requires_grad), lr=args.lr)
 
+    total_steps = max(1, len(train_loader) // args.grad_accum * args.epochs)
+    warmup_steps = int(total_steps * args.warmup_frac)
+    if args.scheduler == "cosine":
+        from transformers import get_cosine_schedule_with_warmup
+
+        scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=warmup_steps, num_training_steps=total_steps)
+        print(f"[INFO] scheduler=cosine warmup_steps={warmup_steps}/{total_steps} total_steps={total_steps}")
+    else:
+        scheduler = None
+
     step = 0
     last_eval_step = 0
     tokens_processed = 0
