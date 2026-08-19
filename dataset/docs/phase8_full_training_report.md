@@ -45,4 +45,8 @@
 
 ## 5. Final evaluation
 
-See `dataset/docs/phase8_final_evaluation.md` and `dataset/docs/phase8_final_test_eval.json` (2,575-record untouched test split).
+See `dataset/docs/phase8_final_evaluation.md` and `dataset/docs/phase8_final_test_eval.json` (2,575-record untouched test split). Summary:
+
+- Parse rate 1.0, schema-valid 1.0, contract-valid 1.0, connected 0.9996, repetition loops 0, EOS completion 1.0
+- Node F1 0.224, edge F1 0.065, exact match 0.0 — **format/structure mastered, content fidelity not achieved**
+- Phase 8 quality gates on this eval: OVERALL FAIL (2 strict-equality G5 gates fail on the single 0.04% disconnected output; 7/9 PASS)

@@ -82,16 +82,22 @@ def main() -> int:
     eval_data = None
     if eval_path.exists():
         eval_data = json.loads(eval_path.read_text())
-    ok = eval_data is not None and eval_data.get("n") == args.n_expected and "parse_rate" in eval_data
-    results.append(("G4 generation eval JSON present", ok, f"{eval_path.name} n={eval_data.get('n') if eval_data else None}"))
+    n_actual = eval_data.get("n") if eval_data else None
+    if n_actual is None and eval_data and isinstance(eval_data.get("config"), dict):
+        n_actual = eval_data["config"].get("n_gen")
+    ok = eval_data is not None and n_actual == args.n_expected and "parse_rate" in eval_data
+    results.append(("G4 generation eval JSON present", ok, f"{eval_path.name} n={n_actual}"))
 
     if eval_data:
         parsed = eval_data["parse_ok"]
+        sw_rate = eval_data.get("structurally_weak_rate")
+        if sw_rate is None:
+            sw_rate = (1.0 - eval_data.get("connected_rate", 0.0)) + eval_data.get("orphan_rate", 0.0)
         checks = {
             "parse_rate >= 0.80": eval_data["parse_rate"] >= 0.80,
             "schema_valid_rate >= 0.80": eval_data["schema_valid_rate"] >= 0.80,
             "connected_rate == 1.0": eval_data["connected_rate"] == 1.0,
-            "structurally_weak_rate == 0.0": eval_data["structurally_weak_rate"] == 0.0,
+            "structurally_weak_rate == 0.0": sw_rate == 0.0,
             "guardrail on parsed == 1.0": eval_data["within_guardrail"] == parsed,
         }
         for label, passed in checks.items():

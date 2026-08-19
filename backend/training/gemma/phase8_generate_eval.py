@@ -308,6 +308,7 @@ def main() -> int:
         if done % 20 == 0 or done == len(rows):
             print(f"[eval] {done}/{len(rows)} ({time.time() - t0:.0f}s, vram {torch.cuda.max_memory_allocated() / 1024**3:.2f} GiB)", flush=True)
 
+    results["n"] = len(rows)
     results["wall_seconds"] = round(time.time() - t0, 1)
     n = len(rows)
     parsed = results["parse_ok"]
