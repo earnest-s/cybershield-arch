@@ -1,8 +1,18 @@
 import { ChangeEvent, DragEvent, KeyboardEvent as ReactKeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
-import { FiMoon, FiMousePointer, FiPlusCircle, FiSun } from "react-icons/fi";
-import { FaAws } from "react-icons/fa";
+import { AlertTriangle, Moon, MousePointer, Plus, Sun } from "lucide-react";
 import { Box, Database, GitBranch, Monitor, Server, Zap } from "lucide-react";
+import {
+  siAmazon,
+  siApachekafka,
+  siDocker,
+  siNginx,
+  siNodedotjs,
+  siPostgresql,
+  siReact,
+  siRedis,
+} from "simple-icons";
+import dagre from "dagre";
 import ReactFlow, {
   applyEdgeChanges,
   applyNodeChanges,
@@ -24,25 +34,7 @@ import ReactFlow, {
   useReactFlow,
 } from "reactflow";
 import "reactflow/dist/style.css";
-
-type ArchitectureNode = {
-  id: string;
-  type?: string;
-  [key: string]: unknown;
-};
-
-type ArchitectureEdge = {
-  source: string;
-  target: string;
-  [key: string]: unknown;
-};
-
-type Architecture = {
-  nodes: ArchitectureNode[];
-  edges: ArchitectureEdge[];
-};
-
-type EditorNodeType = "ui" | "service" | "data" | "cache" | "queue" | "container";
+import { Architecture, NODE_TYPES, NodeThreat, NodeType, SecurityData } from "../types";
 
 type EditorCommand = {
   id: number;
@@ -54,16 +46,16 @@ type DiagramViewProps = {
   command?: EditorCommand | null;
   theme: "light" | "dark";
   onToggleTheme: () => void;
+  security?: SecurityData | null;
 };
 
-type FlowNodeKind = "ui" | "service" | "database" | "cache" | "container" | "gateway" | "queue";
-type EdgeProtocol = "request" | "HTTP" | "gRPC" | "Async" | "Cache" | "DB Query";
+type EdgeProtocol = "HTTP" | "DB Query" | "Async" | "Cache";
 type EdgeLine = "sync" | "async";
 type ToolMode = "select" | "connect";
 
 type NodeData = {
   label: string;
-  kind: FlowNodeKind;
+  kind: NodeType;
   type: string;
   icon?: string;
   style?: {
@@ -71,6 +63,7 @@ type NodeData = {
     borderColor?: string;
     textColor?: string;
   };
+  threats?: NodeThreat[];
   editing?: boolean;
   onStartEdit?: (nodeId: string) => void;
   onCommitLabel?: (nodeId: string, label: string) => void;
@@ -81,6 +74,7 @@ type EdgeData = {
   label?: string;
   edgeType: EdgeProtocol;
   lineStyle: EdgeLine;
+  threats?: NodeThreat[];
   style?: {
     stroke?: string;
     width?: number;
@@ -109,128 +103,45 @@ const DEFAULT_NODE_HEIGHT = 40;
 const ICON_OPTIONS = ["auto", "postgres", "redis", "kafka", "docker", "nginx", "react", "node", "aws", "generic"] as const;
 type IconOption = (typeof ICON_OPTIONS)[number];
 
-const ICON_MAP: Record<string, string> = {
-  postgres: "postgresql",
-  aws: "amazonaws",
-  gcp: "googlecloud",
-  azure: "microsoftazure",
-  node: "nodedotjs",
-  react: "react",
-  docker: "docker",
-  redis: "redis",
-  kafka: "apachekafka",
-  nginx: "nginx",
+const ICON_MAP: Record<string, { title: string; path: string }> = {
+  postgres: siPostgresql,
+  aws: siAmazon,
+  node: siNodedotjs,
+  react: siReact,
+  docker: siDocker,
+  redis: siRedis,
+  kafka: siApachekafka,
+  nginx: siNginx,
 };
 
 function normalizeLabel(value: string): string {
   return value.trim().toLowerCase();
 }
 
-function getIconUrl(iconName: string | undefined): string | null {
+function getBrandIcon(iconName: string | undefined): { title: string; path: string } | null {
   if (!iconName || iconName === "auto" || iconName === "generic") return null;
-  const slug = ICON_MAP[iconName.toLowerCase()];
-  if (!slug) return null;
-  return `https://cdn.simpleicons.org/${slug}`;
+  return ICON_MAP[iconName.toLowerCase()] ?? null;
 }
 
-function inferIconFromLabel(label: string): IconOption | null {
-  const normalized = normalizeLabel(label);
-  if (normalized.includes("postgres")) return "postgres";
-  if (normalized.includes("redis")) return "redis";
-  if (normalized.includes("kafka") || normalized.includes("queue") || normalized.includes("broker")) return "kafka";
-  if (normalized.includes("docker") || normalized.includes("container")) return "docker";
-  if (normalized.includes("nginx") || normalized.includes("gateway") || normalized.includes("proxy")) return "nginx";
-  if (normalized.includes("react") || normalized.includes("frontend") || normalized.includes("ui")) return "react";
-  if (normalized.includes("node") || normalized.includes("api") || normalized.includes("service")) return "node";
-  if (normalized.includes("aws")) return "aws";
-  return null;
-}
-
-function detectKindFromLabel(label: string, fallbackType?: string): FlowNodeKind {
-  const normalized = normalizeLabel(label);
-  const normalizedType = normalizeLabel(fallbackType ?? "");
-  if (normalized.includes("docker") || normalized.includes("container")) return "container";
-  if (
-    normalized.includes("postgres") ||
-    normalized.includes("mysql") ||
-    normalized.includes("mongo") ||
-    normalized.includes("db") ||
-    normalized.includes("database")
-  ) {
-    return "database";
-  }
-  if (normalized.includes("redis") || normalized.includes("cache")) return "cache";
-  if (normalized.includes("nginx") || normalized.includes("gateway")) return "gateway";
-  if (normalized.includes("queue") || normalized.includes("rabbitmq") || normalized.includes("kafka")) return "queue";
-  if (normalized.includes("frontend") || normalized.includes("ui") || normalized.includes("client")) return "ui";
-
-  if (
-    normalizedType === "ui" ||
-    normalizedType.includes("frontend") ||
-    normalizedType.includes("client") ||
-    normalizedType.includes("web")
-  ) {
-    return "ui";
-  }
-  if (
-    normalizedType === "database" ||
-    normalizedType === "data" ||
-    normalizedType.includes("db") ||
-    normalizedType.includes("database") ||
-    normalizedType.includes("postgres") ||
-    normalizedType.includes("mysql") ||
-    normalizedType.includes("mongo")
-  ) {
-    return "database";
-  }
-  if (normalizedType.includes("cache") || normalizedType.includes("redis") || normalizedType.includes("memcached")) {
-    return "cache";
-  }
-  if (
-    normalizedType.includes("queue") ||
-    normalizedType.includes("broker") ||
-    normalizedType.includes("kafka") ||
-    normalizedType.includes("rabbit") ||
-    normalizedType.includes("sqs")
-  ) {
-    return "queue";
-  }
-  if (
-    normalizedType.includes("gateway") ||
-    normalizedType.includes("proxy") ||
-    normalizedType.includes("ingress") ||
-    normalizedType.includes("nginx")
-  ) {
-    return "gateway";
-  }
-  if (
-    normalizedType.includes("container") ||
-    normalizedType.includes("docker") ||
-    normalizedType.includes("k8s") ||
-    normalizedType.includes("kubernetes") ||
-    normalizedType.includes("pod")
-  ) {
-    return "container";
-  }
-  return "service";
-}
-
-function toLayer(kind: FlowNodeKind): LayerType {
+function toLayer(kind: NodeType): LayerType {
   if (kind === "ui") return "ui";
   if (kind === "database" || kind === "cache") return "data";
   return "service";
 }
 
-function toCanonicalCategory(kind: FlowNodeKind): "ui" | "service" | "database" | "cache" {
-  if (kind === "ui") return "ui";
-  if (kind === "database") return "database";
-  if (kind === "cache") return "cache";
-  return "service";
+function toFlowNodeType(kind: NodeType): "uiNode" | "serviceNode" | "dataNode" | "cacheNode" | "queueNode" | "containerNode" {
+  if (kind === "ui") return "uiNode";
+  if (kind === "database") return "dataNode";
+  if (kind === "cache") return "cacheNode";
+  if (kind === "queue") return "queueNode";
+  if (kind === "container") return "containerNode";
+  return "serviceNode";
 }
 
-function categoryForKind(kind: FlowNodeKind): "ui" | "service" | "database" | "cache" | "queue" {
-  if (kind === "queue") return "queue";
-  return toCanonicalCategory(kind);
+function canonicalEdgeLabel(value: string | null | undefined): EdgeProtocol {
+  const normalized = (value ?? "").trim();
+  if (normalized === "DB Query" || normalized === "Async" || normalized === "Cache") return normalized;
+  return "HTTP";
 }
 
 function getProtocolVisual(_edgeType: EdgeProtocol, lineStyle: EdgeLine): {
@@ -265,40 +176,6 @@ function buildEdgeStyle(style: EdgeData["style"] | undefined, lineStyle: EdgeLin
     strokeWidth: style?.width ?? 2,
     strokeDasharray: style?.dashed || lineStyle === "async" ? "5 5" : undefined,
   };
-}
-
-function protocolFromKinds(source: Node<NodeData> | undefined, target: Node<NodeData> | undefined): EdgeProtocol {
-  if (!source || !target) return "request";
-  const targetCat = categoryForKind(target.data.kind);
-  if (targetCat === "database") return "DB Query";
-  if (targetCat === "queue") return "Async";
-  if (targetCat === "cache") return "Cache";
-  return "HTTP";
-}
-
-function normalizeProtocol(value: string | null | undefined): EdgeProtocol {
-  const normalized = (value ?? "").trim().toLowerCase();
-  if (normalized === "http") return "HTTP";
-  if (normalized === "grpc") return "gRPC";
-  if (normalized === "queue" || normalized === "async") return "Async";
-  if (normalized === "cache") return "Cache";
-  if (normalized === "db query" || normalized === "db") return "DB Query";
-  if (normalized === "request") return "request";
-  return "request";
-}
-
-function toFlowNodeType(kind: FlowNodeKind): "uiNode" | "serviceNode" | "dataNode" | "cacheNode" | "queueNode" | "containerNode" {
-  if (kind === "ui") return "uiNode";
-  if (kind === "database") return "dataNode";
-  if (kind === "cache") return "cacheNode";
-  if (kind === "queue") return "queueNode";
-  if (kind === "container") return "containerNode";
-  return "serviceNode";
-}
-
-function templateToKind(template: EditorNodeType): FlowNodeKind {
-  if (template === "data") return "database";
-  return template;
 }
 
 function getNodeSize(node: Node<NodeData>): { width: number; height: number } {
@@ -342,8 +219,8 @@ function attachNodeCallbacks(
   }));
 }
 
-function buildNodeFromTemplate(template: EditorNodeType, id: string, position: { x: number; y: number }): Node<NodeData> {
-  const kind = templateToKind(template);
+function buildNodeFromTemplate(template: NodeType, id: string, position: { x: number; y: number }): Node<NodeData> {
+  const kind = template;
   if (kind === "container") {
     return {
       id,
@@ -368,10 +245,10 @@ function buildNodeFromTemplate(template: EditorNodeType, id: string, position: {
 
 function isAllowedHierarchyEdge(source: Node<NodeData> | undefined, target: Node<NodeData> | undefined): boolean {
   if (!source || !target) return false;
-  const sourceCategory = toCanonicalCategory(source.data.kind);
-  const targetCategory = toCanonicalCategory(target.data.kind);
-  if (sourceCategory === "ui" && targetCategory === "service") return true;
-  if (sourceCategory === "service" && (targetCategory === "database" || targetCategory === "cache")) return true;
+  const sourceKind: NodeType = source.data.kind;
+  const targetKind: NodeType = target.data.kind;
+  if (sourceKind === "ui" && targetKind === "service") return true;
+  if (sourceKind === "service" && (targetKind === "database" || targetKind === "cache")) return true;
   return false;
 }
 
@@ -414,7 +291,7 @@ function dedupeEdges(edges: Edge<EdgeData>[]): Edge<EdgeData>[] {
     const key = `${edge.source}->${edge.target}`;
     if (edge.source === edge.target || seen.has(key)) return;
     seen.add(key);
-    const edgeType = edge.data?.edgeType ?? "request";
+    const edgeType = edge.data?.edgeType ?? "HTTP";
     const lineStyle = edge.data?.lineStyle ?? (edgeType === "Async" ? "async" : "sync");
     out.push(createEdge(edge.id, edge.source, edge.target, edgeType, lineStyle, edge.data?.style));
   });
@@ -426,13 +303,16 @@ function buildNodesFromArchitecture(architecture: Architecture): Node<NodeData>[
 
   architecture.nodes.forEach((node) => {
     if (typeof node.id !== "string" || !node.id) return;
-    const kind = detectKindFromLabel(node.id, typeof node.type === "string" ? node.type : undefined);
-    const layer = toLayer(kind);
+    const kind: NodeType = NODE_TYPES.includes(node.type as NodeType) ? (node.type as NodeType) : "service";
+    const layer = node.layer === "ui" || node.layer === "data" || node.layer === "service"
+      ? node.layer
+      : toLayer(kind);
+    const icon = typeof node.icon === "string" && node.icon ? node.icon : undefined;
 
     grouped[layer].push({
       id: node.id,
       type: toFlowNodeType(kind),
-      data: { label: node.id, kind, type: kind, style: {} },
+      data: { label: node.id, kind, type: kind, icon, style: {} },
       position: { x: 0, y: layerY[layer] },
       draggable: true,
       selectable: true,
@@ -453,32 +333,6 @@ function buildNodesFromArchitecture(architecture: Architecture): Node<NodeData>[
   return output;
 }
 
-function buildHierarchyEdges(nodes: Node<NodeData>[]): Edge<EdgeData>[] {
-  const ui = nodes.filter((node) => toCanonicalCategory(node.data.kind) === "ui");
-  const services = nodes.filter((node) => toCanonicalCategory(node.data.kind) === "service");
-  const databases = nodes.filter((node) => toCanonicalCategory(node.data.kind) === "database");
-  const caches = nodes.filter((node) => toCanonicalCategory(node.data.kind) === "cache");
-  const queues = nodes.filter((node) => node.data.kind === "queue");
-
-  const edges: Edge<EdgeData>[] = [];
-  let id = 1;
-
-  ui.forEach((src) => {
-    services.forEach((dst) => edges.push(createEdge(`e${id++}`, src.id, dst.id, "HTTP", "sync")));
-  });
-  services.forEach((src) => {
-    databases.forEach((dst) => edges.push(createEdge(`e${id++}`, src.id, dst.id, "DB Query", "sync")));
-  });
-  services.forEach((src) => {
-    queues.forEach((dst) => edges.push(createEdge(`e${id++}`, src.id, dst.id, "Async", "async")));
-  });
-  services.forEach((src) => {
-    caches.forEach((dst) => edges.push(createEdge(`e${id++}`, src.id, dst.id, "Cache", "sync")));
-  });
-
-  return dedupeEdges(edges);
-}
-
 function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Architecture): Edge<EdgeData>[] {
   const byId = new Map(nodes.map((node) => [node.id, node]));
 
@@ -490,9 +344,8 @@ function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Archi
       const targetNode = byId.get(edge.target);
       if (!sourceNode || !targetNode) return null;
 
-      const label = typeof edge.label === "string" ? edge.label : undefined;
-      const edgeType = normalizeProtocol(label ?? protocolFromKinds(sourceNode, targetNode));
-      const lineStyle: EdgeLine = edgeType === "Async" ? "async" : "sync";
+      const edgeType = canonicalEdgeLabel(edge.label);
+      const lineStyle: EdgeLine = edge.dashed === true || edgeType === "Async" ? "async" : "sync";
       return createEdge(`e${index + 1}`, edge.source, edge.target, edgeType, lineStyle);
     })
     .filter((edge): edge is Edge<EdgeData> => edge !== null)
@@ -500,36 +353,26 @@ function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Archi
 }
 
 async function applyDagreLayout(nodes: Node<NodeData>[], edges: Edge<EdgeData>[]): Promise<Node<NodeData>[]> {
-  try {
-    const dagreModule = await import(/* @vite-ignore */ "https://esm.sh/dagre@0.8.5");
-    const dagre = dagreModule.default as {
-      graphlib: { Graph: new () => { setGraph: (g: object) => void; setDefaultEdgeLabel: (fn: () => object) => void; setNode: (id: string, data: object) => void; setEdge: (s: string, t: string) => void; node: (id: string) => { x: number; y: number } } };
-      layout: (g: unknown) => void;
+  const graph = new dagre.graphlib.Graph();
+  graph.setGraph({ rankdir: "TB", ranksep: 120, nodesep: 80, marginx: 24, marginy: 24 });
+  graph.setDefaultEdgeLabel(() => ({}));
+
+  nodes.forEach((node) => {
+    const size = getNodeSize(node);
+    graph.setNode(node.id, { width: size.width, height: size.height });
+  });
+  edges.forEach((edge) => graph.setEdge(edge.source, edge.target));
+  dagre.layout(graph);
+
+  return nodes.map((node) => {
+    if (node.parentNode) return node;
+    const placed = graph.node(node.id);
+    const size = getNodeSize(node);
+    return {
+      ...node,
+      position: { x: placed.x - size.width / 2, y: placed.y - size.height / 2 },
     };
-
-    const graph = new dagre.graphlib.Graph();
-    graph.setGraph({ rankdir: "TB", ranksep: 120, nodesep: 80, marginx: 24, marginy: 24 });
-    graph.setDefaultEdgeLabel(() => ({}));
-
-    nodes.forEach((node) => {
-      const size = getNodeSize(node);
-      graph.setNode(node.id, { width: size.width, height: size.height });
-    });
-    edges.forEach((edge) => graph.setEdge(edge.source, edge.target));
-    dagre.layout(graph);
-
-    return nodes.map((node) => {
-      if (node.parentNode) return node;
-      const placed = graph.node(node.id);
-      const size = getNodeSize(node);
-      return {
-        ...node,
-        position: { x: placed.x - size.width / 2, y: placed.y - size.height / 2 },
-      };
-    });
-  } catch {
-    return nodes;
-  }
+  });
 }
 
 function buildInitialGraph(architecture: Architecture): GraphState {
@@ -567,49 +410,90 @@ function FallbackIcon({ type }: { type: string }) {
   return <Server className="arch-node-icon" size={16} />;
 }
 
-function TechnologyIcon({ label, kind, type, icon }: { label: string; kind: FlowNodeKind; type: string; icon?: string }) {
-  const [hasImageError, setHasImageError] = useState(false);
-  const hasExplicitIcon = Boolean(icon && icon !== "auto");
-  const explicitIconName = hasExplicitIcon ? normalizeLabel(icon ?? "") : null;
-  const explicitUrl = explicitIconName ? getIconUrl(explicitIconName) : null;
-  const inferred = hasExplicitIcon ? null : inferIconFromLabel(label);
-  const resolvedIconName = explicitIconName || inferred || undefined;
-  const iconUrl = explicitUrl || getIconUrl(inferred ?? undefined);
+function BrandIcon({ name, label }: { name: string; label: string }) {
+  const brand = getBrandIcon(name);
+  if (!brand) return null;
+  return (
+    <svg
+      className="arch-node-logo"
+      viewBox="0 0 24 24"
+      width={16}
+      height={16}
+      role="img"
+      aria-label={brand.title}
+    >
+      <path d={brand.path} fill="currentColor" />
+    </svg>
+  );
+}
 
-  useEffect(() => {
-    setHasImageError(false);
-  }, [icon, label]);
+function TechnologyIcon({ label, kind, type, icon }: { label: string; kind: NodeType; type: string; icon?: string }) {
+  const resolvedIconName = typeof icon === "string" && icon && icon !== "auto" ? icon : undefined;
+  const brand = resolvedIconName ? getBrandIcon(resolvedIconName) : null;
 
-  if (resolvedIconName === "aws") {
-    return <FaAws className="arch-node-icon" size={16} />;
-  }
-
-  if (iconUrl && !hasImageError) {
-    return (
-      <img
-        className="arch-node-logo"
-        src={iconUrl}
-        alt={label}
-        width={16}
-        height={16}
-        loading="lazy"
-        decoding="async"
-        onError={(event) => {
-          event.currentTarget.style.display = "none";
-          setHasImageError(true);
-        }}
-      />
-    );
+  if (brand && resolvedIconName) {
+    return <BrandIcon name={resolvedIconName} label={label} />;
   }
 
   return <FallbackIcon type={type || kind} />;
 }
 
 function nodeInlineStyle(data: NodeData): React.CSSProperties {
-  return {
+  const style: React.CSSProperties = {
     background: data.style?.background || "var(--node-default-bg)",
     borderColor: data.style?.borderColor || "var(--node-default-border)",
     color: data.style?.textColor || "var(--node-default-text)",
+  };
+  const severityClass = threatSeverityClass(data.threats);
+  if (severityClass) {
+    style.borderColor = `var(--threat-${severityClass}-border)`;
+    style.boxShadow = `var(--threat-${severityClass}-shadow)`;
+  }
+  return style;
+}
+
+function threatSeverityClass(threats: NodeThreat[] | undefined): "danger" | "warning" | "info" | null {
+  if (!threats || threats.length === 0) return null;
+  let worst: "danger" | "warning" | "info" = "info";
+  threats.forEach((threat) => {
+    const level = threat.severity_level;
+    if (level === "danger") worst = "danger";
+    else if (level === "warning" && worst !== "danger") worst = "warning";
+  });
+  return worst;
+}
+
+function applyNodeThreats(node: Node<NodeData>, nodeThreats: Record<string, NodeThreat[]>): Node<NodeData> {
+  const threats = nodeThreats[node.id] ?? [];
+  if (threats.length === 0) return node;
+  const severityClass = threatSeverityClass(threats);
+  return {
+    ...node,
+    data: {
+      ...node.data,
+      threats,
+    },
+    className: severityClass ? `threat-node threat-${severityClass}` : "threat-node",
+  };
+}
+
+function applyEdgeThreats(edge: Edge<EdgeData>, edgeThreats: Record<string, NodeThreat[]>): Edge<EdgeData> {
+  const key = `${edge.source}->${edge.target}`;
+  const threats = edgeThreats[key] ?? [];
+  if (threats.length === 0) return edge;
+  const severityClass = threatSeverityClass(threats);
+  const base = (edge.className ?? "").replace(/threat-edge\S*/g, "").replace(/\s+/g, " ").trim();
+  const threatClass = severityClass ? `threat-edge threat-${severityClass}` : "";
+  const data: EdgeData = {
+    edgeType: edge.data?.edgeType ?? "HTTP",
+    lineStyle: edge.data?.lineStyle ?? (edge.data?.edgeType === "Async" ? "async" : "sync"),
+    ...edge.data,
+    threats,
+  };
+  return {
+    ...edge,
+    className: `${base} ${threatClass}`.trim(),
+    data,
   };
 }
 
@@ -622,8 +506,14 @@ function NodeShell({ id, data, selected }: NodeProps<NodeData>) {
     data.onCommitLabel?.(id, draft);
   };
 
+  const severityClass = threatSeverityClass(data.threats);
+
   return (
-    <div className={`arch-node ${selected ? "selected" : ""}`} style={nodeInlineStyle(data)} onDoubleClick={() => data.onStartEdit?.(id)}>
+    <div
+      className={`arch-node ${selected ? "selected" : ""} ${severityClass ? `has-threat threat-${severityClass}` : ""}`}
+      style={nodeInlineStyle(data)}
+      onDoubleClick={() => data.onStartEdit?.(id)}
+    >
       <Handle type="target" position={Position.Top} />
       <TechnologyIcon label={data.label} kind={data.kind} type={data.type} icon={data.icon} />
       {data.editing ? (
@@ -654,7 +544,18 @@ function NodeShell({ id, data, selected }: NodeProps<NodeData>) {
           autoFocus
         />
       ) : (
-        <div className="arch-node-label">{data.label}</div>
+        <>
+          <div className="arch-node-label">{data.label}</div>
+          {data.threats && data.threats.length > 0 ? (
+            <span
+              className={`threat-badge threat-badge-${severityClass ?? "info"}`}
+              title={data.threats.map((threat) => `${threat.threat} (${threat.severity})`).join("\n")}
+            >
+              <AlertTriangle size={11} />
+              {data.threats.length}
+            </span>
+          ) : null}
+        </>
       )}
       <Handle type="source" position={Position.Bottom} />
     </div>
@@ -716,7 +617,7 @@ const nodeTypes = {
   containerNode: ContainerNode,
 };
 
-function DiagramViewInner({ architecture, command, theme, onToggleTheme }: DiagramViewProps) {
+function DiagramViewInner({ architecture, command, theme, onToggleTheme, security }: DiagramViewProps) {
   const reactFlow = useReactFlow<NodeData, EdgeData>();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const importInputRef = useRef<HTMLInputElement | null>(null);
@@ -732,6 +633,9 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
   const futureRef = useRef<GraphState[]>([]);
   const graphRef = useRef<GraphState>(initialGraph);
   const hasInitializedRef = useRef(false);
+
+  const nodeThreats = useMemo(() => security?.node_threats ?? {}, [security]);
+  const edgeThreats = useMemo(() => security?.edge_threats ?? {}, [security]);
 
   useEffect(() => {
     graphRef.current = { nodes, edges };
@@ -757,7 +661,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
       ...current,
       nodes: current.nodes.map((node) => {
         if (node.id !== nodeId) return node;
-        const kind = detectKindFromLabel(clean, node.type);
+        const kind: NodeType = NODE_TYPES.includes(node.data.kind) ? node.data.kind : "service";
         return {
           ...node,
           type: toFlowNodeType(kind),
@@ -791,10 +695,10 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
         onStartEdit,
         onCommitLabel,
         onCancelEdit
-      ),
-      edges: state.edges,
+      ).map((node) => applyNodeThreats(node, nodeThreats)),
+      edges: state.edges.map((edge) => applyEdgeThreats(edge, edgeThreats)),
     }),
-    [editingNodeId, onCancelEdit, onCommitLabel, onStartEdit]
+    [editingNodeId, edgeThreats, nodeThreats, onCancelEdit, onCommitLabel, onStartEdit]
   );
 
   const applyGraphChange = useCallback(
@@ -840,7 +744,10 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
     graphRef.current = next;
     setNodes(next.nodes);
     setEdges(next.edges);
-  }, [setEdges, setNodes]);
+    window.setTimeout(() => {
+      reactFlow.fitView({ padding: 0.2, duration: 250 });
+    }, 50);
+  }, [reactFlow, setEdges, setNodes]);
 
   useEffect(() => {
     if (hasInitializedRef.current) {
@@ -870,14 +777,6 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
       void applyAutoLayout(next);
     }
   }, [architecture, command, applyAutoLayout, applyGraphChange]);
-
-  useEffect(() => {
-    if (nodes.length === 0) return;
-    const timer = window.setTimeout(() => {
-      reactFlow.fitView({ padding: 0.2, duration: 250 });
-    }, 50);
-    return () => window.clearTimeout(timer);
-  }, [nodes, reactFlow]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -979,12 +878,18 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
         if (!connection.source || !connection.target) return current;
         const sourceNode = current.nodes.find((n) => n.id === connection.source);
         const targetNode = current.nodes.find((n) => n.id === connection.target);
-        if (!isAllowedHierarchyEdge(sourceNode, targetNode)) return current;
+        if (!isAllowedHierarchyEdge(sourceNode, targetNode) || !sourceNode || !targetNode) return current;
 
         const exists = current.edges.some((e) => e.source === connection.source && e.target === connection.target);
         if (exists) return current;
 
-        const chosen = protocolFromKinds(sourceNode, targetNode);
+        const chosen: EdgeProtocol = targetNode.data.kind === "database"
+          ? "DB Query"
+          : targetNode.data.kind === "queue"
+            ? "Async"
+            : targetNode.data.kind === "cache"
+              ? "Cache"
+              : "HTTP";
         const lineStyle: EdgeLine = chosen === "Async" ? "async" : "sync";
 
         const edge = createEdge(`e${Date.now()}`, connection.source, connection.target, chosen, lineStyle);
@@ -1006,7 +911,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
         value: String(edge.label ?? edge.data?.edgeType ?? "HTTP"),
       });
     },
-    [applyGraphChange, toolMode]
+    []
   );
 
   const onEdgeContextMenu = useCallback(
@@ -1036,8 +941,8 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
   const onDrop = useCallback(
     (event: DragEvent<HTMLDivElement>) => {
       event.preventDefault();
-      const raw = event.dataTransfer.getData("application/x-arch-node") as EditorNodeType;
-      if (!raw) return;
+      const raw = event.dataTransfer.getData("application/x-arch-node") as NodeType;
+      if (!NODE_TYPES.includes(raw)) return;
 
       const position = reactFlow.screenToFlowPosition({ x: event.clientX, y: event.clientY });
       const id = `${raw}-${Date.now()}`;
@@ -1164,8 +1069,9 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
           const node = item as { id?: unknown; type?: unknown; data?: { label?: unknown }; position?: { x?: unknown; y?: unknown } };
           if (typeof node.id !== "string") return null;
           const label = typeof node.data?.label === "string" ? node.data.label : node.id;
-          const kind = detectKindFromLabel(label, typeof node.type === "string" ? node.type : undefined);
-          const built = buildNodeFromTemplate(kind === "database" ? "data" : (kind as EditorNodeType), node.id, {
+          const rawType = typeof node.type === "string" ? node.type : "";
+          const kind: NodeType = NODE_TYPES.includes(rawType as NodeType) ? (rawType as NodeType) : "service";
+          const built = buildNodeFromTemplate(kind, node.id, {
             x: typeof node.position?.x === "number" ? node.position.x : index * 40,
             y: typeof node.position?.y === "number" ? node.position.y : layerY[toLayer(kind)],
           });
@@ -1192,10 +1098,13 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
         parsed.edges
           .map((item, index) => {
             if (!item || typeof item !== "object") return null;
-            const edge = item as { source?: unknown; target?: unknown; data?: { edgeType?: unknown; lineStyle?: unknown } };
+            const edge = item as { source?: unknown; target?: unknown; label?: unknown; data?: { edgeType?: unknown; lineStyle?: unknown } };
             if (typeof edge.source !== "string" || typeof edge.target !== "string") return null;
             if (!nodeSet.has(edge.source) || !nodeSet.has(edge.target)) return null;
-            const edgeType = normalizeProtocol(typeof edge.data?.edgeType === "string" ? edge.data.edgeType : "request");
+            const edgeLabel = typeof edge.data?.edgeType === "string" ? edge.data.edgeType
+              : typeof edge.label === "string" ? edge.label
+              : "HTTP";
+            const edgeType = canonicalEdgeLabel(edgeLabel);
             const lineStyle: EdgeLine = edgeType === "Async" ? "async" : "sync";
             const style = typeof (edge as { data?: { style?: unknown } }).data?.style === "object" && (edge as { data?: { style?: unknown } }).data?.style !== null
               ? (edge as { data?: { style?: { stroke?: string; width?: number; dashed?: boolean } } }).data?.style
@@ -1226,7 +1135,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
     onCommitLabel(selectedNode.id, label);
   };
 
-  const updateSelectedNodeKind = (kind: FlowNodeKind) => {
+  const updateSelectedNodeKind = (kind: NodeType) => {
     if (!selectedNode) return;
     applyGraphChange((current) => ({
       ...current,
@@ -1285,7 +1194,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
 
   const updateSelectedEdgeType = (value: string) => {
     if (!selectedEdge) return;
-    const edgeType = normalizeProtocol(value);
+    const edgeType = canonicalEdgeLabel(value);
     const lineStyle: EdgeLine = edgeType === "Async" ? "async" : "sync";
     applyGraphChange((current) => ({
       ...current,
@@ -1305,7 +1214,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
           ...(edge.data?.style || {}),
           [key]: value,
         } as EdgeData["style"];
-        const nextType = edge.data?.edgeType ?? "request";
+        const nextType = edge.data?.edgeType ?? "HTTP";
         const nextLineStyle = edge.data?.lineStyle ?? (nextType === "Async" ? "async" : "sync");
         return createEdge(edge.id, edge.source, edge.target, nextType, nextLineStyle, nextStyle);
       }),
@@ -1319,7 +1228,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
       setEdgeEditor(null);
       return;
     }
-    const edgeType = normalizeProtocol(clean);
+    const edgeType = canonicalEdgeLabel(clean);
     const lineStyle: EdgeLine = edgeType === "Async" ? "async" : "sync";
     applyGraphChange((current) => ({
       ...current,
@@ -1357,11 +1266,11 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
             <button type="button" className="menu-btn" onClick={undo}>Undo</button>
             <button type="button" className="menu-btn" onClick={redo}>Redo</button>
             <button type="button" className="menu-btn" onClick={() => void applyAutoLayout(graphRef.current)}>Auto Layout</button>
-            <button type="button" className="menu-btn icon-btn" title="Light / Dark" onClick={onToggleTheme}>{theme === "dark" ? <FiSun /> : <FiMoon />}</button>
+            <button type="button" className="menu-btn icon-btn" title="Light / Dark" onClick={onToggleTheme}>{theme === "dark" ? <Sun /> : <Moon />}</button>
           </div>
           <div className="menu-group">
-            <button type="button" className={`menu-btn icon-btn ${toolMode === "select" ? "active" : ""}`} title="Select" onClick={() => setToolMode("select")}><FiMousePointer /></button>
-            <button type="button" className={`menu-btn icon-btn ${toolMode === "connect" ? "active" : ""}`} title="Connect" onClick={() => setToolMode("connect")}><FiPlusCircle /></button>
+            <button type="button" className={`menu-btn icon-btn ${toolMode === "select" ? "active" : ""}`} title="Select" onClick={() => setToolMode("select")}><MousePointer size={14} /></button>
+            <button type="button" className={`menu-btn icon-btn ${toolMode === "connect" ? "active" : ""}`} title="Connect" onClick={() => setToolMode("connect")}><Plus size={14} /></button>
           </div>
         </div>
 
@@ -1435,13 +1344,10 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
             <label>Label</label>
             <input className="prop-input" value={selectedNode.data.label} onChange={(event) => updateSelectedNodeLabel(event.target.value)} />
             <label>Type</label>
-            <select className="prop-input" value={selectedNode.data.kind} onChange={(event) => updateSelectedNodeKind(event.target.value as FlowNodeKind)}>
-              <option value="ui">ui</option>
-              <option value="service">service</option>
-              <option value="database">db</option>
-              <option value="cache">cache</option>
-              <option value="queue">queue</option>
-              <option value="container">container</option>
+            <select className="prop-input" value={selectedNode.data.kind} onChange={(event) => updateSelectedNodeKind(event.target.value as NodeType)}>
+              {NODE_TYPES.map((nodeType) => (
+                <option key={nodeType} value={nodeType}>{nodeType === "database" ? "db" : nodeType}</option>
+              ))}
             </select>
             <label>Icon</label>
             <select className="prop-input" value={selectedNode.data.icon ?? "auto"} onChange={(event) => updateSelectedNodeIcon(event.target.value)}>
@@ -1523,10 +1429,10 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme }: Diagr
   );
 }
 
-export default function DiagramView({ architecture, command, theme, onToggleTheme }: DiagramViewProps) {
+export default function DiagramView({ architecture, command, theme, onToggleTheme, security }: DiagramViewProps) {
   return (
     <ReactFlowProvider>
-      <DiagramViewInner architecture={architecture} command={command} theme={theme} onToggleTheme={onToggleTheme} />
+      <DiagramViewInner architecture={architecture} command={command} theme={theme} onToggleTheme={onToggleTheme} security={security} />
     </ReactFlowProvider>
   );
 }

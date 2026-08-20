@@ -1,0 +1,218 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cybershield-arch.local/schemas/architecture_sample.json",
+  "title": "Cybersecurity Architecture Training Sample",
+  "description": "Canonical schema for a single training sample in the CyberShield-Arch dataset. Aligned with the app contract: node types, edge labels, and security fields mirror backend/security and frontend/src/types.ts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "instruction", "architecture", "security", "metadata"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^CSA-\\d{6}$",
+      "description": "Unique sample identifier, e.g. 'CSA-000001'."
+    },
+    "instruction": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 2000,
+      "description": "The user-facing description that drives architecture generation. Matches the /explain input contract."
+    },
+    "architecture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodes", "edges"],
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "type"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "description": "Node id; must be unique within the sample and referenced by edges."
+              },
+              "type": {
+                "type": "string",
+                "enum": ["ui", "service", "database", "cache", "queue", "container"],
+                "description": "Allowed node types from backend/core/inference.py (_ALLOWED_NODE_TYPES)."
+              }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 200,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source", "target", "label"],
+            "properties": {
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Must reference an existing node id (enforced by the validator, not the schema)."
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Must reference an existing node id (enforced by the validator, not the schema)."
+              },
+              "label": {
+                "type": "string",
+                "enum": ["HTTP", "DB Query", "Async", "Cache"],
+                "description": "Allowed edge labels from backend/core/inference.py (_LABEL_ALIASES)."
+              }
+            }
+          }
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_controls", "missing_controls", "threats", "recommendations", "risk_level", "security_score", "attack_surface", "security_summary"],
+      "properties": {
+        "required_controls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Authentication", "RBAC", "API Gateway", "Audit Logging", "Monitoring", "Secrets Manager", "SIEM", "WAF", "IDS", "IPS", "Encryption Service", "MFA"]
+          },
+          "uniqueItems": true,
+          "description": "Controls mandated for this domain/system by the security engine."
+        },
+        "missing_controls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Authentication", "RBAC", "API Gateway", "Audit Logging", "Monitoring", "Secrets Manager", "SIEM", "WAF", "IDS", "IPS", "Encryption Service", "MFA"]
+          },
+          "uniqueItems": true,
+          "description": "Subset of required_controls absent from the architecture."
+        },
+        "threats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "severity", "description", "missing_control"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": ["Unauthorized Access", "Privilege Escalation", "Credential Stuffing", "SQL Injection", "Data Leakage", "Data Tampering", "DDoS", "Session Hijacking", "Insider Threat", "Log Evasion", "Lateral Movement"]
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_control": {
+                "type": "string",
+                "description": "The security control whose absence is responsible for this threat (mirrors the app's ThreatInfo)."
+              }
+            }
+          },
+          "description": "Threats inferred from missing controls (backend/security/threat_detector.py)."
+        },
+        "recommendations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Remediation steps, one per missing control."
+        },
+        "risk_level": {
+          "type": "string",
+          "enum": ["LOW", "MEDIUM", "HIGH"],
+          "description": "Derived from security_score by the security engine."
+        },
+        "security_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "100 minus 20*critical, 10*high, 5*medium missing controls."
+        },
+        "attack_surface": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["attack_surface_score", "public_endpoints", "databases", "services"],
+          "properties": {
+            "attack_surface_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "public_endpoints": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "databases": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "services": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "description": "Exposed endpoints, databases, and services count from backend/security/threat_detector.py."
+        },
+        "security_summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable security posture summary from the security engine."
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["domain", "style", "cloud", "complexity", "source", "version"],
+      "properties": {
+        "domain": {
+          "type": "string",
+          "description": "Application domain (e.g., 'Media', 'MLOps', 'E-Commerce')."
+        },
+        "style": {
+          "type": "string",
+          "description": "Architecture style (e.g., 'CQRS', 'Event-Driven', 'Microservices', 'Serverless')."
+        },
+        "cloud": {
+          "type": "string",
+          "description": "Cloud provider/deployment target (e.g., 'Azure', 'AWS', 'GCP', 'Multi-Cloud', 'On-Premises')."
+        },
+        "complexity": {
+          "type": "string",
+          "enum": ["Small", "Medium", "Enterprise"],
+          "description": "Source dataset complexity tier."
+        },
+        "source": {
+          "type": "string",
+          "const": "Technical-Architectures-Large",
+          "description": "Provenance: the HuggingFace dataset this sample originated from."
+        },
+        "reviewed": {
+          "type": "boolean",
+          "description": "Set true only after human approval in review_dataset.py."
+        },
+        "version": {
+          "type": "string",
+          "const": "1.0",
+          "description": "Dataset schema version."
+        }
+      }
+    }
+  }
+}
