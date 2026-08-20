@@ -779,14 +779,6 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
   }, [architecture, command, applyAutoLayout, applyGraphChange]);
 
   useEffect(() => {
-    if (nodes.length === 0) return;
-    const timer = window.setTimeout(() => {
-      reactFlow.fitView({ padding: 0.2, duration: 250 });
-    }, 50);
-    return () => window.clearTimeout(timer);
-  }, [nodes, reactFlow]);
-
-  useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
       const tag = target?.tagName?.toLowerCase();
