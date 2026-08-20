@@ -577,7 +577,7 @@ function NodeShell({ id, data, selected }: NodeProps<NodeData>) {
               className={`threat-badge threat-badge-${severityClass ?? "info"}`}
               title={data.threats.map((threat) => `${threat.threat} (${threat.severity})`).join("\n")}
             >
-              <FiAlertTriangle size={11} />
+              <AlertTriangle size={11} />
               {data.threats.length}
             </span>
           ) : null}
