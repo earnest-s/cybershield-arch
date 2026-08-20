@@ -482,8 +482,8 @@ function applyEdgeThreats(edge: Edge<EdgeData>, edgeThreats: Record<string, Node
   const threats = edgeThreats[key] ?? [];
   if (threats.length === 0) return edge;
   const severityClass = threatSeverityClass(threats);
-  const base = edge.className ?? "";
-  const threatClass = severityClass ? `threat-edge threat-${severityClass}` : "threat-edge";
+  const base = (edge.className ?? "").replace(/threat-edge\S*/g, "").replace(/\s+/g, " ").trim();
+  const threatClass = severityClass ? `threat-edge threat-${severityClass}` : "";
   const data: EdgeData = {
     edgeType: edge.data?.edgeType ?? "HTTP",
     lineStyle: edge.data?.lineStyle ?? (edge.data?.edgeType === "Async" ? "async" : "sync"),
@@ -492,7 +492,7 @@ function applyEdgeThreats(edge: Edge<EdgeData>, edgeThreats: Record<string, Node
   };
   return {
     ...edge,
-    className: base.includes("threat-edge") ? base : `${base} ${threatClass}`.trim(),
+    className: `${base} ${threatClass}`.trim(),
     data,
   };
 }
