@@ -103,28 +103,24 @@ const DEFAULT_NODE_HEIGHT = 40;
 const ICON_OPTIONS = ["auto", "postgres", "redis", "kafka", "docker", "nginx", "react", "node", "aws", "generic"] as const;
 type IconOption = (typeof ICON_OPTIONS)[number];
 
-const ICON_MAP: Record<string, string> = {
-  postgres: "postgresql",
-  aws: "amazonaws",
-  gcp: "googlecloud",
-  azure: "microsoftazure",
-  node: "nodedotjs",
-  react: "react",
-  docker: "docker",
-  redis: "redis",
-  kafka: "apachekafka",
-  nginx: "nginx",
+const ICON_MAP: Record<string, { title: string; path: string }> = {
+  postgres: siPostgresql,
+  aws: siAmazonaws,
+  node: siNodedotjs,
+  react: siReact,
+  docker: siDocker,
+  redis: siRedis,
+  kafka: siApachekafka,
+  nginx: siNginx,
 };
 
 function normalizeLabel(value: string): string {
   return value.trim().toLowerCase();
 }
 
-function getIconUrl(iconName: string | undefined): string | null {
+function getBrandIcon(iconName: string | undefined): { title: string; path: string } | null {
   if (!iconName || iconName === "auto" || iconName === "generic") return null;
-  const slug = ICON_MAP[iconName.toLowerCase()];
-  if (!slug) return null;
-  return `https://cdn.simpleicons.org/${slug}`;
+  return ICON_MAP[iconName.toLowerCase()] ?? null;
 }
 
 function toLayer(kind: NodeType): LayerType {
