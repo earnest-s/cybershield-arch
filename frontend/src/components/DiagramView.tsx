@@ -379,36 +379,26 @@ function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Archi
 }
 
 async function applyDagreLayout(nodes: Node<NodeData>[], edges: Edge<EdgeData>[]): Promise<Node<NodeData>[]> {
-  try {
-    const dagreModule = await import(/* @vite-ignore */ "https://esm.sh/dagre@0.8.5");
-    const dagre = dagreModule.default as {
-      graphlib: { Graph: new () => { setGraph: (g: object) => void; setDefaultEdgeLabel: (fn: () => object) => void; setNode: (id: string, data: object) => void; setEdge: (s: string, t: string) => void; node: (id: string) => { x: number; y: number } } };
-      layout: (g: unknown) => void;
+  const graph = new dagre.graphlib.Graph();
+  graph.setGraph({ rankdir: "TB", ranksep: 120, nodesep: 80, marginx: 24, marginy: 24 });
+  graph.setDefaultEdgeLabel(() => ({}));
+
+  nodes.forEach((node) => {
+    const size = getNodeSize(node);
+    graph.setNode(node.id, { width: size.width, height: size.height });
+  });
+  edges.forEach((edge) => graph.setEdge(edge.source, edge.target));
+  dagre.layout(graph);
+
+  return nodes.map((node) => {
+    if (node.parentNode) return node;
+    const placed = graph.node(node.id);
+    const size = getNodeSize(node);
+    return {
+      ...node,
+      position: { x: placed.x - size.width / 2, y: placed.y - size.height / 2 },
     };
-
-    const graph = new dagre.graphlib.Graph();
-    graph.setGraph({ rankdir: "TB", ranksep: 120, nodesep: 80, marginx: 24, marginy: 24 });
-    graph.setDefaultEdgeLabel(() => ({}));
-
-    nodes.forEach((node) => {
-      const size = getNodeSize(node);
-      graph.setNode(node.id, { width: size.width, height: size.height });
-    });
-    edges.forEach((edge) => graph.setEdge(edge.source, edge.target));
-    dagre.layout(graph);
-
-    return nodes.map((node) => {
-      if (node.parentNode) return node;
-      const placed = graph.node(node.id);
-      const size = getNodeSize(node);
-      return {
-        ...node,
-        position: { x: placed.x - size.width / 2, y: placed.y - size.height / 2 },
-      };
-    });
-  } catch {
-    return nodes;
-  }
+  });
 }
 
 function buildInitialGraph(architecture: Architecture): GraphState {
