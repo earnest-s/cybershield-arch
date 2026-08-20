@@ -436,35 +436,29 @@ function FallbackIcon({ type }: { type: string }) {
   return <Server className="arch-node-icon" size={16} />;
 }
 
+function BrandIcon({ name, label }: { name: string; label: string }) {
+  const brand = getBrandIcon(name);
+  if (!brand) return null;
+  return (
+    <svg
+      className="arch-node-logo"
+      viewBox="0 0 24 24"
+      width={16}
+      height={16}
+      role="img"
+      aria-label={brand.title}
+    >
+      <path d={brand.path} fill="currentColor" />
+    </svg>
+  );
+}
+
 function TechnologyIcon({ label, kind, type, icon }: { label: string; kind: NodeType; type: string; icon?: string }) {
-  const [hasImageError, setHasImageError] = useState(false);
   const resolvedIconName = typeof icon === "string" && icon && icon !== "auto" ? icon : undefined;
-  const iconUrl = resolvedIconName ? getIconUrl(resolvedIconName) : null;
+  const brand = resolvedIconName ? getBrandIcon(resolvedIconName) : null;
 
-  useEffect(() => {
-    setHasImageError(false);
-  }, [icon, label]);
-
-  if (resolvedIconName === "aws") {
-    return <FaAws className="arch-node-icon" size={16} />;
-  }
-
-  if (iconUrl && !hasImageError) {
-    return (
-      <img
-        className="arch-node-logo"
-        src={iconUrl}
-        alt={label}
-        width={16}
-        height={16}
-        loading="lazy"
-        decoding="async"
-        onError={(event) => {
-          event.currentTarget.style.display = "none";
-          setHasImageError(true);
-        }}
-      />
-    );
+  if (brand && resolvedIconName) {
+    return <BrandIcon name={resolvedIconName} label={label} />;
   }
 
   return <FallbackIcon type={type || kind} />;
