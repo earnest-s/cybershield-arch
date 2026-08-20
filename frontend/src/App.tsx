@@ -52,7 +52,7 @@ function App() {
   const [editorCommand, setEditorCommand] = useState<EditorCommand | null>(null);
   const [theme, setTheme] = useState<ThemeMode>(() => {
     const stored = localStorage.getItem("architectai-theme");
-    return stored === "dark" ? "dark" : "light";
+    return stored === "light" ? "light" : "dark";
   });
   const commandIdRef = useRef(0);
   const abortRef = useRef<AbortController | null>(null);
