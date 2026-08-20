@@ -3,7 +3,7 @@ import { toPng } from "html-to-image";
 import { AlertTriangle, Moon, MousePointer, Plus, Sun } from "lucide-react";
 import { Box, Database, GitBranch, Monitor, Server, Zap } from "lucide-react";
 import {
-  siAmazonaws,
+  siAmazon,
   siApachekafka,
   siDocker,
   siNginx,
