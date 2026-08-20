@@ -333,32 +333,6 @@ function buildNodesFromArchitecture(architecture: Architecture): Node<NodeData>[
   return output;
 }
 
-function buildHierarchyEdges(nodes: Node<NodeData>[]): Edge<EdgeData>[] {
-  const ui = nodes.filter((node) => node.data.kind === "ui");
-  const services = nodes.filter((node) => node.data.kind === "service" || node.data.kind === "queue" || node.data.kind === "container");
-  const databases = nodes.filter((node) => node.data.kind === "database");
-  const caches = nodes.filter((node) => node.data.kind === "cache");
-  const queues = nodes.filter((node) => node.data.kind === "queue");
-
-  const edges: Edge<EdgeData>[] = [];
-  let id = 1;
-
-  ui.forEach((src) => {
-    services.forEach((dst) => edges.push(createEdge(`e${id++}`, src.id, dst.id, "HTTP", "sync")));
-  });
-  services.forEach((src) => {
-    databases.forEach((dst) => edges.push(createEdge(`e${id++}`, src.id, dst.id, "DB Query", "sync")));
-  });
-  services.forEach((src) => {
-    queues.forEach((dst) => edges.push(createEdge(`e${id++}`, src.id, dst.id, "Async", "async")));
-  });
-  services.forEach((src) => {
-    caches.forEach((dst) => edges.push(createEdge(`e${id++}`, src.id, dst.id, "Cache", "sync")));
-  });
-
-  return dedupeEdges(edges);
-}
-
 function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Architecture): Edge<EdgeData>[] {
   const byId = new Map(nodes.map((node) => [node.id, node]));
 
