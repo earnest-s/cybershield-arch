@@ -105,7 +105,7 @@ type IconOption = (typeof ICON_OPTIONS)[number];
 
 const ICON_MAP: Record<string, { title: string; path: string }> = {
   postgres: siPostgresql,
-  aws: siAmazonaws,
+  aws: siAmazon,
   node: siNodedotjs,
   react: siReact,
   docker: siDocker,
