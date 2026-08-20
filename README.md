@@ -216,9 +216,23 @@ Successful response shape:
 
 ## Frontend Behavior Notes
 
-- The app calls `http://127.0.0.1:8000/explain`.
-- Prompt input and the latest generated architecture are saved in localStorage.
-- Theme preference is saved in localStorage.
+- The app renders the `/explain` response through explicit states (ready /
+  generating / success / error). Generation can be cancelled; errors from the
+  backend are shown with their detail messages, and a distinct message is shown
+  when the backend is unreachable.
+- The API endpoint comes from `VITE_API_URL` (defaults to
+  `http://127.0.0.1:8000/explain`).
+- Prompt input and the latest generated architecture (the full backend response)
+  are saved in localStorage and restored on reload.
+- The renderer is fully offline: diagram layout uses the bundled `dagre`
+  package and component icons come from local `simple-icons` / `lucide-react`
+  assets. No remote fonts, icon CDNs, or ESM proxies are used.
+- The security panel shows the backend-produced security posture: risk level,
+  security score, attack surface, threats (global, per-component and per-
+  connection), recommendations, and missing controls. When the backend
+  produces no security analysis (`security: null`), the panel says so instead
+  of inventing content.
+- Theme preference is saved in localStorage (dark by default).
 - PNG export captures the React Flow viewport.
 
 ## Troubleshooting
