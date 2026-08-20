@@ -1,8 +1,18 @@
 import { ChangeEvent, DragEvent, KeyboardEvent as ReactKeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
-import { FiAlertTriangle, FiMoon, FiMousePointer, FiPlusCircle, FiSun } from "react-icons/fi";
-import { FaAws } from "react-icons/fa";
+import { AlertTriangle, Moon, MousePointer, Plus, Sun } from "lucide-react";
 import { Box, Database, GitBranch, Monitor, Server, Zap } from "lucide-react";
+import {
+  siAmazonaws,
+  siApachekafka,
+  siDocker,
+  siNginx,
+  siNodedotjs,
+  siPostgresql,
+  siReact,
+  siRedis,
+} from "simple-icons";
+import dagre from "dagre";
 import ReactFlow, {
   applyEdgeChanges,
   applyNodeChanges,
