@@ -169,7 +169,7 @@ See `dataset/docs/phase8_final_evaluation.md` for the full breakdown.
 A release package for the trained adapter is prepared at `release/huggingface/`
 (adapter weights + `adapter_config.json` + model card).
 
-Hugging Face model: [To be published]
+Hugging Face model: <https://huggingface.co/earnest-s/CyberShield-Gemma-4B>
 
 ## Limitations
 
