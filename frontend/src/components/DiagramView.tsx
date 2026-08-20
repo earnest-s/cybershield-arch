@@ -911,7 +911,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
         value: String(edge.label ?? edge.data?.edgeType ?? "HTTP"),
       });
     },
-    [applyGraphChange, toolMode]
+    []
   );
 
   const onEdgeContextMenu = useCallback(
