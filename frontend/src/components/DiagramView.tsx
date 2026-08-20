@@ -744,7 +744,10 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
     graphRef.current = next;
     setNodes(next.nodes);
     setEdges(next.edges);
-  }, [setEdges, setNodes]);
+    window.setTimeout(() => {
+      reactFlow.fitView({ padding: 0.2, duration: 250 });
+    }, 50);
+  }, [reactFlow, setEdges, setNodes]);
 
   useEffect(() => {
     if (hasInitializedRef.current) {
