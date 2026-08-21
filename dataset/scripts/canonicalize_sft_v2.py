@@ -225,12 +225,11 @@ def compute_stats(records: list[dict]) -> dict:
     }
 
 
-def verify_determinism(records: list[dict]) -> bool:
-    """Verify that the transformation is deterministic by re-running on a sample."""
-    # Re-transform first 10 records and compare
-    for r in records[:10]:
-        t2 = transform_record(r, int(r["id"].split("-")[1]))
-        if t2["instruction"] != r["instruction"] or t2["response"] != r["response"]:
+def verify_determinism(records_in: list[dict], records_out: list[dict]) -> bool:
+    """Verify that the transformation is deterministic by re-running on original records."""
+    for orig, out in zip(records_in[:10], records_out[:10]):
+        t2 = transform_record(orig, int(orig["id"].split("-")[1]))
+        if t2["instruction"] != out["instruction"] or t2["response"] != out["response"]:
             return False
     return True
 
