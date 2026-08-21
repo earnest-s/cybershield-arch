@@ -266,7 +266,7 @@ def main() -> int:
 
     # Verification
     print("[INFO] Verifying determinism...")
-    assert verify_determinism(records_out), "Determinism check failed!"
+    assert verify_determinism(records_in, records_out), "Determinism check failed!"
     print("[INFO] Determinism verified (byte-identical re-transform)")
 
     # Write output
