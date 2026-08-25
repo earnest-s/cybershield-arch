@@ -238,9 +238,11 @@ def parse_architecture(raw_payload: Any) -> dict[str, Any]:
                 label if isinstance(label, str) else None,
             ),
         })
-        if len(normalized_edges) >= MAX_EDGES:
-            break
 
+    if len(normalized_edges) > MAX_EDGES:
+        raise ValueError(
+            f"Architecture exceeds edge limit: {len(normalized_edges)} edges > {MAX_EDGES}"
+        )
     if len(normalized_edges) == 0:
         raise ValueError("Architecture JSON must include at least one valid edge")
 
