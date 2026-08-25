@@ -202,7 +202,10 @@ def parse_architecture(raw_payload: Any) -> dict[str, Any]:
         node_types_by_id[normalized_id] = normalize_node_type(node_type, normalized_id)
         normalized_nodes.append({"id": normalized_id, "type": node_types_by_id[normalized_id]})
 
-    normalized_nodes = normalized_nodes[:MAX_NODES]
+    if len(normalized_nodes) > MAX_NODES:
+        raise ValueError(
+            f"Architecture exceeds node limit: {len(normalized_nodes)} nodes > {MAX_NODES}"
+        )
     allowed_ids = {node["id"] for node in normalized_nodes}
     node_types_by_id = {node["id"]: node["type"] for node in normalized_nodes}
 
