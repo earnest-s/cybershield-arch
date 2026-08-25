@@ -148,11 +148,11 @@ RULES:
 FORMAT:
 {{
     "nodes": [
-        {{"id": "frontend", "type": "ui"}},
-        {{"id": "api", "type": "service"}}
+        {{"id": "ui-1", "type": "ui"}},
+        {{"id": "service-1", "type": "service"}}
     ],
     "edges": [
-        {{"source": "frontend", "target": "api", "label": "HTTP"}}
+        {{"source": "ui-1", "target": "service-1", "label": "HTTP"}}
     ]
 }}
 
@@ -160,8 +160,8 @@ CONSTRAINTS:
 - Each edge must be unique
 - Do NOT repeat same connection
 - Use proper labels: HTTP, DB Query, Async, Cache
-- Max nodes: 8
-- Max edges: 10
+- Max nodes: 10
+- Max edges: 15
 
 Description:
 {clean_text}

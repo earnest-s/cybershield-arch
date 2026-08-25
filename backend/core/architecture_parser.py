@@ -166,6 +166,10 @@ def extract_json_object_comments(raw_text: str) -> dict:
 def parse_architecture(raw_payload: Any) -> dict[str, Any]:
     """Normalize raw JSON output into the canonical {nodes, edges} dict.
 
+    Normalization dedupes node ids, drops self-loops/dangling edges and
+    duplicate (source, target) pairs. Graphs within the canonical contract
+    (MAX_NODES / MAX_EDGES = 10 / 15) pass through UNTOUCHED; over-limit
+    output raises ValueError explicitly instead of being silently truncated.
     Raises ValueError when the payload is missing the required structure or
     yields an empty graph (preserves the legacy inference retry flow).
     """
@@ -202,7 +206,10 @@ def parse_architecture(raw_payload: Any) -> dict[str, Any]:
         node_types_by_id[normalized_id] = normalize_node_type(node_type, normalized_id)
         normalized_nodes.append({"id": normalized_id, "type": node_types_by_id[normalized_id]})
 
-    normalized_nodes = normalized_nodes[:MAX_NODES]
+    if len(normalized_nodes) > MAX_NODES:
+        raise ValueError(
+            f"Architecture exceeds node limit: {len(normalized_nodes)} nodes > {MAX_NODES}"
+        )
     allowed_ids = {node["id"] for node in normalized_nodes}
     node_types_by_id = {node["id"]: node["type"] for node in normalized_nodes}
 
@@ -235,9 +242,11 @@ def parse_architecture(raw_payload: Any) -> dict[str, Any]:
                 label if isinstance(label, str) else None,
             ),
         })
-        if len(normalized_edges) >= MAX_EDGES:
-            break
 
+    if len(normalized_edges) > MAX_EDGES:
+        raise ValueError(
+            f"Architecture exceeds edge limit: {len(normalized_edges)} edges > {MAX_EDGES}"
+        )
     if len(normalized_edges) == 0:
         raise ValueError("Architecture JSON must include at least one valid edge")
 

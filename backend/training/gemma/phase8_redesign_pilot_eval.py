@@ -157,7 +157,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--artifact", default="dataset/pilots/redesign_A.jsonl")
     parser.add_argument("--adapter", default="checkpoints/redesign_pilot_A")
-    parser.add_argument("--split", choices=["train", "validation"], default="validation")
+    parser.add_argument("--split", choices=["train", "validation", "test"], default="validation")
     parser.add_argument("--n-gen", type=int, default=0)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--max-new-tokens", type=int, default=768)

@@ -123,8 +123,11 @@ NODE_ICON_KEYWORDS: tuple[tuple[str, str], ...] = (
 EDGE_DASHED_LABELS: frozenset[str] = frozenset({"Async"})
 
 # Production guardrails enforced by the parser/validator.
-MAX_NODES = 8
-MAX_EDGES = 10
+# v2 canonical contract: the parser limit and the validator hard limit are ONE
+# contract (10 nodes / 15 edges). Outputs within the limit pass through
+# untouched; over-limit output fails explicitly (never silently truncated).
+MAX_NODES = 10
+MAX_EDGES = 15
 HARD_NODE_LIMIT = 10
 HARD_EDGE_LIMIT = 15
 
