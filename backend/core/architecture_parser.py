@@ -166,6 +166,10 @@ def extract_json_object_comments(raw_text: str) -> dict:
 def parse_architecture(raw_payload: Any) -> dict[str, Any]:
     """Normalize raw JSON output into the canonical {nodes, edges} dict.
 
+    Normalization dedupes node ids, drops self-loops/dangling edges and
+    duplicate (source, target) pairs. Graphs within the canonical contract
+    (MAX_NODES / MAX_EDGES = 10 / 15) pass through UNTOUCHED; over-limit
+    output raises ValueError explicitly instead of being silently truncated.
     Raises ValueError when the payload is missing the required structure or
     yields an empty graph (preserves the legacy inference retry flow).
     """
