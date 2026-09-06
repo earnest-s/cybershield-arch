@@ -58,7 +58,7 @@ def _load_model_once() -> None:
         raise RuntimeError("GPU is required for inference")
 
     model_id = os.getenv("MODEL_ID", "unsloth/gemma-3-4b-it-bnb-4bit")
-    adapter_path = Path(os.getenv("LORA_ADAPTER_PATH", "checkpoints/gemma_lora"))
+    adapter_path = Path(os.getenv("LORA_ADAPTER_PATH", "checkpoints/gemma_lora_v2_canonical"))
 
     print("Loading tokenizer...")
     _TOKENIZER = AutoTokenizer.from_pretrained(
@@ -230,7 +230,7 @@ ONLY return JSON. No explanation.
 
 def generate_explanation(architecture: dict) -> str:
     """Explain an architecture using the same prompt format as LoRA training
-    and evaluation, so a fine-tuned adapter at checkpoints/gemma_lora applies
+    and evaluation, so a fine-tuned adapter at checkpoints/gemma_lora_v2_canonical applies
     consistently. Uses plain tokenization to match the training script."""
     _load_model_once()
     if not isinstance(architecture, dict):
