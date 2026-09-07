@@ -451,9 +451,9 @@ async function applyDagreLayout(nodes: Node<NodeData>[], edges: Edge<EdgeData>[]
   });
 }
 
-function buildInitialGraph(architecture: Architecture): GraphState {
+function buildInitialGraph(architecture: Architecture, routing: EdgeRouting = "smoothstep"): GraphState {
   const nodes = buildNodesFromArchitecture(architecture);
-  const edges = buildEdgesFromArchitecture(nodes, architecture);
+  const edges = buildEdgesFromArchitecture(nodes, architecture, routing);
 
   // Add boundary nodes
   const boundaryNodes: Node<NodeData>[] = (architecture.boundaries || []).map((boundary, index) => ({
