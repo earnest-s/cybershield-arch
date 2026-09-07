@@ -152,13 +152,23 @@ export default function ArchitectureDetails({
       </div>
 
       <div className="analysis-block">
-        <h3>Metadata</h3>
-        <ul className="detail-list meta-list">
-          {metadata.provider ? <li><span>Provider</span><span>{metadata.provider}</span></li> : null}
-          {metadata.source ? <li><span>Source</span><span>{metadata.source}</span></li> : null}
-          {metadata.version ? <li><span>Contract version</span><span>{metadata.version}</span></li> : null}
-          {typeof metadata.duration_ms === "number" ? <li><span>Generation time</span><span>{metadata.duration_ms} ms</span></li> : null}
-        </ul>
+        <h3>Boundaries & Groups</h3>
+        {architecture.boundaries && architecture.boundaries.length > 0 ? (
+          <ul className="detail-list">
+            {architecture.boundaries.map((boundary) => (
+              <li key={boundary.id}>
+                <span className="detail-boundary-name">{boundary.name}</span>
+                <span className="detail-boundary-type">{boundary.type}</span>
+                <span className="detail-boundary-nodes">{boundary.nodes?.length || 0} nodes</span>
+                {boundary.boundaries && boundary.boundaries.length > 0 && (
+                  <span className="detail-boundary-nested">{boundary.boundaries.length} nested</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="muted">No boundaries defined</p>
+        )}
       </div>
     </section>
   );
