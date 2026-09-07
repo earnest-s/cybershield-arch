@@ -320,14 +320,15 @@ function createEdge(
   target: string,
   edgeType: EdgeProtocol,
   lineStyle: EdgeLine,
-  customStyle?: EdgeData["style"]
+  customStyle?: EdgeData["style"],
+  routing: EdgeRouting = "smoothstep"
 ): Edge<EdgeData> {
   const visual = getProtocolVisual(edgeType, lineStyle);
   return {
     id,
     source,
     target,
-    type: "smoothstep",
+    type: routing,
     className: "arch-edge",
     markerEnd: { type: MarkerType.ArrowClosed, width: 18, height: 18, color: "var(--edge-color)" },
     data: {
