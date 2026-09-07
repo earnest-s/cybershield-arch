@@ -724,6 +724,32 @@ function ContainerNode({ id, data, selected }: NodeProps<NodeData>) {
   );
 }
 
+function BoundaryNode({ id, data, selected }: NodeProps<NodeData>) {
+  const boundary = data.metadata as { style?: { color?: string; dashed?: boolean }; name?: string } | undefined;
+  const color = boundary?.style?.color || "var(--accent)";
+  const dashed = boundary?.style?.dashed || false;
+  const label = boundary?.name || id;
+
+  return (
+    <div
+      className={`arch-boundary ${selected ? "selected" : ""}`}
+      style={{
+        border: `2px ${dashed ? "dashed" : "solid"} ${color}`,
+        borderRadius: "var(--radius)",
+        background: "transparent",
+        padding: "12px",
+        minWidth: "200px",
+        minHeight: "150px",
+      }}
+      onDoubleClick={() => data.onStartEdit?.(id)}
+    >
+      <div className="arch-boundary-header" style={{ color, fontWeight: 600, marginBottom: 8, fontSize: 13 }}>
+        {label}
+      </div>
+    </div>
+  );
+}
+
 const nodeTypes = {
   uiNode: NodeShell,
   serviceNode: NodeShell,
@@ -731,6 +757,7 @@ const nodeTypes = {
   cacheNode: NodeShell,
   queueNode: NodeShell,
   containerNode: ContainerNode,
+  boundaryNode: BoundaryNode,
 };
 
 function DiagramViewInner({ architecture, command, theme, onToggleTheme, security }: DiagramViewProps) {
