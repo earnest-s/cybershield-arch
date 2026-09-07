@@ -790,7 +790,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const importInputRef = useRef<HTMLInputElement | null>(null);
 
-  const initialGraph = useMemo(() => buildInitialGraph(architecture), [architecture]);
+  const initialGraph = useMemo(() => buildInitialGraph(architecture, edgeRouting), [architecture, edgeRouting]);
   const [nodes, setNodes] = useNodesState<NodeData>(initialGraph.nodes);
   const [edges, setEdges] = useEdgesState<EdgeData>(initialGraph.edges);
   const [editingNodeId, setEditingNodeId] = useState<string | null>(null);
