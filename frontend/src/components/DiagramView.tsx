@@ -873,18 +873,20 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
 
   const withCallbacks = useCallback(
     (state: GraphState): GraphState => ({
-      nodes: attachNodeCallbacks(
+      nodes: applyViewFilter(
         state.nodes.map((node) => ({
           ...node,
           data: { ...node.data, editing: node.id === editingNodeId },
         })),
-        onStartEdit,
-        onCommitLabel,
-        onCancelEdit
+        viewMode
       ).map((node) => applyNodeThreats(node, nodeThreats)),
-      edges: state.edges.map((edge) => applyEdgeThreats(edge, edgeThreats)),
+      edges: applyViewFilterEdges(
+        state.edges.map((edge) => applyEdgeThreats(edge, edgeThreats)),
+        viewMode,
+        state.nodes
+      ),
     }),
-    [editingNodeId, edgeThreats, nodeThreats, onCancelEdit, onCommitLabel, onStartEdit]
+    [editingNodeId, edgeThreats, nodeThreats, onCancelEdit, onCommitLabel, onStartEdit, viewMode]
   );
 
   const applyGraphChange = useCallback(
