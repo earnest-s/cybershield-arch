@@ -13,6 +13,45 @@ or remove keys the frontend reads without re-approval.
 from __future__ import annotations
 
 from pydantic import BaseModel, ConfigDict, Field
+from typing import Any
+
+
+class NodeMetadata(BaseModel):
+    """Optional extended node metadata (backward compatible)."""
+    model_config = ConfigDict(extra="allow")
+
+    label: str | None = None
+    technology: str | None = None
+    provider: str | None = None
+    category: str | None = None
+    description: str | None = None
+    environment: str | None = None
+    boundary: str | None = None
+    zone: str | None = None
+
+
+class EdgeMetadata(BaseModel):
+    """Optional extended edge metadata (backward compatible)."""
+    model_config = ConfigDict(extra="allow")
+
+    protocol: str | None = None
+    relationship: str | None = None
+    direction: str | None = None
+    asynchronous: bool | None = None
+    encryption: str | None = None
+    authentication: str | None = None
+
+
+class ArchitectureBoundary(BaseModel):
+    """Boundary/container for grouping nodes (C4-style views)."""
+    model_config = ConfigDict(extra="allow")
+
+    id: str
+    name: str
+    type: str
+    nodes: list[str] = Field(default_factory=list)
+    boundaries: list[str] = Field(default_factory=list)
+    style: dict[str, Any] | None = None
 
 
 class ArchitectureNode(BaseModel):
@@ -22,6 +61,7 @@ class ArchitectureNode(BaseModel):
     type: str
     icon: str | None = None
     layer: str | None = None
+    metadata: NodeMetadata | None = None
 
 
 class ArchitectureEdge(BaseModel):
@@ -31,6 +71,7 @@ class ArchitectureEdge(BaseModel):
     target: str
     label: str = "HTTP"
     dashed: bool | None = None
+    metadata: EdgeMetadata | None = None
 
 
 class ArchitectureGraph(BaseModel):
@@ -38,11 +79,13 @@ class ArchitectureGraph(BaseModel):
 
     nodes: list[ArchitectureNode] = Field(default_factory=list)
     edges: list[ArchitectureEdge] = Field(default_factory=list)
+    boundaries: list[ArchitectureBoundary] = Field(default_factory=list)
 
     def to_core_dict(self) -> dict[str, list[dict]]:
         return {
             "nodes": [n.model_dump(mode="json") for n in self.nodes],
             "edges": [e.model_dump(mode="json") for e in self.edges],
+            "boundaries": [b.model_dump(mode="json") for b in self.boundaries],
         }
 
 
