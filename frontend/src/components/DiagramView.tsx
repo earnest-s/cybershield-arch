@@ -805,6 +805,9 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const importInputRef = useRef<HTMLInputElement | null>(null);
 
+  const [viewMode, setViewMode] = useState<ViewMode>("container");
+  const [edgeRouting, setEdgeRouting] = useState<EdgeRouting>("smoothstep");
+
   const initialGraph = useMemo(() => buildInitialGraph(architecture, edgeRouting), [architecture, edgeRouting]);
   const [nodes, setNodes] = useNodesState<NodeData>(initialGraph.nodes);
   const [edges, setEdges] = useEdgesState<EdgeData>(initialGraph.edges);
@@ -816,9 +819,6 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
   const futureRef = useRef<GraphState[]>([]);
   const graphRef = useRef<GraphState>(initialGraph);
   const hasInitializedRef = useRef(false);
-
-  const [viewMode, setViewMode] = useState<ViewMode>("container");
-  const [edgeRouting, setEdgeRouting] = useState<EdgeRouting>("smoothstep");
 
   const nodeThreats = useMemo(() => security?.node_threats ?? {}, [security]);
   const edgeThreats = useMemo(() => security?.edge_threats ?? {}, [security]);
