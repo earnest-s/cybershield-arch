@@ -409,7 +409,12 @@ function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Archi
 
       const edgeType = canonicalEdgeLabel(edge.label);
       const lineStyle: EdgeLine = edge.dashed === true || edgeType === "Async" ? "async" : "sync";
-      return createEdge(`e${index + 1}`, edge.source, edge.target, edgeType, lineStyle);
+      const createdEdge = createEdge(`e${index + 1}`, edge.source, edge.target, edgeType, lineStyle);
+      // Attach edge metadata if present
+      if (edge.metadata) {
+        createdEdge.data = { ...createdEdge.data, metadata: edge.metadata };
+      }
+      return createdEdge;
     })
     .filter((edge): edge is Edge<EdgeData> => edge !== null)
   );
