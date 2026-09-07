@@ -450,7 +450,28 @@ async function applyDagreLayout(nodes: Node<NodeData>[], edges: Edge<EdgeData>[]
 function buildInitialGraph(architecture: Architecture): GraphState {
   const nodes = buildNodesFromArchitecture(architecture);
   const edges = buildEdgesFromArchitecture(nodes, architecture);
-  return { nodes, edges };
+
+  // Add boundary nodes
+  const boundaryNodes: Node<NodeData>[] = (architecture.boundaries || []).map((boundary, index) => ({
+    id: boundary.id,
+    type: "boundaryNode",
+    data: {
+      label: boundary.name,
+      kind: "container" as NodeType,
+      type: "container",
+      style: {},
+      metadata: {
+        label: boundary.name,
+        style: boundary.style,
+      },
+    },
+    position: { x: 0, y: layerY["service"] + index * 200 },
+    draggable: true,
+    selectable: true,
+    style: { width: 400, height: 300 },
+  }));
+
+  return { nodes: [...nodes, ...boundaryNodes], edges };
 }
 
 function cloneGraphState(state: GraphState): GraphState {
