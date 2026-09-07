@@ -186,7 +186,9 @@ function toLayer(kind: NodeType): LayerType {
   return "service";
 }
 
-function toFlowNodeType(kind: NodeType): "uiNode" | "serviceNode" | "dataNode" | "cacheNode" | "queueNode" | "containerNode" {
+type FlowNodeType = "uiNode" | "serviceNode" | "dataNode" | "cacheNode" | "queueNode" | "containerNode" | "boundaryNode";
+
+function toFlowNodeType(kind: NodeType): FlowNodeType {
   if (kind === "ui") return "uiNode";
   if (kind === "database") return "dataNode";
   if (kind === "cache") return "cacheNode";
