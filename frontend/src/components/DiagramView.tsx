@@ -1480,7 +1480,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
           zoomOnDoubleClick
           elementsSelectable
           deleteKeyCode={null}
-          connectionLineType={ConnectionLineType.SmoothStep}
+          connectionLineType={edgeRouting === "orthogonal" ? ConnectionLineType.Straight : ConnectionLineType.SmoothStep}
           snapToGrid
           snapGrid={[20, 20]}
           minZoom={0.35}
@@ -1489,6 +1489,20 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
         >
           <Background color="var(--grid-color)" gap={20} />
           <Controls showInteractive />
+          <MiniMap
+            nodeColor={(node) => {
+              if (node.type === "boundaryNode") return "var(--accent)";
+              const kind = node.data?.kind;
+              if (kind === "ui") return "#3b82f6";
+              if (kind === "service") return "#8b5cf6";
+              if (kind === "database") return "#10b981";
+              if (kind === "cache") return "#f59e0b";
+              if (kind === "queue") return "#ec4899";
+              if (kind === "container") return "#6366f1";
+              return "var(--edge-color)";
+            }}
+            maskColor="rgba(0, 0, 0, 0.3)"
+          />
         </ReactFlow>
 
         {nodes.length === 0 || edges.length === 0 ? (
