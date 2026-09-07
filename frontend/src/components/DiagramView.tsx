@@ -608,7 +608,14 @@ function NodeShell({ id, data, selected }: NodeProps<NodeData>) {
       onDoubleClick={() => data.onStartEdit?.(id)}
     >
       <Handle type="target" position={Position.Top} />
-      <TechnologyIcon label={data.label} kind={data.kind} type={data.type} icon={data.icon} />
+      <TechnologyIcon
+        label={data.label}
+        kind={data.kind}
+        type={data.type}
+        icon={data.icon}
+        nodeId={id}
+        metadata={data.metadata}
+      />
       {data.editing ? (
         <input
           className="arch-node-input nodrag nowheel"
