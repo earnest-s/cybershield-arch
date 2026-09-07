@@ -404,7 +404,7 @@ function buildNodesFromArchitecture(architecture: Architecture): Node<NodeData>[
   return output;
 }
 
-function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Architecture): Edge<EdgeData>[] {
+function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Architecture, routing: EdgeRouting): Edge<EdgeData>[] {
   const byId = new Map(nodes.map((node) => [node.id, node]));
 
   return dedupeEdges(
@@ -417,7 +417,7 @@ function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Archi
 
       const edgeType = canonicalEdgeLabel(edge.label);
       const lineStyle: EdgeLine = edge.dashed === true || edgeType === "Async" ? "async" : "sync";
-      const createdEdge = createEdge(`e${index + 1}`, edge.source, edge.target, edgeType, lineStyle);
+      const createdEdge = createEdge(`e${index + 1}`, edge.source, edge.target, edgeType, lineStyle, undefined, routing);
       // Attach edge metadata if present
       if (edge.metadata) {
         createdEdge.data = { ...createdEdge.data, metadata: edge.metadata } as EdgeData;
