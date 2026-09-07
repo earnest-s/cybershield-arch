@@ -20,40 +20,6 @@ from backend.core.architecture_models import (
     ArchitectureGraph,
     ArchitectureMetadata,
     ArchitectureResponse,
-    ExplainResponse,
-    SecurityData,
-    ValidationResult,
-)
-from backend.core.architecture_schema import (
-    EDGE_DASHED_LABELS,
-    NODE_TYPE_LAYERS,
-    derive_node_icon,
-)
-from backend.core.architecture_validator import validate_architecture
-
-
-"""Canonical response builder.
-
-Single assembly point producing the canonical ``ArchitectureResponse`` from a
-parsed architecture plus optional security data. Replaces the manual response
-assembly previously in backend/api/main.py (/explain handler) and gives the
-dataset pipeline the same shape for its security section.
-
-Wire compatibility: the /explain payload served by the API keeps the top-level
-``architecture`` / ``raw_model_output`` / ``security`` keys the frontend
-reads (frontend/src/types.ts), and additionally exposes ``metadata`` and
-``validation``.
-"""
-
-from __future__ import annotations
-
-from typing import Any
-
-from backend.core.architecture_enricher import build_security_data
-from backend.core.architecture_models import (
-    ArchitectureGraph,
-    ArchitectureMetadata,
-    ArchitectureResponse,
     ArchitectureBoundary,
     ExplainResponse,
     SecurityData,
@@ -108,8 +74,6 @@ def infer_boundaries(architecture: dict[str, Any]) -> list[ArchitectureBoundary]
     service_nodes = [n["id"] for n in nodes if n["type"] == "service"]
     data_nodes = [n["id"] for n in nodes if n["type"] in ("database", "cache", "queue")]
 
-    boundary_id = 0
-
     # Internet boundary (always present for context)
     boundaries.append(ArchitectureBoundary(
         id="boundary-internet",
@@ -118,7 +82,6 @@ def infer_boundaries(architecture: dict[str, Any]) -> list[ArchitectureBoundary]
         nodes=[],
         style={"color": "#64748b", "dashed": True, "labelPosition": "top-left"},
     ))
-    boundary_id += 1
 
     # Public Zone: UI nodes + internet-facing services
     public_nodes = ui_nodes[:]
@@ -139,7 +102,6 @@ def infer_boundaries(architecture: dict[str, Any]) -> list[ArchitectureBoundary]
             nodes=public_nodes,
             style={"color": "#3b82f6", "dashed": False, "labelPosition": "top-left"},
         ))
-        boundary_id += 1
 
     # Application Zone: All services
     if service_nodes:
@@ -151,7 +113,6 @@ def infer_boundaries(architecture: dict[str, Any]) -> list[ArchitectureBoundary]
             boundaries=["boundary-public"] if public_nodes else [],
             style={"color": "#8b5cf6", "dashed": False, "labelPosition": "top-left"},
         ))
-        boundary_id += 1
 
     # Data Zone: Databases, caches, queues
     if data_nodes:
@@ -162,7 +123,6 @@ def infer_boundaries(architecture: dict[str, Any]) -> list[ArchitectureBoundary]
             nodes=data_nodes,
             style={"color": "#10b981", "dashed": False, "labelPosition": "top-left"},
         ))
-        boundary_id += 1
 
     return boundaries
 
