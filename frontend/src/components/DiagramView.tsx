@@ -1063,7 +1063,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
               : "HTTP";
         const lineStyle: EdgeLine = chosen === "Async" ? "async" : "sync";
 
-        const edge = createEdge(`e${Date.now()}`, connection.source, connection.target, chosen, lineStyle);
+        const edge = createEdge(`e${Date.now()}`, connection.source, connection.target, chosen, lineStyle, undefined, edgeRouting);
         return { ...current, edges: [...current.edges, edge] };
       });
     },
