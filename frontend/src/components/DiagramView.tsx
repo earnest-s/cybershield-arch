@@ -1479,7 +1479,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
             <button type="button" className="menu-btn icon-btn" title="Zoom Out" onClick={() => reactFlow.zoomOut()}>
               <ZoomOut size={14} />
             </button>
-            <button type="button" className="menu-btn icon-btn" title="Reset Zoom" onClick={() => reactFlow.setZoom(1)}>
+            <button type="button" className="menu-btn icon-btn" title="Reset Zoom" onClick={() => reactFlow.zoomTo(1, { duration: 250 })}>
               <Minimize2 size={14} />
             </button>
           </div>
