@@ -672,7 +672,14 @@ function ContainerNode({ id, data, selected }: NodeProps<NodeData>) {
   return (
     <div className={`arch-container ${selected ? "selected" : ""}`} style={nodeInlineStyle(data)} onDoubleClick={() => data.onStartEdit?.(id)}>
       <div className="arch-container-header">
-        <TechnologyIcon label={data.label} kind={data.kind} type={data.type} icon={data.icon} />
+        <TechnologyIcon
+          label={data.label}
+          kind={data.kind}
+          type={data.type}
+          icon={data.icon}
+          nodeId={id}
+          metadata={data.metadata}
+        />
         {data.editing ? (
           <input
             className="arch-node-input nodrag nowheel"
