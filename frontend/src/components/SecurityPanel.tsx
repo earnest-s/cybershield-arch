@@ -14,7 +14,6 @@ function RiskBadge({ level }: { level: string }) {
 function ThreatItem({ threat, showNode = false }: { threat: ThreatInfo | NodeThreat; showNode?: boolean }) {
   const name = "name" in threat ? threat.name : threat.threat;
   const missing = "missing_control" in threat ? threat.missing_control : undefined;
-  const nodeId = "threat" in threat ? undefined : threat.threat;
   return (
     <li className="threat-item">
       <span className={`severity-dot severity-${severityClass(threat.severity_level || threat.severity)}`} aria-hidden="true" />
