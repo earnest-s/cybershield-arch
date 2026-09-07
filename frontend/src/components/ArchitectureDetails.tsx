@@ -80,9 +80,29 @@ export default function ArchitectureDetails({
         <ul className="detail-list">
           {architecture.nodes.map((node) => (
             <li key={node.id}>
-              <span className="detail-node-label">{formatDisplayLabel(node.id, node.type)}</span>
+              <span className="detail-node-label">{formatDisplayLabel(node.id, node.type, node.metadata)}</span>
               <span className="detail-node-type">{node.type}</span>
               <span className="detail-node-id">{node.id}</span>
+              {node.metadata?.technology && (
+                <span className="detail-node-tech" title={node.metadata.technology}>
+                  🔧 {getTechnology(node.metadata.technology)?.name || node.metadata.technology}
+                </span>
+              )}
+              {node.metadata?.provider && (
+                <span className="detail-node-provider" title={node.metadata.provider}>
+                  ☁ {node.metadata.provider.toUpperCase()}
+                </span>
+              )}
+              {node.metadata?.boundary && (
+                <span className="detail-node-boundary" title={node.metadata.boundary}>
+                  🔒 {node.metadata.boundary}
+                </span>
+              )}
+              {node.metadata?.environment && (
+                <span className="detail-node-env" title={node.metadata.environment}>
+                  🌍 {node.metadata.environment}
+                </span>
+              )}
             </li>
           ))}
         </ul>
@@ -94,7 +114,24 @@ export default function ArchitectureDetails({
           {architecture.edges.map((edge, index) => (
             <li key={index}>
               <span className="detail-flow">{edge.source} → {edge.target}</span>
-              <span className={`detail-edge-label${edge.dashed ? " async" : ""}`}>{edge.label ?? "HTTP"}{edge.dashed ? " (async)" : ""}</span>
+              <span className={`detail-edge-label${edge.dashed ? " async" : ""}`}>
+                {edge.label ?? "HTTP"}{edge.dashed ? " (async)" : ""}
+              </span>
+              {edge.metadata?.protocol && (
+                <span className="detail-edge-protocol" title={edge.metadata.protocol}>
+                  📡 {edge.metadata.protocol}
+                </span>
+              )}
+              {edge.metadata?.relationship && (
+                <span className="detail-edge-relationship" title={edge.metadata.relationship}>
+                  ↔ {edge.metadata.relationship}
+                </span>
+              )}
+              {edge.metadata?.encryption && (
+                <span className="detail-edge-encryption" title={edge.metadata.encryption}>
+                  🔐 {edge.metadata.encryption}
+                </span>
+              )}
             </li>
           ))}
         </ul>
