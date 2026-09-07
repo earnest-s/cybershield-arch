@@ -1280,7 +1280,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
             const style = typeof (edge as { data?: { style?: unknown } }).data?.style === "object" && (edge as { data?: { style?: unknown } }).data?.style !== null
               ? (edge as { data?: { style?: { stroke?: string; width?: number; dashed?: boolean } } }).data?.style
               : undefined;
-            return createEdge(`i${index + 1}`, edge.source, edge.target, edgeType, lineStyle, style);
+            return createEdge(`i${index + 1}`, edge.source, edge.target, edgeType, lineStyle, style, edgeRouting);
           })
           .filter((e): e is Edge<EdgeData> => e !== null)
       );
