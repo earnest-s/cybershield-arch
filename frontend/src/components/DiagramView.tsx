@@ -414,7 +414,7 @@ function buildEdgesFromArchitecture(nodes: Node<NodeData>[], architecture: Archi
       const createdEdge = createEdge(`e${index + 1}`, edge.source, edge.target, edgeType, lineStyle);
       // Attach edge metadata if present
       if (edge.metadata) {
-        createdEdge.data = { ...createdEdge.data, metadata: edge.metadata };
+        createdEdge.data = { ...createdEdge.data, metadata: edge.metadata } as EdgeData;
       }
       return createdEdge;
     })
