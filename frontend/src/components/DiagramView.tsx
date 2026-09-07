@@ -942,7 +942,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
       return;
     }
     if (command.action === "reset") {
-      const next = buildInitialGraph(architecture);
+      const next = buildInitialGraph(architecture, edgeRouting);
       // Keep this as a history-recorded change so prompt-generated resets are undoable.
       applyGraphChange(() => next);
       void applyAutoLayout(next);
