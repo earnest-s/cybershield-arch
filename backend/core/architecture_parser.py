@@ -183,15 +183,20 @@ def parse_architecture(raw_payload: Any) -> dict[str, Any]:
     if len(nodes) == 0 or len(edges) == 0:
         raise ValueError("Architecture JSON must include at least one node and one edge")
 
-    normalized_nodes: list[dict[str, str]] = []
+    normalized_nodes: list[dict[str, Any]] = []
     node_types_by_id: dict[str, str] = {}
 
     for node in nodes:
         node_id: Any = None
         node_type: Any = None
+        node_metadata: dict[str, Any] = {}
         if isinstance(node, dict):
             node_id = node.get("id")
             node_type = node.get("type")
+            # Preserve any additional metadata fields from the model output
+            for k, v in node.items():
+                if k not in ("id", "type"):
+                    node_metadata[k] = v
         elif isinstance(node, str):
             node_id = node
 
@@ -204,7 +209,10 @@ def parse_architecture(raw_payload: Any) -> dict[str, Any]:
         if normalized_id in node_types_by_id:
             continue
         node_types_by_id[normalized_id] = normalize_node_type(node_type, normalized_id)
-        normalized_nodes.append({"id": normalized_id, "type": node_types_by_id[normalized_id]})
+        node_dict: dict[str, Any] = {"id": normalized_id, "type": node_types_by_id[normalized_id]}
+        if node_metadata:
+            node_dict["metadata"] = node_metadata
+        normalized_nodes.append(node_dict)
 
     if len(normalized_nodes) > MAX_NODES:
         raise ValueError(
