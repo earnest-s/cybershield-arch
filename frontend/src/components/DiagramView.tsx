@@ -1370,7 +1370,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
     applyGraphChange((current) => ({
       ...current,
       edges: current.edges.map((edge) =>
-        edge.id === selectedEdge.id ? createEdge(edge.id, edge.source, edge.target, edgeType, lineStyle, edge.data?.style) : edge
+        edge.id === selectedEdge.id ? createEdge(edge.id, edge.source, edge.target, edgeType, lineStyle, edge.data?.style, edgeRouting) : edge
       ),
     }));
   };
@@ -1387,7 +1387,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
         } as EdgeData["style"];
         const nextType = edge.data?.edgeType ?? "HTTP";
         const nextLineStyle = edge.data?.lineStyle ?? (nextType === "Async" ? "async" : "sync");
-        return createEdge(edge.id, edge.source, edge.target, nextType, nextLineStyle, nextStyle);
+        return createEdge(edge.id, edge.source, edge.target, nextType, nextLineStyle, nextStyle, edgeRouting);
       }),
     }));
   };
