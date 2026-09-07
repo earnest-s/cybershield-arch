@@ -170,6 +170,16 @@ export default function ArchitectureDetails({
           <p className="muted">No boundaries defined</p>
         )}
       </div>
+
+      <div className="analysis-block">
+        <h3>Metadata</h3>
+        <ul className="detail-list meta-list">
+          {metadata.provider ? <li><span>Provider</span><span>{metadata.provider}</span></li> : null}
+          {metadata.source ? <li><span>Source</span><span>{metadata.source}</span></li> : null}
+          {metadata.version ? <li><span>Contract version</span><span>{metadata.version}</span></li> : null}
+          {typeof metadata.duration_ms === "number" ? <li><span>Generation time</span><span>{metadata.duration_ms} ms</span></li> : null}
+        </ul>
+      </div>
     </section>
   );
 }
