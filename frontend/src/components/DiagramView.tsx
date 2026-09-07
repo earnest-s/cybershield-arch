@@ -59,6 +59,8 @@ type DiagramViewProps = {
 type EdgeProtocol = "HTTP" | "DB Query" | "Async" | "Cache";
 type EdgeLine = "sync" | "async";
 type ToolMode = "select" | "connect";
+type ViewMode = "system-context" | "container" | "deployment" | "security" | "data-flow" | "infrastructure";
+type EdgeRouting = "smoothstep" | "orthogonal";
 
 type NodeData = {
   label: string;
