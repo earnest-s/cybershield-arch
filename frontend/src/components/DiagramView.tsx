@@ -34,7 +34,13 @@ import ReactFlow, {
   useReactFlow,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { Architecture, NODE_TYPES, NodeThreat, NodeType, SecurityData } from "../types";
+import { Architecture, NODE_TYPES, NodeThreat, NodeType, SecurityData, ArchitectureBoundary, NodeMetadata, EdgeMetadata } from "../types";
+import {
+  getTechnology,
+  inferTechnology,
+  getDisplayLabel,
+  TECHNOLOGY_CATEGORIES,
+} from "../technologyCatalog";
 
 type EditorCommand = {
   id: number;
@@ -118,7 +124,22 @@ function normalizeLabel(value: string): string {
   return value.trim().toLowerCase();
 }
 
-function formatDisplayLabel(nodeId: string, nodeType: string): string {
+function formatDisplayLabel(nodeId: string, nodeType: string, metadata?: NodeMetadata): string {
+  // Use explicit label from metadata if available
+  if (metadata?.label && metadata.label.trim()) {
+    return metadata.label.trim();
+  }
+  // Use technology name from metadata if available
+  if (metadata?.technology) {
+    const tech = getTechnology(metadata.technology);
+    if (tech) return tech.name;
+  }
+  // Fall back to inferring from node ID
+  const inferred = inferTechnology(nodeId, nodeType);
+  if (inferred) {
+    return inferred.name;
+  }
+  // Final fallback: canonical ID format
   const match = nodeId.match(/^([a-z]+)-(\d+)$/i);
   if (match) {
     const typePart = match[1].toLowerCase();
@@ -133,6 +154,28 @@ function formatDisplayLabel(nodeId: string, nodeType: string): string {
 function getBrandIcon(iconName: string | undefined): { title: string; path: string } | null {
   if (!iconName || iconName === "auto" || iconName === "generic") return null;
   return ICON_MAP[iconName.toLowerCase()] ?? null;
+}
+
+function getTechnologyIcon(technology?: string, nodeId?: string, nodeType?: string): { title: string; path: string } | null {
+  // 1. Explicit technology from metadata
+  if (technology) {
+    const tech = getTechnology(technology);
+    if (tech && ICON_MAP[tech.icon]) {
+      return ICON_MAP[tech.icon];
+    }
+    // Try direct icon map lookup
+    if (ICON_MAP[technology.toLowerCase()]) {
+      return ICON_MAP[technology.toLowerCase()];
+    }
+  }
+  // 2. Infer from node ID
+  if (nodeId) {
+    const inferred = inferTechnology(nodeId, nodeType || "");
+    if (inferred && ICON_MAP[inferred.icon]) {
+      return ICON_MAP[inferred.icon];
+    }
+  }
+  return null;
 }
 
 function toLayer(kind: NodeType): LayerType {
@@ -320,11 +363,19 @@ function buildNodesFromArchitecture(architecture: Architecture): Node<NodeData>[
       ? node.layer
       : toLayer(kind);
     const icon = typeof node.icon === "string" && node.icon ? node.icon : undefined;
+    const metadata = node.metadata;
 
     grouped[layer].push({
       id: node.id,
       type: toFlowNodeType(kind),
-      data: { label: formatDisplayLabel(node.id, node.type), kind, type: kind, icon, style: {} },
+      data: {
+        label: formatDisplayLabel(node.id, node.type, metadata),
+        kind,
+        type: kind,
+        icon,
+        style: {},
+        metadata,
+      },
       position: { x: 0, y: layerY[layer] },
       draggable: true,
       selectable: true,
@@ -439,14 +490,44 @@ function BrandIcon({ name, label }: { name: string; label: string }) {
   );
 }
 
-function TechnologyIcon({ label, kind, type, icon }: { label: string; kind: NodeType; type: string; icon?: string }) {
-  const resolvedIconName = typeof icon === "string" && icon && icon !== "auto" ? icon : undefined;
-  const brand = resolvedIconName ? getBrandIcon(resolvedIconName) : null;
-
-  if (brand && resolvedIconName) {
-    return <BrandIcon name={resolvedIconName} label={label} />;
+function TechnologyIcon({
+  label,
+  kind,
+  type,
+  icon,
+  nodeId,
+  metadata,
+}: {
+  label: string;
+  kind: NodeType;
+  type: string;
+  icon?: string;
+  nodeId?: string;
+  metadata?: NodeMetadata;
+}) {
+  // 1. Explicit icon from metadata/icon prop
+  if (icon && icon !== "auto" && ICON_MAP[icon.toLowerCase()]) {
+    return <BrandIcon name={icon} label={label} />;
   }
 
+  // 2. Technology-aware icon from metadata
+  const techIcon = getTechnologyIcon(metadata?.technology, nodeId, type || kind);
+  if (techIcon) {
+    return (
+      <svg
+        className="arch-node-logo"
+        viewBox="0 0 24 24"
+        width={16}
+        height={16}
+        role="img"
+        aria-label={techIcon.title}
+      >
+        <path d={techIcon.path} fill="currentColor" />
+      </svg>
+    );
+  }
+
+  // 3. Fallback to type-based icon
   return <FallbackIcon type={type || kind} />;
 }
 
