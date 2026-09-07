@@ -1404,7 +1404,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
     applyGraphChange((current) => ({
       ...current,
       edges: current.edges.map((edge) =>
-        edge.id === edgeEditor.edgeId ? createEdge(edge.id, edge.source, edge.target, edgeType, lineStyle, edge.data?.style) : edge
+        edge.id === edgeEditor.edgeId ? createEdge(edge.id, edge.source, edge.target, edgeType, lineStyle, edge.data?.style, edgeRouting) : edge
       ),
     }));
     setEdgeEditor(null);
