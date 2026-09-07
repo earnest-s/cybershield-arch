@@ -1,6 +1,17 @@
-import { Architecture, ArchitectureMetadata, ValidationResult } from "../types";
+import { Architecture, ArchitectureMetadata, ValidationResult, NodeMetadata, EdgeMetadata, ArchitectureBoundary } from "../types";
+import { getTechnology, TECHNOLOGY_CATEGORIES } from "../technologyCatalog";
 
-function formatDisplayLabel(nodeId: string, nodeType: string): string {
+function formatDisplayLabel(nodeId: string, nodeType: string, metadata?: NodeMetadata): string {
+  // Use explicit label from metadata if available
+  if (metadata?.label && metadata.label.trim()) {
+    return metadata.label.trim();
+  }
+  // Use technology name from metadata if available
+  if (metadata?.technology) {
+    const tech = getTechnology(metadata.technology);
+    if (tech) return tech.name;
+  }
+  // Final fallback: canonical ID format
   const match = nodeId.match(/^([a-z]+)-(\d+)$/i);
   if (match) {
     const typePart = match[1].toLowerCase();
