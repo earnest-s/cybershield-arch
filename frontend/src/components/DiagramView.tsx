@@ -279,6 +279,52 @@ function findContainerAtPoint(nodes: Node<NodeData>[], point: { x: number; y: nu
     });
 }
 
+function applyViewFilter(nodes: Node<NodeData>[], viewMode: ViewMode): Node<NodeData>[] {
+  switch (viewMode) {
+    case "system-context":
+      // Show only boundary nodes and external connections
+      return nodes.filter((node) =>
+        node.type === "boundaryNode" || node.data.kind === "ui"
+      );
+    case "container":
+      // Show all application components, hide infrastructure boundaries
+      return nodes.filter((node) => node.type !== "boundaryNode");
+    case "deployment":
+      // Show deployment zones and infrastructure
+      return nodes.filter((node) =>
+        node.type === "boundaryNode" ||
+        node.data.kind === "container" ||
+        node.data.metadata?.provider
+      );
+    case "security":
+      // Show nodes with security findings + boundaries
+      return nodes.filter((node) =>
+        node.type === "boundaryNode" ||
+        (node.data.threats && node.data.threats.length > 0) ||
+        node.data.metadata?.boundary
+      );
+    case "data-flow":
+      // Show data-related nodes: databases, caches, queues, and their connections
+      return nodes.filter((node) =>
+        ["database", "cache", "queue", "ui", "service"].includes(node.data.kind)
+      );
+    case "infrastructure":
+      // Show infrastructure nodes: containers, VMs, network, cloud provider nodes
+      return nodes.filter((node) =>
+        node.type === "boundaryNode" ||
+        ["container", "service"].includes(node.data.kind) ||
+        node.data.metadata?.provider
+      );
+    default:
+      return nodes;
+  }
+}
+
+function applyViewFilterEdges(edges: Edge<EdgeData>[], viewMode: ViewMode, allNodes: Node<NodeData>[]): Edge<EdgeData>[] {
+  const nodeIds = new Set(allNodes.map((n) => n.id));
+  return edges.filter((edge) => nodeIds.has(edge.source) && nodeIds.has(edge.target));
+}
+
 function attachNodeCallbacks(
   nodes: Node<NodeData>[],
   onStartEdit: (nodeId: string) => void,
