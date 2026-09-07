@@ -324,7 +324,7 @@ function buildNodesFromArchitecture(architecture: Architecture): Node<NodeData>[
     grouped[layer].push({
       id: node.id,
       type: toFlowNodeType(kind),
-      data: { label: node.id, kind, type: kind, icon, style: {} },
+      data: { label: formatDisplayLabel(node.id, node.type), kind, type: kind, icon, style: {} },
       position: { x: 0, y: layerY[layer] },
       draggable: true,
       selectable: true,

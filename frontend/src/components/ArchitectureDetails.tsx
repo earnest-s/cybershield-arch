@@ -1,5 +1,17 @@
 import { Architecture, ArchitectureMetadata, ValidationResult } from "../types";
 
+function formatDisplayLabel(nodeId: string, nodeType: string): string {
+  const match = nodeId.match(/^([a-z]+)-(\d+)$/i);
+  if (match) {
+    const typePart = match[1].toLowerCase();
+    const numPart = match[2];
+    const canonicalType = typePart === "ui" ? "UI" : typePart.charAt(0).toUpperCase() + typePart.slice(1);
+    return `${canonicalType} ${numPart}`;
+  }
+  const fallbackType = nodeType.charAt(0).toUpperCase() + nodeType.slice(1);
+  return fallbackType;
+}
+
 function ValidationStatus({ validation }: { validation: ValidationResult }) {
   if (validation.valid) {
     return (
@@ -57,8 +69,9 @@ export default function ArchitectureDetails({
         <ul className="detail-list">
           {architecture.nodes.map((node) => (
             <li key={node.id}>
-              <span className="detail-node-id">{node.id}</span>
+              <span className="detail-node-label">{formatDisplayLabel(node.id, node.type)}</span>
               <span className="detail-node-type">{node.type}</span>
+              <span className="detail-node-id">{node.id}</span>
             </li>
           ))}
         </ul>
