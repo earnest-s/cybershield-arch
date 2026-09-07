@@ -1447,11 +1447,36 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
             <button type="button" className="menu-btn" onClick={undo}>Undo</button>
             <button type="button" className="menu-btn" onClick={redo}>Redo</button>
             <button type="button" className="menu-btn" onClick={() => void applyAutoLayout(graphRef.current)}>Auto Layout</button>
+            <button type="button" className="menu-btn icon-btn" title="Fit to Screen" onClick={() => reactFlow.fitView({ padding: 0.2, duration: 250 })}><Maximize2 size={14} /></button>
             <button type="button" className="menu-btn icon-btn" title="Light / Dark" onClick={onToggleTheme}>{theme === "dark" ? <Sun /> : <Moon />}</button>
           </div>
           <div className="menu-group">
             <button type="button" className={`menu-btn icon-btn ${toolMode === "select" ? "active" : ""}`} title="Select" onClick={() => setToolMode("select")}><MousePointer size={14} /></button>
             <button type="button" className={`menu-btn icon-btn ${toolMode === "connect" ? "active" : ""}`} title="Connect" onClick={() => setToolMode("connect")}><Plus size={14} /></button>
+          </div>
+          <div className="menu-group">
+            <span className="menu-title">View</span>
+            <select className="menu-select" value={viewMode} onChange={(e) => setViewMode(e.target.value as ViewMode)} title="Architecture View Mode">
+              <option value="system-context">System Context</option>
+              <option value="container">Container</option>
+              <option value="deployment">Deployment</option>
+              <option value="security">Security</option>
+              <option value="data-flow">Data Flow</option>
+              <option value="infrastructure">Infrastructure</option>
+            </select>
+            <select className="menu-select" value={edgeRouting} onChange={(e) => setEdgeRouting(e.target.value as EdgeRouting)} title="Edge Routing">
+              <option value="smoothstep">Curved</option>
+              <option value="orthogonal">Orthogonal</option>
+            </select>
+            <button type="button" className="menu-btn icon-btn" title="Zoom In" onClick={() => reactFlow.zoomIn()}>
+              <ZoomIn size={14} />
+            </button>
+            <button type="button" className="menu-btn icon-btn" title="Zoom Out" onClick={() => reactFlow.zoomOut()}>
+              <ZoomOut size={14} />
+            </button>
+            <button type="button" className="menu-btn icon-btn" title="Reset Zoom" onClick={() => reactFlow.setZoom(1)}>
+              <Minimize2 size={14} />
+            </button>
           </div>
         </div>
 
