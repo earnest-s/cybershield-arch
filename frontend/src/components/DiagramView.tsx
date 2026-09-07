@@ -801,6 +801,9 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
   const graphRef = useRef<GraphState>(initialGraph);
   const hasInitializedRef = useRef(false);
 
+  const [viewMode, setViewMode] = useState<ViewMode>("container");
+  const [edgeRouting, setEdgeRouting] = useState<EdgeRouting>("smoothstep");
+
   const nodeThreats = useMemo(() => security?.node_threats ?? {}, [security]);
   const edgeThreats = useMemo(() => security?.edge_threats ?? {}, [security]);
 
