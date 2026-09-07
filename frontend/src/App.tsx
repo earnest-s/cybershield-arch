@@ -243,7 +243,7 @@ function App() {
 
           {response ? (
             <>
-              <SecurityPanel security={response.security} />
+              <SecurityPanel security={response.security} architecture={response.architecture} />
               <ArchitectureDetails
                 architecture={response.architecture}
                 validation={response.validation}
