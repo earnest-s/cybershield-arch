@@ -118,6 +118,18 @@ function normalizeLabel(value: string): string {
   return value.trim().toLowerCase();
 }
 
+function formatDisplayLabel(nodeId: string, nodeType: string): string {
+  const match = nodeId.match(/^([a-z]+)-(\d+)$/i);
+  if (match) {
+    const typePart = match[1].toLowerCase();
+    const numPart = match[2];
+    const canonicalType = typePart === "ui" ? "UI" : typePart.charAt(0).toUpperCase() + typePart.slice(1);
+    return `${canonicalType} ${numPart}`;
+  }
+  const fallbackType = nodeType.charAt(0).toUpperCase() + nodeType.slice(1);
+  return fallbackType;
+}
+
 function getBrandIcon(iconName: string | undefined): { title: string; path: string } | null {
   if (!iconName || iconName === "auto" || iconName === "generic") return null;
   return ICON_MAP[iconName.toLowerCase()] ?? null;
