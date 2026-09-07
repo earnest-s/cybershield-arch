@@ -74,6 +74,7 @@ type NodeData = {
   onStartEdit?: (nodeId: string) => void;
   onCommitLabel?: (nodeId: string, label: string) => void;
   onCancelEdit?: () => void;
+  metadata?: NodeMetadata;
 };
 
 type EdgeData = {
@@ -86,6 +87,7 @@ type EdgeData = {
     width?: number;
     dashed?: boolean;
   };
+  metadata?: EdgeMetadata;
 };
 
 type GraphState = {
