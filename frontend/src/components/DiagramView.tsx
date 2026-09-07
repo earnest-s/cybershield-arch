@@ -24,6 +24,7 @@ import ReactFlow, {
   EdgeChange,
   Handle,
   MarkerType,
+  MiniMap,
   Node,
   NodeChange,
   NodeProps,
