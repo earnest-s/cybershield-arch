@@ -241,7 +241,14 @@ def parse_architecture(raw_payload: Any) -> dict[str, Any]:
             continue
         seen.add(key)
 
-        normalized_edges.append({
+        # Preserve edge metadata from model output
+        edge_metadata: dict[str, Any] = {}
+        if isinstance(edge, dict):
+            for k, v in edge.items():
+                if k not in ("source", "target", "label", "from", "to", "protocol"):
+                    edge_metadata[k] = v
+
+        edge_dict: dict[str, Any] = {
             "source": source_id,
             "target": target_id,
             "label": infer_edge_label(
@@ -249,7 +256,10 @@ def parse_architecture(raw_payload: Any) -> dict[str, Any]:
                 node_types_by_id[target_id],
                 label if isinstance(label, str) else None,
             ),
-        })
+        }
+        if edge_metadata:
+            edge_dict["metadata"] = edge_metadata
+        normalized_edges.append(edge_dict)
 
     if len(normalized_edges) > MAX_EDGES:
         raise ValueError(
