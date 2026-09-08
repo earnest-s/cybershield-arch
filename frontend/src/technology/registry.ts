@@ -279,10 +279,15 @@ export class TechnologyRegistry {
       };
     }
 
-    // 4. Alias match on nodeId parts
+    // 4. Alias/ID/label match on nodeId parts
+    //    e.g. "postgresql-1" → PostgreSQL, "redis-cache-2" → Redis
     const idParts = nodeId.toLowerCase().split(/[-_]/);
     for (const part of idParts) {
-      const tech = this.getByAlias(part);
+      // Match against tech id, primary label, or any alias
+      const byId = this.get(part);
+      const byLabel = this.getByLabel(part);
+      const byAlias = this.getByAlias(part);
+      const tech = byId || byLabel || byAlias;
       if (tech) {
         return {
           technology: tech,
