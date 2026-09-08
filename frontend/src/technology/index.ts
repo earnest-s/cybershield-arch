@@ -12,13 +12,14 @@ export type {
   TechnologyCategoryInfo,
   C4Classification,
   ResolutionSource,
-  TechnologyIcon,
+  TechnologyIcon as TechnologyIconConfig,
   TechnologyProtocol,
   ResolvedTechnology,
   TechnologyRegistryConfig,
 } from "./types";
 
 export {
+  TechnologyRegistry,
   getTechnologyRegistry,
   resetTechnologyRegistry,
   resolveTechnology,
@@ -29,9 +30,6 @@ export {
   CATEGORY_INFO,
   DEFAULT_CATEGORY_ORDER,
 } from "./registry";
-
-export { TechnologyRegistry } from "./registry";
-export type { TechnologyRegistry } from "./registry";
 
 // Icon system
 export { TechnologyIcon, InlineTechnologyIcon } from "./TechnologyIcon";

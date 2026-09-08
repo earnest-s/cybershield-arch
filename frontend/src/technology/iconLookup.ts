@@ -182,7 +182,6 @@ const LUCIDE_ICON_MAP: Record<string, LucideIcon> = {
 export function getLucideIcon(name: string): LucideIcon | null {
   return LUCIDE_ICON_MAP[name.toLowerCase()] || null;
 }
-
 // ─── resolve icon to renderable data ────────────────────────────────────────
 
 /**
