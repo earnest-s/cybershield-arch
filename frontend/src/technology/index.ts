@@ -32,3 +32,8 @@ export {
 
 export { TechnologyRegistry } from "./registry";
 export type { TechnologyRegistry } from "./registry";
+
+// Icon system
+export { TechnologyIcon, InlineTechnologyIcon } from "./TechnologyIcon";
+export type { TechnologyIconProps } from "./TechnologyIcon";
+export { getSimpleIconPath, getLucideIcon, resolveIcon, preloadSimpleIcons } from "./iconLookup";
