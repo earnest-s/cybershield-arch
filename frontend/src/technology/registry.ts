@@ -255,9 +255,9 @@ export class TechnologyRegistry {
       }
     }
 
-    // 2. Exact label match
+    // 2. Exact label match (primary label, or direct ID/alias of the label)
     if (metadata?.label) {
-      const tech = this.getByLabel(metadata.label);
+      const tech = this.getByLabel(metadata.label) || this.get(metadata.label) || this.getByAlias(metadata.label);
       if (tech) {
         return {
           technology: tech,
