@@ -707,7 +707,14 @@ function NodeShell({ id, data, selected }: NodeProps<NodeData>) {
         />
       ) : (
         <>
-          <div className="arch-node-label">{data.label}</div>
+          <div className="arch-node-label">
+            {data.label}
+            {data.metadata?.provider && (
+              <span className={`tech-provider-badge tech-provider-badge--${data.metadata.provider}`}>
+                {data.metadata.provider}
+              </span>
+            )}
+          </div>
           {data.threats && data.threats.length > 0 ? (
             <span
               className={`threat-badge threat-badge-${severityClass ?? "info"}`}
