@@ -54,3 +54,13 @@ export {
   protocolEncryptedByDefault,
 } from "./protocols";
 export type { RelationshipType, RelationshipInfo, EncryptionStatus, AuthenticationMechanism } from "./protocols";
+
+// C4 boundary foundation
+export {
+  C4_LEVEL_INFO,
+  classifyBoundary,
+  classifyAllBoundaries,
+  boundaryDepth,
+  c4LevelForNode,
+} from "./c4";
+export type { C4Level } from "./c4";
