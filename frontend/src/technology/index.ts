@@ -37,3 +37,7 @@ export type { TechnologyRegistry } from "./registry";
 export { TechnologyIcon, InlineTechnologyIcon } from "./TechnologyIcon";
 export type { TechnologyIconProps } from "./TechnologyIcon";
 export { getSimpleIconPath, getLucideIcon, resolveIcon, preloadSimpleIcons } from "./iconLookup";
+
+// Node presentation
+export { TechnologyNodePresentation, TechnologyProviderLabel, resolveNodeTechnology } from "./TechnologyNodePresentation";
+export type { TechnologyNodePresentationProps } from "./TechnologyNodePresentation";
