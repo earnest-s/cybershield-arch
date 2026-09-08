@@ -347,7 +347,7 @@ export class TechnologyRegistry {
       "db", "database", "databases", "service", "services", "server", "servers",
       "cache", "caching", "cluster", "clusters", "instance", "instances",
       "runtime", "engine", "broker", "gw", "gateway", "api", "queue", "queues",
-      "cluster", "node", "nodes", "component", "components", "app", "web",
+      "node", "nodes", "component", "components", "app", "web",
       "store", "storage", "message", "messaging", "stream", "streaming", "v1", "v2",
     ]);
 
