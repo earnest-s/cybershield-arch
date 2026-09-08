@@ -179,28 +179,6 @@ function getBrandIcon(iconName: string | undefined): { title: string; path: stri
   return ICON_MAP[iconName.toLowerCase()] ?? null;
 }
 
-function getTechnologyIcon(technology?: string, nodeId?: string, nodeType?: string): { title: string; path: string } | null {
-  // 1. Explicit technology from metadata
-  if (technology) {
-    const tech = getTechnology(technology);
-    if (tech && ICON_MAP[tech.icon]) {
-      return ICON_MAP[tech.icon];
-    }
-    // Try direct icon map lookup
-    if (ICON_MAP[technology.toLowerCase()]) {
-      return ICON_MAP[technology.toLowerCase()];
-    }
-  }
-  // 2. Infer from node ID
-  if (nodeId) {
-    const inferred = inferTechnology(nodeId, nodeType || "");
-    if (inferred && ICON_MAP[inferred.icon]) {
-      return ICON_MAP[inferred.icon];
-    }
-  }
-  return null;
-}
-
 function toLayer(kind: NodeType): LayerType {
   if (kind === "ui") return "ui";
   if (kind === "database" || kind === "cache") return "data";
