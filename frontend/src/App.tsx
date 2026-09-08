@@ -3,6 +3,7 @@ import DiagramView from "./components/DiagramView";
 import { Architecture, EditorCommand, ExplainResponse, NodeType } from "./types";
 import SecurityPanel from "./components/SecurityPanel";
 import ArchitectureDetails from "./components/ArchitectureDetails";
+import { preloadSimpleIcons } from "./technology/iconLookup";
 
 const API_URL = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, "") || "http://127.0.0.1:8000";
 const EXPLAIN_URL = `${API_URL}/explain`;
