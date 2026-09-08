@@ -66,6 +66,11 @@ function App() {
   }, [theme]);
 
   useEffect(() => {
+    // Preload common technology icons (non-blocking)
+    preloadSimpleIcons();
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem(STORAGE_INPUT, input);
   }, [input]);
 
