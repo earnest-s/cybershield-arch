@@ -39,3 +39,7 @@ export { getSimpleIconPath, getLucideIcon, resolveIcon, preloadSimpleIcons } fro
 // Node presentation
 export { TechnologyNodePresentation, TechnologyProviderLabel, resolveNodeTechnology } from "./TechnologyNodePresentation";
 export type { TechnologyNodePresentationProps } from "./TechnologyNodePresentation";
+
+// Palette
+export { TechnologyPalette } from "./TechnologyPalette";
+export type { TechnologyPaletteProps } from "./TechnologyPalette";
