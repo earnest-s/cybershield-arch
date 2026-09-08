@@ -83,10 +83,10 @@ export function resolveNodeTechnology(
   // Only use the resolved technology if it came from a reliable source
   // (not a generic fallback for a generic node id like service-1)
   if (resolved.resolutionSource === "generic-fallback") {
-    return { technology: undefined, label };
+    return { technology: undefined, label: label || nodeId };
   }
 
-  return { technology: resolved.technology, label: resolved.technology.name };
+  return { technology: resolved.technology, label: label || resolved.technology.name };
 }
 
 /**
