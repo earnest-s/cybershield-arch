@@ -6,7 +6,6 @@
  */
 
 import type { TechnologyIcon as TechnologyIconType } from "./types";
-import type { ComponentType } from "react";
 
 // ─── simple-icons lazy cache ────────────────────────────────────────────────
 
@@ -136,8 +135,7 @@ import {
   Clock,
   MessageSquare,
 } from "lucide-react";
-
-type LucideIcon = ComponentType<{ className?: string; size?: number }>;
+import type { LucideIcon } from "lucide-react";
 
 const LUCIDE_ICON_MAP: Record<string, LucideIcon> = {
   server: Server,
