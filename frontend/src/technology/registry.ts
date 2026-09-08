@@ -334,7 +334,6 @@ export class TechnologyRegistry {
       kubernetes: "kubernetes",
       k8s: "kubernetes",
       loadbalancer: "nginx",
-      loadbalancer: "aws-alb",
       gateway: "kong",
       "api-gateway": "kong",
       auth: "keycloak",
