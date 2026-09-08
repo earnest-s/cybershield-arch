@@ -1,0 +1,34 @@
+/**
+ * Technology Module
+ *
+ * Centralized technology registry for CyberShield-Arch.
+ * Provides technology metadata, resolution, icon rendering,
+ * and UI components for architecture visualization.
+ */
+
+export type {
+  TechnologyMetadata,
+  TechnologyCategory,
+  TechnologyCategoryInfo,
+  C4Classification,
+  ResolutionSource,
+  TechnologyIcon,
+  TechnologyProtocol,
+  ResolvedTechnology,
+  TechnologyRegistryConfig,
+} from "./types";
+
+export {
+  getTechnologyRegistry,
+  resetTechnologyRegistry,
+  resolveTechnology,
+  getTechnology,
+  searchTechnologies,
+  getTechnologiesByCategory,
+  getCategories,
+  CATEGORY_INFO,
+  DEFAULT_CATEGORY_ORDER,
+} from "./registry";
+
+export { TechnologyRegistry } from "./registry";
+export type { TechnologyRegistry } from "./registry";
