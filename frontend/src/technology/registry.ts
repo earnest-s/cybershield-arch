@@ -336,6 +336,45 @@ export class TechnologyRegistry {
   }
 
   /**
+   * Composite label matcher.
+   *
+   * Resolves a label like "Postgres DB" → PostgreSQL when the label is a known
+   * technology token plus one or more generic qualifier words. Never infers a
+   * specific brand from a purely generic role ("service-1" stays generic).
+   */
+  private matchCompositeLabel(label: string): TechnologyMetadata | undefined {
+    const GENERIC_QUALIFIERS = new Set([
+      "db", "database", "databases", "service", "services", "server", "servers",
+      "cache", "caching", "cluster", "clusters", "instance", "instances",
+      "runtime", "engine", "broker", "gw", "gateway", "api", "queue", "queues",
+      "cluster", "node", "nodes", "component", "components", "app", "web",
+      "store", "storage", "message", "messaging", "stream", "streaming", "v1", "v2",
+    ]);
+
+    const words = label
+      .toLowerCase()
+      .split(/[\s\-_]+/)
+      .filter((w) => w.length > 0);
+
+    if (words.length < 2) return undefined;
+
+    // Try each token as the technology and the rest as qualifiers
+    for (let i = 0; i < words.length; i++) {
+      const techWord = words[i];
+      const remaining = words.slice(0, i).concat(words.slice(i + 1));
+
+      // All other words must be generic qualifiers
+      const allQualifiers = remaining.every((w) => GENERIC_QUALIFIERS.has(w));
+      if (!allQualifiers) continue;
+
+      const tech = this.getByLabel(techWord) || this.get(techWord) || this.getByAlias(techWord);
+      if (tech) return tech;
+    }
+
+    return undefined;
+  }
+
+  /**
    * Get category-appropriate fallback technology.
    *
    * IMPORTANT: generic roles resolve to GENERIC technologies, never to a
@@ -343,7 +382,8 @@ export class TechnologyRegistry {
    * "PostgreSQL"), "cache" → generic "Cache" (not "Redis"). Specific-brand
    * resolution only happens via explicit metadata / label / alias matches.
    */
-  private getCategoryFallback(nodeType: string): TechnologyMetadata | undefined {    const fallbackMap: Record<string, string> = {
+  private getCategoryFallback(nodeType: string): TechnologyMetadata | undefined {
+    const fallbackMap: Record<string, string> = {
       ui: "web-ui",
       frontend: "web-ui",
       service: "service",
