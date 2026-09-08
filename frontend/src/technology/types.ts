@@ -120,6 +120,8 @@ export interface TechnologyCategoryInfo {
   icon: string; // lucide icon name for category header
   color: string; // theme color for category
   order: number; // display order
+  /** Number of technologies in this category */
+  count?: number;
 }
 
 export interface TechnologyRegistryConfig {
