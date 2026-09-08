@@ -43,3 +43,14 @@ export type { TechnologyNodePresentationProps } from "./TechnologyNodePresentati
 // Palette
 export { TechnologyPalette } from "./TechnologyPalette";
 export type { TechnologyPaletteProps } from "./TechnologyPalette";
+
+// Protocols / edge vocabulary
+export {
+  PROTOCOLS,
+  RELATIONSHIPS,
+  getProtocol,
+  normalizeProtocol,
+  getRelationship,
+  protocolEncryptedByDefault,
+} from "./protocols";
+export type { RelationshipType, RelationshipInfo, EncryptionStatus, AuthenticationMechanism } from "./protocols";
