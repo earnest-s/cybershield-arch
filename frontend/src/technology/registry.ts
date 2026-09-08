@@ -320,7 +320,12 @@ export class TechnologyRegistry {
   }
 
   /**
-   * Get category-appropriate fallback technology
+   * Get category-appropriate fallback technology.
+   *
+   * IMPORTANT: generic roles resolve to GENERIC technologies, never to a
+   * specific brand. e.g. nodeType "database" → generic "Database" (not
+   * "PostgreSQL"), "cache" → generic "Cache" (not "Redis"). Specific-brand
+   * resolution only happens via explicit metadata / label / alias matches.
    */
   private getCategoryFallback(nodeType: string): TechnologyMetadata | undefined {
     const fallbackMap: Record<string, string> = {
@@ -330,32 +335,34 @@ export class TechnologyRegistry {
       microservice: "microservice",
       backend: "service",
       api: "rest-api",
-      database: "postgresql",
-      db: "postgresql",
-      cache: "redis",
-      queue: "kafka",
-      messaging: "kafka",
-      container: "docker",
+      database: "database",
+      db: "database",
+      cache: "cache",
+      queue: "queue",
+      messaging: "queue",
+      container: "container-generic",
       kubernetes: "kubernetes",
       k8s: "kubernetes",
-      loadbalancer: "nginx",
-      gateway: "kong",
-      "api-gateway": "kong",
-      auth: "keycloak",
-      identity: "keycloak",
-      monitoring: "prometheus",
-      logging: "elasticsearch",
-      tracing: "jaeger",
-      storage: "s3",
-      cdn: "cloudflare",
-      firewall: "aws-waf",
-      vpc: "aws-vpc",
-      subnet: "aws-subnet",
+      loadbalancer: "loadbalancer",
+      loadbalancing: "loadbalancer",
+      gateway: "gateway",
+      "api-gateway": "gateway",
+      auth: "auth",
+      identity: "auth",
+      monitoring: "monitoring",
+      logging: "monitoring",
+      tracing: "monitoring",
+      storage: "database",
+      cdn: "cdn",
+      firewall: "firewall",
+      vpc: "vpc",
+      subnet: "subnet",
     };
 
     const fallbackId = fallbackMap[nodeType.toLowerCase()];
     if (fallbackId) {
-      return this.get(fallbackId);
+      const tech = this.get(fallbackId);
+      if (tech) return tech;
     }
 
     // Try to find any technology in the matching category
@@ -399,27 +406,30 @@ export class TechnologyRegistry {
   }
 
   /**
-   * Get generic fallback for node type
+   * Get the ultimate generic fallback for a node type.
+   * Always returns a GENERIC technology — never a specific brand.
    */
   private getGenericFallback(nodeType: string): TechnologyMetadata {
     const genericMap: Record<string, TechnologyMetadata> = {
       ui: this.get("web-ui")!,
+      frontend: this.get("web-ui")!,
       service: this.get("service")!,
       microservice: this.get("microservice")!,
       backend: this.get("service")!,
       api: this.get("rest-api")!,
-      database: this.get("postgresql")!,
-      db: this.get("postgresql")!,
-      cache: this.get("redis")!,
-      queue: this.get("kafka")!,
-      container: this.get("docker")!,
+      database: this.get("database")!,
+      db: this.get("database")!,
+      cache: this.get("cache")!,
+      queue: this.get("queue")!,
+      messaging: this.get("queue")!,
+      container: this.get("container-generic")!,
       kubernetes: this.get("kubernetes")!,
       k8s: this.get("kubernetes")!,
-      loadbalancer: this.get("nginx")!,
-      gateway: this.get("kong")!,
-      auth: this.get("keycloak")!,
-      monitoring: this.get("prometheus")!,
-      storage: this.get("s3")!,
+      loadbalancer: this.get("loadbalancer")!,
+      gateway: this.get("gateway")!,
+      auth: this.get("auth")!,
+      monitoring: this.get("monitoring")!,
+      storage: this.get("database")!,
     };
 
     return genericMap[nodeType.toLowerCase()] || this.get("service")!;
