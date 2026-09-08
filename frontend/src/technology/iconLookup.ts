@@ -2,103 +2,30 @@
  * Icon Lookup
  *
  * Provides simple-icons SVG data and lucide-react icon components.
- * Uses a preloaded cache for common icons with async fallback.
+ * Uses a tree-shakeable static index for simple-icons (only the icons we
+ * explicitly import get bundled) with graceful fallback.
  */
 
 import type { TechnologyIcon as TechnologyIconType } from "./types";
+import { SIMPLE_ICON_INDEX } from "./iconIndex";
 
-// ─── simple-icons lazy cache ────────────────────────────────────────────────
-
-type SimpleIconEntry = { title: string; path: string } | null;
-
-const simpleIconCache = new Map<string, SimpleIconEntry>();
-
-/** Dynamically import a single simple-icons icon by its package export name */
-async function importSimpleIcon(slug: string): Promise<SimpleIconEntry> {
-  if (simpleIconCache.has(slug)) return simpleIconCache.get(slug)!;
-  try {
-    const mod = await import("simple-icons");
-    const icon = mod[slug as keyof typeof mod];
-    if (icon && typeof icon === "object" && "path" in icon && "title" in icon) {
-      const entry: SimpleIconEntry = { title: icon.title, path: icon.path };
-      simpleIconCache.set(slug, entry);
-      return entry;
-    }
-  } catch {
-    // not available
-  }
-  simpleIconCache.set(slug, null);
-  return null;
-}
+// ─── simple-icons lookups ───────────────────────────────────────────────────
 
 /**
- * Synchronously get a cached simple-icons path.
- * Returns null if not yet loaded or unavailable.
- * Kicks off async load if not cached.
+ * Synchronously get a simple-icons {title, path} by slug.
+ * Returns null if the icon is not in our imported index.
  */
 export function getSimpleIconPath(slug: string): { title: string; path: string } | null {
-  const entry = simpleIconCache.get(slug);
-  if (entry !== undefined) return entry;
-  // Not loaded yet — start async
-  importSimpleIcon(slug);
-  return null;
+  const entry = SIMPLE_ICON_INDEX[slug];
+  return entry || null;
 }
 
 /**
- * Preload common simple-icons at module init (non-blocking).
- * Call this once at app startup.
+ * Preload is a no-op now since icons are statically imported and tree-shaken;
+ * retained as a compatibility hook.
  */
-const PRELOAD_SLUGS = [
-  "siPostgresql", "siMysql", "siMongodb", "siRedis", "siAmazondynamodb",
-  "siDocker", "siKubernetes", "siNginx", "siApachekafka", "siRabbitmq",
-  "siNatsdotio", "siAmazonsqs", "siGooglepubsub",
-  "siReact", "siNextdotjs", "siVuedotjs", "siAngular", "siSvelte",
-  "siPython", "siFastapi", "siFlask", "siDjango", "siNodedotjs",
-  "siExpress", "siSpring", "siDotnet", "siGo", "siRust",
-  "siGrafana", "siPrometheus", "siOpentelemetry", "siJaeger",
-  "siElasticsearch", "siKong", "siEnvoyproxy", "siIstio", "siLinkerd",
-  "siKeycloak", "siOkta", "siAuth0", "siVault",
-  "siTerraform", "siAnsible", "siJenkins", "siGithubactions", "siGitlab",
-  "siAmazonwebservices", "siGooglecloud", "siCloudflare",
-  "siTailwindcss", "siVite", "siWebpack", "siTypescript", "siJavascript",
-  "siSnowflake", "siDatabricks", "siSnyk", "siTrivy",
-  "siDatadog", "siNewrelic", "siSplunk", "siOpenvpn", "siWireguard",
-  "siSwagger", "siGraphql", "siSqlite", "siMariadb", "siApachecassandra",
-  "siClickhouse", "siTimescale", "siOracle", "siHeroku", "siDigitalocean",
-  "siSonarqube", "siFlux", "siAmazonelasticache", "siAmazondocumentdb",
-  "siAmazonrds", "siAmazonredshift", "siAmazons3", "siAmazoneks",
-  "siAmazonecs", "siAwslambda", "siAmazonapigateway",
-  "siAwselasticloadbalancing", "siAmazoncloudwatch", "siAwssecretsmanager",
-  "siAmazoniam", "siAmazoncognito", "siAwsfargate",
-  "siGooglebigquery", "siGooglecloudstorage", "siVictoriametrics",
-  "siRubyonrails", "siRuby", "siPhp", "siApachepulsar",
-  "siApacherocketmq", "siApacheflink", "siApache",
-  "siElasticstack", "siKibana", "siLogstash", "siTraefikproxy",
-] as const;
-
-let preloadDone = false;
-
 export function preloadSimpleIcons(): void {
-  if (preloadDone) return;
-  preloadDone = true;
-  // Fire and forget — don't block rendering
-  void (async () => {
-    try {
-      const mod = await import("simple-icons");
-      for (const exportName of PRELOAD_SLUGS) {
-        const icon = mod[exportName as keyof typeof mod];
-        if (icon && typeof icon === "object" && "path" in icon && "title" in icon) {
-          // Cache using slug (e.g., "postgresql") not export name (e.g., "siPostgresql")
-          const slug = exportName.startsWith("si")
-            ? exportName.slice(2).toLowerCase()
-            : exportName.toLowerCase();
-          simpleIconCache.set(slug, { title: icon.title, path: icon.path });
-        }
-      }
-    } catch {
-      // simple-icons not available at runtime
-    }
-  })();
+  // Icons are already statically imported (tree-shaken).
 }
 
 // ─── lucide-react icon map ──────────────────────────────────────────────────
@@ -180,6 +107,7 @@ const LUCIDE_ICON_MAP: Record<string, LucideIcon> = {
 export function getLucideIcon(name: string): LucideIcon | null {
   return LUCIDE_ICON_MAP[name.toLowerCase()] || null;
 }
+
 // ─── resolve icon to renderable data ────────────────────────────────────────
 
 /**
