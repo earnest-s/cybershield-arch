@@ -298,6 +298,22 @@ export class TechnologyRegistry {
       }
     }
 
+    // 4.5 Composite label match (e.g. "Postgres DB" → PostgreSQL)
+    //    If a label or nodeId is exactly a known tech token plus one or more
+    //    generic qualifier words ("db", "service", "cache", ...), resolve to
+    //    that technology WITHOUT inferring a semantic identity.
+    if (metadata?.label) {
+      const composite = this.matchCompositeLabel(metadata.label);
+      if (composite) {
+        return {
+          technology: composite,
+          resolutionSource: "alias",
+          confidence: 0.8,
+          originalInput,
+        };
+      }
+    }
+
     // 5. Category fallback based on node type
     const fallbackTech = this.getCategoryFallback(nodeType);
     if (fallbackTech) {
@@ -327,8 +343,7 @@ export class TechnologyRegistry {
    * "PostgreSQL"), "cache" → generic "Cache" (not "Redis"). Specific-brand
    * resolution only happens via explicit metadata / label / alias matches.
    */
-  private getCategoryFallback(nodeType: string): TechnologyMetadata | undefined {
-    const fallbackMap: Record<string, string> = {
+  private getCategoryFallback(nodeType: string): TechnologyMetadata | undefined {    const fallbackMap: Record<string, string> = {
       ui: "web-ui",
       frontend: "web-ui",
       service: "service",
