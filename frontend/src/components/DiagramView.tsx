@@ -57,6 +57,9 @@ import {
   getDisplayLabel,
   TECHNOLOGY_CATEGORIES,
 } from "../technologyCatalog";
+import { TechnologyIcon as TechIcon } from "../technology/TechnologyIcon";
+import { resolveNodeTechnology } from "../technology/TechnologyNodePresentation";
+import { preloadSimpleIcons } from "../technology/iconLookup";
 
 type EditorCommand = {
   id: number;
@@ -600,30 +603,16 @@ function TechnologyIcon({
   nodeId?: string;
   metadata?: NodeMetadata;
 }) {
-  // 1. Explicit icon from metadata/icon prop
+  // 1. Explicit icon from metadata/icon prop (legacy brand icons)
   if (icon && icon !== "auto" && ICON_MAP[icon.toLowerCase()]) {
     return <BrandIcon name={icon} label={label} />;
   }
 
-  // 2. Technology-aware icon from metadata
-  const techIcon = getTechnologyIcon(metadata?.technology, nodeId, type || kind);
-  if (techIcon) {
-    return (
-      <svg
-        className="arch-node-logo"
-        viewBox="0 0 24 24"
-        width={16}
-        height={16}
-        role="img"
-        aria-label={techIcon.title}
-      >
-        <path d={techIcon.path} fill="currentColor" />
-      </svg>
-    );
-  }
-
-  // 3. Fallback to type-based icon
-  return <FallbackIcon type={type || kind} />;
+  // 2. Technology-aware icon via the new registry
+  const { technology } = resolveNodeTechnology(nodeId || "", type || kind, metadata?.technology, metadata?.label);
+  return (
+    <TechIcon technology={technology} technologyId={metadata?.technology} size={16} showFallback={false} />
+  );
 }
 
 function nodeInlineStyle(data: NodeData): React.CSSProperties {
