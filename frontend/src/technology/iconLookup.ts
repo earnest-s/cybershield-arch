@@ -61,6 +61,7 @@ import {
   Search,
   Clock,
   MessageSquare,
+  User,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -99,6 +100,7 @@ const LUCIDE_ICON_MAP: Record<string, LucideIcon> = {
   "message-square": MessageSquare,
   "shield-check": Shield,
   "shield-alert": Shield,
+  user: User,
 };
 
 /**
