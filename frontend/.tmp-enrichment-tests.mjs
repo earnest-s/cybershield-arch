@@ -2849,6 +2849,7 @@ function detectTechnologies(requirement, registry2) {
       mentions: snippets,
       positions,
       category: tech.category,
+      c4Classification: tech.c4Classification,
       provider: tech.provider,
       protocols: tech.protocols
     });
@@ -2880,12 +2881,16 @@ var NODE_TYPES_BY_CATEGORY = {
   "devops-cicd": ["service"],
   generic: []
 };
-var AUTO_BIND_CATEGORIES = /* @__PURE__ */ new Set([
-  "databases",
-  "cache",
-  "messaging",
-  "frontend"
-]);
+var AUTO_BIND_NODE_TYPES = ["database", "cache", "queue", "ui"];
+function isAutoBindable(d) {
+  return !d.hedged && d.confidence !== "possible";
+}
+function compatibleTypes(d) {
+  const types = new Set(NODE_TYPES_BY_CATEGORY[d.category] ?? []);
+  if (d.c4Classification === "cache") types.add("cache");
+  if (d.c4Classification === "queue") types.add("queue");
+  return Array.from(types);
+}
 function resolveTech(reg, idOrLabel) {
   return reg.get(idOrLabel) || reg.getByLabel(idOrLabel) || reg.getByAlias(idOrLabel);
 }
@@ -2903,31 +2908,20 @@ function genericLabel(nodeId, nodeType, metadata) {
 }
 function bindTechnologies(detected, nodes2, manualAssignments, registry2) {
   const reg = registry2 ?? getTechnologyRegistry();
-  const conflicts = [];
   const tentative = /* @__PURE__ */ new Map();
   const boundTechIds = /* @__PURE__ */ new Set();
-  for (const category of AUTO_BIND_CATEGORIES) {
-    const candidates = detected.filter(
-      (d) => d.category === category && !d.hedged && d.confidence !== "possible"
-    );
-    if (candidates.length > 1) {
-      const compatibleNodes = nodes2.some((node) => NODE_TYPES_BY_CATEGORY[category].includes(node.type));
-      if (compatibleNodes) {
-        conflicts.push({
-          span: candidates[0].positions[0],
-          technologyIds: candidates.map((c) => c.technologyId),
-          reason: "coequal-category"
-        });
-      }
-      continue;
-    }
-    if (candidates.length !== 1) continue;
-    const tech = candidates[0];
-    const compatible = nodes2.filter(
-      (node) => NODE_TYPES_BY_CATEGORY[category].includes(node.type) && !tentative.has(node.id)
-    );
-    if (compatible.length === 1) {
-      const node = compatible[0];
+  let progress = true;
+  while (progress) {
+    progress = false;
+    for (const type of AUTO_BIND_NODE_TYPES) {
+      const openNodes = nodes2.filter((node2) => node2.type === type && !tentative.has(node2.id));
+      if (openNodes.length !== 1) continue;
+      const pool = detected.filter(
+        (d) => !boundTechIds.has(d.technologyId) && isAutoBindable(d) && compatibleTypes(d).includes(type)
+      );
+      if (pool.length !== 1) continue;
+      const tech = pool[0];
+      const node = openNodes[0];
       tentative.set(node.id, {
         nodeId: node.id,
         technologyId: tech.technologyId,
@@ -2939,6 +2933,7 @@ function bindTechnologies(detected, nodes2, manualAssignments, registry2) {
         evidenceText: tech.mentions[0] ?? tech.technologyName
       });
       boundTechIds.add(tech.technologyId);
+      progress = true;
     }
   }
   for (const node of nodes2) {
@@ -2979,13 +2974,27 @@ function bindTechnologies(detected, nodes2, manualAssignments, registry2) {
     const auto = tentative.get(node.id);
     if (auto) final.set(node.id, auto);
   }
+  const conflicts = [];
+  const finalBoundTechIds = new Set([...final.values()].map((a) => a.technologyId));
+  for (const type of AUTO_BIND_NODE_TYPES) {
+    const openNodes = nodes2.filter((node) => node.type === type && !final.has(node.id));
+    if (openNodes.length === 0) continue;
+    const pool = detected.filter(
+      (d) => !finalBoundTechIds.has(d.technologyId) && isAutoBindable(d) && compatibleTypes(d).includes(type)
+    );
+    if (pool.length > 1) {
+      conflicts.push({
+        span: pool[0].positions[0],
+        technologyIds: pool.map((d) => d.technologyId),
+        reason: "coequal-category"
+      });
+    }
+  }
   const candidatesByNode = /* @__PURE__ */ new Map();
-  const candidatePool = detected.filter((d) => !boundTechIds.has(d.technologyId));
+  const candidatePool = detected.filter((d) => !finalBoundTechIds.has(d.technologyId));
   for (const node of nodes2) {
     if (final.has(node.id)) continue;
-    const compatible = candidatePool.filter(
-      (d) => NODE_TYPES_BY_CATEGORY[d.category].includes(node.type)
-    );
+    const compatible = candidatePool.filter((d) => compatibleTypes(d).includes(node.type));
     const distinctIds = Array.from(new Set(compatible.map((c) => c.technologyId)));
     const confidence = distinctIds.length > 1 ? "ambiguous" : "possible";
     candidatesByNode.set(
@@ -3010,7 +3019,7 @@ function bindTechnologies(detected, nodes2, manualAssignments, registry2) {
       overriddenByManual: overriddenNodeIds.includes(node.id)
     };
   });
-  const unplaced = detected.filter((d) => !boundTechIds.has(d.technologyId)).sort((a, b) => (a.positions[0]?.start ?? 0) - (b.positions[0]?.start ?? 0));
+  const unplaced = detected.filter((d) => !finalBoundTechIds.has(d.technologyId)).sort((a, b) => (a.positions[0]?.start ?? 0) - (b.positions[0]?.start ?? 0));
   return { enrichedNodes, unplaced, conflicts, overriddenNodeIds };
 }
 
@@ -3098,7 +3107,7 @@ test('detect: "React frontend" \u2192 React (label + role folding)', () => {
   const { detected } = detectTechnologies("Build the React frontend with a SPA.");
   const react = detected.find((d) => d.technologyId === "react");
   assert(!!react, "react should be detected");
-  assert(react.source === "explicit-user", "canonical label is explicit-user");
+  assert(react.source === "deterministic-match", "role-folded canonical label resolves deterministically");
   assert(react.mentions.some((m) => m.toLowerCase().includes("frontend")), "frontend folded into mention");
 });
 test('detect: "MySQL or MariaDB" \u2192 ambiguous, no fabricated single claim', () => {
