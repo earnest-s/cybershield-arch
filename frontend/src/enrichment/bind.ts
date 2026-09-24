@@ -24,12 +24,10 @@ import type { ArchitectureNode, NodeMetadata } from "../types";
 import type { TechnologyCategory, TechnologyMetadata } from "../technology/types";
 import { getTechnologyRegistry, TechnologyRegistry } from "../technology/registry";
 import type {
-  AssignmentBasis,
   AssignmentConfidence,
   DetectedTechnology,
   EnrichedNode,
   EnrichmentConflict,
-  TextPosition,
   TechnologyAssignment,
   TechnologyCandidate,
 } from "./types";
@@ -89,15 +87,10 @@ function genericLabel(nodeId: string, nodeType: string, metadata?: NodeMetadata)
   return fallbackType;
 }
 
-function sameSpan(a: TextPosition, b: TextPosition): boolean {
-  return a.start === b.start && a.end === b.end;
-}
-
 export interface BindingResult {
   enrichedNodes: EnrichedNode[];
   /** Detected technologies that were not bound (candidates-only or no compatible node). */
   unplaced: DetectedTechnology[];
-  unplacedByTechId: Record<string, DetectedTechnology>;
   conflicts: EnrichmentConflict[];
   /** Node ids whose auto-bind was displaced by a manual pick. */
   overriddenNodeIds: string[];
@@ -113,40 +106,33 @@ export function bindTechnologies(
   registry?: TechnologyRegistry
 ): BindingResult {
   const reg = registry ?? getTechnologyRegistry();
-  const nodeById = new Map(nodes.map((node) => [node.id, node]));
 
-  const conflictingSpans: EnrichmentConflict[] = [];
-
-  // ── R1 + R2 tentative auto-binds ──────────────────────────────────────────
+  const conflicts: EnrichmentConflict[] = [];
   const tentative = new Map<string, TechnologyAssignment>();
   const boundTechIds = new Set<string>();
 
-  // R2 per category (auto-bind 1:1 categories)
+  // ── R2: unique-cardinality auto-bind for 1:1 categories ───────────────────
   for (const category of AUTO_BIND_CATEGORIES) {
     const candidates = detected.filter(
       (d) => d.category === category && !d.hedged && d.confidence !== "possible"
     );
-    if (candidates.length !== 1) {
-      // coequal-category ambiguity: multiple identified techs competing
-      if (candidates.length > 1) {
-        const compatibleNodes = nodes.filter((node) =>
-          NODE_TYPES_BY_CATEGORY[category].includes(node.type)
-        );
-        if (compatibleNodes.length > 0) {
-          const ids = candidates.map((c) => c.technologyId);
-          conflictingSpans.push({
-            span: candidates[0].positions[0],
-            technologyIds: ids,
-            reason: "coequal-category",
-          });
-        }
+    if (candidates.length > 1) {
+      // Multiple identified technologies of the same category compete.
+      const compatibleNodes = nodes.some((node) => NODE_TYPES_BY_CATEGORY[category].includes(node.type));
+      if (compatibleNodes) {
+        conflicts.push({
+          span: candidates[0].positions[0],
+          technologyIds: candidates.map((c) => c.technologyId),
+          reason: "coequal-category",
+        });
       }
       continue;
     }
+    if (candidates.length !== 1) continue;
+
     const tech = candidates[0];
     const compatible = nodes.filter(
-      (node) =>
-        NODE_TYPES_BY_CATEGORY[category].includes(node.type) && !tentative.has(node.id)
+      (node) => NODE_TYPES_BY_CATEGORY[category].includes(node.type) && !tentative.has(node.id)
     );
     if (compatible.length === 1) {
       const node = compatible[0];
@@ -164,7 +150,7 @@ export function bindTechnologies(
     }
   }
 
-  // R1 model-provided metadata (dormant with v2, codified for future backend)
+  // ── R1: model-provided metadata (dormant with v2, codified for the future) ─
   for (const node of nodes) {
     if (tentative.has(node.id)) continue;
     const technology = node.metadata?.technology;
@@ -183,7 +169,7 @@ export function bindTechnologies(
     boundTechIds.add(tech.id);
   }
 
-  // ── R4 manual assignments override tentative auto-binds ───────────────────
+  // ── R4: manual assignments override tentative auto-binds ──────────────────
   const overriddenNodeIds: string[] = [];
   const final = new Map<string, TechnologyAssignment>();
   const manualNodeIds = new Set(Object.keys(manualAssignments));
@@ -207,20 +193,15 @@ export function bindTechnologies(
     if (auto) final.set(node.id, auto);
   }
 
-  // ── R3 candidates for nodes without assignments ────────────────────────────
+  // ── R3: candidates for nodes without assignments ──────────────────────────
   const candidatesByNode = new Map<string, TechnologyCandidate[]>();
   const candidatePool = detected.filter((d) => !boundTechIds.has(d.technologyId));
 
   for (const node of nodes) {
     if (final.has(node.id)) continue;
-    const compatible = candidatePool.filter((d) => {
-      const allowed = NODE_TYPES_BY_CATEGORY[d.category];
-      return allowed.includes(node.type);
-    });
-    if (compatible.length === 0) {
-      candidatesByNode.set(node.id, []);
-      continue;
-    }
+    const compatible = candidatePool.filter((d) =>
+      NODE_TYPES_BY_CATEGORY[d.category].includes(node.type)
+    );
     const distinctIds = Array.from(new Set(compatible.map((c) => c.technologyId)));
     const confidence: AssignmentConfidence = distinctIds.length > 1 ? "ambiguous" : "possible";
     candidatesByNode.set(
@@ -248,68 +229,14 @@ export function bindTechnologies(
     };
   });
 
-  const unplacedByTechId: Record<string, DetectedTechnology> = {};
-  for (const tech of detected) {
-    if (!boundTechIds.has(tech.technologyId)) unplacedByTechId[tech.technologyId] = tech;
-  }
-  // Also treat node ids referenced but absent from the graph as unplaced-safe (never referenced here).
+  const unplaced = detected
+    .filter((d) => !boundTechIds.has(d.technologyId))
+    .sort((a, b) => (a.positions[0]?.start ?? 0) - (b.positions[0]?.start ?? 0));
 
-  // Overlapping-span conflicts from detection, deduped against coequal conflicts.
-  const allConflicts: EnrichmentConflict[] = [...conflictingSpans];
-  for (const conflict of allConflicts) {
-    if (!conflict.span || conflict.span.start === undefined) {
-      // spans are always present; guard for safety
-    }
-  }
-
-  const unplaced = Object.values(unplacedByTechId).sort(
-    (a, b) => (a.positions[0]?.start ?? 0) - (b.positions[0]?.start ?? 0)
-  );
-
-  return {
-    enrichedNodes,
-    unplaced,
-    unplacedByTechId,
-    conflicts: allConflicts,
-    overriddenNodeIds,
-  };
+  return { enrichedNodes, unplaced, conflicts, overriddenNodeIds };
 }
 
 /** Resolve a technology reference (id, label, or alias) for the Assign UI. */
 export function resolveTechnologyReference(reference: string): TechnologyMetadata | undefined {
-  const reg = getTechnologyRegistry();
-  return resolveTech(reg, reference);
-}
-
-/**
- * Build the candidate list offered in the Assign Technology UI for a node.
- * Candidates (detected) come first, then full registry search results.
- */
-export function candidatesForNode(nodeId: string, enrichment: BindingResult, query: string): TechnologyCandidate[] {
-  const enriched = enrichment.enrichedNodes.find((n) => n.nodeId === nodeId);
-  const base = enriched?.candidates ?? [];
-  if (!query.trim()) return base;
-  const reg = getTechnologyRegistry();
-  const search = reg.search(query.trim());
-  const searchCandidates: TechnologyCandidate[] = search.map((tech) => ({
-    technology: {
-      technologyId: tech.id,
-      technologyName: tech.name,
-      source: "deterministic-match",
-      confidence: "possible",
-      hedged: false,
-      mentions: [tech.name],
-      positions: [],
-      category: tech.category,
-      provider: tech.provider,
-      protocols: tech.protocols,
-    },
-    confidence: "possible",
-    basis: "manual-pick",
-  }));
-  return [...base, ...searchCandidates];
-}
-
-export function sameSpanConflict(span: TextPosition): boolean {
-  return span.start !== undefined && span.end !== undefined && span.start <= span.end;
+  return resolveTech(getTechnologyRegistry(), reference);
 }
