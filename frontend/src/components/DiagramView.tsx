@@ -770,6 +770,7 @@ function ContainerNode({ id, data, selected }: NodeProps<NodeData>) {
           icon={data.icon}
           nodeId={id}
           metadata={data.metadata}
+          technologyId={data.technologyId}
         />
         {data.editing ? (
           <input
@@ -842,7 +843,7 @@ const nodeTypes = {
   boundaryNode: BoundaryNode,
 };
 
-function DiagramViewInner({ architecture, command, theme, onToggleTheme, security }: DiagramViewProps) {
+function DiagramViewInner({ architecture, command, theme, onToggleTheme, security, enrichment, onAssignTechnology }: DiagramViewProps) {
   const reactFlow = useReactFlow<NodeData, EdgeData>();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const importInputRef = useRef<HTMLInputElement | null>(null);
@@ -850,7 +851,10 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
   const [viewMode, setViewMode] = useState<ViewMode>("container");
   const [edgeRouting, setEdgeRouting] = useState<EdgeRouting>("smoothstep");
 
-  const initialGraph = useMemo(() => buildInitialGraph(architecture, edgeRouting), [architecture, edgeRouting]);
+  const initialGraph = useMemo(
+    () => buildInitialGraph(architecture, edgeRouting, enrichment),
+    [architecture, edgeRouting, enrichment]
+  );
   const [nodes, setNodes] = useNodesState<NodeData>(initialGraph.nodes);
   const [edges, setEdges] = useEdgesState<EdgeData>(initialGraph.edges);
   const [editingNodeId, setEditingNodeId] = useState<string | null>(null);
