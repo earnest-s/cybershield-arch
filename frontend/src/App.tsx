@@ -1,14 +1,18 @@
-import { ChangeEvent, DragEvent, useEffect, useMemo, useRef, useState } from "react";
+import { ChangeEvent, DragEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import DiagramView from "./components/DiagramView";
 import { Architecture, EditorCommand, ExplainResponse, NodeType } from "./types";
 import SecurityPanel from "./components/SecurityPanel";
 import ArchitectureDetails from "./components/ArchitectureDetails";
+import { TechnologiesPanel } from "./components/TechnologiesPanel";
+import { enrichArchitecture } from "./enrichment";
+import type { ManualAssignmentInput } from "./enrichment/bind";
 import { preloadSimpleIcons } from "./technology/iconLookup";
 
 const API_URL = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, "") || "http://127.0.0.1:8000";
 const EXPLAIN_URL = `${API_URL}/explain`;
 const STORAGE_RESPONSE = "architectai-last-response";
 const STORAGE_INPUT = "architectai-last-input";
+const STORAGE_ASSIGNMENTS = "architectai-tech-assignments";
 
 const EXAMPLE_PROMPT =
   "A frontend web application served by a CDN that calls a REST API, which writes to a PostgreSQL database and publishes jobs to a Kafka queue.";
