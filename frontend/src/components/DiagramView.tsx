@@ -1025,12 +1025,12 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
       return;
     }
     if (command.action === "reset") {
-      const next = buildInitialGraph(architecture, edgeRouting);
+      const next = buildInitialGraph(architecture, edgeRouting, enrichment);
       // Keep this as a history-recorded change so prompt-generated resets are undoable.
       applyGraphChange(() => next);
       void applyAutoLayout(next);
     }
-  }, [architecture, command, applyAutoLayout, applyGraphChange]);
+  }, [architecture, command, applyAutoLayout, applyGraphChange, enrichment, edgeRouting]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
