@@ -184,6 +184,8 @@ class JsonSchemaFSM:
             return ch in " \t\n\r"
 
         if not self.started:
+            if ch in " \t\n\r":
+                return True
             if ch == "{":
                 self.started = True
                 return True
@@ -217,9 +219,6 @@ class JsonSchemaFSM:
                     if ch not in "0123456789abcdefABCDEF":
                         return False
                     self.hex_left -= 1
-                    if self.hex_left == 0:
-                        self.mode = "frame"
-                        self._finish_value()
                     return True
                 if self.esc:
                     if ch == "u":
@@ -279,6 +278,7 @@ class JsonSchemaFSM:
             if frame["phase"] == "after_key":
                 if ch != ":":
                     return False
+                frame["val_kind"] = "arr" if frame["top"] else "any"
                 frame["phase"] = "val"
                 return True
             if frame["phase"] == "val":
@@ -296,9 +296,12 @@ class JsonSchemaFSM:
                     return self._close_frame()
                 return False
         else:
+            want_el = frame.get("el_kind", "any")
             if frame["phase"] == "before":
                 if ch == "]":
                     return self._close_frame()
+                if want_el == "obj":
+                    return self._value_start(ch) if ch == "{" else False
                 return self._value_start(ch)
             if frame["phase"] == "after":
                 if ch == ",":
@@ -310,6 +313,10 @@ class JsonSchemaFSM:
         return False
 
     def _value_start(self, ch: str) -> bool:
+        frame = self.stack[-1]
+        want = frame.get("val_kind", "any")
+        if want == "arr" and ch != "[":
+            return False
         if ch == "{":
             self.stack.append(
                 {"kind": "obj", "phase": "before", "top": False, "seen": []}
@@ -317,8 +324,9 @@ class JsonSchemaFSM:
             self.mode = "frame"
             return True
         if ch == "[":
+            el_kind = "obj" if want == "arr" else "any"
             self.stack.append(
-                {"kind": "arr", "phase": "before", "top": False, "seen": []}
+                {"kind": "arr", "phase": "before", "top": False, "el_kind": el_kind}
             )
             self.mode = "frame"
             return True
