@@ -1000,6 +1000,24 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
   }, [initialGraph, applyAutoLayout, setEdges, setNodes]);
 
   useEffect(() => {
+    userLabelOverridesRef.current = {};
+  }, [architecture]);
+
+  useEffect(() => {
+    if (!enrichment || !onAssignTechnology) return;
+    setNodes((current) =>
+      current.map((node) => {
+        const enriched = enrichment.enrichedNodes.find((entry) => entry.nodeId === node.id);
+        if (!enriched) return node;
+        const label = userLabelOverridesRef.current[node.id] ?? enriched.label;
+        const technologyId = enriched.assignment?.technologyId;
+        if (node.data.label === label && node.data.technologyId === technologyId) return node;
+        return { ...node, data: { ...node.data, label, technologyId } };
+      })
+    );
+  }, [enrichment, onAssignTechnology, setNodes]);
+
+  useEffect(() => {
     if (!command) return;
     if (command.action === "clear") {
       applyGraphChange(() => ({ nodes: [], edges: [] }));
