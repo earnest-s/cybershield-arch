@@ -109,7 +109,7 @@ CONDITIONS = {
         "name": "non-thinking + concise JSON-only instruction",
         "supported": True,
         "system": C_SYSTEM,
-        "user": lambda d: C_USER.format(description=d),
+        "user": lambda d: C_USER.replace("{description}", d),
         "constraint": False,
         "notes": "Prompt-shape hypothesis: short direct-answer instruction.",
     },
@@ -377,6 +377,7 @@ class JsonSchemaConstrainedLogitsProcessor:
         self._state = JsonSchemaFSM()
         self._cached_gen: list[int] = []
         self.fallback_count = 0
+        self.expanded_count = 0
         self.degraded = False
         self._vocab_cache: dict[int, str] = {}
 
@@ -412,6 +413,19 @@ class JsonSchemaConstrainedLogitsProcessor:
                 continue
             if st.clone().feed(text):
                 allowed.append(idx)
+        if not allowed:
+            self.expanded_count += 1
+            order = torch.argsort(scores[0], descending=True)
+            neg_inf = float("-inf")
+            for idx in order.tolist():
+                if scores[0, idx].item() == neg_inf:
+                    break
+                text = self.vocab_text(idx)
+                if not text:
+                    continue
+                if st.clone().feed(text):
+                    allowed.append(idx)
+                    break
         if not allowed:
             allowed = [top.indices[0].item()]
             self.fallback_count += 1
@@ -505,6 +519,7 @@ def run_condition(model, tokenizer, cond: dict, prompt: dict, run: int) -> dict:
         "constraint": {
             "active": bool(cond.get("constraint")),
             "fallback_count": processor.fallback_count if processor else 0,
+            "expanded_count": processor.expanded_count if processor else 0,
             "degraded": processor.degraded if processor else False,
         },
         "raw_output": raw,
