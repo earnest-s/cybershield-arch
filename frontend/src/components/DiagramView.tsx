@@ -884,6 +884,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
 
   const onCommitLabel = useCallback((nodeId: string, label: string) => {
     const clean = label.trim() || nodeId;
+    userLabelOverridesRef.current[nodeId] = clean;
     setEditingNodeId(null);
     const current = graphRef.current;
     historyRef.current.push(cloneGraphState(current));
