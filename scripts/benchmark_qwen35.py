@@ -237,52 +237,6 @@ def build_prompt(description: str) -> str:
     return PROMPT_TEMPLATE.format(description=description.strip())
 
 
-def strip_thinking(text: str) -> str:
-    text = re.sub(r"<\|?thinking.*?</\|?response>", "", text, flags=re.S)
-    if re.search(r"\bresponse\b", text, flags=re.I):
-        parts = re.split(r"\bresponse\b", text, flags=re.I)
-        text = parts[-1]
-    return text
-
-
-def extract_json(text: str) -> tuple[dict | None, str, str]:
-    blocks = re.findall(r"```(?:json)?\s*(.*?)```", text, flags=re.S)
-    if blocks:
-        for candidate in blocks:
-            parsed = try_parse(candidate)
-            if parsed is not None:
-                return parsed, candidate, "fenced"
-    parsed = _last_balanced_json(text)
-    if parsed is not None:
-        return parsed, "", "balanced"
-    m = re.search(r"\{.*\}", text, flags=re.S)
-    if m:
-        parsed = try_parse(m.group(0))
-        if parsed is not None:
-            return parsed, m.group(0), "regex"
-    return None, text, "none"
-
-
-def _last_balanced_json(text: str) -> dict | None:
-    best = None
-    for start, ch in enumerate(text):
-        if ch != "{":
-            continue
-        depth = 0
-        for i in range(start, len(text)):
-            c = text[i]
-            if c == "{":
-                depth += 1
-            elif c == "}":
-                depth -= 1
-                if depth == 0:
-                    parsed = try_parse(text[start : i + 1])
-                    if parsed is not None:
-                        best = parsed
-                    break
-    return best
-
-
 def try_parse(s: str) -> dict | None:
     try:
         value = json.loads(s)
@@ -291,6 +245,114 @@ def try_parse(s: str) -> dict | None:
     except json.JSONDecodeError:
         pass
     return None
+
+
+def is_graph_candidate(value: object) -> bool:
+    return (
+        isinstance(value, dict)
+        and isinstance(value.get("nodes"), list)
+        and isinstance(value.get("edges"), list)
+    )
+
+
+class Candidate:
+    __slots__ = ("parsed", "start", "end", "source")
+
+    def __init__(self, parsed: dict, start: int, end: int, source: str):
+        self.parsed = parsed
+        self.start = start
+        self.end = end
+        self.source = source
+
+    @property
+    def score(self) -> tuple[int, int]:
+        return len(self.parsed["nodes"]), len(self.parsed["edges"])
+
+    def key(self) -> str:
+        return json.dumps(self.parsed, sort_keys=True)
+
+
+def extract_architecture(
+    text: str,
+) -> tuple[dict | None, dict]:
+    """Select the most structurally rich valid architecture candidate.
+
+    Returns (selected_json, meta) where meta explains HOW it was selected
+    (source, candidate count, uniqueness/ambiguity, span offsets). The caller
+    keeps the complete raw text; nothing is overwritten here.
+    """
+    candidates: list[Candidate] = []
+
+    for m in re.finditer(r"```(?:json)?\s*(.*?)```", text, flags=re.S):
+        parsed = try_parse(m.group(1))
+        if parsed is not None and is_graph_candidate(parsed):
+            candidates.append(
+                Candidate(parsed, m.start(1), m.end(1), "fenced")
+            )
+
+    depth = 0
+    open_idx = -1
+    for i, ch in enumerate(text):
+        if ch == "{":
+            if depth == 0:
+                open_idx = i
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0 and open_idx != -1:
+                parsed = try_parse(text[open_idx : i + 1])
+                if parsed is not None and is_graph_candidate(parsed):
+                    candidates.append(
+                        Candidate(parsed, open_idx, i + 1, "balanced")
+                    )
+                open_idx = -1
+
+    m = re.search(r"\{.*\}", text, flags=re.S)
+    if m:
+        parsed = try_parse(m.group(0))
+        if parsed is not None and is_graph_candidate(parsed):
+            candidates.append(Candidate(parsed, m.start(0), m.end(0), "regex"))
+
+    seen: set[str] = set()
+    unique: list[Candidate] = []
+    for cand in sorted(candidates, key=lambda c: c.end):
+        if cand.key() not in seen:
+            seen.add(cand.key())
+            unique.append(cand)
+
+    meta: dict = {
+        "method": "none",
+        "selection": "no_candidate",
+        "candidate_count": len(unique),
+        "score": None,
+        "span_offset": None,
+    }
+
+    if not unique:
+        return None, meta
+
+    ranked = sorted(
+        unique,
+        key=lambda c: (c.score[0], c.score[1], c.end),
+        reverse=True,
+    )
+    top = ranked[0]
+    same_score = [c for c in unique if c.score == top.score]
+
+    meta["method"] = top.source
+    meta["score"] = {"nodes": top.score[0], "edges": top.score[1]}
+    meta["span_offset"] = {"start": top.start, "end": top.end}
+
+    if len(same_score) > 1:
+        meta["selection"] = "ambiguous"
+        meta["ambiguous_ties"] = [
+            {"source": c.source, "span": [c.start, c.end], "score": c.score}
+            for c in sorted(same_score, key=lambda c: c.end)
+        ]
+    else:
+        meta["selection"] = "unique_best"
+
+    return top.parsed, meta
 
 
 def validate_graph(graph: dict) -> dict:
@@ -418,12 +480,17 @@ def main() -> None:
                 outputs = model.generate(**inputs, **gen_cfg)
             gen_elapsed = time.time() - start_gen
             generated = outputs[0][inputs.input_ids.shape[1]:]
-            decoded = tokenizer.decode(generated, skip_special_tokens=True).strip()
-            raw = decoded
-            cleaned = strip_thinking(decoded)
-            graph, extracted, parse_method = extract_json(cleaned)
+            raw = tokenizer.decode(generated, skip_special_tokens=True).strip()
             out_tokens = int(generated.shape[0])
             in_tokens = int(input_len_ref["v"])
+            graph, selection_meta = extract_architecture(raw)
+            if graph is not None:
+                span = selection_meta["span_offset"]
+                reasoning = (raw[: span["start"]] + "\n" + raw[span["end"]:]).strip()
+                candidate_raw = raw[span["start"] : span["end"]]
+            else:
+                reasoning = raw
+                candidate_raw = None
             validation = validate_graph(graph) if graph is not None \
                 else {"valid": False, "reason": "no JSON extracted",
                       "node_ids": [], "types": [], "technologies": [], "protocols": []}
@@ -438,7 +505,11 @@ def main() -> None:
                 "gen_seconds": round(gen_elapsed, 3),
                 "tok_per_sec": round(out_tokens / gen_elapsed, 2) if gen_elapsed else None,
                 "json_valid": validation.get("valid", False),
-                "parse_method": parse_method,
+                "raw_output": raw,
+                "selected_json": graph,
+                "candidate_raw": candidate_raw,
+                "reasoning_text": reasoning,
+                "selection": selection_meta,
                 "fabricated_tech": audit.get("fabricated_tech", []),
                 "missing_expected_tech": audit.get("missing_expected_tech", []),
                 "technologies": audit.get("present_tech", []),
@@ -448,8 +519,7 @@ def main() -> None:
                 "protocols": validation.get("protocols", []),
                 "issues": validation.get("issues", []),
                 "node_count": len(validation.get("node_ids", [])),
-                "edge_count": lines_count(graph) if graph else 0,
-                "raw_output": raw[:800],
+                "edge_count": len(validation.get("protocols", [])),
             }
             print(f"  run {run}: json_valid={record['json_valid']} "
                   f"tok/s={record['tok_per_sec']} nodes={record['node_count']} "
@@ -463,7 +533,7 @@ def main() -> None:
 
         try:
             json_ok = sum(1 for r in run_records if r["json_valid"])
-            all_same = len({r["node_ids"] for r in run_records}) <= 1
+            all_same = len({tuple(r["node_ids"]) for r in run_records}) <= 1
             summary = {
                 "test_id": test["test_id"],
                 "note": test.get("note", ""),
@@ -499,7 +569,7 @@ def main() -> None:
     for tid in order:
         runs = grouped[tid]
         json_ok = sum(1 for r in runs if r["json_valid"])
-        all_same = len({r["node_ids"] for r in runs}) <= 1
+        all_same = len({tuple(r["node_ids"]) for r in runs}) <= 1
         agg_results.append({
             "test_id": tid,
             "runs": len(runs),
@@ -529,12 +599,6 @@ def main() -> None:
     out_json.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
     print("\nWrote:", out_json, flush=True)
     print("Peak VRAM MB:", payload["peak_vram_mb"], flush=True)
-
-
-def lines_count(graph: dict) -> int:
-    if not isinstance(graph, dict):
-        return 0
-    return len(graph.get("edges", []))
 
 
 if __name__ == "__main__":
