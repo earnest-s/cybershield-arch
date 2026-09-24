@@ -1,0 +1,491 @@
+{
+  "meta": {
+    "model": "Qwen/Qwen3.5-4B",
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "max_new_tokens": 2048,
+    "temperature": 0.3,
+    "top_p": 0.9,
+    "top_k_constraint": 128,
+    "runs_per_condition_prompt": 3,
+    "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU"
+  },
+  "conditions": {
+    "A": {
+      "name": "current configuration",
+      "supported": true,
+      "system": "You are a strict JSON generator for software architecture graphs. Answer with one valid JSON document only. No explanation, no analysis.",
+      "constraint": false,
+      "notes": "Identical prompt + sampling to scripts/benchmark_qwen35.py."
+    },
+    "B": {
+      "name": "explicit non-thinking mode",
+      "supported": false,
+      "reason": "Qwen3.5-4B (model_type qwen3_5) in transformers 5.14.1 has no thinking-mode configuration: no thinking special tokens, no enable_thinking generation flag, no generation_config.json on the model repo, and no reasoning handling in modeling_qwen3_5.py. 'Thinking Process:' is free-form emitted text, not gated decoding. No explicit non-thinking toggle exists to test."
+    },
+    "C": {
+      "name": "non-thinking + concise JSON-only instruction",
+      "supported": true,
+      "system": "You output a single JSON object only. No analysis, no reasoning, no explanation, no markdown.",
+      "constraint": false,
+      "notes": "Prompt-shape hypothesis: short direct-answer instruction."
+    },
+    "D": {
+      "name": "schema-shaped constrained JSON decoding",
+      "supported": true,
+      "system": "You are a strict JSON generator for software architecture graphs. Answer with one valid JSON document only. No explanation, no analysis.",
+      "constraint": true,
+      "notes": "Baseline prompt + JsonSchemaConstrainedLogitsProcessor: token 1 must start JSON; decode forced to structural JSON with top-level keys exactly nodes then edges; object keys restricted to the schema vocabulary; EOS allowed only when complete. Same sampling params and same 2048 cap as A/C."
+    }
+  },
+  "prompts": [
+    {
+      "probe_id": "P1",
+      "description": "A collaboration platform: customers open a React single-page application that talks to a FastAPI backend, which reads and writes customer data in a PostgreSQL database.",
+      "expected_tech": [
+        "FastAPI",
+        "PostgreSQL",
+        "React"
+      ]
+    },
+    {
+      "probe_id": "P2",
+      "description": "A multi-tier web application: a React frontend talks to a FastAPI service; the service persists customer data in PostgreSQL, uses Redis for session caching, and publishes background jobs to a RabbitMQ queue consumed by a worker service.",
+      "expected_tech": [
+        "FastAPI",
+        "PostgreSQL",
+        "RabbitMQ",
+        "React",
+        "Redis"
+      ]
+    },
+    {
+      "probe_id": "P3",
+      "description": "An AWS-based image upload pipeline: clients upload images to an S3 bucket, an SQS queue delivers upload events to a processing service, and a PostgreSQL (RDS) database stores image metadata.",
+      "expected_tech": [
+        "AWS",
+        "PostgreSQL",
+        "RDS",
+        "S3",
+        "SQS"
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "probe_id": "P1",
+      "condition": "A",
+      "run": 1,
+      "emitted": true,
+      "valid": true,
+      "node_count": 3,
+      "edge_count": 2,
+      "technologies": [
+        "FastAPI",
+        "PostgreSQL",
+        "React"
+      ],
+      "missing_expected_tech": [],
+      "fabricated_tech": [],
+      "tech_correct": true,
+      "protocol_count": 2,
+      "latency_s": 65.819,
+      "tokens_per_sec": 31.12,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3342.9,
+      "issues": [],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 3,
+          "edges": 2
+        },
+        "span_offset": {
+          "start": 5173,
+          "end": 5617
+        }
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Role: Senior Software Architect.\n    *   Task: Convert a system description into a CLEAN architecture graph (JSON format).\n    *   Input Description: \"A collaboration platform: customers open a React single-page application that talks to a FastAPI backend, which reads and writes customer data in a PostgreSQL database.\"\n    *   Constraints:\n        *   Strict JSON output only.\n        *   No explanation, no analysis.\n        *   Max nodes: 10.\n        *   Max edges: 15.\n        *   No duplicate edges.\n        *   No redundant connections.\n        *   Minimal and logical architecture.\n        *   Canonical IDs: ui-1, service-1, database-1, cache-1, queue-1, container-1.\n        *   Node Types: ui, service, database, cache, queue, container.\n        *   Technology Field: Only fill if explicitly named in description. Otherwise null.\n        *   Edge Protocol Field: HTTPS, SQL, Redis Protocol, message, or null.\n\n2.  **Analyze the Input Description:**\n    *   \"customers open a React single-page application\" -> UI Component (React).\n    *   \"talks to a FastAPI backend\" -> Service Component (FastAPI).\n    *   \"reads and writes customer data in a PostgreSQL database\" -> Database Component (PostgreSQL).\n    *   Implicit: The UI talks to the Service via HTTP (HTTPS implied for web apps).\n    *   Implicit: The Service talks to the Database via SQL.\n    *   Missing: No cache, no queue, no container explicitly mentioned in the description (though often implied in architecture, the rules say \"Use only meaningful components\" based on the description). The canonical IDs list includes container, but the description doesn't explicitly mention a container (like Docker/Kubernetes). However, usually, a backend service runs in a container. But strict adherence to \"description explicitly names it\" for technology suggests I should be careful. The prompt says \"Convert the following system description\". If the description doesn't mention containers, I might skip them to keep it minimal, OR I might include them as a standard infrastructure layer if \"container\" is a standard node type expected.\n    *   Looking at the \"CANONICAL IDS\": ui-1, service-1, database-1, cache-1, queue-1, container-1.\n    *   Looking at \"NODE TYPES\": ui, service, database, cache, queue, container.\n    *   Looking at \"TECHNOLOGY FIELD\": \"Fill it with a specific technology ONLY when the description explicitly names it\".\n    *   Description mentions: React, FastAPI, PostgreSQL.\n    *   Description does NOT mention: Cache, Queue, Container.\n    *   To keep it minimal and logical based *strictly* on the description provided:\n        *   UI: ui-1 (React)\n        *   Service: service-1 (FastAPI)\n        *   Database: database-1 (PostgreSQL)\n        *   Cache: None mentioned -> Skip or null? The rules say \"Use only meaningful components\". If not mentioned, it's not meaningful based on the text. I will exclude cache/queue/container nodes to adhere to \"No duplicate edges\", \"No redundant connections\", \"Keep architecture minimal\".\n        *   Wait, the instruction says \"Convert the following system description\". If I include nodes not in the description, am I violating \"Use only meaningful components\"? Usually, in these tasks, if the description is simple, I should only map what exists.\n        *   However, sometimes \"container\" is considered infrastructure. But the rule says \"Fill it with a specific technology ONLY when the description explicitly names it\". If I create a node \"container-1\", what technology goes in it? Null? Is it meaningful?\n        *   Decision: Stick to the explicit components mentioned: UI, Service, Database.\n        *   Edges:\n            *   UI -> Service (HTTPS)\n            *   Service -> Database (SQL)\n    *   Check constraints: Max nodes 10, Max edges 15. My plan uses 3 nodes, 2 edges. Safe.\n    *   Check IDs: ui-1, service-1, database-1.\n    *   Check Tech: React, FastAPI, PostgreSQL.\n    *   Check Protocol: HTTPS, SQL.\n\n3.  **Drafting the JSON:**\n    *   Nodes:\n        *   ui-1, type: ui, technology: React\n        *   service-1, type: service, technology: FastAPI\n        *   database-1, type: database, technology: PostgreSQL\n    *   Edges:\n        *   ui-1 -> service-1, protocol: HTTPS\n        *   service-1 -> database-1, protocol: SQL\n\n4.  **Refining based on \"Clean Architecture\" principles:**\n    *   In Clean Architecture, the UI is often a presentation layer, the Service is the core, Database is the persistence layer.\n    *   The flow is UI -> Service -> Database.\n    *   Is there a container? The description doesn't say \"deployed in a container\". I will omit it to keep it minimal as per \"Keep architecture minimal\".\n    *   Is there a cache? No mention.\n    *   Is there a queue? No mention.\n\n5.  **Final Review against Rules:**\n    *   JSON format: Yes.\n    *   No explanation: Yes.\n    *   Meaningful components: Yes.\n    *   No duplicate edges: Yes.\n    *   Minimal: Yes.\n    *   Technology field: Only explicit (React, FastAPI, PostgreSQL).\n    *   Protocol field: HTTPS, SQL.\n    *   Max nodes/edges: Within limits.\n\n6.  **Constructing JSON:**\n    ```json\n    {\n        \"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}\n        ]\n    }\n    ```\n\n7.  **Final Check:**\n    *   Does the description imply HTTPS? \"customers open a React single-page application that talks to a FastAPI backend\". Web apps talk to backends over HTTPS (standard assumption for \"talks to\" in this context).\n    *   Does the description imply SQL? \"reads and writes customer data in a PostgreSQL database\". SQL is the standard protocol for PostgreSQL.\n    *   Are IDs canonical? Yes (ui-1, service-1, database-1).\n    *   Is it valid JSON? Yes.\n\n    Wait, one detail: \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1.\"\n    The prompt lists these as canonical IDs. It doesn't mean I *must* use all of them, but I should use the ones relevant to the description. Since cache/queue/container are not mentioned, I won't use them.\n\n    One more check on \"container\". Often in modern architecture, services run in containers. However, the rule says \"Fill it with a specific technology ONLY when the description explicitly names it\". If I add container-1 with null technology, is it meaningful? The description says \"A collaboration platform\". It doesn't specify deployment. I will exclude it to ensure \"No redundant connections\" and \"Keep architecture minimal\".\n\n    Wait, looking at the edge protocol rule: \"Set it to null when the description does not indicate the protocol.\"\n    Does \"talks to\" indicate HTTPS? In the context of web apps (React SPA), yes, it's HTTP/HTTPS.\n    Does \"reads and writes... in PostgreSQL\" indicate SQL? Yes, that's the standard query language.\n\n    Let's assemble the JSON.\n\n    One nuance: The prompt asks for \"Clean Architecture graph\".\n    Usually, Clean Architecture implies layers.\n    UI -> Service -> DB.\n    This matches my draft.\n\n    Wait, I need to make sure I don't violate \"No duplicate edges\".\n    ui-1 -> service-1\n    service-1 -> database-1\n    These are unique.\n\n    Final check on JSON syntax.\n    Keys: \"nodes\", \"edges\".\n    Node keys: \"id\", \"type\", \"technology\".\n    Edge keys: \"source\", \"target\", \"protocol\".\n\n    Ready.\n\n    Wait, one constraint check: \"Max nodes: 10\". I have 3.\n    \"Max edges: 15\". I have 2.\n\n    Okay, proceeding.\n\n    Wait, I should check if I need to include the container as a generic infrastructure node.\n    Rule: \"Use only meaningful components\".\n    If the description doesn't mention it, is it meaningful?\n    Usually, in these strict conversion tasks, if the text doesn't mention it, don't add it.\n    Also, \"Fill it with a specific technology ONLY when the description explicitly",
+      "candidate_raw": "{\n        \"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}\n        ]\n    }",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": "React"
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "FastAPI"
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P1",
+      "condition": "A",
+      "run": 2,
+      "emitted": true,
+      "valid": true,
+      "node_count": 3,
+      "edge_count": 2,
+      "technologies": [
+        "FastAPI",
+        "PostgreSQL",
+        "React"
+      ],
+      "missing_expected_tech": [],
+      "fabricated_tech": [],
+      "tech_correct": true,
+      "protocol_count": 2,
+      "latency_s": 64.329,
+      "tokens_per_sec": 31.84,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3342.8,
+      "issues": [],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 3,
+          "edges": 2
+        },
+        "span_offset": {
+          "start": 5306,
+          "end": 5750
+        }
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Role: Senior Software Architect.\n    *   Task: Convert a system description into a CLEAN architecture graph (JSON format).\n    *   Input Description: \"A collaboration platform: customers open a React single-page application that talks to a FastAPI backend, which reads and writes customer data in a PostgreSQL database.\"\n    *   Constraints:\n        *   Strict JSON output only.\n        *   No explanation/analysis.\n        *   Meaningful components only.\n        *   No duplicate edges.\n        *   No redundant connections.\n        *   Minimal and logical architecture.\n        *   Max nodes: 10.\n        *   Max edges: 15.\n        *   Canonical IDs: ui-1, service-1, database-1, cache-1, queue-1, container-1 (though I should use these or similar if applicable, but the description implies specific tech stack).\n        *   Node Types: ui, service, database, cache, queue, container.\n        *   Technology Field: Only fill if explicitly named in description. Otherwise null.\n        *   Edge Protocol Field: HTTPS, SQL, Redis Protocol, message, or null.\n\n2.  **Analyze the System Description:**\n    *   \"customers open a React single-page application\": This is the UI layer. Technology: React.\n    *   \"talks to a FastAPI backend\": This is the Service/API layer. Technology: FastAPI.\n    *   \"reads and writes customer data in a PostgreSQL database\": This is the Database layer. Technology: PostgreSQL.\n    *   Implicit: There is likely a container/orchestration layer (e.g., Docker/Kubernetes) or just the service itself, but the description is simple. I should stick to the explicit components mentioned to keep it minimal.\n    *   Missing: Cache, Queue, Container (explicitly not mentioned, though often implied in modern stacks, the rules say \"Only fill it with a specific technology ONLY when the description explicitly names it\"). I will omit cache/queue/container nodes unless I infer them as necessary for the graph structure (e.g., if the service is behind a container). However, the rules say \"Use only meaningful components\". A backend usually runs in a container, but without explicit mention, I should probably stick to the visible layers (UI, Service, DB).\n    *   Wait, the prompt provides \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1\". I should probably use these IDs if they fit the architecture, but I shouldn't invent nodes that aren't in the description. The description mentions React, FastAPI, PostgreSQL.\n    *   So:\n        *   UI: React SPA -> ui-1 (Technology: React)\n        *   Service: FastAPI Backend -> service-1 (Technology: FastAPI)\n        *   Database: PostgreSQL -> database-1 (Technology: PostgreSQL)\n    *   Edges:\n        *   UI -> Service (HTTPS)\n        *   Service -> Database (SQL)\n\n3.  **Drafting the JSON:**\n    *   Nodes:\n        *   ui-1: type \"ui\", technology \"React\"\n        *   service-1: type \"service\", technology \"FastAPI\"\n        *   database-1: type \"database\", technology \"PostgreSQL\"\n    *   Edges:\n        *   ui-1 -> service-1: protocol \"HTTPS\"\n        *   service-1 -> database-1: protocol \"SQL\"\n\n4.  **Reviewing Constraints:**\n    *   Max nodes: 10 (I have 3).\n    *   Max edges: 15 (I have 2).\n    *   No duplicate edges.\n    *   Technology field: Only fill if explicitly named. (React, FastAPI, PostgreSQL are explicitly named).\n    *   Protocol field: HTTPS for API, SQL for DB.\n    *   JSON Format: Valid JSON.\n    *   Output: Only JSON.\n\n5.  **Refining Architecture:**\n    *   Is \"container\" needed? The description says \"backend\", not \"container\". I will exclude container-1 to keep it minimal and strictly adhering to \"ONLY when the description explicitly names it\".\n    *   Is \"cache\" needed? Not mentioned.\n    *   Is \"queue\" needed? Not mentioned.\n\n6.  **Final JSON Construction:**\n    *   `nodes`: `[{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}]`\n    *   `edges`: `[{\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}]`\n\n7.  **Final Check:**\n    *   Valid JSON? Yes.\n    *   No explanation? Yes.\n    *   Adheres to rules? Yes.\n\n    Wait, I need to check the \"CANONICAL IDS\" rule again. \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1.\"\n    Does this mean I *must* use these IDs if they exist in the architecture? Yes, usually canonical IDs are the standard naming convention for the graph. Since I am not using cache/queue/container, I will use ui-1, service-1, database-1.\n\n    One more check on Technology: \"Fill it with a specific technology ONLY when the description explicitly names it\".\n    Description: \"React\", \"FastAPI\", \"PostgreSQL\".\n    So:\n    ui-1 -> React\n    service-1 -> FastAPI\n    database-1 -> PostgreSQL\n\n    Edges:\n    UI to Service: HTTPS (implied by SPA talking to API).\n    Service to DB: SQL (implied by \"reads and writes... in a PostgreSQL database\").\n\n    Looks good.\n\n    Wait, one detail: \"customers open a React single-page application\".\n    Is there a client-side component? No, just UI.\n    Is there a container? No.\n\n    Let's assemble the JSON.\n\n    ```json\n    {\n        \"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}\n        ]\n    }\n    ```\n\n    Double check constraints:\n    - No duplicate edges: Checked.\n    - No redundant connections: Checked.\n    - Max nodes/edges: Checked.\n    - Only return JSON: Checked.\n\n    One minor consideration: The prompt asks for \"CLEAN architecture graph\".\n    In Clean Architecture, typically there are layers (Entities, Domain, Infrastructure, UI).\n    However, the input description is a high-level system description.\n    Mapping to the provided node types (ui, service, database, cache, queue, container) suggests a simplified layered architecture graph rather than strict Clean Architecture layers (which usually involve Domain/Entities).\n    Given the node types provided (ui, service, database...), I should map the description to these types.\n    UI -> React SPA.\n    Service -> FastAPI Backend.\n    Database -> PostgreSQL.\n    This fits the provided node types.\n\n    Final check on JSON syntax.\n    Keys: \"nodes\", \"edges\".\n    Node keys: \"id\", \"type\", \"technology\".\n    Edge keys: \"source\", \"target\", \"protocol\".\n    All match the example format.\n\n    Ready to output.\n\n    Wait, I should ensure I don't add extra whitespace or newlines that might break strict JSON parsing if the user expects a single block, but standard JSON formatting is usually fine. I will output a compact or pretty-printed JSON. The prompt says \"Answer with one valid JSON document only\". I will use standard formatting.\n\n    Wait, looking at the instruction \"Answer with one valid JSON document only. No explanation, no analysis.\"\n    I must ensure no markdown code blocks (```json) if possible, or just the raw JSON text? Usually, \"Answer with one valid JSON document\" implies the content should be JSON. However, often markdown blocks are accepted as long as the content is JSON. But to be safe and strictly adhere to \"No explanation\", I will output the raw JSON string. Actually, most LLM interfaces render markdown. If I put ```json it might be considered text. But usually, users expect a code block. Let's look at the instruction \"ONLY return JSON\". I will output the JSON directly without markdown fences to be safe, or just standard JSON.\n    Actually, looking at previous interactions, usually markdown blocks are used for JSON. But \"ONLY return JSON\" often means no markdown. I will output raw text that",
+      "candidate_raw": "{\n        \"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}\n        ]\n    }",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": "React"
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "FastAPI"
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P1",
+      "condition": "A",
+      "run": 3,
+      "emitted": true,
+      "valid": true,
+      "node_count": 3,
+      "edge_count": 2,
+      "technologies": [
+        "FastAPI",
+        "PostgreSQL",
+        "React"
+      ],
+      "missing_expected_tech": [],
+      "fabricated_tech": [],
+      "tech_correct": true,
+      "protocol_count": 2,
+      "latency_s": 64.23,
+      "tokens_per_sec": 31.89,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3342.8,
+      "issues": [],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 3,
+          "edges": 2
+        },
+        "span_offset": {
+          "start": 3401,
+          "end": 3845
+        }
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Role: Senior Software Architect.\n    *   Task: Convert a system description into a CLEAN architecture graph (JSON format).\n    *   Input Description: \"A collaboration platform: customers open a React single-page application that talks to a FastAPI backend, which reads and writes customer data in a PostgreSQL database.\"\n    *   Constraints:\n        *   Strict JSON output only.\n        *   No explanation, no analysis.\n        *   Max nodes: 10.\n        *   Max edges: 15.\n        *   No duplicate edges.\n        *   No redundant connections.\n        *   Minimal and logical architecture.\n        *   Specific ID rules (ui-1, service-1, database-1, cache-1, queue-1, container-1).\n        *   Node Types: ui, service, database, cache, queue, container.\n        *   Technology Field: Only fill if explicitly named in description. Otherwise null.\n        *   Edge Protocol Field: HTTPS, SQL, Redis Protocol, message, or null.\n\n2.  **Analyze the Input Description:**\n    *   \"customers open a React single-page application\": This is a UI component. Technology: React.\n    *   \"talks to a FastAPI backend\": This is a Service component. Technology: FastAPI.\n    *   \"reads and writes customer data in a PostgreSQL database\": This is a Database component. Technology: PostgreSQL.\n    *   Implicit: There is likely a container or infrastructure layer, but the description doesn't explicitly name a container (like Docker/Kubernetes) or cache/queue. I should stick to the explicitly mentioned components to keep it minimal, unless the \"container\" ID is required by the canonical IDs list. The prompt says \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1.\" It doesn't say I *must* use all of them, just that these are the allowed IDs. However, to make a valid architecture graph based on the description, I should map the described entities to these types.\n    *   Entities identified:\n        1.  React SPA -> UI (ui-1)\n        2.  FastAPI Backend -> Service (service-1)\n        3.  PostgreSQL DB -> Database (database-1)\n    *   Missing from description: Cache, Queue, Container. I will omit them to keep it minimal and logical based *only* on the description provided, unless the prompt implies I should use the canonical IDs as a template. The prompt says \"Convert the following system description...\". I should not invent components not mentioned (like cache/queue) unless implied. The description says \"reads and writes customer data in a PostgreSQL database\". No cache or queue mentioned.\n    *   Connections:\n        1.  UI -> Service (HTTPS)\n        2.  Service -> Database (SQL)\n\n3.  **Map to JSON Schema:**\n    *   Nodes:\n        *   ui-1 (React)\n        *   service-1 (FastAPI)\n        *   database-1 (PostgreSQL)\n    *   Edges:\n        *   ui-1 -> service-1 (HTTPS)\n        *   service-1 -> database-1 (SQL)\n\n4.  **Check Constraints:**\n    *   Max nodes: 10 (I have 3).\n    *   Max edges: 15 (I have 2).\n    *   No duplicate edges.\n    *   Technology field: Only if explicitly named.\n        *   React -> \"React\"\n        *   FastAPI -> \"FastAPI\"\n        *   PostgreSQL -> \"PostgreSQL\"\n    *   Protocol field:\n        *   UI to Service -> HTTPS (API traffic)\n        *   Service to DB -> SQL (Database queries)\n    *   JSON format: Valid JSON.\n    *   Output: Only JSON.\n\n5.  **Drafting the JSON:**\n    ```json\n    {\n        \"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}\n        ]\n    }\n    ```\n\n6.  **Refining:**\n    *   Does the description imply a container? \"customers open...\". Usually, there's an infrastructure layer, but without explicit mention, I shouldn't add a \"container\" node with null technology or generic tech.\n    *   Does the description imply cache/queue? No.\n    *   Are the IDs valid? Yes, using the canonical IDs provided (ui-1, service-1, database-1).\n    *   Are technologies valid? Yes, explicitly named in text.\n    *   Are protocols valid? Yes, standard conventions for these layers.\n\n7.  **Final Review:**\n    *   Strict JSON only.\n    *   No markdown code blocks (usually requested in \"ONLY return JSON\" prompts, but often markdown blocks are accepted as long as the content is JSON. However, the instruction says \"Answer with one valid JSON document only. No explanation, no analysis.\" I will output raw JSON text to be safe, or wrapped in markdown if the platform expects it. Usually, \"ONLY return JSON\" means no conversational text. I will output the JSON string directly).\n    *   Wait, looking at the \"JSON FORMAT\" example, it uses a specific structure. I must follow that.\n    *   Check \"No duplicate edges\". I have 2 edges, unique.\n    *   Check \"No redundant connections\". Minimal.\n\n    Let's assemble the final JSON.\n\n    ```json\n    {\n      \"nodes\": [\n        {\n          \"id\": \"ui-1\",\n          \"type\": \"ui\",\n          \"technology\": \"React\"\n        },\n        {\n          \"id\": \"service-1\",\n          \"type\": \"service\",\n          \"technology\": \"FastAPI\"\n        },\n        {\n          \"id\": \"database-1\",\n          \"type\": \"database\",\n          \"technology\": \"PostgreSQL\"\n        }\n      ],\n      \"edges\": [\n        {\n          \"source\": \"ui-1\",\n          \"target\": \"service-1\",\n          \"protocol\": \"HTTPS\"\n        },\n        {\n          \"source\": \"service-1\",\n          \"target\": \"database-1\",\n          \"protocol\": \"SQL\"\n        }\n      ]\n    }\n    ```\n\n    Wait, I need to ensure I don't add markdown ticks if the instruction says \"ONLY return JSON\". However, most LLM interfaces render markdown. I will provide the raw JSON string inside the response block. Actually, standard practice for \"ONLY return JSON\" is to avoid markdown code blocks (```json) if possible, but often they are tolerated. To be strictly compliant with \"Answer with one valid JSON document only\", I should avoid markdown formatting that isn't part of the JSON. I will output the raw text.\n\n    Wait, re-reading: \"Answer with one valid JSON document only.\"\n    Okay, I will output the JSON.\n\n    One more check on the \"container\" ID. The canonical IDs list includes \"container-1\". The description doesn't mention containers. I will exclude it to keep it minimal and logical as per rules (\"Keep architecture minimal and logical\", \"Use only meaningful components\"). Adding a container without description is redundant.\n\n    Final check on technologies:\n    - React: Explicitly named (\"React single-page application\").\n    - FastAPI: Explicitly named (\"FastAPI backend\").\n    - PostgreSQL: Explicitly named (\"PostgreSQL database\").\n\n    Final check on protocols:\n    - UI to Service: HTTPS (Standard for API).\n    - Service to DB: SQL (Standard for DB).\n\n    Ready.\n\n    Wait, one detail: \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1.\"\n    I am using ui-1, service-1, database-1. This is consistent.\n\n    Let's construct the final string.\n\n    ```json\n    {\n        \"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}\n        ]\n    }\n    ```\n\n    I will remove the markdown code block to ensure it's strictly JSON text if possible, but usually, a code block is safer for parsing. However",
+      "candidate_raw": "{\n        \"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}\n        ]\n    }",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": "React"
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "FastAPI"
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P2",
+      "condition": "A",
+      "run": 1,
+      "emitted": false,
+      "valid": false,
+      "node_count": 0,
+      "edge_count": 0,
+      "technologies": [],
+      "missing_expected_tech": [
+        "FastAPI",
+        "PostgreSQL",
+        "RabbitMQ",
+        "React",
+        "Redis"
+      ],
+      "fabricated_tech": [],
+      "tech_correct": false,
+      "protocol_count": 0,
+      "latency_s": 65.216,
+      "tokens_per_sec": 31.4,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3354.0,
+      "issues": [],
+      "selection": {
+        "method": "none",
+        "selection": "no_candidate",
+        "candidate_count": 0,
+        "score": null,
+        "span_offset": null
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Role: Senior Software Architect.\n    *   Task: Convert a system description into a CLEAN architecture graph (JSON format).\n    *   Input Description: \"A multi-tier web application: a React frontend talks to a FastAPI service; the service persists customer data in PostgreSQL, uses Redis for session caching, and publishes background jobs to a RabbitMQ queue consumed by a worker service.\"\n    *   Constraints:\n        *   Strict JSON output only.\n        *   No explanation/analysis.\n        *   Use only meaningful components.\n        *   No duplicate edges.\n        *   No redundant connections.\n        *   Minimal and logical architecture.\n        *   Max nodes: 10.\n        *   Max edges: 15.\n        *   Canonical IDs: ui-1, service-1, database-1, cache-1, queue-1, container-1.\n        *   Node Types: ui, service, database, cache, queue, container.\n        *   Technology Field: Only fill if explicitly named in description. Otherwise null.\n        *   Edge Protocol Field: HTTPS, SQL, Redis Protocol, message, or null.\n    *   Output Format: JSON with \"nodes\" and \"edges\" arrays.\n\n2.  **Analyze the System Description:**\n    *   Frontend: React.\n    *   Backend Service: FastAPI.\n    *   Database: PostgreSQL.\n    *   Cache: Redis.\n    *   Queue: RabbitMQ.\n    *   Worker: Implied by \"consumed by a worker service\". The description says \"publishes background jobs to a RabbitMQ queue consumed by a worker service\". Usually, in a monolithic or microservices context described here, the \"service\" might handle the publishing, and there's a separate worker or the same service handles it. However, the canonical IDs suggest specific types. Let's look at the canonical IDs provided: `ui-1`, `service-1`, `database-1`, `cache-1`, `queue-1`, `container-1`.\n    *   Relationships:\n        *   React (UI) -> FastAPI (Service): HTTP/HTTPS.\n        *   FastAPI (Service) -> PostgreSQL (Database): SQL.\n        *   FastAPI (Service) -> Redis (Cache): Redis Protocol (for session caching).\n        *   FastAPI (Service) -> RabbitMQ (Queue): message (publishing).\n        *   RabbitMQ (Queue) -> Worker (Service?): message (consuming).\n    *   Wait, the canonical IDs list `container-1`. Usually, containers are infrastructure layers (API Gateway, Worker, etc.). The description mentions a \"worker service\". Is the worker part of the `service-1` or a separate entity? The canonical IDs are fixed. I should map the logical components to these IDs.\n    *   `ui-1`: React frontend.\n    *   `service-1`: FastAPI service (primary API).\n    *   `database-1`: PostgreSQL.\n    *   `cache-1`: Redis.\n    *   `queue-1`: RabbitMQ.\n    *   `container-1`: This is tricky. In the context of the provided canonical IDs, `container-1` often represents an infrastructure container or a specific service instance (like the worker). However, the description says \"consumed by a worker service\". If I strictly follow the canonical IDs, I might need to map the worker to `container-1` or `service-1`. Given the instruction \"Use only meaningful components\" and \"Keep architecture minimal and logical\", and the provided canonical IDs, I should probably represent the main service as `service-1`. The worker is often considered a separate service in microservices, but here it might be treated as a background job processor.\n    *   Let's check the constraints: \"Max nodes: 10\", \"Max edges: 15\".\n    *   Let's check the Technology Field rule: \"Fill it with a specific technology ONLY when the description explicitly names it\".\n        *   React -> \"React\" (Explicit).\n        *   FastAPI -> \"FastAPI\" (Explicit).\n        *   PostgreSQL -> \"PostgreSQL\" (Explicit).\n        *   Redis -> \"Redis\" (Explicit).\n        *   RabbitMQ -> \"RabbitMQ\" (Explicit).\n        *   Worker -> Not explicitly named as a technology, just \"worker service\".\n    *   Let's check the Edge Protocol Field rule:\n        *   UI -> Service: HTTPS.\n        *   Service -> DB: SQL.\n        *   Service -> Cache: Redis Protocol.\n        *   Service -> Queue: message.\n        *   Queue -> Worker: message.\n\n    *   Mapping to Canonical IDs:\n        *   `ui-1`: React.\n        *   `service-1`: FastAPI.\n        *   `database-1`: PostgreSQL.\n        *   `cache-1`: Redis.\n        *   `queue-1`: RabbitMQ.\n        *   `container-1`: This is the outlier. In many architecture diagrams, the \"container\" might represent the infrastructure hosting the services or a specific worker container. Given the description \"consumed by a worker service\", and the list of canonical IDs, I should probably create a node for the worker if it's distinct, but the canonical IDs are fixed. If I must use `container-1`, I can treat the worker as a container or the service as a container. However, usually `container` implies infrastructure. Let's assume `container-1` represents the worker service or the infrastructure hosting the worker. To keep it minimal and logical based on the description \"consumed by a worker service\", I will treat the worker as a distinct entity if possible, but I only have 6 canonical IDs.\n        *   Actually, looking at the canonical IDs: `ui-1`, `service-1`, `database-1`, `cache-1`, `queue-1`, `container-1`.\n        *   I need to map the description to these.\n        *   UI: `ui-1` (React).\n        *   Service: `service-1` (FastAPI).\n        *   DB: `database-1` (PostgreSQL).\n        *   Cache: `cache-1` (Redis).\n        *   Queue: `queue-1` (RabbitMQ).\n        *   Worker: The description says \"consumed by a worker service\". If I use `container-1` for the worker, it fits the \"container\" type.\n        *   Wait, the rule says \"Use only meaningful components\". If the description implies a worker service, I should represent it. If I use `container-1` for the worker, it fits the type `container`.\n        *   Let's check the types: `ui`, `service`, `database`, `cache`, `queue`, `container`.\n        *   So:\n            *   `ui-1`: React (Type: ui)\n            *   `service-1`: FastAPI (Type: service)\n            *   `database-1`: PostgreSQL (Type: database)\n            *   `cache-1`: Redis (Type: cache)\n            *   `queue-1`: RabbitMQ (Type: queue)\n            *   `container-1`: Worker Service (Type: container) - *Wait, is \"container\" the right type for a service?* The prompt says \"NODE TYPES: ui, service, database, cache, queue, container.\" So `container-1` must be type `container`. A worker service is often a separate service. However, in some architectures, the worker is a containerized process. I will map the worker to `container-1` to utilize the canonical ID provided, assuming the worker is treated as a containerized background process.\n        *   Wait, looking closely at the description: \"consumed by a worker service\". It doesn't explicitly name the technology for the worker. So technology for `container-1` should be `null`.\n        *   Edges:\n            1.  `ui-1` -> `service-1` (HTTPS)\n            2.  `service-1` -> `database-1` (SQL)\n            3.  `service-1` -> `cache-1` (Redis Protocol)\n            4.  `service-1` -> `queue-1` (message)\n            5.  `queue-1` -> `container-1` (message)\n        *   This covers all components mentioned.\n        *   Technologies:\n            *   `ui-1`: \"React\"\n            *   `service-1`: \"FastAPI\"\n            *   `database-1`: \"PostgreSQL\"\n            *   `cache-1`: \"Redis\"\n            *   `queue-1`: \"RabbitMQ\"\n            *   `container-1`: null (Worker service technology not explicitly named, just \"worker service\").\n        *   Wait, is \"FastAPI\" a technology? Yes. Is \"React\" a technology? Yes.\n        *   Is \"PostgreSQL\" a technology? Yes.\n        *   Is \"Redis\" a technology? Yes.\n        *   Is \"RabbitMQ\" a technology? Yes.\n        *   Is \"container\" a technology? No, it's a node type.\n        *   Wait, the",
+      "candidate_raw": null,
+      "selected_json": null
+    },
+    {
+      "probe_id": "P2",
+      "condition": "A",
+      "run": 2,
+      "emitted": false,
+      "valid": false,
+      "node_count": 0,
+      "edge_count": 0,
+      "technologies": [],
+      "missing_expected_tech": [
+        "FastAPI",
+        "PostgreSQL",
+        "RabbitMQ",
+        "React",
+        "Redis"
+      ],
+      "fabricated_tech": [],
+      "tech_correct": false,
+      "protocol_count": 0,
+      "latency_s": 64.837,
+      "tokens_per_sec": 31.59,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3354.0,
+      "issues": [],
+      "selection": {
+        "method": "none",
+        "selection": "no_candidate",
+        "candidate_count": 0,
+        "score": null,
+        "span_offset": null
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Role: Senior Software Architect.\n    *   Task: Convert a system description into a CLEAN architecture graph (JSON format).\n    *   Input Description: \"A multi-tier web application: a React frontend talks to a FastAPI service; the service persists customer data in PostgreSQL, uses Redis for session caching, and publishes background jobs to a RabbitMQ queue consumed by a worker service.\"\n    *   Constraints:\n        *   Strict JSON output only.\n        *   No explanation, no analysis.\n        *   Meaningful components only.\n        *   No duplicate edges.\n        *   No redundant connections.\n        *   Minimal and logical.\n        *   Max nodes: 10.\n        *   Max edges: 15.\n        *   Canonical IDs: ui-1, service-1, database-1, cache-1, queue-1, container-1.\n        *   Node Types: ui, service, database, cache, queue, container.\n        *   Technology Field: Only fill if explicitly named in description. Otherwise null.\n        *   Edge Protocol Field: HTTPS, SQL, Redis Protocol, message, or null.\n\n2.  **Analyze the System Description:**\n    *   Frontend: React (Technology: React).\n    *   Backend Service: FastAPI (Technology: FastAPI).\n    *   Database: PostgreSQL (Technology: PostgreSQL).\n    *   Cache: Redis (Technology: Redis).\n    *   Queue: RabbitMQ (Technology: RabbitMQ).\n    *   Worker Service: Implied by \"consumed by a worker service\". Needs an ID.\n    *   Connections:\n        *   React -> FastAPI (HTTPS).\n        *   FastAPI -> PostgreSQL (SQL).\n        *   FastAPI -> Redis (Redis Protocol).\n        *   FastAPI -> RabbitMQ (message).\n        *   Worker Service -> RabbitMQ (message).\n\n3.  **Map to Canonical IDs:**\n    *   React Frontend -> ui-1 (Type: ui, Technology: React).\n    *   FastAPI Service -> service-1 (Type: service, Technology: FastAPI).\n    *   PostgreSQL -> database-1 (Type: database, Technology: PostgreSQL).\n    *   Redis -> cache-1 (Type: cache, Technology: Redis).\n    *   RabbitMQ -> queue-1 (Type: queue, Technology: RabbitMQ).\n    *   Worker Service -> container-1 (Type: container, Technology: null - description says \"worker service\" but doesn't name the tech, though often it's a separate service. The prompt says \"container-1\" is a canonical ID. I should probably treat the worker as a service or container. Given the constraint \"container-1\" is in the canonical list, I will use it for the worker to represent the infrastructure or the worker service itself. Let's look at the node types: ui, service, database, cache, queue, container. A worker is typically a service. However, the canonical list includes \"container-1\". I will map the worker to container-1 or service-2? The prompt says \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1.\" It implies I should use these IDs if they fit. Since there are two services (API and Worker), I might need to use service-1 for the API and container-1 for the worker, or vice versa. But \"service-1\" is usually the main backend. Let's assume service-1 is the FastAPI backend. The worker is a separate entity. I'll use container-1 for the worker to distinguish it, or create a new service ID if allowed? The prompt says \"CANONICAL IDS: ...\". It doesn't explicitly forbid new IDs, but suggests using these. However, to keep it minimal and logical, I should probably stick to the provided canonical IDs if possible, or create minimal extensions.\n    *   Wait, the prompt says \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1.\" This looks like a whitelist of available IDs. If I need a worker, I can use container-1.\n    *   Let's check the node types: ui, service, database, cache, queue, container.\n    *   FastAPI -> service-1 (Type: service).\n    *   Worker -> container-1 (Type: container).\n    *   React -> ui-1 (Type: ui).\n    *   PostgreSQL -> database-1 (Type: database).\n    *   Redis -> cache-1 (Type: cache).\n    *   RabbitMQ -> queue-1 (Type: queue).\n\n4.  **Define Edges:**\n    *   ui-1 -> service-1 (HTTPS).\n    *   service-1 -> database-1 (SQL).\n    *   service-1 -> cache-1 (Redis Protocol).\n    *   service-1 -> queue-1 (message).\n    *   container-1 -> queue-1 (message).\n\n5.  **Review Constraints:**\n    *   Max nodes: 10. I have 6 nodes. OK.\n    *   Max edges: 15. I have 5 edges. OK.\n    *   Technology Field:\n        *   ui-1: React (Explicit).\n        *   service-1: FastAPI (Explicit).\n        *   database-1: PostgreSQL (Explicit).\n        *   cache-1: Redis (Explicit).\n        *   queue-1: RabbitMQ (Explicit).\n        *   container-1: null (Description says \"worker service\" but doesn't name the tech).\n    *   Protocol Field:\n        *   ui-1 -> service-1: HTTPS.\n        *   service-1 -> database-1: SQL.\n        *   service-1 -> cache-1: Redis Protocol.\n        *   service-1 -> queue-1: message.\n        *   container-1 -> queue-1: message.\n\n6.  **Refine JSON Structure:**\n    *   Ensure valid JSON.\n    *   Ensure no extra text.\n\n7.  **Final Check:**\n    *   Does \"container-1\" make sense for a worker? In some architectures, a worker is a containerized service. Given the canonical list includes \"container-1\", using it for the worker is appropriate to differentiate from the main API service (service-1).\n    *   Are technologies null where appropriate? Yes, container-1 is null.\n    *   Are protocols correct? Yes.\n    *   Is it minimal? Yes.\n\n    Wait, I need to check if I should create a second service ID for the worker. The canonical list has `service-1`. If I have two services, should I use `service-2`? The prompt says \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1.\" It implies these are the standard IDs. If I need another service, I might need to create a new ID like `service-2`. However, to keep it strictly within the spirit of \"minimal and logical\" and the provided list, I will use `container-1` for the worker as it's a distinct entity often deployed as a container. Or I could treat the worker as a service. But `container-1` is in the canonical list. I will use `container-1` for the worker to utilize the provided canonical ID list fully.\n\n    Actually, looking at the description: \"consumed by a worker service\". It doesn't specify the tech. So `container-1` tech is `null`.\n    Let's verify the edge protocols.\n    React -> FastAPI: HTTPS.\n    FastAPI -> PostgreSQL: SQL.\n    FastAPI -> Redis: Redis Protocol.\n    FastAPI -> RabbitMQ: message.\n    Worker -> RabbitMQ: message.\n\n    Wait, is there a constraint on using *only* the canonical IDs? \"CANONICAL IDS: ...\". Usually, this means \"Use these IDs if applicable\". I will use them. I will not invent `service-2` unless necessary, but `container-1` fits the worker role well in this context (often workers are background containers).\n\n    Let's construct the JSON.\n\n    Nodes:\n    1. ui-1 (ui, React)\n    2. service-1 (service, FastAPI)\n    3. database-1 (database, PostgreSQL)\n    4. cache-1 (cache, Redis)\n    5. queue-1 (queue, RabbitMQ)\n    6. container-1 (container, null)\n\n    Edges:\n    1. ui-1 -> service-1 (HTTPS)\n    2. service-1 -> database-1 (SQL)\n    3. service-1 -> cache-1 (Redis Protocol)\n    4. service-1 -> queue-1 (message)\n    5. container-1 -> queue-1 (message)\n\n    Wait, one detail: \"container-1\". Is it better to call the worker a service? The node types list includes \"service\" and \"container\". If the worker is a separate service, it should probably be type \"service\". But I only have one \"service-1\" in the canonical",
+      "candidate_raw": null,
+      "selected_json": null
+    },
+    {
+      "probe_id": "P2",
+      "condition": "A",
+      "run": 3,
+      "emitted": false,
+      "valid": false,
+      "node_count": 0,
+      "edge_count": 0,
+      "technologies": [],
+      "missing_expected_tech": [
+        "FastAPI",
+        "PostgreSQL",
+        "RabbitMQ",
+        "React",
+        "Redis"
+      ],
+      "fabricated_tech": [],
+      "tech_correct": false,
+      "protocol_count": 0,
+      "latency_s": 64.78,
+      "tokens_per_sec": 31.61,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3354.0,
+      "issues": [],
+      "selection": {
+        "method": "none",
+        "selection": "no_candidate",
+        "candidate_count": 0,
+        "score": null,
+        "span_offset": null
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Role: Senior Software Architect.\n    *   Task: Convert a system description into a CLEAN architecture graph (JSON format).\n    *   Input Description: \"A multi-tier web application: a React frontend talks to a FastAPI service; the service persists customer data in PostgreSQL, uses Redis for session caching, and publishes background jobs to a RabbitMQ queue consumed by a worker service.\"\n    *   Constraints:\n        *   Strict JSON output only.\n        *   No explanation/analysis.\n        *   Meaningful components only.\n        *   No duplicate edges.\n        *   No redundant connections.\n        *   Minimal and logical.\n        *   Max nodes: 10.\n        *   Max edges: 15.\n        *   Canonical IDs: ui-1, service-1, database-1, cache-1, queue-1, container-1.\n        *   Node Types: ui, service, database, cache, queue, container.\n        *   Technology Field: Only fill if explicitly named in description. Otherwise null.\n        *   Edge Protocol Field: HTTPS, SQL, Redis Protocol, message, or null.\n\n2.  **Analyze the Description:**\n    *   Frontend: React (Technology: React, Type: ui, ID: ui-1).\n    *   Backend API: FastAPI (Technology: FastAPI, Type: service, ID: service-1).\n    *   Database: PostgreSQL (Technology: PostgreSQL, Type: database, ID: database-1).\n    *   Cache: Redis (Technology: Redis, Type: cache, ID: cache-1).\n    *   Queue: RabbitMQ (Technology: RabbitMQ, Type: queue, ID: queue-1).\n    *   Worker Service: Implied by \"consumed by a worker service\". The description says \"the service... publishes background jobs to a RabbitMQ queue consumed by a worker service\". Usually, in this context, the main service might have a worker or there's a separate worker. Given the canonical IDs provided (`container-1`), I should check if `container-1` is meant to represent the infrastructure or a specific container. However, the description mentions a \"worker service\". To keep it minimal and logical based on the provided canonical IDs, I should map the components to the provided IDs.\n    *   Provided Canonical IDs: `ui-1`, `service-1`, `database-1`, `cache-1`, `queue-1`, `container-1`.\n    *   The description mentions \"React frontend\", \"FastAPI service\", \"PostgreSQL\", \"Redis\", \"RabbitMQ queue\", \"worker service\".\n    *   Mapping:\n        *   React -> `ui-1` (Type: ui, Tech: React)\n        *   FastAPI -> `service-1` (Type: service, Tech: FastAPI)\n        *   PostgreSQL -> `database-1` (Type: database, Tech: PostgreSQL)\n        *   Redis -> `cache-1` (Type: cache, Tech: Redis)\n        *   RabbitMQ -> `queue-1` (Type: queue, Tech: RabbitMQ)\n        *   Worker Service -> This isn't explicitly in the canonical ID list, but `container-1` is. Often in these graph representations, `container-1` might represent the backend infrastructure or the worker container. However, the prompt says \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1\". It implies I should use these IDs.\n        *   Wait, the description says \"consumed by a worker service\". Is the worker service the same as the main service? Or separate? Usually, in a multi-tier app, the API service handles requests, and a worker handles background jobs. If I must use the canonical IDs, I need to decide where `container-1` fits.\n        *   Looking at the canonical IDs, `container-1` is the only one left. It could represent the infrastructure container or the worker service container. Given the instruction \"Keep architecture minimal and logical\", I should probably treat the worker as part of the service or map it to `container-1` if it represents the backend infrastructure. However, strictly following the description, there is a \"worker service\". If I map the worker to `service-1` (since it's often the same backend), that might be redundant. If I map it to `container-1`, it might represent the deployment unit.\n        *   Let's look at the edges.\n        *   React -> FastAPI (HTTPS)\n        *   FastAPI -> PostgreSQL (SQL)\n        *   FastAPI -> Redis (Redis Protocol)\n        *   FastAPI -> RabbitMQ (message)\n        *   RabbitMQ -> Worker (message)\n        *   If I use `container-1` as the worker/service container, I need to decide if it's distinct.\n        *   Actually, usually in these tasks, `container-1` is often used for the backend infrastructure or the worker if distinct. Let's assume `container-1` represents the worker service or the backend container.\n        *   Wait, the prompt says \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1\". This suggests I should use these specific IDs.\n        *   Let's map:\n            *   `ui-1`: React Frontend.\n            *   `service-1`: FastAPI Service.\n            *   `database-1`: PostgreSQL.\n            *   `cache-1`: Redis.\n            *   `queue-1`: RabbitMQ.\n            *   `container-1`: This is tricky. Is it the worker? Or is the worker just part of `service-1`? The description says \"consumed by a worker service\". If I create a node for the worker, I should probably use `container-1` as a placeholder for the worker infrastructure or the backend container. Given the constraint \"Max nodes: 10\", I can have all 6.\n            *   However, to keep it minimal, often the worker is considered part of the service layer. But since `container-1` is provided as a canonical ID, I should probably use it to represent the worker or the backend container. Let's assume `container-1` represents the worker service infrastructure (since `service-1` is the API).\n            *   Actually, looking at the description: \"the service... publishes background jobs to a RabbitMQ queue consumed by a worker service.\"\n            *   If I map `service-1` to FastAPI and `container-1` to the Worker, that makes sense.\n            *   Let's check the Technology field.\n                *   React -> React\n                *   FastAPI -> FastAPI\n                *   PostgreSQL -> PostgreSQL\n                *   Redis -> Redis\n                *   RabbitMQ -> RabbitMQ\n                *   Worker -> Not explicitly named, but RabbitMQ is the queue. The worker consumes from it. The description doesn't name the worker's tech (e.g., Python, Go). So `container-1` tech should be `null`.\n            *   Edges:\n                *   `ui-1` -> `service-1` (HTTPS)\n                *   `service-1` -> `database-1` (SQL)\n                *   `service-1` -> `cache-1` (Redis Protocol)\n                *   `service-1` -> `queue-1` (message)\n                *   `queue-1` -> `container-1` (message)\n            *   This covers all components mentioned.\n            *   Check constraints:\n                *   Max nodes: 10 (I have 6).\n                *   Max edges: 15 (I have 5).\n                *   No duplicate edges.\n                *   Technology field: Only fill if explicitly named.\n                    *   React (Yes)\n                    *   FastAPI (Yes)\n                    *   PostgreSQL (Yes)\n                    *   Redis (Yes)\n                    *   RabbitMQ (Yes)\n                    *   Worker (No explicit tech named, so null).\n                *   Protocol field:\n                    *   UI -> Service: HTTPS\n                    *   Service -> DB: SQL\n                    *   Service -> Cache: Redis Protocol\n                    *   Service -> Queue: message\n                    *   Queue -> Worker: message\n\n3.  **Refining the Architecture:**\n    *   Does `container-1` make sense as the worker? The description says \"consumed by a worker service\". In many architectures, the worker is a separate service. Using `container-1` as the ID for the worker service (or the container hosting it) is acceptable given the canonical ID list.\n    *   Wait, is `container-1` meant to be the backend container for `service-1`? If `service-1` is FastAPI, it runs in a container. But the description distinguishes between the API service and the worker service. I will treat `container-1` as the worker service node to utilize the canonical ID provided.\n    *   Wait, looking at the canonical IDs again: `ui-1, service-1, database-1, cache-1, queue-1, container-1`.\n    *   If I use `container-1` for the worker, I need to ensure it's",
+      "candidate_raw": null,
+      "selected_json": null
+    },
+    {
+      "probe_id": "P3",
+      "condition": "A",
+      "run": 1,
+      "emitted": false,
+      "valid": false,
+      "node_count": 0,
+      "edge_count": 0,
+      "technologies": [],
+      "missing_expected_tech": [
+        "AWS",
+        "PostgreSQL",
+        "RDS",
+        "S3",
+        "SQS"
+      ],
+      "fabricated_tech": [],
+      "tech_correct": false,
+      "protocol_count": 0,
+      "latency_s": 64.421,
+      "tokens_per_sec": 31.79,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3348.2,
+      "issues": [],
+      "selection": {
+        "method": "none",
+        "selection": "no_candidate",
+        "candidate_count": 0,
+        "score": null,
+        "span_offset": null
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Role: Senior Software Architect.\n    *   Task: Convert a system description into a CLEAN architecture graph (JSON format).\n    *   Input Description: \"An AWS-based image upload pipeline: clients upload images to an S3 bucket, an SQS queue delivers upload events to a processing service, and a PostgreSQL (RDS) database stores image metadata.\"\n    *   Constraints:\n        *   JSON only (no explanation).\n        *   Meaningful components only.\n        *   No duplicate edges.\n        *   No redundant connections.\n        *   Minimal and logical.\n        *   Max nodes: 10.\n        *   Max edges: 15.\n        *   Canonical IDs: ui-1, service-1, database-1, cache-1, queue-1, container-1.\n        *   Node Types: ui, service, database, cache, queue, container.\n        *   Technology Field: Only fill if explicitly named in description. Otherwise null.\n        *   Edge Protocol Field: HTTPS, SQL, Redis Protocol, message, or null.\n        *   Output format: Specific JSON structure.\n\n2.  **Analyze the System Description:**\n    *   Actors/Components:\n        *   Clients (implied \"clients upload images\").\n        *   S3 Bucket (Storage).\n        *   SQS Queue (Messaging).\n        *   Processing Service (Logic).\n        *   PostgreSQL (RDS) Database (Metadata storage).\n    *   Flows:\n        *   Clients -> S3 (Upload).\n        *   S3 -> SQS (Event delivery? Usually S3 triggers SQS via EventBridge or direct API, but description says \"clients upload images to an S3 bucket, an SQS queue delivers upload events\"). Let's interpret this as Client -> S3, then S3 triggers SQS or Client -> S3 -> SQS. Standard AWS pattern: Client uploads to S3, S3 triggers Lambda/Service via SQS, or Client uploads to S3, SQS is used for async processing. The description says \"SQS queue delivers upload events to a processing service\".\n        *   SQS -> Processing Service.\n        *   Processing Service -> PostgreSQL (Store metadata).\n    *   Architecture Style: CLEAN (Client, Controller, Interface, Service, Database, etc.). However, the prompt asks for a \"CLEAN architecture graph\" but provides specific node types (ui, service, database, cache, queue, container). This looks more like a layered architecture or domain-driven design representation mapped to the provided types.\n    *   Mapping to Canonical IDs:\n        *   Clients -> ui-1 (Client/Client-side).\n        *   Processing Service -> service-1.\n        *   PostgreSQL -> database-1.\n        *   SQS -> queue-1.\n        *   S3 -> Not explicitly in canonical IDs list, but often treated as storage. However, the canonical IDs are limited: ui-1, service-1, database-1, cache-1, queue-1, container-1. I should stick to these if possible, or map S3 to something else. S3 is storage, but \"database-1\" is PostgreSQL. S3 is not a database. I will map the \"S3 bucket\" to a storage component, but since I must use meaningful components and the canonical IDs are limited, I might need to represent the infrastructure components.\n        *   Wait, the rules say: \"Use only meaningful components\". The canonical IDs list is \"ui-1, service-1, database-1, cache-1, queue-1, container-1\". These are examples or constraints? \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1.\" usually implies I should use these IDs if applicable, but I can create others if needed? \"Use only meaningful components\".\n        *   Let's look at the description again: \"clients upload images to an S3 bucket\".\n        *   If I strictly follow the canonical IDs, I might have to map S3 to something or omit it if it doesn't fit. But S3 is a key part of the description.\n        *   However, the prompt says \"Convert the following system description into a CLEAN architecture graph.\" and lists \"CANONICAL IDS\". Usually, this means I should use these IDs where appropriate, but I can create new IDs if the system requires them (e.g., if I have multiple services).\n        *   Given the constraint \"Max nodes: 10\", I can add more nodes.\n        *   Let's map:\n            *   Client -> ui-1 (Technology: null, as not specified).\n            *   Processing Service -> service-1 (Technology: null, as not specified).\n            *   Database -> database-1 (Technology: PostgreSQL).\n            *   Queue -> queue-1 (Technology: null, as not specified).\n            *   S3 -> This is not in the canonical list. I should probably include it as a storage node or omit it if I strictly follow the canonical list. But the description explicitly mentions S3. I will create a node for S3 if needed, or treat it as part of the service/infrastructure. However, to keep it minimal and logical, I will focus on the core application components.\n            *   Actually, looking at the \"CANONICAL IDS\" list, it seems to be a suggestion of available types/IDs. I should probably use them where they fit. S3 is not a database, cache, queue, container, or UI. It's storage. I will map the S3 bucket to a storage node, but since I don't have a \"storage\" type in the list, I might have to use \"service-1\" to handle the logic, or just include S3 as a node with type \"storage\" (if allowed) or map it to \"container-1\" (unlikely).\n            *   Better approach: The prompt says \"CANONICAL IDS: ...\". This often implies these are the *only* IDs I should use if they match the system. But S3 is a distinct AWS service.\n            *   Let's look at the \"NODE TYPES: ui, service, database, cache, queue, container.\"\n            *   S3 is not UI, Service, Database, Cache, Queue, Container.\n            *   However, in many architecture graphs, S3 is treated as a storage layer. If I must strictly use the provided types, I might have to omit S3 or map it to \"service\" (unlikely) or \"container\" (unlikely).\n            *   Wait, the instruction says \"Use only meaningful components\". S3 is meaningful.\n            *   I will create a node for S3 but I need a type. The types are fixed: ui, service, database, cache, queue, container. S3 is closest to \"service\" (backend) or \"database\" (storage). But S3 is Object Storage.\n            *   Let's re-read: \"CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1.\" This looks like a whitelist of IDs. If I create \"s3-1\", is it allowed? \"Use only meaningful components\".\n            *   To be safe and adhere to the \"CANONICAL IDS\" constraint (which often implies standardization), I should try to use these IDs. But S3 is not one of them.\n            *   However, the description says \"clients upload images to an S3 bucket\".\n            *   If I don't include S3, I miss a key part of the description.\n            *   If I include S3, I need a type. Maybe \"service\" (as a backend service) or \"database\" (as storage).\n            *   Let's check the Technology constraint: \"Fill it with a specific technology ONLY when the description explicitly names it\".\n            *   Description: \"PostgreSQL (RDS)\". So database-1 technology is PostgreSQL.\n            *   Description: \"AWS-based\".\n            *   Description: \"S3 bucket\".\n            *   Description: \"SQS queue\".\n            *   Description: \"processing service\".\n            *   Description: \"clients\".\n            *   I will map:\n                *   ui-1: Client.\n                *   service-1: Processing Service.\n                *   database-1: PostgreSQL.\n                *   queue-1: SQS.\n                *   I will omit S3 node to keep it minimal and within the canonical types if possible, OR I will add S3 as a storage node if the system allows it. The prompt says \"NODE TYPES: ui, service, database, cache, queue, container.\" S3 is not in this list. I will prioritize the core application flow (Client -> Service -> DB). S3 is infrastructure. I will include S3 as a node because it's explicitly mentioned in the description (\"upload images to an S3 bucket\"). I will assign it a type that fits best or use a generic type. But the types are fixed.\n                *   Actually, usually in these tasks, if the canonical IDs are provided, they are the *only* IDs I can use. But S3 is not one of them.\n                *   Wait, \"CANONICAL IDS\" might just be examples of IDs available. \"Use only meaningful components\".\n                *   Let's try to stick to",
+      "candidate_raw": null,
+      "selected_json": null
+    }
+  ],
+  "summary_by_condition": {
+    "A": {
+      "runs": 7,
+      "emission_rate": "3/7",
+      "validity_rate": "3/7",
+      "tech_correct_rate": "3/7",
+      "fabricated_run_rate": "0/7",
+      "avg_nodes": 3.0,
+      "avg_edges": 2.0,
+      "avg_latency_s": 64.8,
+      "avg_tokens_per_sec": 31.61,
+      "avg_output_tokens": 2048.0,
+      "peak_vram_mb": 3354.0,
+      "fabricated_tech_all": [],
+      "missing_tech_all": [
+        "AWS",
+        "FastAPI",
+        "PostgreSQL",
+        "RDS",
+        "RabbitMQ",
+        "React",
+        "Redis",
+        "S3",
+        "SQS"
+      ]
+    }
+  }
+}
