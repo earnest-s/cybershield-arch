@@ -4,13 +4,20 @@
  * Places detected technologies onto v2 generated nodes. Rules:
  *
  * R1 model-metadata   node.metadata.technology resolves in the registry (dormant today).
- * R2 unique-cardinality  1:1 categories (databases→database, cache→cache,
- *                      messaging→queue, frontend→ui): exactly one detected tech of
- *                      the category AND exactly one compatible node → bind.
- *                      Counts only — never node order.
- * R3 candidate surfacing  every other case → candidates on compatible nodes.
+ * R2 unique-cardinality  iterates to a fixpoint over the 1:1 node types
+ *                      (database, cache, queue, ui): when exactly one unbound
+ *                      detected tech can target a node type AND exactly one
+ *                      unbound node of that type exists → bind. Counts only —
+ *                      never node order.
+ * R3 candidate surfacing  every other node → candidates on compatible nodes.
  * R4 manual-pick      user assignment wins; displaced auto-bind is marked overridden.
  * R5 reset            handled by facade callers (drop manualAssignments).
+ *
+ * Compatibility:
+ *   - Primary signal is the registry category (frontend→ui, databases→database,
+ *     cache→cache, messaging→queue, backend→service, ...).
+ *   - c4Classification refines data-ish roles: category "databases" +
+ *     c4 "cache" (Redis) also targets cache nodes; c4 "queue" also targets queues.
  *
  * Hard invariants:
  *   - Never binds by emission order.
@@ -62,13 +69,23 @@ const NODE_TYPES_BY_CATEGORY: Record<TechnologyCategory, string[]> = {
   generic: [],
 };
 
-/** Categories eligible for R2 unique-cardinality auto-binding. */
-const AUTO_BIND_CATEGORIES = new Set<TechnologyCategory>([
-  "databases",
-  "cache",
-  "messaging",
-  "frontend",
-]);
+/** Node types eligible for R2 unique-cardinality auto-binding (1:1 roles). */
+const AUTO_BIND_NODE_TYPES = ["database", "cache", "queue", "ui"] as const;
+
+/** A tech may auto-bind only when it is not hedged. */
+function isAutoBindable(d: DetectedTechnology): boolean {
+  return !d.hedged && d.confidence !== "possible";
+}
+
+/** Compatible node types for a detected technology. */
+function compatibleTypes(d: DetectedTechnology): string[] {
+  const types = new Set(NODE_TYPES_BY_CATEGORY[d.category] ?? []);
+  // c4 refinement: a data-ish tech advertised as a cache (e.g. Redis has
+  // category "databases" + c4 "cache") may also target cache nodes.
+  if (d.c4Classification === "cache") types.add("cache");
+  if (d.c4Classification === "queue") types.add("queue");
+  return Array.from(types);
+}
 
 function resolveTech(reg: TechnologyRegistry, idOrLabel: string): TechnologyMetadata | undefined {
   return reg.get(idOrLabel) || reg.getByLabel(idOrLabel) || reg.getByAlias(idOrLabel);
@@ -107,35 +124,22 @@ export function bindTechnologies(
 ): BindingResult {
   const reg = registry ?? getTechnologyRegistry();
 
-  const conflicts: EnrichmentConflict[] = [];
+  // ── R2: unique-cardinality auto-bind (fixpoint over 1:1 node types) ───────
   const tentative = new Map<string, TechnologyAssignment>();
   const boundTechIds = new Set<string>();
 
-  // ── R2: unique-cardinality auto-bind for 1:1 categories ───────────────────
-  for (const category of AUTO_BIND_CATEGORIES) {
-    const candidates = detected.filter(
-      (d) => d.category === category && !d.hedged && d.confidence !== "possible"
-    );
-    if (candidates.length > 1) {
-      // Multiple identified technologies of the same category compete.
-      const compatibleNodes = nodes.some((node) => NODE_TYPES_BY_CATEGORY[category].includes(node.type));
-      if (compatibleNodes) {
-        conflicts.push({
-          span: candidates[0].positions[0],
-          technologyIds: candidates.map((c) => c.technologyId),
-          reason: "coequal-category",
-        });
-      }
-      continue;
-    }
-    if (candidates.length !== 1) continue;
-
-    const tech = candidates[0];
-    const compatible = nodes.filter(
-      (node) => NODE_TYPES_BY_CATEGORY[category].includes(node.type) && !tentative.has(node.id)
-    );
-    if (compatible.length === 1) {
-      const node = compatible[0];
+  let progress = true;
+  while (progress) {
+    progress = false;
+    for (const type of AUTO_BIND_NODE_TYPES) {
+      const openNodes = nodes.filter((node) => node.type === type && !tentative.has(node.id));
+      if (openNodes.length !== 1) continue;
+      const pool = detected.filter(
+        (d) => !boundTechIds.has(d.technologyId) && isAutoBindable(d) && compatibleTypes(d).includes(type)
+      );
+      if (pool.length !== 1) continue;
+      const tech = pool[0];
+      const node = openNodes[0];
       tentative.set(node.id, {
         nodeId: node.id,
         technologyId: tech.technologyId,
@@ -147,6 +151,7 @@ export function bindTechnologies(
         evidenceText: tech.mentions[0] ?? tech.technologyName,
       });
       boundTechIds.add(tech.technologyId);
+      progress = true;
     }
   }
 
@@ -193,15 +198,31 @@ export function bindTechnologies(
     if (auto) final.set(node.id, auto);
   }
 
+  // ── Coequal-category conflicts on final state ──────────────────────────────
+  const conflicts: EnrichmentConflict[] = [];
+  const finalBoundTechIds = new Set([...final.values()].map((a) => a.technologyId));
+  for (const type of AUTO_BIND_NODE_TYPES) {
+    const openNodes = nodes.filter((node) => node.type === type && !final.has(node.id));
+    if (openNodes.length === 0) continue;
+    const pool = detected.filter(
+      (d) => !finalBoundTechIds.has(d.technologyId) && isAutoBindable(d) && compatibleTypes(d).includes(type)
+    );
+    if (pool.length > 1) {
+      conflicts.push({
+        span: pool[0].positions[0],
+        technologyIds: pool.map((d) => d.technologyId),
+        reason: "coequal-category",
+      });
+    }
+  }
+
   // ── R3: candidates for nodes without assignments ──────────────────────────
   const candidatesByNode = new Map<string, TechnologyCandidate[]>();
-  const candidatePool = detected.filter((d) => !boundTechIds.has(d.technologyId));
+  const candidatePool = detected.filter((d) => !finalBoundTechIds.has(d.technologyId));
 
   for (const node of nodes) {
     if (final.has(node.id)) continue;
-    const compatible = candidatePool.filter((d) =>
-      NODE_TYPES_BY_CATEGORY[d.category].includes(node.type)
-    );
+    const compatible = candidatePool.filter((d) => compatibleTypes(d).includes(node.type));
     const distinctIds = Array.from(new Set(compatible.map((c) => c.technologyId)));
     const confidence: AssignmentConfidence = distinctIds.length > 1 ? "ambiguous" : "possible";
     candidatesByNode.set(
@@ -230,7 +251,7 @@ export function bindTechnologies(
   });
 
   const unplaced = detected
-    .filter((d) => !boundTechIds.has(d.technologyId))
+    .filter((d) => !finalBoundTechIds.has(d.technologyId))
     .sort((a, b) => (a.positions[0]?.start ?? 0) - (b.positions[0]?.start ?? 0));
 
   return { enrichedNodes, unplaced, conflicts, overriddenNodeIds };
