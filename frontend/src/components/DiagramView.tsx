@@ -1733,10 +1733,10 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
   );
 }
 
-export default function DiagramView({ architecture, command, theme, onToggleTheme, security }: DiagramViewProps) {
+export default function DiagramView({ architecture, command, theme, onToggleTheme, security, enrichment, onAssignTechnology }: DiagramViewProps) {
   return (
     <ReactFlowProvider>
-      <DiagramViewInner architecture={architecture} command={command} theme={theme} onToggleTheme={onToggleTheme} security={security} />
+      <DiagramViewInner architecture={architecture} command={command} theme={theme} onToggleTheme={onToggleTheme} security={security} enrichment={enrichment} onAssignTechnology={onAssignTechnology} />
     </ReactFlowProvider>
   );
 }
