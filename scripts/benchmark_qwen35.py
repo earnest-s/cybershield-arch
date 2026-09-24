@@ -191,6 +191,19 @@ TESTS: list[dict] = [
 ]
 
 RUNS_PER_PROMPT = 3
+RUNS_JSONL = OUT_DIR / "qwen35_zero_shot_runs.jsonl"
+
+
+def load_run_state() -> set[tuple[str, int]]:
+    done: set[tuple[str, int]] = set()
+    if RUNS_JSONL.exists():
+        for line in RUNS_JSONL.read_text(encoding="utf-8").splitlines():
+            try:
+                rec = json.loads(line)
+                done.add((rec["test_id"], rec["run"]))
+            except json.JSONDecodeError:
+                continue
+    return done
 
 
 def load_model():
