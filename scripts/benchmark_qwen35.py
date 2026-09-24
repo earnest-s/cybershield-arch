@@ -360,6 +360,22 @@ def audit_tech(technologies: list, expected: set[str]) -> dict:
 
 
 def main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--only",
+        nargs="*",
+        default=None,
+        help="subset of test_ids (e.g. --only 'TEST 1' 'TEST 2')",
+    )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="skip runs already recorded in the runs JSONL",
+    )
+    args = parser.parse_args()
+
     results: list[dict] = []
     model, tokenizer = load_model()
     device = next(model.parameters()).device
@@ -367,11 +383,17 @@ def main() -> None:
 
     start_load = time.time()
 
+    done_runs = load_run_state() if args.resume else set()
+
     for test in TESTS:
+        if args.only and test["test_id"] not in args.only:
+            continue
         print("\n" + "=" * 70)
-        print(f"{test['test_id']}: {test['prompt'][:80]}...")
+        print(f"{test['test_id']}: {test['prompt'][:80]}...", flush=True)
         run_records = []
         for run in range(1, RUNS_PER_PROMPT + 1):
+            if (test["test_id"], run) in done_runs:
+                continue
             torch.manual_seed(1000 * run + len(results))
             chat = [
                 {"role": "system", "content": SYSTEM_PROMPT},
