@@ -589,6 +589,7 @@ function TechnologyIcon({
   icon,
   nodeId,
   metadata,
+  technologyId,
 }: {
   label: string;
   kind: NodeType;
@@ -596,16 +597,17 @@ function TechnologyIcon({
   icon?: string;
   nodeId?: string;
   metadata?: NodeMetadata;
+  technologyId?: string;
 }) {
   // 1. Explicit icon from metadata/icon prop (legacy brand icons)
   if (icon && icon !== "auto" && ICON_MAP[icon.toLowerCase()]) {
     return <BrandIcon name={icon} label={label} />;
   }
 
-  // 2. Technology-aware icon via the new registry
-  const { technology } = resolveNodeTechnology(nodeId || "", type || kind, metadata?.technology, metadata?.label);
+  // 2. Technology-aware icon via the new registry (assignment wins over metadata)
+  const { technology } = resolveNodeTechnology(nodeId || "", type || kind, technologyId ?? metadata?.technology, undefined);
   return (
-    <TechIcon technology={technology} technologyId={metadata?.technology} size={16} showFallback={false} />
+    <TechIcon technology={technology} technologyId={technologyId ?? metadata?.technology} size={16} showFallback={false} />
   );
 }
 
