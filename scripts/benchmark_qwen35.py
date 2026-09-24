@@ -20,9 +20,7 @@ import torch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-os.environ.setdefault(
-    "HF_HOME", str(ROOT / ".cache" / "huggingface")
-)
+os.environ["HF_HOME"] = str(ROOT / ".cache" / "huggingface")
 os.environ.setdefault("HF_HUB_ENABLE_HF_TRANSFER", "0")
 
 from backend.core.architecture_schema import (  # noqa: E402
@@ -32,9 +30,8 @@ from backend.core.architecture_schema import (  # noqa: E402
 )
 
 MODEL_ID = "Qwen/Qwen3.5-4B"
-CACHE_DIR = str(ROOT / ".cache" / "huggingface")
 OUT_DIR = ROOT / "dataset" / "docs"
-MAX_NEW_TOKENS = 512
+MAX_NEW_TOKENS = 2048
 TEMPERATURE = 0.3
 TOP_P = 0.9
 
@@ -55,30 +52,30 @@ RULES:
 - Keep architecture minimal and logical
 
 JSON FORMAT:
-{
+{{
     "nodes": [
-        {"id": "ui-1", "type": "ui", "technology": "React"},
-        {"id": "service-1", "type": "service", "technology": null}
+        {{"id": "ui-1", "type": "ui", "technology": "React"}},
+        {{"id": "service-1", "type": "service", "technology": null}}
     ],
     "edges": [
-        {"source": "ui-1", "target": "service-1", "protocol": "HTTPS"}
+        {{"source": "ui-1", "target": "service-1", "protocol": "HTTPS"}}
     ]
-}
+}}
 
 CANONICAL IDS: ui-1, service-1, database-1, cache-1, queue-1, container-1.
 
 NODE TYPES: ui, service, database, cache, queue, container.
 
 TECHNOLOGY FIELD:
-- Fill it with a specific technology ONLY when the description explicitly names it
-  (for example React, FastAPI, PostgreSQL, Redis, React Native, Express, MongoDB,
-  Vue.js, Django, MySQL, Next.js, Node.js, S3, SQS, RabbitMQ, Prometheus, OAuth,
-  Elasticsearch).
+- Fill it with a specific technology ONLY when the description explicitly names
+  it (for example React, FastAPI, PostgreSQL, Redis, React Native, Express,
+  MongoDB, Vue.js, Django, MySQL, Next.js, Node.js, S3, SQS, RabbitMQ,
+  Prometheus, OAuth, Elasticsearch).
 - Otherwise set it to null. Never invent a technology that is not stated.
 
 EDGE PROTOCOL FIELD:
-- HTTPS for HTTP/API traffic, SQL for database queries, Redis Protocol for cache
-  access, message for queue/broker traffic.
+- HTTPS for HTTP/API traffic, SQL for database queries, Redis Protocol for
+  cache access, message for queue/broker traffic.
 - Set it to null when the description does not indicate the protocol.
 
 CONSTRAINTS:
@@ -201,7 +198,7 @@ def load_model():
 
     print("Loading tokenizer...")
     tokenizer = AutoTokenizer.from_pretrained(
-        MODEL_ID, local_files_only=True, cache_dir=CACHE_DIR
+        MODEL_ID, local_files_only=True
     )
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
@@ -217,7 +214,6 @@ def load_model():
         device_map="auto",
         quantization_config=bnb_cfg,
         local_files_only=True,
-        cache_dir=CACHE_DIR,
     )
     model.eval()
     print("Model device:", next(model.parameters()).device)
@@ -230,44 +226,48 @@ def build_prompt(description: str) -> str:
 
 def strip_thinking(text: str) -> str:
     text = re.sub(r"<\|?thinking.*?</\|?response>", "", text, flags=re.S)
-    text = re.sub(r"\s*think\s*\n", "\n", text)
-    lowered = text.lower()
-    if " response\n" in lowered:
-        text = re.split(r"\bresponse\b", text, maxsplit=1)
-        text = text[-1] if isinstance(text, list) and len(text) > 1 else \
-            (re.split(r"response", text)[-1] if False else text)
+    if re.search(r"\bresponse\b", text, flags=re.I):
+        parts = re.split(r"\bresponse\b", text, flags=re.I)
+        text = parts[-1]
     return text
 
 
 def extract_json(text: str) -> tuple[dict | None, str, str]:
-    candidates = []
     blocks = re.findall(r"```(?:json)?\s*(.*?)```", text, flags=re.S)
-    candidates.extend(blocks)
-    if not candidates:
-        m = json_regex_search(text)
-        if m:
-            candidates.append(m.group(1))
-    if not candidates:
-        brace_depth = 0
-        for i, ch in enumerate(text):
-            if ch == "{":
-                brace_depth += 1
-                if brace_depth == 1:
-                    start = i
-            elif ch == "}":
-                brace_depth -= 1
-                if brace_depth == 0:
-                    return try_parse(text[start : i + 1]), text, "braces"
-        return None, text, "none"
-    for candidate in candidates:
-        parsed = try_parse(candidate)
+    if blocks:
+        for candidate in blocks:
+            parsed = try_parse(candidate)
+            if parsed is not None:
+                return parsed, candidate, "fenced"
+    parsed = _last_balanced_json(text)
+    if parsed is not None:
+        return parsed, "", "balanced"
+    m = re.search(r"\{.*\}", text, flags=re.S)
+    if m:
+        parsed = try_parse(m.group(0))
         if parsed is not None:
-            return parsed, candidate, "fenced" if len(candidates) == 1 else "fenced_multi"
-    return None, text, "unparsable"
+            return parsed, m.group(0), "regex"
+    return None, text, "none"
 
 
-def json_regex_search(text: str):
-    return re.search(r"\{.*\}", text, flags=re.S)
+def _last_balanced_json(text: str) -> dict | None:
+    best = None
+    for start, ch in enumerate(text):
+        if ch != "{":
+            continue
+        depth = 0
+        for i in range(start, len(text)):
+            c = text[i]
+            if c == "{":
+                depth += 1
+            elif c == "}":
+                depth -= 1
+                if depth == 0:
+                    parsed = try_parse(text[start : i + 1])
+                    if parsed is not None:
+                        best = parsed
+                    break
+    return best
 
 
 def try_parse(s: str) -> dict | None:
