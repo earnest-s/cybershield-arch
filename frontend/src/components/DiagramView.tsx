@@ -695,6 +695,7 @@ function NodeShell({ id, data, selected }: NodeProps<NodeData>) {
         icon={data.icon}
         nodeId={id}
         metadata={data.metadata}
+        technologyId={data.technologyId}
       />
       {data.editing ? (
         <input
@@ -732,6 +733,9 @@ function NodeShell({ id, data, selected }: NodeProps<NodeData>) {
                 {data.metadata.provider}
               </span>
             )}
+            {selected && !data.technologyId ? (
+              <span className="tech-not-specified" title="Technology not specified — assign one in Properties">not specified</span>
+            ) : null}
           </div>
           {data.threats && data.threats.length > 0 ? (
             <span
