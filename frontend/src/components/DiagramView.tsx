@@ -101,6 +101,7 @@ type NodeData = {
   onCommitLabel?: (nodeId: string, label: string) => void;
   onCancelEdit?: () => void;
   metadata?: NodeMetadata;
+  technologyId?: string;
 };
 
 type EdgeData = {
@@ -408,8 +409,12 @@ function dedupeEdges(edges: Edge<EdgeData>[]): Edge<EdgeData>[] {
   return out;
 }
 
-function buildNodesFromArchitecture(architecture: Architecture): Node<NodeData>[] {
+function buildNodesFromArchitecture(
+  architecture: Architecture,
+  enrichment?: SemanticEnrichmentResult | null
+): Node<NodeData>[] {
   const grouped: Record<LayerType, Node<NodeData>[]> = { ui: [], service: [], data: [] };
+  const enrichedByNode = new Map((enrichment?.enrichedNodes ?? []).map((enr) => [enr.nodeId, enr]));
 
   architecture.nodes.forEach((node) => {
     if (typeof node.id !== "string" || !node.id) return;
@@ -419,17 +424,19 @@ function buildNodesFromArchitecture(architecture: Architecture): Node<NodeData>[
       : toLayer(kind);
     const icon = typeof node.icon === "string" && node.icon ? node.icon : undefined;
     const metadata = node.metadata;
+    const enriched = enrichedByNode.get(node.id);
 
     grouped[layer].push({
       id: node.id,
       type: toFlowNodeType(kind),
       data: {
-        label: formatDisplayLabel(node.id, node.type, metadata),
+        label: enriched?.label ?? formatDisplayLabel(node.id, node.type, metadata),
         kind,
         type: kind,
         icon,
         style: {},
         metadata,
+        technologyId: enriched?.assignment?.technologyId,
       },
       position: { x: 0, y: layerY[layer] },
       draggable: true,
@@ -498,8 +505,12 @@ async function applyDagreLayout(nodes: Node<NodeData>[], edges: Edge<EdgeData>[]
   });
 }
 
-function buildInitialGraph(architecture: Architecture, routing: EdgeRouting = "smoothstep"): GraphState {
-  const nodes = buildNodesFromArchitecture(architecture);
+function buildInitialGraph(
+  architecture: Architecture,
+  routing: EdgeRouting = "smoothstep",
+  enrichment?: SemanticEnrichmentResult | null
+): GraphState {
+  const nodes = buildNodesFromArchitecture(architecture, enrichment);
   const edges = buildEdgesFromArchitecture(nodes, architecture, routing);
 
   // Add boundary nodes
