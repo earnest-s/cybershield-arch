@@ -7,7 +7,7 @@
  */
 
 import type { ArchitectureNode, NodeMetadata } from "../types";
-import type { TechnologyCategory, TechnologyMetadata } from "../technology/types";
+import type { C4Classification, TechnologyCategory, TechnologyMetadata } from "../technology/types";
 
 /** Provenance of a technology mention or assignment. One enum, two contexts. */
 export type AssignmentSource =
@@ -44,6 +44,7 @@ export interface DetectedTechnology {
   mentions: string[];              // raw snippets as written ("postgres", "PostgreSQL")
   positions: TextPosition[];       // char ranges, used for <mark> hover + diagnostics
   category: TechnologyCategory;    // from registry
+  c4Classification: C4Classification; // from registry (refines cache/queue node compat)
   provider?: TechnologyMetadata["provider"];
   protocols: string[];
 }

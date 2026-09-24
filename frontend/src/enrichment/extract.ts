@@ -260,6 +260,7 @@ export function detectTechnologies(
       mentions: snippets,
       positions,
       category: tech.category as TechnologyCategory,
+      c4Classification: tech.c4Classification,
       provider: tech.provider,
       protocols: tech.protocols,
     });
