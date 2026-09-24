@@ -113,6 +113,7 @@ function App() {
     setEditorCommand({ id: commandIdRef.current, action });
     if (action === "clear") {
       setResponse(null);
+      setManualAssignments({});
       localStorage.removeItem(STORAGE_RESPONSE);
     }
   };
@@ -279,8 +280,9 @@ function App() {
             {status === "error" && <p className="status-text error">{error}</p>}
           </section>
 
-          {response ? (
+          {enrichment ? (
             <>
+              <TechnologiesPanel enrichment={enrichment} />
               <SecurityPanel security={response.security} architecture={response.architecture} />
               <ArchitectureDetails
                 architecture={response.architecture}
@@ -317,6 +319,8 @@ function App() {
             theme={theme}
             onToggleTheme={() => setTheme((current) => (current === "light" ? "dark" : "light"))}
             security={response?.security ?? null}
+            enrichment={enrichment}
+            onAssignTechnology={handleAssignTechnology}
           />
         </section>
       </div>
