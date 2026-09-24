@@ -865,6 +865,7 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
   const futureRef = useRef<GraphState[]>([]);
   const graphRef = useRef<GraphState>(initialGraph);
   const hasInitializedRef = useRef(false);
+  const userLabelOverridesRef = useRef<Record<string, string>>({});
 
   const nodeThreats = useMemo(() => security?.node_threats ?? {}, [security]);
   const edgeThreats = useMemo(() => security?.edge_threats ?? {}, [security]);
