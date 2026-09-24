@@ -60,6 +60,9 @@ import {
 import { TechnologyIcon as TechIcon } from "../technology/TechnologyIcon";
 import { resolveNodeTechnology } from "../technology/TechnologyNodePresentation";
 import { preloadSimpleIcons } from "../technology/iconLookup";
+import { AssignTechnologyControl } from "./AssignTechnologyControl";
+import type { SemanticEnrichmentResult } from "../enrichment/types";
+import type { ManualAssignmentInput } from "../enrichment/bind";
 
 type EditorCommand = {
   id: number;
@@ -72,6 +75,8 @@ type DiagramViewProps = {
   theme: "light" | "dark";
   onToggleTheme: () => void;
   security?: SecurityData | null;
+  enrichment?: SemanticEnrichmentResult | null;
+  onAssignTechnology?: (nodeId: string, assignment: ManualAssignmentInput | null) => void;
 };
 
 type EdgeProtocol = "HTTP" | "DB Query" | "Async" | "Cache";
