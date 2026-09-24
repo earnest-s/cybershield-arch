@@ -413,13 +413,18 @@ def main() -> None:
                 "protocols": validation.get("protocols", []),
                 "issues": validation.get("issues", []),
                 "node_count": len(validation.get("node_ids", [])),
-                "edge_or_none": lines_count(graph) if graph else 0,
+                "edge_count": lines_count(graph) if graph else 0,
                 "raw_output": raw[:800],
             }
             print(f"  run {run}: json_valid={record['json_valid']} "
                   f"tok/s={record['tok_per_sec']} nodes={record['node_count']} "
-                  f"tech={record['technologies']}")
+                  f"tech={record['technologies']}", flush=True)
             run_records.append(record)
+
+            runs_jsonl = Path(OUT_DIR) / "qwen35_zero_shot_runs.jsonl"
+            runs_jsonl.parent.mkdir(parents=True, exist_ok=True)
+            with runs_jsonl.open("a", encoding="utf-8") as handle:
+                handle.write(json.dumps(record, ensure_ascii=False) + "\n")
 
         try:
             json_ok = sum(1 for r in run_records if r["json_valid"])
@@ -458,8 +463,8 @@ def main() -> None:
         "results": results,
     }
     out_json.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    print("\nWrote:", out_json)
-    print("Peak VRAM MB:", payload["peak_vram_mb"])
+    print("\nWrote:", out_json, flush=True)
+    print("Peak VRAM MB:", payload["peak_vram_mb"], flush=True)
 
 
 def lines_count(graph: dict) -> int:
