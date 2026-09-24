@@ -280,7 +280,7 @@ function App() {
             {status === "error" && <p className="status-text error">{error}</p>}
           </section>
 
-          {enrichment ? (
+          {response && enrichment ? (
             <>
               <TechnologiesPanel enrichment={enrichment} />
               <SecurityPanel security={response.security} architecture={response.architecture} />
