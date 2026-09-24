@@ -601,8 +601,8 @@ def main() -> None:
                                 for k, v in CONDITIONS.items()
                             },
                             "prompts": [
-                                {k: v for k, v in p.items() if k != "description"}
-                                | {"description": p["description"]}
+                                {kk: vv if not isinstance(vv, set) else sorted(vv)
+                                 for kk, vv in p.items()}
                                 for p in PROBE_PROMPTS
                             ],
                             "runs": all_records,
