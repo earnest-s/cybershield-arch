@@ -83,7 +83,7 @@ test('detect: "React frontend" → React (label + role folding)', () => {
   const { detected } = detectTechnologies("Build the React frontend with a SPA.");
   const react = detected.find((d) => d.technologyId === "react");
   assert(!!react, "react should be detected");
-  assert(react!.source === "explicit-user", "canonical label is explicit-user");
+  assert(react!.source === "deterministic-match", "role-folded canonical label resolves deterministically");
   assert(react!.mentions.some((m) => m.toLowerCase().includes("frontend")), "frontend folded into mention");
 });
 
