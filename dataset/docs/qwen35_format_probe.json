@@ -880,6 +880,1304 @@
           }
         ]
       }
+    },
+    {
+      "probe_id": "P2",
+      "condition": "C",
+      "run": 2,
+      "emitted": true,
+      "valid": false,
+      "node_count": 6,
+      "edge_count": 5,
+      "technologies": [
+        "FastAPI",
+        "PostgreSQL",
+        "RabbitMQ",
+        "React",
+        "Redis"
+      ],
+      "missing_expected_tech": [],
+      "fabricated_tech": [],
+      "tech_correct": true,
+      "protocol_count": 5,
+      "latency_s": 66.425,
+      "tokens_per_sec": 30.83,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3315.9,
+      "issues": [
+        "non-canonical id 'db-1'",
+        "non-canonical id 'worker-1'"
+      ],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 6,
+          "edges": 5
+        },
+        "span_offset": {
+          "start": 4742,
+          "end": 5587
+        }
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Input: A text description of a multi-tier web application architecture.\n    *   Output Format: A single JSON object representing an architecture graph.\n    *   Schema Constraints:\n        *   `nodes`: Array of objects with `id`, `type`, `technology`.\n        *   `edges`: Array of objects with `source`, `target`, `protocol`.\n        *   `type` values allowed: `ui`, `service`, `database`, `cache`, `queue`, `container`.\n        *   `technology`: Exact name if mentioned in text, else `null`.\n        *   `protocol`: `HTTPS`, `SQL`, `Redis Protocol`, `message`, else `null`.\n        *   Limits: Max 10 nodes, max 15 edges.\n    *   Constraint: Output *only* JSON. No markdown, no reasoning, no explanation.\n\n2.  **Analyze the Input Text:**\n    *   \"A multi-tier web application: a React frontend talks to a FastAPI service;\"\n        *   Node 1: React frontend -> Type: `ui`, Technology: `React`.\n        *   Node 2: FastAPI service -> Type: `service`, Technology: `FastAPI`.\n        *   Edge: React -> FastAPI, Protocol: `HTTPS` (implied for web apps).\n    *   \"the service persists customer data in PostgreSQL,\"\n        *   Node 3: PostgreSQL -> Type: `database`, Technology: `PostgreSQL`.\n        *   Edge: FastAPI -> PostgreSQL, Protocol: `SQL`.\n    *   \"uses Redis for session caching,\"\n        *   Node 4: Redis -> Type: `cache`, Technology: `Redis`.\n        *   Edge: FastAPI -> Redis, Protocol: `Redis Protocol` (or just `Redis`? Schema says \"Redis Protocol\").\n    *   \"and publishes background jobs to a RabbitMQ queue consumed by a worker service.\"\n        *   Node 5: RabbitMQ -> Type: `queue`, Technology: `RabbitMQ`.\n        *   Node 6: Worker service -> Type: `service`, Technology: `Worker` (or `Python`? Text says \"worker service\", usually implies a service type). Let's use `service` for type. Technology: `Worker` or `None`. Text says \"worker service\", so `service` is type. Technology could be `None` or inferred. Let's stick to text: `Worker`.\n        *   Edge: FastAPI -> RabbitMQ, Protocol: `message`.\n        *   Edge: RabbitMQ -> Worker, Protocol: `message`.\n\n3.  **Construct the JSON:**\n\n    *   **Nodes:**\n        1.  `ui-1`: `ui`, `React`\n        2.  `service-1`: `service`, `FastAPI`\n        3.  `db-1`: `database`, `PostgreSQL`\n        4.  `cache-1`: `cache`, `Redis`\n        5.  `queue-1`: `queue`, `RabbitMQ`\n        6.  `service-2`: `service`, `Worker` (or just `service` with null tech? Text says \"worker service\", usually implies a separate service. Let's call it `worker-service` or similar). Let's use `worker-1`.\n        *   Count: 6 nodes (Under limit 10).\n\n    *   **Edges:**\n        1.  `ui-1` -> `service-1` (HTTPS)\n        2.  `service-1` -> `db-1` (SQL)\n        3.  `service-1` -> `cache-1` (Redis Protocol)\n        4.  `service-1` -> `queue-1` (message)\n        5.  `queue-1` -> `worker-1` (message)\n        *   Count: 5 edges (Under limit 15).\n\n    *   **Refining Protocols:**\n        *   UI to Service: HTTPS (Standard).\n        *   Service to DB: SQL (Standard).\n        *   Service to Cache: Redis Protocol (Schema says \"Redis Protocol\").\n        *   Service to Queue: message (Schema says \"message\").\n        *   Queue to Worker: message.\n\n    *   **Refining Technologies:**\n        *   React -> `React`\n        *   FastAPI -> `FastAPI`\n        *   PostgreSQL -> `PostgreSQL`\n        *   Redis -> `Redis`\n        *   RabbitMQ -> `RabbitMQ`\n        *   Worker -> `Worker` (Text says \"worker service\", technology isn't explicitly named like \"Python\", but \"Worker\" is a reasonable abstraction or null. Let's use `null` to be safe if not explicitly named, but \"RabbitMQ\" is named. Actually, \"FastAPI\" is named. \"React\" is named. \"PostgreSQL\" is named. \"Redis\" is named. \"RabbitMQ\" is named. \"Worker\" is generic. I will set technology for worker to `null` or `Worker`. Let's use `null` to be strict about \"exact name if the text names it\". Text says \"worker service\", not \"Python worker\". So `null` is safer, or `Worker`. I'll use `null` for the worker service technology to avoid hallucination, or `Worker` as a label. Let's look at the instruction: \"technology = the exact name if the text names it, else null\". \"worker service\" is the name of the component, not the technology. So `null`.\n        *   Wait, \"FastAPI service\" -> Technology `FastAPI`.\n        *   \"React frontend\" -> Technology `React`.\n        *   \"PostgreSQL\" -> Technology `PostgreSQL`.\n        *   \"Redis\" -> Technology `Redis`.\n        *   \"RabbitMQ\" -> Technology `RabbitMQ`.\n        *   \"worker service\" -> Technology `null`.\n\n    *   **Refining IDs:**\n        *   `ui-1`, `service-1`, `db-1`, `cache-1`, `queue-1`, `worker-1`.\n\n4.  **Drafting JSON:**\n\n    ```json\n    {\n      \"nodes\": [\n        {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n        {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n        {\"id\": \"db-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"},\n        {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": \"Redis\"},\n        {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"RabbitMQ\"},\n        {\"id\": \"worker-1\", \"type\": \"service\", \"technology\": null}\n      ],\n      \"edges\": [\n        {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n        {\"source\": \"service-1\", \"target\": \"db-1\", \"protocol\": \"SQL\"},\n        {\"source\": \"service-1\", \"target\": \"cache-1\", \"protocol\": \"Redis Protocol\"},\n        {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"},\n        {\"source\": \"queue-1\", \"target\": \"worker-1\", \"protocol\": \"message\"}\n      ]\n    }\n    ```\n\n5.  **Review against Constraints:**\n    *   Single JSON object.\n    *   No markdown.\n    *   Max 10 nodes (6 nodes).\n    *   Max 15 edges (5 edges).\n    *   Types match schema (`ui`, `service`, `database`, `cache`, `queue`, `container`).\n    *   Technology matches text or null.\n    *   Protocol matches schema options (`HTTPS`, `SQL`, `Redis Protocol`, `message`).\n\n6.  **Final Polish:**\n    *   Ensure no markdown formatting (```json ... ```).\n    *   Ensure valid JSON syntax.\n\n    *   Wait, check protocol for Redis. Schema says \"Redis Protocol\". Text says \"Redis\". I will use \"Redis Protocol\" to match the schema constraint exactly.\n    *   Check protocol for Queue. Schema says \"message\". Text says \"background jobs\". I will use \"message\".\n    *   Check protocol for UI. Schema doesn't explicitly list HTTPS in the \"else null\" clause, but it's standard. The prompt says \"protocol = HTTPS, SQL, Redis Protocol or message, else null\". So I should use HTTPS.\n\n    *   One detail: \"worker service\". Type is `service`. Technology is `null` because \"worker\" is a role, not a specific technology like \"Python\" or \"Go\".\n    *   One detail: \"React frontend\". Type `ui`. Technology `React`.\n    *   One detail: \"FastAPI service\". Type `service`. Technology `FastAPI`.\n    *   One detail: \"PostgreSQL\". Type `database`. Technology `PostgreSQL`.\n    *   One detail: \"Redis\". Type `cache`. Technology `Redis`.\n    *   One detail: \"RabbitMQ\". Type `queue`. Technology `",
+      "candidate_raw": "{\n      \"nodes\": [\n        {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n        {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n        {\"id\": \"db-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"},\n        {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": \"Redis\"},\n        {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"RabbitMQ\"},\n        {\"id\": \"worker-1\", \"type\": \"service\", \"technology\": null}\n      ],\n      \"edges\": [\n        {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n        {\"source\": \"service-1\", \"target\": \"db-1\", \"protocol\": \"SQL\"},\n        {\"source\": \"service-1\", \"target\": \"cache-1\", \"protocol\": \"Redis Protocol\"},\n        {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"},\n        {\"source\": \"queue-1\", \"target\": \"worker-1\", \"protocol\": \"message\"}\n      ]\n    }",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": "React"
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "FastAPI"
+          },
+          {
+            "id": "db-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          },
+          {
+            "id": "cache-1",
+            "type": "cache",
+            "technology": "Redis"
+          },
+          {
+            "id": "queue-1",
+            "type": "queue",
+            "technology": "RabbitMQ"
+          },
+          {
+            "id": "worker-1",
+            "type": "service",
+            "technology": null
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "db-1",
+            "protocol": "SQL"
+          },
+          {
+            "source": "service-1",
+            "target": "cache-1",
+            "protocol": "Redis Protocol"
+          },
+          {
+            "source": "service-1",
+            "target": "queue-1",
+            "protocol": "message"
+          },
+          {
+            "source": "queue-1",
+            "target": "worker-1",
+            "protocol": "message"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P2",
+      "condition": "C",
+      "run": 3,
+      "emitted": true,
+      "valid": false,
+      "node_count": 6,
+      "edge_count": 5,
+      "technologies": [
+        "FastAPI",
+        "PostgreSQL",
+        "RabbitMQ",
+        "React",
+        "Redis"
+      ],
+      "missing_expected_tech": [],
+      "fabricated_tech": [],
+      "tech_correct": true,
+      "protocol_count": 5,
+      "latency_s": 63.563,
+      "tokens_per_sec": 32.22,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3315.9,
+      "issues": [
+        "non-canonical id 'db-1'",
+        "non-canonical id 'worker-1'"
+      ],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 2,
+        "score": {
+          "nodes": 6,
+          "edges": 5
+        },
+        "span_offset": {
+          "start": 3427,
+          "end": 4272
+        }
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Input: A text description of a multi-tier web application architecture.\n    *   Output Format: Single JSON object.\n    *   Schema: `{\"nodes\": [...], \"edges\": [...]}`.\n    *   Constraints:\n        *   Max 10 nodes.\n        *   Max 15 edges.\n        *   Node types: `ui`, `service`, `database`, `cache`, `queue`, `container`.\n        *   `technology` field: Exact name from text if mentioned, else `null`.\n        *   `protocol` field: `HTTPS`, `SQL`, `Redis Protocol`, `message`, else `null`.\n        *   No markdown, no reasoning, no explanation. Just the JSON.\n\n2.  **Analyze the Input Text:**\n    *   \"A multi-tier web application: a React frontend talks to a FastAPI service\"\n        *   Node 1: React frontend (UI)\n        *   Node 2: FastAPI service (Service)\n        *   Edge: React -> FastAPI (Protocol: HTTPS implied by web app)\n    *   \"the service persists customer data in PostgreSQL\"\n        *   Node 3: PostgreSQL (Database)\n        *   Edge: FastAPI -> PostgreSQL (Protocol: SQL)\n    *   \"uses Redis for session caching\"\n        *   Node 4: Redis (Cache)\n        *   Edge: FastAPI -> Redis (Protocol: Redis Protocol)\n    *   \"and publishes background jobs to a RabbitMQ queue consumed by a worker service\"\n        *   Node 5: RabbitMQ (Queue)\n        *   Node 6: Worker service (Service)\n        *   Edge: FastAPI -> RabbitMQ (Protocol: message)\n        *   Edge: RabbitMQ -> Worker service (Protocol: message)\n\n3.  **Map to Schema:**\n    *   Nodes:\n        *   `ui-1`: type `ui`, technology `React`\n        *   `service-1`: type `service`, technology `FastAPI`\n        *   `db-1`: type `database`, technology `PostgreSQL`\n        *   `cache-1`: type `cache`, technology `Redis`\n        *   `queue-1`: type `queue`, technology `RabbitMQ`\n        *   `worker-1`: type `service`, technology `Worker` (implied generic or null if not specified, text says \"worker service\")\n    *   Edges:\n        *   `ui-1` -> `service-1` (HTTPS)\n        *   `service-1` -> `db-1` (SQL)\n        *   `service-1` -> `cache-1` (Redis Protocol)\n        *   `service-1` -> `queue-1` (message)\n        *   `queue-1` -> `worker-1` (message)\n\n4.  **Refine Technology/Protocol Values:**\n    *   Technology:\n        *   React -> \"React\"\n        *   FastAPI -> \"FastAPI\"\n        *   PostgreSQL -> \"PostgreSQL\"\n        *   Redis -> \"Redis\"\n        *   RabbitMQ -> \"RabbitMQ\"\n        *   Worker -> \"worker\" or null. Text says \"worker service\". I'll use \"worker\" or null. Let's use \"worker\" based on context or null if not explicitly named as a product. The prompt says \"exact name if the text names it\". \"worker service\" is generic. I'll set it to null to be safe or \"worker\". Let's stick to specific tech names found. \"React\", \"FastAPI\", \"PostgreSQL\", \"Redis\", \"RabbitMQ\" are clear. \"worker service\" is a role. I'll set technology to null for the worker to be precise, or \"worker\". Let's use null for generic roles unless specified like \"Celery\".\n    *   Protocol:\n        *   Frontend -> Service: HTTPS\n        *   Service -> DB: SQL\n        *   Service -> Cache: Redis Protocol\n        *   Service -> Queue: message\n        *   Queue -> Worker: message\n\n5.  **Construct JSON:**\n    *   Nodes: 6 nodes (UI, Service, DB, Cache, Queue, Worker).\n    *   Edges: 5 edges.\n    *   Check constraints: Max 10 nodes (6 <= 10), Max 15 edges (5 <= 15).\n\n6.  **Final JSON Structure:**\n    ```json\n    {\n      \"nodes\": [\n        {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n        {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n        {\"id\": \"db-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"},\n        {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": \"Redis\"},\n        {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"RabbitMQ\"},\n        {\"id\": \"worker-1\", \"type\": \"service\", \"technology\": null}\n      ],\n      \"edges\": [\n        {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n        {\"source\": \"service-1\", \"target\": \"db-1\", \"protocol\": \"SQL\"},\n        {\"source\": \"service-1\", \"target\": \"cache-1\", \"protocol\": \"Redis Protocol\"},\n        {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"},\n        {\"source\": \"queue-1\", \"target\": \"worker-1\", \"protocol\": \"message\"}\n      ]\n    }\n    ```\n\n7.  **Review against constraints:**\n    *   JSON only.\n    *   No markdown.\n    *   Schema matches.\n    *   Types match.\n    *   Technologies match text exactly (React, FastAPI, PostgreSQL, Redis, RabbitMQ).\n    *   Protocols match allowed list (HTTPS, SQL, Redis Protocol, message).\n\n    Wait, check \"technology\" constraint: \"the exact name if the text names it, else null\".\n    Text: \"React frontend\", \"FastAPI service\", \"PostgreSQL\", \"Redis\", \"RabbitMQ queue\", \"worker service\".\n    So \"React\", \"FastAPI\", \"PostgreSQL\", \"Redis\", \"RabbitMQ\" are exact names. \"worker service\" is a description. I will set worker technology to null.\n\n    Check \"protocol\" constraint: \"HTTPS, SQL, Redis Protocol or message, else null\".\n    Frontend to Service: \"talks to\" -> HTTPS.\n    Service to DB: \"persists\" -> SQL.\n    Service to Cache: \"uses Redis\" -> Redis Protocol.\n    Service to Queue: \"publishes\" -> message.\n    Queue to Worker: \"consumed\" -> message.\n\n    Looks good.\n\n    One detail: \"JSON only. No markdown.\"\n    I must output raw JSON text.\n\n    Wait, I need to make sure I don't include markdown code blocks like ```json ... ```. Just the raw string.\n\n    Wait, checking the schema provided in the prompt: `{\"nodes\":[{\"id\":\"ui-1\",\"type\":\"ui\",\"technology\":null}],\"edges\":[{\"source\":\"ui-1\",\"target\":\"service-1\",\"protocol\":null}]}`.\n    My output should follow this structure.\n\n    Let's assemble the final string.\n\n    Nodes:\n    1. ui-1, ui, React\n    2. service-1, service, FastAPI\n    3. db-1, database, PostgreSQL\n    4. cache-1, cache, Redis\n    5. queue-1, queue, RabbitMQ\n    6. worker-1, service, null\n\n    Edges:\n    1. ui-1 -> service-1, HTTPS\n    2. service-1 -> db-1, SQL\n    3. service-1 -> cache-1, Redis Protocol\n    4. service-1 -> queue-1, message\n    5. queue-1 -> worker-1, message\n\n    Wait, is \"Redis Protocol\" allowed? The prompt says \"Redis Protocol or message\". Yes.\n    Is \"SQL\" allowed? Yes.\n    Is \"HTTPS\" allowed? Yes.\n    Is \"message\" allowed? Yes.\n\n    Final check on output format: \"JSON only. No analysis, no reasoning, no explanation, no markdown.\"\n    I will output the raw JSON string.\n\n    One more check: \"Max 10 nodes, max 15 edges.\"\n    I have 6 nodes and 5 edges. This is within limits.\n\n    Ready to generate.\n\n    Wait, one detail in the prompt schema example: `{\"nodes\":[{\"id\":\"ui-1\",\"type\":\"ui\",\"technology\":null}],\"edges\":[{\"source\":\"ui-1\",\"target\":\"service-1\",\"protocol\":null}]}`.\n    This implies the root object has \"nodes\" and \"edges\" keys.\n    My constructed JSON matches this.\n\n    Double check: \"technology = the exact name if the text names it, else null\".\n    Text: \"React",
+      "candidate_raw": "{\n      \"nodes\": [\n        {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n        {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n        {\"id\": \"db-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"},\n        {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": \"Redis\"},\n        {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"RabbitMQ\"},\n        {\"id\": \"worker-1\", \"type\": \"service\", \"technology\": null}\n      ],\n      \"edges\": [\n        {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n        {\"source\": \"service-1\", \"target\": \"db-1\", \"protocol\": \"SQL\"},\n        {\"source\": \"service-1\", \"target\": \"cache-1\", \"protocol\": \"Redis Protocol\"},\n        {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"},\n        {\"source\": \"queue-1\", \"target\": \"worker-1\", \"protocol\": \"message\"}\n      ]\n    }",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": "React"
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "FastAPI"
+          },
+          {
+            "id": "db-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          },
+          {
+            "id": "cache-1",
+            "type": "cache",
+            "technology": "Redis"
+          },
+          {
+            "id": "queue-1",
+            "type": "queue",
+            "technology": "RabbitMQ"
+          },
+          {
+            "id": "worker-1",
+            "type": "service",
+            "technology": null
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "db-1",
+            "protocol": "SQL"
+          },
+          {
+            "source": "service-1",
+            "target": "cache-1",
+            "protocol": "Redis Protocol"
+          },
+          {
+            "source": "service-1",
+            "target": "queue-1",
+            "protocol": "message"
+          },
+          {
+            "source": "queue-1",
+            "target": "worker-1",
+            "protocol": "message"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P3",
+      "condition": "C",
+      "run": 1,
+      "emitted": true,
+      "valid": true,
+      "node_count": 5,
+      "edge_count": 4,
+      "technologies": [
+        "PostgreSQL",
+        "S3",
+        "SQS"
+      ],
+      "missing_expected_tech": [
+        "AWS",
+        "RDS"
+      ],
+      "fabricated_tech": [],
+      "tech_correct": false,
+      "protocol_count": 4,
+      "latency_s": 63.512,
+      "tokens_per_sec": 32.25,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3322.0,
+      "issues": [],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 5,
+          "edges": 4
+        },
+        "span_offset": {
+          "start": 5020,
+          "end": 5715
+        }
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Output format: Single JSON object only.\n    *   No analysis, reasoning, explanation, or markdown.\n    *   Schema: `{\"nodes\": [...], \"edges\": [...]}`.\n    *   Node types: `ui`, `service`, `database`, `cache`, `queue`, `container`.\n    *   Node properties: `id`, `type`, `technology` (exact name if mentioned, else null).\n    *   Edge properties: `source`, `target`, `protocol` (HTTPS, SQL, Redis Protocol, message, else null).\n    *   Constraints: Max 10 nodes, max 15 edges.\n    *   Input Text: \"An AWS-based image upload pipeline: clients upload images to an S3 bucket, an SQS queue delivers upload events to a processing service, and a PostgreSQL (RDS) database stores image metadata.\"\n\n2.  **Analyze the Input Text:**\n    *   Actors/Components:\n        *   Clients (UI/Client) -> Uploads to S3.\n        *   S3 Bucket (Storage) -> SQS Queue (Message Queue).\n        *   SQS Queue -> Processing Service.\n        *   Processing Service -> PostgreSQL Database (RDS).\n    *   Relationships:\n        *   Clients -> S3 (HTTPS/Upload).\n        *   S3 -> SQS (Notification/Event).\n        *   SQS -> Service (Message).\n        *   Service -> Database (SQL).\n    *   Technologies:\n        *   AWS (implied infrastructure).\n        *   S3 (Amazon S3).\n        *   SQS (Amazon SQS).\n        *   PostgreSQL (RDS).\n    *   Types mapping:\n        *   Clients -> `ui` (or `container`? Usually UI in this context implies the client side). Let's use `ui` for \"clients\".\n        *   S3 -> `service` (Backend service acting as storage) or `container`? The schema has `service`, `database`, `cache`, `queue`, `container`. S3 is a storage service, often mapped to `service` or `database` depending on abstraction. Given the schema, `service` fits best for S3 acting as the endpoint, or `container` if it's a containerized service. However, S3 is often treated as a backend service. Let's look at the flow: Client -> S3 -> SQS -> Service -> DB.\n        *   SQS -> `queue`.\n        *   Processing Service -> `service`.\n        *   PostgreSQL -> `database`.\n\n    *   Refining the mapping based on standard architectural graph schemas:\n        *   `ui`: Clients.\n        *   `service`: Processing Service, S3 (often treated as a service in high-level diagrams).\n        *   `queue`: SQS.\n        *   `database`: PostgreSQL.\n        *   `container`: Not explicitly mentioned, but could be implied for the processing service. Let's stick to the explicit types mentioned in the text.\n        *   `cache`: Not mentioned.\n\n    *   Let's construct the graph:\n        *   Node 1: `ui-1` (Clients). Technology: null (or AWS Client? Text says \"clients\").\n        *   Node 2: `service-1` (S3). Technology: \"Amazon S3\".\n        *   Node 3: `queue-1` (SQS). Technology: \"Amazon SQS\".\n        *   Node 4: `service-2` (Processing Service). Technology: null (generic).\n        *   Node 5: `database-1` (PostgreSQL). Technology: \"PostgreSQL\".\n\n    *   Edges:\n        *   `ui-1` -> `service-1` (HTTPS).\n        *   `service-1` -> `queue-1` (message/trigger).\n        *   `queue-1` -> `service-2` (message).\n        *   `service-2` -> `database-1` (SQL).\n\n    *   Wait, the text says \"clients upload images to an S3 bucket\". This implies a direct connection.\n    *   \"SQS queue delivers upload events to a processing service\".\n    *   \"PostgreSQL (RDS) database stores image metadata\".\n\n    *   Let's simplify to ensure valid JSON and adhere to constraints.\n    *   Nodes:\n        1.  `ui-1` (type: `ui`)\n        2.  `service-1` (type: `service`, tech: \"Amazon S3\")\n        3.  `queue-1` (type: `queue`, tech: \"Amazon SQS\")\n        4.  `service-2` (type: `service`, tech: null)\n        5.  `database-1` (type: `database`, tech: \"PostgreSQL\")\n    *   Edges:\n        1.  `ui-1` -> `service-1` (HTTPS)\n        2.  `service-1` -> `queue-1` (message)\n        3.  `queue-1` -> `service-2` (message)\n        4.  `service-2` -> `database-1` (SQL)\n\n    *   Check constraints: Max 10 nodes (5 used), Max 15 edges (4 used).\n    *   Technology names: \"exact name if the text names it\". Text says \"S3 bucket\", \"SQS queue\", \"PostgreSQL (RDS)\".\n        *   S3 -> \"Amazon S3\" or \"S3\"? Text says \"S3 bucket\". Let's use \"S3\".\n        *   SQS -> \"SQS\".\n        *   PostgreSQL -> \"PostgreSQL\".\n    *   Protocol:\n        *   Upload -> HTTPS.\n        *   S3 to SQS -> Message/Event (often API Gateway or direct notification, but text implies flow). Let's use \"message\" or \"HTTPS\" depending on interpretation. Usually S3 triggers SQS via event notification (HTTP/Message). Let's use \"message\" for queue delivery.\n        *   Queue to Service -> \"message\".\n        *   Service to DB -> \"SQL\".\n\n    *   Wait, the schema example shows `technology: null`. I should try to fill it if the text names it.\n    *   Text: \"S3 bucket\", \"SQS queue\", \"PostgreSQL (RDS)\".\n    *   I will use \"S3\", \"SQS\", \"PostgreSQL\".\n\n    *   Wait, I need to make sure I don't output markdown or analysis. Just the JSON.\n\n    *   Draft JSON:\n    ```json\n    {\n      \"nodes\": [\n        {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": null},\n        {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"S3\"},\n        {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"SQS\"},\n        {\"id\": \"service-2\", \"type\": \"service\", \"technology\": null},\n        {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}\n      ],\n      \"edges\": [\n        {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n        {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"},\n        {\"source\": \"queue-1\", \"target\": \"service-2\", \"protocol\": \"message\"},\n        {\"source\": \"service-2\", \"target\": \"database-1\", \"protocol\": \"SQL\"}\n      ]\n    }\n    ```\n    *   Wait, is S3 a `service` or `container`? In this schema, `service` is the generic backend. S3 is a storage service. `database` is for DB. `queue` is for SQS. So S3 fits `service`.\n    *   Is \"clients\" a `ui`? Yes.\n    *   Is \"RDS\" relevant? It's a database type. I'll put \"PostgreSQL\" as the technology.\n    *   Protocol for S3 to SQS: S3 events trigger SQS. Often via API Gateway or direct. \"message\" is safer for queue delivery.\n    *   Protocol for UI to S3: HTTPS.\n    *   Protocol for Service to DB: SQL.\n\n    *   Double check: \"technology = the exact name if the text names it\".\n    *   Text: \"S3 bucket\", \"SQS queue\", \"PostgreSQL (RDS)\".\n    *   I will use \"S3\", \"SQS\", \"PostgreSQL\".\n    *   Wait, \"RDS\" is the service name for PostgreSQL. Text says \"PostgreSQL (RDS)\". I'll use \"PostgreSQL\" as the DB tech.\n    *   Wait, \"clients\" -> \"ui\".\n    *   \"processing service\" -> \"service\".\n\n    *   Final check on JSON structure.\n    *   Ensure no markdown formatting (```json ... ```). Just raw text.\n    *   Ensure valid JSON.\n\n    *   Wait, one",
+      "candidate_raw": "{\n      \"nodes\": [\n        {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": null},\n        {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"S3\"},\n        {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"SQS\"},\n        {\"id\": \"service-2\", \"type\": \"service\", \"technology\": null},\n        {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}\n      ],\n      \"edges\": [\n        {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n        {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"},\n        {\"source\": \"queue-1\", \"target\": \"service-2\", \"protocol\": \"message\"},\n        {\"source\": \"service-2\", \"target\": \"database-1\", \"protocol\": \"SQL\"}\n      ]\n    }",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": null
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "S3"
+          },
+          {
+            "id": "queue-1",
+            "type": "queue",
+            "technology": "SQS"
+          },
+          {
+            "id": "service-2",
+            "type": "service",
+            "technology": null
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "queue-1",
+            "protocol": "message"
+          },
+          {
+            "source": "queue-1",
+            "target": "service-2",
+            "protocol": "message"
+          },
+          {
+            "source": "service-2",
+            "target": "database-1",
+            "protocol": "SQL"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P3",
+      "condition": "C",
+      "run": 2,
+      "emitted": true,
+      "valid": false,
+      "node_count": 5,
+      "edge_count": 4,
+      "technologies": [
+        "PostgreSQL",
+        "S3",
+        "SQS"
+      ],
+      "missing_expected_tech": [
+        "AWS",
+        "RDS"
+      ],
+      "fabricated_tech": [],
+      "tech_correct": false,
+      "protocol_count": 4,
+      "latency_s": 63.652,
+      "tokens_per_sec": 32.17,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3322.0,
+      "issues": [
+        "non-canonical id 's3-1'",
+        "non-canonical id 'sqs-1'",
+        "non-canonical id 'proc-1'",
+        "non-canonical id 'db-1'"
+      ],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 2,
+        "score": {
+          "nodes": 5,
+          "edges": 4
+        },
+        "span_offset": {
+          "start": 5366,
+          "end": 6019
+        }
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Input: A text description of an AWS-based image upload pipeline.\n    *   Output Format: Single JSON object only (no markdown, no analysis, no reasoning, no explanation).\n    *   Schema: `{\"nodes\":[{\"id\":\"ui-1\",\"type\":\"ui\",\"technology\":null}],\"edges\":[{\"source\":\"ui-1\",\"target\":\"service-1\",\"protocol\":null}]}`.\n    *   Constraints:\n        *   `nodes`: max 10.\n        *   `edges`: max 15.\n        *   `type`: ui, service, database, cache, queue, container.\n        *   `technology`: exact name if text names it, else null.\n        *   `protocol`: HTTPS, SQL, Redis Protocol or message, else null.\n        *   Content must reflect the text: \"An AWS-based image upload pipeline: clients upload images to an S3 bucket, an SQS queue delivers upload events to a processing service, and a PostgreSQL (RDS) database stores image metadata.\"\n\n2.  **Analyze the Text:**\n    *   \"clients upload images to an S3 bucket\" -> Client (UI) -> S3 (Storage/Database? Text says S3 bucket, usually treated as storage, but schema has `database`, `cache`, `queue`, `container`, `service`, `ui`. S3 is often mapped to `database` or `service` in these schemas, but since it's a bucket, maybe `service` or `database`. Let's look at the types available: `ui`, `service`, `database`, `cache`, `queue`, `container`. S3 is a service (AWS).\n    *   \"SQS queue delivers upload events\" -> SQS (Queue) -> SQS (Queue).\n    *   \"processing service\" -> Service.\n    *   \"PostgreSQL (RDS) database stores image metadata\" -> Database (PostgreSQL/RDS).\n    *   Flow: Client -> S3 -> SQS -> Service -> Database.\n\n3.  **Map to Schema:**\n    *   Nodes:\n        1.  Client (UI)\n        2.  S3 Bucket (Service or Database? Usually treated as a storage service, but in this schema, `database` is specific. S3 is object storage. Let's treat it as a `service` or `database` depending on strictness. Given \"PostgreSQL (RDS) database\", S3 is distinct. Let's use `service` for S3 or `database` if we consider it storage. However, S3 is often just a service. Let's stick to the text: \"S3 bucket\". Type: `service` (AWS service). Technology: `S3`.\n        3.  SQS Queue (Queue). Type: `queue`. Technology: `SQS`.\n        4.  Processing Service (Service). Type: `service`. Technology: `Lambda` or `EC2`? Text says \"processing service\", generic. Let's use `service`.\n        5.  PostgreSQL (RDS) (Database). Type: `database`. Technology: `PostgreSQL` or `RDS`. Text says \"PostgreSQL (RDS)\". Let's use `PostgreSQL`.\n    *   Edges:\n        1.  Client -> S3 (Protocol: HTTPS).\n        2.  S3 -> SQS (Protocol: message? Or null? Text says \"delivers upload events\". Usually API Gateway or direct trigger. Let's assume HTTPS or message. S3 events trigger SQS via SQS. Let's use `message` or `null`. Text doesn't specify protocol between S3 and SQS, but S3 events trigger SQS. Let's use `null` or `HTTPS` if it's an API. Actually, S3 events trigger SQS via SQS. Let's keep it simple.\n        3.  SQS -> Service (Protocol: message).\n        4.  Service -> Database (Protocol: SQL).\n\n    *   Wait, the schema example shows `technology` and `protocol` fields.\n    *   Constraint: `technology = the exact name if the text names it, else null`.\n    *   Constraint: `protocol = HTTPS, SQL, Redis Protocol or message, else null`.\n\n    *   Nodes:\n        *   `ui-1`: Client. Type: `ui`. Technology: `null` (text says \"clients\", not specific).\n        *   `service-1`: S3. Type: `service`. Technology: `S3`.\n        *   `queue-1`: SQS. Type: `queue`. Technology: `SQS`.\n        *   `service-2`: Processing Service. Type: `service`. Technology: `null` (generic).\n        *   `database-1`: PostgreSQL. Type: `database`. Technology: `PostgreSQL`.\n\n    *   Edges:\n        *   `ui-1` -> `service-1` (HTTPS).\n        *   `service-1` -> `queue-1` (message? S3 events trigger SQS). Let's use `null` or `message`. Text says \"delivers upload events\".\n        *   `queue-1` -> `service-2` (message).\n        *   `service-2` -> `database-1` (SQL).\n\n    *   Wait, S3 is often a storage service. In this schema, `database` is a type. S3 is not a database. So `service` is better for S3.\n    *   Max 10 nodes, max 15 edges. I have 5 nodes and 4 edges.\n    *   Need to ensure JSON structure matches the schema provided in the prompt.\n    *   Schema: `{\"nodes\":[...],\"edges\":[...]}`.\n    *   Node structure: `{\"id\":\"...\", \"type\":\"...\", \"technology\":null}`.\n    *   Edge structure: `{\"source\":\"...\", \"target\":\"...\", \"protocol\":null}`.\n\n    *   Refining Node IDs:\n        *   ui-1 (Client)\n        *   s3-1 (S3)\n        *   sqs-1 (SQS)\n        *   proc-1 (Processing Service)\n        *   db-1 (PostgreSQL)\n\n    *   Refining Technology:\n        *   S3: \"S3\"\n        *   SQS: \"SQS\"\n        *   PostgreSQL: \"PostgreSQL\"\n        *   Client: null\n        *   Processing Service: null\n\n    *   Refining Protocol:\n        *   Client -> S3: HTTPS\n        *   S3 -> SQS: message (S3 events trigger SQS)\n        *   SQS -> Service: message\n        *   Service -> DB: SQL\n\n    *   Wait, the prompt says \"technology = the exact name if the text names it, else null\".\n    *   Text: \"S3 bucket\", \"SQS queue\", \"PostgreSQL (RDS) database\".\n    *   So technology for S3 is \"S3\". Technology for SQS is \"SQS\". Technology for DB is \"PostgreSQL\".\n\n    *   Let's construct the JSON.\n\n4.  **Drafting JSON:**\n    ```json\n    {\n      \"nodes\": [\n        {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": null},\n        {\"id\": \"s3-1\", \"type\": \"service\", \"technology\": \"S3\"},\n        {\"id\": \"sqs-1\", \"type\": \"queue\", \"technology\": \"SQS\"},\n        {\"id\": \"proc-1\", \"type\": \"service\", \"technology\": null},\n        {\"id\": \"db-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}\n      ],\n      \"edges\": [\n        {\"source\": \"ui-1\", \"target\": \"s3-1\", \"protocol\": \"HTTPS\"},\n        {\"source\": \"s3-1\", \"target\": \"sqs-1\", \"protocol\": \"message\"},\n        {\"source\": \"sqs-1\", \"target\": \"proc-1\", \"protocol\": \"message\"},\n        {\"source\": \"proc-1\", \"target\": \"db-1\", \"protocol\": \"SQL\"}\n      ]\n    }\n    ```\n\n    *   Check constraints:\n        *   Max 10 nodes: 5 nodes. OK.\n        *   Max 15 edges: 4 edges. OK.\n        *   Types: ui, service, database, cache, queue, container. Used: ui, service, queue, database. OK.\n        *   Technology: exact name if text names it. \"S3\", \"SQS\", \"PostgreSQL\". OK.\n        *   Protocol: HTTPS, SQL, Redis Protocol or message. Used: HTTPS, message, SQL. OK.\n        *   JSON only.\n\n    *   One detail: \"technology = the exact name if the text names it\".\n        *   Text: \"S3 bucket\" -> \"S3\".\n        *   Text: \"SQS queue\" -> \"SQS\".\n        *   Text: \"PostgreSQL (RDS) database\" -> \"PostgreSQL\".\n    *   One detail: \"protocol = HTTPS, SQL, Redis",
+      "candidate_raw": "{\n      \"nodes\": [\n        {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": null},\n        {\"id\": \"s3-1\", \"type\": \"service\", \"technology\": \"S3\"},\n        {\"id\": \"sqs-1\", \"type\": \"queue\", \"technology\": \"SQS\"},\n        {\"id\": \"proc-1\", \"type\": \"service\", \"technology\": null},\n        {\"id\": \"db-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}\n      ],\n      \"edges\": [\n        {\"source\": \"ui-1\", \"target\": \"s3-1\", \"protocol\": \"HTTPS\"},\n        {\"source\": \"s3-1\", \"target\": \"sqs-1\", \"protocol\": \"message\"},\n        {\"source\": \"sqs-1\", \"target\": \"proc-1\", \"protocol\": \"message\"},\n        {\"source\": \"proc-1\", \"target\": \"db-1\", \"protocol\": \"SQL\"}\n      ]\n    }",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": null
+          },
+          {
+            "id": "s3-1",
+            "type": "service",
+            "technology": "S3"
+          },
+          {
+            "id": "sqs-1",
+            "type": "queue",
+            "technology": "SQS"
+          },
+          {
+            "id": "proc-1",
+            "type": "service",
+            "technology": null
+          },
+          {
+            "id": "db-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "s3-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "s3-1",
+            "target": "sqs-1",
+            "protocol": "message"
+          },
+          {
+            "source": "sqs-1",
+            "target": "proc-1",
+            "protocol": "message"
+          },
+          {
+            "source": "proc-1",
+            "target": "db-1",
+            "protocol": "SQL"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P3",
+      "condition": "C",
+      "run": 3,
+      "emitted": false,
+      "valid": false,
+      "node_count": 0,
+      "edge_count": 0,
+      "technologies": [],
+      "missing_expected_tech": [
+        "AWS",
+        "PostgreSQL",
+        "RDS",
+        "S3",
+        "SQS"
+      ],
+      "fabricated_tech": [],
+      "tech_correct": false,
+      "protocol_count": 0,
+      "latency_s": 63.484,
+      "tokens_per_sec": 32.26,
+      "output_tokens": 2048,
+      "peak_vram_mb": 3322.0,
+      "issues": [],
+      "selection": {
+        "method": "none",
+        "selection": "no_candidate",
+        "candidate_count": 0,
+        "score": null,
+        "span_offset": null
+      },
+      "constraint": {
+        "active": false,
+        "fallback_count": 0,
+        "expanded_count": 0,
+        "degraded": false
+      },
+      "raw_output": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Output format: Single JSON object only.\n    *   No analysis, reasoning, explanation, or markdown.\n    *   Schema: `{\"nodes\": [...], \"edges\": [...]}`.\n    *   Node types: `ui`, `service`, `database`, `cache`, `queue`, `container`.\n    *   Node properties: `id`, `type`, `technology` (exact name if mentioned, else null).\n    *   Edge properties: `source`, `target`, `protocol` (HTTPS, SQL, Redis Protocol, message, else null).\n    *   Constraints: Max 10 nodes, max 15 edges.\n    *   Input Text: \"An AWS-based image upload pipeline: clients upload images to an S3 bucket, an SQS queue delivers upload events to a processing service, and a PostgreSQL (RDS) database stores image metadata.\"\n\n2.  **Analyze the Input Text:**\n    *   Actors/Components:\n        *   Clients (UI)\n        *   S3 bucket (Storage/Database-like, but schema says `database`, `cache`, `queue`, `container`. S3 is often treated as storage/database in these schemas, but strictly speaking, it's object storage. However, the schema types are limited: `ui`, `service`, `database`, `cache`, `queue`, `container`. S3 acts like a database/storage backend. Let's map it to `database` or `container`? Usually, in these graph schemas, S3 is often mapped to `database` or `storage` (not in list). Given the limited types, `database` is the closest fit for persistent storage like S3 or RDS. However, S3 is often just a storage bucket. Let's look at the flow.\n        *   SQS queue (Queue)\n        *   Processing service (Service)\n        *   PostgreSQL (RDS) database (Database)\n    *   Flow:\n        *   Clients -> S3 (Upload)\n        *   S3 -> SQS (Event notification)\n        *   SQS -> Processing Service (Delivery)\n        *   Processing Service -> PostgreSQL (Store metadata)\n    *   Technologies:\n        *   S3 (AWS S3)\n        *   SQS (AWS SQS)\n        *   PostgreSQL (RDS)\n        *   Clients (UI)\n        *   Processing Service (Lambda/EC2/Container? Text says \"processing service\").\n\n3.  **Map to Schema:**\n    *   Nodes:\n        1.  `ui-1`: Type `ui`, Technology `null` (Clients).\n        2.  `service-1`: Type `service`, Technology `null` (Processing service).\n        3.  `database-1`: Type `database`, Technology `PostgreSQL` (RDS).\n        4.  `queue-1`: Type `queue`, Technology `SQS` (AWS SQS).\n        5.  `container-1`: Type `container`, Technology `null` (Maybe S3? Or maybe S3 is `database`? S3 is often treated as storage. Let's stick to the text flow. S3 is a bucket. Is it a container? No. Is it a database? It stores data. Let's use `database` for S3 or `container`? Usually, S3 is storage. If I must choose from `ui, service, database, cache, queue, container`, `database` fits RDS and S3 (storage). But RDS is explicitly `database`. S3 is often `storage`. Since `storage` isn't a type, I'll map S3 to `database` or `container`. Let's look at the constraint: \"technology = the exact name if the text names it\". Text says \"S3 bucket\", \"SQS queue\", \"PostgreSQL (RDS)\".\n        *   Let's refine the mapping based on standard architecture graph patterns for this schema.\n        *   Node 1: `ui-1` (Clients).\n        *   Node 2: `service-1` (Processing Service).\n        *   Node 3: `database-1` (PostgreSQL/RDS).\n        *   Node 4: `queue-1` (SQS).\n        *   Node 5: `container-1` (S3? Or maybe S3 is just a storage node. If I have to pick a type for S3, `database` is often used for storage backends in simplified schemas, but `container` is for compute. S3 is not compute. However, S3 is often represented as a storage node. If I can't use `storage`, I might use `database` for S3 and `database` for RDS? No, that's confusing. Let's check the types again: `ui`, `service`, `database`, `cache`, `queue`, `container`.\n        *   S3 is Object Storage. In many simplified schemas, this is mapped to `database` (storage) or `container` (infrastructure). Let's map S3 to `database` (as it stores data) or `container` (AWS resource). Actually, S3 is often just a storage bucket. Let's try to fit S3 into `database` since it holds data, or `container` since it's an AWS service. Let's look at the text: \"clients upload images to an S3 bucket\". This is a storage component. Let's map S3 to `database` (storage) or `container`. Let's use `database` for RDS and `container` for S3? No, S3 isn't a container. Let's use `database` for S3 (storage) and `database` for RDS? No, distinct nodes.\n        *   Alternative: S3 -> `database` (Storage). RDS -> `database`.\n        *   Wait, S3 is often treated as a storage layer. If I must use the provided types, `database` is the best fit for S3 and RDS. But having two `database` nodes is fine.\n        *   Let's check the protocol.\n        *   UI -> S3: HTTPS.\n        *   S3 -> SQS: Message (S3 event notification).\n        *   SQS -> Service: Message.\n        *   Service -> Database: SQL.\n        *   Let's limit to 10 nodes and 15 edges. I have 5 nodes (UI, S3, SQS, Service, RDS).\n        *   Let's assign IDs:\n            *   `ui-1`: Type `ui`, Technology `null`.\n            *   `service-1`: Type `service`, Technology `null`.\n            *   `database-1`: Type `database`, Technology `PostgreSQL`.\n            *   `queue-1`: Type `queue`, Technology `SQS`.\n            *   `container-1`: Type `container`, Technology `S3`. (S3 is often categorized under infrastructure/container in some schemas, but technically it's storage. However, to avoid using `database` twice if possible, or just to fit the flow, I'll put S3 in `database` or `container`. Let's put S3 in `database` because it stores images. Wait, RDS stores metadata. S3 stores images. Both are storage. I will use `database` for S3 and `database` for RDS? Or `container` for S3? Let's use `database` for S3 (Storage) and `database` for RDS. Actually, looking at the types, `container` is usually for compute instances. S3 is not compute. I'll put S3 in `database` (Storage) or `container` (AWS Service). Let's use `database` for S3 as it holds data.\n            *   Wait, the prompt says \"technology = the exact name if the text names it\". Text says \"S3 bucket\", \"SQS queue\", \"PostgreSQL (RDS)\".\n            *   Let's create 5 nodes.\n            *   Nodes:\n                1.  `ui-1`: `ui`, `null`.\n                2.  `service-1`: `service`, `null`.\n                3.  `database-1`: `database`, `PostgreSQL`.\n                4.  `queue-1`: `queue`, `SQS`.\n                5.  `container-1`: `container`, `S3`. (S3 is often treated as a service/container in these schemas).\n            *   Edges:\n                1.  `ui-1` -> `container-1` (HTTPS).\n                2.  `container-1` -> `queue-1` (Message).\n                3.  `queue-1` -> `service-1` (Message).\n                4.  `service-1` -> `database-1` (SQL).\n    *   Wait, S3 is often just \"S3\". I will use `S3` as technology.\n    *   Protocol:\n        *   UI to S3: HTTPS.\n        *   S3 to SQS: Message (S3 sends notification).\n        *   SQS to Service: Message.\n        *   Service to DB: SQL.\n\n    *   Refining Node Types:\n        *   S3: `database` (Storage) or `",
+      "candidate_raw": null,
+      "selected_json": null
+    },
+    {
+      "probe_id": "P1",
+      "condition": "D",
+      "run": 1,
+      "emitted": true,
+      "valid": true,
+      "node_count": 3,
+      "edge_count": 2,
+      "technologies": [
+        "FastAPI",
+        "PostgreSQL",
+        "React"
+      ],
+      "missing_expected_tech": [],
+      "fabricated_tech": [],
+      "tech_correct": true,
+      "protocol_count": 2,
+      "latency_s": 4.629,
+      "tokens_per_sec": 25.71,
+      "output_tokens": 119,
+      "peak_vram_mb": 3342.8,
+      "issues": [],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 3,
+          "edges": 2
+        },
+        "span_offset": {
+          "start": 0,
+          "end": 342
+        }
+      },
+      "constraint": {
+        "active": true,
+        "fallback_count": 0,
+        "expanded_count": 2,
+        "degraded": false
+      },
+      "raw_output": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}]}",
+      "candidate_raw": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}]}",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": "React"
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "FastAPI"
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P1",
+      "condition": "D",
+      "run": 2,
+      "emitted": true,
+      "valid": true,
+      "node_count": 3,
+      "edge_count": 2,
+      "technologies": [
+        "FastAPI",
+        "PostgreSQL",
+        "React"
+      ],
+      "missing_expected_tech": [],
+      "fabricated_tech": [],
+      "tech_correct": true,
+      "protocol_count": 2,
+      "latency_s": 4.558,
+      "tokens_per_sec": 26.11,
+      "output_tokens": 119,
+      "peak_vram_mb": 3342.8,
+      "issues": [],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 3,
+          "edges": 2
+        },
+        "span_offset": {
+          "start": 0,
+          "end": 342
+        }
+      },
+      "constraint": {
+        "active": true,
+        "fallback_count": 0,
+        "expanded_count": 2,
+        "degraded": false
+      },
+      "raw_output": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}]}",
+      "candidate_raw": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}]}",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": "React"
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "FastAPI"
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P1",
+      "condition": "D",
+      "run": 3,
+      "emitted": true,
+      "valid": true,
+      "node_count": 3,
+      "edge_count": 2,
+      "technologies": [
+        "FastAPI",
+        "PostgreSQL",
+        "React"
+      ],
+      "missing_expected_tech": [],
+      "fabricated_tech": [],
+      "tech_correct": true,
+      "protocol_count": 2,
+      "latency_s": 4.63,
+      "tokens_per_sec": 26.13,
+      "output_tokens": 121,
+      "peak_vram_mb": 3342.8,
+      "issues": [],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 3,
+          "edges": 2
+        },
+        "span_offset": {
+          "start": 0,
+          "end": 343
+        }
+      },
+      "constraint": {
+        "active": true,
+        "fallback_count": 0,
+        "expanded_count": 2,
+        "degraded": false
+      },
+      "raw_output": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}]\n}",
+      "candidate_raw": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}]\n}",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": "React"
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "FastAPI"
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P2",
+      "condition": "D",
+      "run": 1,
+      "emitted": true,
+      "valid": false,
+      "node_count": 6,
+      "edge_count": 5,
+      "technologies": [
+        "FastAPI",
+        "PostgreSQL",
+        "RabbitMQ",
+        "React",
+        "Redis"
+      ],
+      "missing_expected_tech": [],
+      "fabricated_tech": [],
+      "tech_correct": true,
+      "protocol_count": 5,
+      "latency_s": 8.94,
+      "tokens_per_sec": 27.4,
+      "output_tokens": 245,
+      "peak_vram_mb": 3354.0,
+      "issues": [
+        "non-canonical id 'worker-1'"
+      ],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 6,
+          "edges": 5
+        },
+        "span_offset": {
+          "start": 0,
+          "end": 735
+        }
+      },
+      "constraint": {
+        "active": true,
+        "fallback_count": 0,
+        "expanded_count": 2,
+        "degraded": false
+      },
+      "raw_output": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}, {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": \"Redis\"}, {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"RabbitMQ\"}, {\"id\": \"worker-1\", \"type\": \"service\", \"technology\": null}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}, {\"source\": \"service-1\", \"target\": \"cache-1\", \"protocol\": \"Redis Protocol\"}, {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"}, {\"source\": \"worker-1\", \"target\": \"queue-1\", \"protocol\": \"message\"}]}",
+      "candidate_raw": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}, {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": \"Redis\"}, {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"RabbitMQ\"}, {\"id\": \"worker-1\", \"type\": \"service\", \"technology\": null}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}, {\"source\": \"service-1\", \"target\": \"cache-1\", \"protocol\": \"Redis Protocol\"}, {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"}, {\"source\": \"worker-1\", \"target\": \"queue-1\", \"protocol\": \"message\"}]}",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": "React"
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "FastAPI"
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          },
+          {
+            "id": "cache-1",
+            "type": "cache",
+            "technology": "Redis"
+          },
+          {
+            "id": "queue-1",
+            "type": "queue",
+            "technology": "RabbitMQ"
+          },
+          {
+            "id": "worker-1",
+            "type": "service",
+            "technology": null
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          },
+          {
+            "source": "service-1",
+            "target": "cache-1",
+            "protocol": "Redis Protocol"
+          },
+          {
+            "source": "service-1",
+            "target": "queue-1",
+            "protocol": "message"
+          },
+          {
+            "source": "worker-1",
+            "target": "queue-1",
+            "protocol": "message"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P2",
+      "condition": "D",
+      "run": 2,
+      "emitted": true,
+      "valid": false,
+      "node_count": 6,
+      "edge_count": 5,
+      "technologies": [
+        "FastAPI",
+        "PostgreSQL",
+        "RabbitMQ",
+        "React",
+        "Redis"
+      ],
+      "missing_expected_tech": [],
+      "fabricated_tech": [],
+      "tech_correct": true,
+      "protocol_count": 5,
+      "latency_s": 8.931,
+      "tokens_per_sec": 27.43,
+      "output_tokens": 245,
+      "peak_vram_mb": 3354.0,
+      "issues": [
+        "non-canonical id 'worker-1'"
+      ],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 6,
+          "edges": 5
+        },
+        "span_offset": {
+          "start": 0,
+          "end": 735
+        }
+      },
+      "constraint": {
+        "active": true,
+        "fallback_count": 0,
+        "expanded_count": 2,
+        "degraded": false
+      },
+      "raw_output": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}, {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": \"Redis\"}, {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"RabbitMQ\"}, {\"id\": \"worker-1\", \"type\": \"service\", \"technology\": null}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}, {\"source\": \"service-1\", \"target\": \"cache-1\", \"protocol\": \"Redis Protocol\"}, {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"}, {\"source\": \"worker-1\", \"target\": \"queue-1\", \"protocol\": \"message\"}]}",
+      "candidate_raw": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}, {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": \"Redis\"}, {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"RabbitMQ\"}, {\"id\": \"worker-1\", \"type\": \"service\", \"technology\": null}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}, {\"source\": \"service-1\", \"target\": \"cache-1\", \"protocol\": \"Redis Protocol\"}, {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"}, {\"source\": \"worker-1\", \"target\": \"queue-1\", \"protocol\": \"message\"}]}",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": "React"
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "FastAPI"
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          },
+          {
+            "id": "cache-1",
+            "type": "cache",
+            "technology": "Redis"
+          },
+          {
+            "id": "queue-1",
+            "type": "queue",
+            "technology": "RabbitMQ"
+          },
+          {
+            "id": "worker-1",
+            "type": "service",
+            "technology": null
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          },
+          {
+            "source": "service-1",
+            "target": "cache-1",
+            "protocol": "Redis Protocol"
+          },
+          {
+            "source": "service-1",
+            "target": "queue-1",
+            "protocol": "message"
+          },
+          {
+            "source": "worker-1",
+            "target": "queue-1",
+            "protocol": "message"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P2",
+      "condition": "D",
+      "run": 3,
+      "emitted": true,
+      "valid": false,
+      "node_count": 6,
+      "edge_count": 5,
+      "technologies": [
+        "FastAPI",
+        "PostgreSQL",
+        "RabbitMQ",
+        "React",
+        "Redis"
+      ],
+      "missing_expected_tech": [],
+      "fabricated_tech": [],
+      "tech_correct": true,
+      "protocol_count": 5,
+      "latency_s": 10.109,
+      "tokens_per_sec": 27.7,
+      "output_tokens": 280,
+      "peak_vram_mb": 3354.0,
+      "issues": [
+        "non-canonical id 'worker-1'"
+      ],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 6,
+          "edges": 5
+        },
+        "span_offset": {
+          "start": 0,
+          "end": 900
+        }
+      },
+      "constraint": {
+        "active": true,
+        "fallback_count": 0,
+        "expanded_count": 2,
+        "degraded": false
+      },
+      "raw_output": "{\"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"},\n            {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": \"Redis\"},\n            {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"RabbitMQ\"},\n            {\"id\": \"worker-1\", \"type\": \"service\", \"technology\": null}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"},\n            {\"source\": \"service-1\", \"target\": \"cache-1\", \"protocol\": \"Redis Protocol\"},\n            {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"},\n            {\"source\": \"worker-1\", \"target\": \"queue-1\", \"protocol\": \"message\"}\n        ]\n    }",
+      "candidate_raw": "{\"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": \"React\"},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": \"FastAPI\"},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"},\n            {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": \"Redis\"},\n            {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"RabbitMQ\"},\n            {\"id\": \"worker-1\", \"type\": \"service\", \"technology\": null}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"service-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"},\n            {\"source\": \"service-1\", \"target\": \"cache-1\", \"protocol\": \"Redis Protocol\"},\n            {\"source\": \"service-1\", \"target\": \"queue-1\", \"protocol\": \"message\"},\n            {\"source\": \"worker-1\", \"target\": \"queue-1\", \"protocol\": \"message\"}\n        ]\n    }",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": "React"
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": "FastAPI"
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          },
+          {
+            "id": "cache-1",
+            "type": "cache",
+            "technology": "Redis"
+          },
+          {
+            "id": "queue-1",
+            "type": "queue",
+            "technology": "RabbitMQ"
+          },
+          {
+            "id": "worker-1",
+            "type": "service",
+            "technology": null
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "service-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          },
+          {
+            "source": "service-1",
+            "target": "cache-1",
+            "protocol": "Redis Protocol"
+          },
+          {
+            "source": "service-1",
+            "target": "queue-1",
+            "protocol": "message"
+          },
+          {
+            "source": "worker-1",
+            "target": "queue-1",
+            "protocol": "message"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P3",
+      "condition": "D",
+      "run": 1,
+      "emitted": true,
+      "valid": true,
+      "node_count": 4,
+      "edge_count": 3,
+      "technologies": [
+        "PostgreSQL",
+        "SQS"
+      ],
+      "missing_expected_tech": [
+        "AWS",
+        "RDS",
+        "S3"
+      ],
+      "fabricated_tech": [],
+      "tech_correct": false,
+      "protocol_count": 3,
+      "latency_s": 6.835,
+      "tokens_per_sec": 26.92,
+      "output_tokens": 184,
+      "peak_vram_mb": 3348.2,
+      "issues": [],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 4,
+          "edges": 3
+        },
+        "span_offset": {
+          "start": 0,
+          "end": 575
+        }
+      },
+      "constraint": {
+        "active": true,
+        "fallback_count": 0,
+        "expanded_count": 2,
+        "degraded": false
+      },
+      "raw_output": "{\"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": null},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": null},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"},\n            {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"SQS\"}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"queue-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"queue-1\", \"target\": \"service-1\", \"protocol\": \"message\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}\n        ]\n    }",
+      "candidate_raw": "{\"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": null},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": null},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"},\n            {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"SQS\"}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"queue-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"queue-1\", \"target\": \"service-1\", \"protocol\": \"message\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}\n        ]\n    }",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": null
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": null
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          },
+          {
+            "id": "queue-1",
+            "type": "queue",
+            "technology": "SQS"
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "queue-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "queue-1",
+            "target": "service-1",
+            "protocol": "message"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P3",
+      "condition": "D",
+      "run": 2,
+      "emitted": true,
+      "valid": true,
+      "node_count": 5,
+      "edge_count": 3,
+      "technologies": [
+        "AWS",
+        "PostgreSQL",
+        "SQS"
+      ],
+      "missing_expected_tech": [
+        "RDS",
+        "S3"
+      ],
+      "fabricated_tech": [],
+      "tech_correct": false,
+      "protocol_count": 3,
+      "latency_s": 6.602,
+      "tokens_per_sec": 27.11,
+      "output_tokens": 179,
+      "peak_vram_mb": 3348.2,
+      "issues": [],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 5,
+          "edges": 3
+        },
+        "span_offset": {
+          "start": 0,
+          "end": 523
+        }
+      },
+      "constraint": {
+        "active": true,
+        "fallback_count": 0,
+        "expanded_count": 2,
+        "degraded": false
+      },
+      "raw_output": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": null}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": null}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}, {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"SQS\"}, {\"id\": \"container-1\", \"type\": \"container\", \"technology\": \"AWS\"}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"queue-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"queue-1\", \"target\": \"service-1\", \"protocol\": \"message\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}]}",
+      "candidate_raw": "{\"nodes\": [{\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": null}, {\"id\": \"service-1\", \"type\": \"service\", \"technology\": null}, {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"}, {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"SQS\"}, {\"id\": \"container-1\", \"type\": \"container\", \"technology\": \"AWS\"}], \"edges\": [{\"source\": \"ui-1\", \"target\": \"queue-1\", \"protocol\": \"HTTPS\"}, {\"source\": \"queue-1\", \"target\": \"service-1\", \"protocol\": \"message\"}, {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"}]}",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": null
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": null
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          },
+          {
+            "id": "queue-1",
+            "type": "queue",
+            "technology": "SQS"
+          },
+          {
+            "id": "container-1",
+            "type": "container",
+            "technology": "AWS"
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "queue-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "queue-1",
+            "target": "service-1",
+            "protocol": "message"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          }
+        ]
+      }
+    },
+    {
+      "probe_id": "P3",
+      "condition": "D",
+      "run": 3,
+      "emitted": true,
+      "valid": true,
+      "node_count": 6,
+      "edge_count": 4,
+      "technologies": [
+        "PostgreSQL",
+        "SQS"
+      ],
+      "missing_expected_tech": [
+        "AWS",
+        "RDS",
+        "S3"
+      ],
+      "fabricated_tech": [],
+      "tech_correct": false,
+      "protocol_count": 4,
+      "latency_s": 9.062,
+      "tokens_per_sec": 27.48,
+      "output_tokens": 249,
+      "peak_vram_mb": 3348.2,
+      "issues": [],
+      "selection": {
+        "method": "balanced",
+        "selection": "unique_best",
+        "candidate_count": 1,
+        "score": {
+          "nodes": 6,
+          "edges": 4
+        },
+        "span_offset": {
+          "start": 0,
+          "end": 799
+        }
+      },
+      "constraint": {
+        "active": true,
+        "fallback_count": 0,
+        "expanded_count": 2,
+        "degraded": false
+      },
+      "raw_output": "{\"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": null},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": null},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"},\n            {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": null},\n            {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"SQS\"},\n            {\"id\": \"container-1\", \"type\": \"container\", \"technology\": null}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"queue-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"queue-1\", \"target\": \"service-1\", \"protocol\": \"message\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"},\n            {\"source\": \"service-1\", \"target\": \"container-1\", \"protocol\": null}\n        ]\n    }",
+      "candidate_raw": "{\"nodes\": [\n            {\"id\": \"ui-1\", \"type\": \"ui\", \"technology\": null},\n            {\"id\": \"service-1\", \"type\": \"service\", \"technology\": null},\n            {\"id\": \"database-1\", \"type\": \"database\", \"technology\": \"PostgreSQL\"},\n            {\"id\": \"cache-1\", \"type\": \"cache\", \"technology\": null},\n            {\"id\": \"queue-1\", \"type\": \"queue\", \"technology\": \"SQS\"},\n            {\"id\": \"container-1\", \"type\": \"container\", \"technology\": null}\n        ],\n        \"edges\": [\n            {\"source\": \"ui-1\", \"target\": \"queue-1\", \"protocol\": \"HTTPS\"},\n            {\"source\": \"queue-1\", \"target\": \"service-1\", \"protocol\": \"message\"},\n            {\"source\": \"service-1\", \"target\": \"database-1\", \"protocol\": \"SQL\"},\n            {\"source\": \"service-1\", \"target\": \"container-1\", \"protocol\": null}\n        ]\n    }",
+      "selected_json": {
+        "nodes": [
+          {
+            "id": "ui-1",
+            "type": "ui",
+            "technology": null
+          },
+          {
+            "id": "service-1",
+            "type": "service",
+            "technology": null
+          },
+          {
+            "id": "database-1",
+            "type": "database",
+            "technology": "PostgreSQL"
+          },
+          {
+            "id": "cache-1",
+            "type": "cache",
+            "technology": null
+          },
+          {
+            "id": "queue-1",
+            "type": "queue",
+            "technology": "SQS"
+          },
+          {
+            "id": "container-1",
+            "type": "container",
+            "technology": null
+          }
+        ],
+        "edges": [
+          {
+            "source": "ui-1",
+            "target": "queue-1",
+            "protocol": "HTTPS"
+          },
+          {
+            "source": "queue-1",
+            "target": "service-1",
+            "protocol": "message"
+          },
+          {
+            "source": "service-1",
+            "target": "database-1",
+            "protocol": "SQL"
+          },
+          {
+            "source": "service-1",
+            "target": "container-1",
+            "protocol": null
+          }
+        ]
+      }
     }
   ],
   "summary_by_condition": {
@@ -909,19 +2207,44 @@
       ]
     },
     "C": {
-      "runs": 4,
-      "emission_rate": "4/4",
-      "validity_rate": "1/4",
-      "tech_correct_rate": "4/4",
-      "fabricated_run_rate": "0/4",
-      "avg_nodes": 3.75,
-      "avg_edges": 2.75,
-      "avg_latency_s": 64.44,
-      "avg_tokens_per_sec": 31.78,
+      "runs": 9,
+      "emission_rate": "8/9",
+      "validity_rate": "2/9",
+      "tech_correct_rate": "6/9",
+      "fabricated_run_rate": "0/9",
+      "avg_nodes": 4.62,
+      "avg_edges": 3.62,
+      "avg_latency_s": 64.27,
+      "avg_tokens_per_sec": 31.87,
       "avg_output_tokens": 2048.0,
       "peak_vram_mb": 3326.1,
       "fabricated_tech_all": [],
-      "missing_tech_all": []
+      "missing_tech_all": [
+        "AWS",
+        "PostgreSQL",
+        "RDS",
+        "S3",
+        "SQS"
+      ]
+    },
+    "D": {
+      "runs": 9,
+      "emission_rate": "9/9",
+      "validity_rate": "6/9",
+      "tech_correct_rate": "6/9",
+      "fabricated_run_rate": "0/9",
+      "avg_nodes": 4.67,
+      "avg_edges": 3.44,
+      "avg_latency_s": 7.14,
+      "avg_tokens_per_sec": 26.89,
+      "avg_output_tokens": 193.4,
+      "peak_vram_mb": 3354.0,
+      "fabricated_tech_all": [],
+      "missing_tech_all": [
+        "AWS",
+        "RDS",
+        "S3"
+      ]
     }
   }
 }
