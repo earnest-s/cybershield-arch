@@ -142,6 +142,7 @@ class JsonSchemaFSM:
             {"kind": "obj", "phase": "before", "top": True, "seen": []}
         ]
         self.mode = "frame"
+        self.started = False
         self.str_ctx: str | None = None
         self.key_buf = ""
         self.lit_buf = ""
@@ -182,6 +183,12 @@ class JsonSchemaFSM:
         if self.done:
             return ch in " \t\n\r"
 
+        if not self.started:
+            if ch == "{":
+                self.started = True
+                return True
+            return False
+
         if self.mode == "str":
             if self.str_ctx == "key":
                 if self.esc:
@@ -201,10 +208,9 @@ class JsonSchemaFSM:
                 if ch in "\t\n\r":
                     return False
                 self.key_buf += ch
-                return any(k.startswith(self.key_buf) for k in allowed_keys := self._allowed_keys(self.stack[-1])) and any(
-                    k.startswith(self.key_buf) for k in allowed_keys
-                ) if False else any(
-                    k.startswith(self.key_buf) for k in self._allowed_keys(self.stack[-1])
+                return any(
+                    k.startswith(self.key_buf)
+                    for k in self._allowed_keys(self.stack[-1])
                 )
             else:
                 if self.hex_left > 0:
@@ -301,8 +307,6 @@ class JsonSchemaFSM:
                 if ch == "]":
                     return self._close_frame()
                 return False
-            if frame["phase"] == "val":
-                return self._value_start(ch)
         return False
 
     def _value_start(self, ch: str) -> bool:
@@ -395,7 +399,10 @@ class JsonSchemaConstrainedLogitsProcessor:
         top = torch.topk(scores[0], k)
         allowed: list[int] = []
         for idx in top.indices.tolist():
-            if st.clone().feed(self.vocab_text(idx)):
+            text = self.vocab_text(idx)
+            if not text:
+                continue
+            if st.clone().feed(text):
                 allowed.append(idx)
         if not allowed:
             allowed = [top.indices[0].item()]
