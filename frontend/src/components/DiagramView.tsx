@@ -1380,6 +1380,9 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
 
   const selectedNode = nodes.find((node) => node.selected);
   const selectedEdge = edges.find((edge) => edge.selected);
+  const selectedEnriched = selectedNode
+    ? enrichment?.enrichedNodes.find((entry) => entry.nodeId === selectedNode.id)
+    : undefined;
   const defaultNodeStyle = theme === "dark"
     ? { background: "#1e293b", borderColor: "#334155", textColor: "#f8fafc" }
     : { background: "#ffffff", borderColor: "#e2e8f0", textColor: "#0f172a" };
@@ -1642,6 +1645,14 @@ function DiagramViewInner({ architecture, command, theme, onToggleTheme, securit
                 <option key={nodeType} value={nodeType}>{nodeType === "database" ? "db" : nodeType}</option>
               ))}
             </select>
+            {onAssignTechnology && selectedEnriched ? (
+              <AssignTechnologyControl
+                nodeId={selectedNode.id}
+                current={selectedEnriched.assignment}
+                candidates={selectedEnriched.candidates}
+                onAssign={onAssignTechnology}
+              />
+            ) : null}
             <label>Icon</label>
             <select className="prop-input" value={selectedNode.data.icon ?? "auto"} onChange={(event) => updateSelectedNodeIcon(event.target.value)}>
               {ICON_OPTIONS.map((iconName) => (
