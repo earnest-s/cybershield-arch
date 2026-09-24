@@ -483,6 +483,34 @@ def main() -> None:
     load_duration = time.time() - start_load
     out_json = Path(OUT_DIR) / "qwen35_zero_shot_benchmark_raw.json"
     out_json.parent.mkdir(parents=True, exist_ok=True)
+    grouped: dict[str, list[dict]] = {}
+    order: list[str] = []
+    for line in RUNS_JSONL.read_text(encoding="utf-8").splitlines():
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        tid = rec["test_id"]
+        if tid not in grouped:
+            grouped[tid] = []
+            order.append(tid)
+        grouped[tid].append(rec)
+    agg_results: list[dict] = []
+    for tid in order:
+        runs = grouped[tid]
+        json_ok = sum(1 for r in runs if r["json_valid"])
+        all_same = len({r["node_ids"] for r in runs}) <= 1
+        agg_results.append({
+            "test_id": tid,
+            "runs": len(runs),
+            "json_valid_ratio": f"{json_ok}/{len(runs)}",
+            "consistent_nodes_across_runs": all_same,
+            "fabrications_any_run": sorted({t for r in runs for t in r["fabricated_tech"]}),
+            "missing_expected_any_run": sorted({t for r in runs for t in r["missing_expected_tech"]}),
+            "avg_tok_per_sec": round(
+                sum(r["tok_per_sec"] for r in runs if r["tok_per_sec"]) / max(1, json_ok), 2
+            ),
+        })
     payload = {
         "model": MODEL_ID,
         "revision": os.environ.get("QWEN_REVISION", "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"),
@@ -495,9 +523,10 @@ def main() -> None:
         "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
         "peak_vram_mb": round(torch.cuda.max_memory_allocated() / 1024**2, 1)
         if torch.cuda.is_available() else None,
-        "results": results,
+        "results": agg_results,
+        "runs_detail": [r for tg in grouped.values() for r in tg],
     }
-    out_json.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    out_json.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
     print("\nWrote:", out_json, flush=True)
     print("Peak VRAM MB:", payload["peak_vram_mb"], flush=True)
 
