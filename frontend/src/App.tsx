@@ -62,6 +62,20 @@ function App() {
   const commandIdRef = useRef(0);
   const abortRef = useRef<AbortController | null>(null);
   const generatingRef = useRef(false);
+  const [manualAssignments, setManualAssignments] = useState<Record<string, ManualAssignmentInput>>(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_ASSIGNMENTS);
+      if (!raw) return {};
+      const parsed = JSON.parse(raw) as unknown;
+      return parsed && typeof parsed === "object" ? (parsed as Record<string, ManualAssignmentInput>) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_ASSIGNMENTS, JSON.stringify(manualAssignments));
+  }, [manualAssignments]);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -79,6 +93,20 @@ function App() {
   }, [input]);
 
   const architecture = useMemo(() => response?.architecture ?? null, [response]);
+
+  const enrichment = useMemo(() => {
+    if (!response || !architecture) return null;
+    return enrichArchitecture(input, architecture, manualAssignments);
+  }, [architecture, input, manualAssignments, response]);
+
+  const handleAssignTechnology = useCallback((nodeId: string, assignment: ManualAssignmentInput | null) => {
+    setManualAssignments((current) => {
+      const next = { ...current };
+      if (assignment) next[nodeId] = assignment;
+      else delete next[nodeId];
+      return next;
+    });
+  }, []);
 
   const sendEditorCommand = (action: EditorCommand["action"]) => {
     commandIdRef.current += 1;
